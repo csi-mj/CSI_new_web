@@ -3,7 +3,7 @@ import PillNav from '../PillNav';
 
 
 const items = [
-  { label: "Home", href: "/" },
+  { label: "Home", href: "/home" },
   { label: "Team", href: "/team" },
   { label: "Events", href: "/events" },
 

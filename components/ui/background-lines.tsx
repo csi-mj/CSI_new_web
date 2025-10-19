@@ -31,7 +31,7 @@ const pathVariants = {
   initial: { strokeDashoffset: 800, strokeDasharray: "50 800" },
   animate: {
     strokeDashoffset: 0,
-    strokeDasharray: "20 800",
+    strokeDasharray: "8 800",
     opacity: [0, 1, 1, 0],
   },
 };
@@ -104,18 +104,18 @@ const SVG = ({
         <motion.path
           d={path}
           stroke={colors[idx]}
-          strokeWidth="2.3"
+          strokeWidth="1"
           strokeLinecap="round"
           variants={pathVariants}
           initial="initial"
           animate="animate"
           transition={{
-            duration: svgOptions?.duration || 10,
+            duration: svgOptions?.duration || 6,
             ease: "linear",
             repeat: Infinity,
             repeatType: "loop",
-            delay: Math.floor(Math.random() * 10),
-            repeatDelay: Math.floor(Math.random() * 10 + 2),
+            delay: Math.floor(Math.random() * 9),
+            repeatDelay: Math.floor(Math.random() * 9 + 2),
           }}
           key={`path-first-${idx}`}
         />
@@ -126,18 +126,18 @@ const SVG = ({
         <motion.path
           d={path}
           stroke={colors[idx]}
-          strokeWidth="2.3"
+          strokeWidth="1"
           strokeLinecap="round"
           variants={pathVariants}
           initial="initial"
           animate="animate"
           transition={{
-            duration: svgOptions?.duration || 10,
+            duration: svgOptions?.duration || 6,
             ease: "linear",
             repeat: Infinity,
             repeatType: "loop",
-            delay: Math.floor(Math.random() * 10),
-            repeatDelay: Math.floor(Math.random() * 10 + 2),
+            delay: Math.floor(Math.random() * 9),
+            repeatDelay: Math.floor(Math.random() * 9 + 2),
           }}
           key={`path-second-${idx}`}
         />

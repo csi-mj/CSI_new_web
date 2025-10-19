@@ -1,7 +1,8 @@
 'use client'
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState, useEffect, useRef, useReducer } from 'react';
 import { gsap } from 'gsap';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export type PillNavItem = {
   label: string;
@@ -37,21 +38,48 @@ const PillNav: React.FC<PillNavProps> = ({
   pillColor = 'rgba(30, 41, 59, 0.5)',
   hoveredPillTextColor = '#0F172A',
   pillTextColor,
-  activePillColor = '#22D3EE',
+  activePillColor = 'red',
   activePillTextColor = '#0F172A',
   onMobileMenuClick,
   initialLoadAnimation = true
 }) => {
+  const pathname = usePathname();
   const resolvedPillTextColor = pillTextColor ?? '#94A3B8';
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Determine if the current path matches the item's href
+  const isActive = (href: string) => {
+    // Special case for home page
+    if (href === '/') return pathname === '/';
+    // For other pages, check if current path starts with the href
+    return pathname.startsWith(href);
+  };
+
   const circleRefs = useRef<Array<HTMLSpanElement | null>>([]);
   const tlRefs = useRef<Array<gsap.core.Timeline | null>>([]);
   const activeTweenRefs = useRef<Array<gsap.core.Tween | null>>([]);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
+  // Reset hover state when pathname changes
+  useEffect(() => {
+    setHoveredIndex(null);
+
+    // Kill all active animations
+    activeTweenRefs.current.forEach(tween => tween?.kill());
+    activeTweenRefs.current = [];
+
+    // Reset all timelines
+    tlRefs.current.forEach(tl => {
+      if (tl) {
+        tl.progress(0).pause(0);
+      }
+    });
+  }, [pathname]);
+  const forceUpdate = useReducer(() => ({}), {})[1] as () => void;
   const logoImgRef = useRef<HTMLImageElement | null>(null);
   const logoTweenRef = useRef<gsap.core.Tween | null>(null);
   const hamburgerRef = useRef<HTMLButtonElement | null>(null);
   const mobileMenuRef = useRef<HTMLDivElement | null>(null);
-  // --- FIX: Restored the missing ref declaration ---
   const navItemsRef = useRef<HTMLDivElement | null>(null);
   const logoRef = useRef<HTMLAnchorElement | HTMLElement | null>(null);
 
@@ -75,7 +103,7 @@ const PillNav: React.FC<PillNavProps> = ({
 
         const label = pill.querySelector<HTMLElement>('.pill-label');
         const white = pill.querySelector<HTMLElement>('.pill-label-hover');
-        
+
         if (label) gsap.set(label, { y: 0 });
         if (white) gsap.set(white, { y: h + 12, opacity: 0 });
 
@@ -90,12 +118,11 @@ const PillNav: React.FC<PillNavProps> = ({
         tlRefs.current[i] = tl;
       });
     };
-    
+
     layout();
     window.addEventListener('resize', layout);
-    if (document.fonts) document.fonts.ready.then(layout).catch(() => {});
-    
-    // --- FIX: Restored the initial load animation logic ---
+    if (document.fonts) document.fonts.ready.then(layout).catch(() => { });
+
     if (initialLoadAnimation) {
       const logoEl = logoRef.current;
       const navItemsEl = navItemsRef.current;
@@ -115,19 +142,60 @@ const PillNav: React.FC<PillNavProps> = ({
   }, [items, ease, initialLoadAnimation]);
 
   const handleEnter = (i: number) => {
-    if (items[i].href === activeHref) return;
+    if (isActive(items[i].href)) {
+      // Ensure active item is always in base state
+      const tl = tlRefs.current[i];
+      if (tl) {
+        gsap.set(tl, { time: 0 });
+      }
+      return;
+    }
+
+    setHoveredIndex(i);
     const tl = tlRefs.current[i];
     if (!tl) return;
+
+    // Kill any existing animations
     activeTweenRefs.current[i]?.kill();
-    activeTweenRefs.current[i] = tl.tweenTo(tl.duration(), { duration: 0.3, ease, overwrite: 'auto' });
+
+    // Only animate if not already at target state
+    if (tl.progress() < 0.95) {
+      activeTweenRefs.current[i] = gsap.to(tl, {
+        duration: 0.3,
+        time: tl.duration(),
+        ease: 'power2.out',
+        onUpdate: forceUpdate
+      });
+    }
   };
 
   const handleLeave = (i: number) => {
-    if (items[i].href === activeHref) return;
+    if (isActive(items[i].href)) {
+      // Force reset the active item's state immediately
+      const tl = tlRefs.current[i];
+      if (tl) {
+        gsap.set(tl, { time: 0 });
+      }
+      return;
+    }
+
+    setHoveredIndex(null);
     const tl = tlRefs.current[i];
     if (!tl) return;
+
     activeTweenRefs.current[i]?.kill();
-    activeTweenRefs.current[i] = tl.tweenTo(0, { duration: 0.2, ease, overwrite: 'auto' });
+    activeTweenRefs.current[i] = gsap.to(tl, {
+      duration: 0.2,
+      time: 0,
+      ease: 'power2.inOut',
+      onUpdate: forceUpdate,
+      onComplete: () => {
+        // Ensure final state is clean
+        if (tl) {
+          gsap.set(tl, { time: 0 });
+        }
+      }
+    });
   };
 
   const isExternalLink = (href: string) => href.startsWith('http') || href.startsWith('//') || href.startsWith('mailto') || href.startsWith('tel') || href.startsWith('#');
@@ -138,8 +206,8 @@ const PillNav: React.FC<PillNavProps> = ({
     ['--pill-bg']: pillColor,
     ['--hover-text']: hoveredPillTextColor,
     ['--pill-text']: resolvedPillTextColor,
+    ['--active-pill-text']: 'white',
     ['--active-pill-bg']: activePillColor,
-    ['--active-pill-text']: activePillTextColor,
   } as React.CSSProperties;
 
   return (
@@ -147,45 +215,54 @@ const PillNav: React.FC<PillNavProps> = ({
       <div ref={navItemsRef} className="relative flex items-center h-full">
         <ul role="menubar" className="list-none flex items-stretch m-0 p-2 h-full gap-2">
           {items.map((item, i) => {
-            const isActive = activeHref === item.href;
+            const isItemActive = isActive(item.href);
+            const isHovered = hoveredIndex === i;
             const pillStyle: React.CSSProperties = {
-              background: isActive ? 'var(--active-pill-bg)' : 'var(--pill-bg)',
-              color: isActive ? 'var(--active-pill-text)' : 'var(--pill-text)',
+              background: isItemActive
+                ? 'var(--active-pill-bg)'
+                : (isHovered ? 'var(--pill-bg-hover, var(--pill-bg))' : 'var(--pill-bg)'),
+              color: isItemActive
+                ? 'var(--active-pill-text, white)'
+                : (isHovered ? 'var(--hover-text, var(--pill-text))' : 'var(--pill-text)'),
               paddingLeft: '20px',
               paddingRight: '20px',
-              transition: 'background 0.3s ease, color 0.3s ease',
+              transition: 'all 0.3s ease',
               border: '1px solid rgba(148, 163, 184, 0.2)',
               backdropFilter: 'blur(8px)',
+              position: 'relative',
+              overflow: 'hidden',
             };
 
             const PillContent = (
               <>
-                {!isActive ? (
-                  <>
-                    <span
-                      className="hover-circle absolute left-1/2 bottom-0 rounded-full z-[1] block pointer-events-none"
-                      style={{ background: 'var(--base)', willChange: 'transform' }}
-                      aria-hidden="true"
-                      ref={el => { circleRefs.current[i] = el; }}
-                    />
-                    <span className="label-stack relative inline-block leading-none z-[2]">
-                      <span className="pill-label relative z-[2] inline-block" style={{ willChange: 'transform' }}>
-                        {item.label}
-                      </span>
-                      <span
-                        className="pill-label-hover absolute left-0 top-0 z-[3] inline-block"
-                        style={{ color: 'var(--hover-text)', willChange: 'transform, opacity' }}
-                        aria-hidden="true"
-                      >
-                        {item.label}
-                      </span>
-                    </span>
-                  </>
-                ) : (
-                  <span className="pill-label relative z-[2] inline-block">
+                <span
+                  className="hover-circle absolute left-1/2 bottom-0 rounded-full z-[1] block pointer-events-none"
+                  style={{ background: 'var(--base)', willChange: 'transform' }}
+                  aria-hidden="true"
+                  ref={el => { circleRefs.current[i] = el; }}
+                />
+                <span className="label-stack relative inline-block leading-none z-[2]">
+                  <span
+                    className="pill-label relative z-[2] inline-block"
+                    style={{
+                      willChange: 'transform',
+                      display: isItemActive ? 'block' : 'inline-block'
+                    }}
+                  >
                     {item.label}
                   </span>
-                )}
+                  <span
+                    className="pill-label-hover absolute left-0 top-0 z-[3] inline-block"
+                    style={{
+                      color: 'var(--hover-text)',
+                      willChange: 'transform, opacity',
+                      display: isItemActive ? 'none' : 'inline-block'
+                    }}
+                    aria-hidden="true"
+                  >
+                    {item.label}
+                  </span>
+                </span>
               </>
             );
 
@@ -197,9 +274,10 @@ const PillNav: React.FC<PillNavProps> = ({
                   <Link
                     role="menuitem"
                     href={item.href}
-                    className={basePillClasses}
+                    className={`${basePillClasses} ${isItemActive ? 'active' : ''}`}
                     style={pillStyle}
                     aria-label={item.ariaLabel || item.label}
+                    aria-current={isItemActive ? 'page' : undefined}
                     onMouseEnter={() => handleEnter(i)}
                     onMouseLeave={() => handleLeave(i)}
                   >
