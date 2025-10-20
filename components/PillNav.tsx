@@ -222,10 +222,10 @@ const PillNav: React.FC<PillNavProps> = ({
 
   return (
     <div className={`relative ${className}`} style={cssVars}>
-      <div ref={navItemsRef} className="relative flex items-center h-full">
+      <div ref={navItemsRef} className="relative flex h-full items-center">
         <ul
           role="menubar"
-          className="list-none flex items-stretch m-0 p-2 h-full gap-2"
+          className="m-0 flex h-full list-none items-stretch gap-2 p-2"
         >
           {items.map((item, i) => {
             const isItemActive = isActive(item.href);
@@ -253,14 +253,14 @@ const PillNav: React.FC<PillNavProps> = ({
             const PillContent = (
               <>
                 <span
-                  className="hover-circle absolute left-1/2 bottom-0 rounded-full z-[1] block pointer-events-none"
+                  className="hover-circle pointer-events-none absolute bottom-0 left-1/2 z-[1] block rounded-full"
                   style={{ background: 'var(--base)', willChange: 'transform' }}
                   aria-hidden="true"
                   ref={(el) => {
                     circleRefs.current[i] = el;
                   }}
                 />
-                <span className="label-stack relative inline-block leading-none z-[2]">
+                <span className="label-stack relative z-[2] inline-block leading-none">
                   <span
                     className="pill-label relative z-[2] inline-block"
                     style={{
@@ -271,7 +271,7 @@ const PillNav: React.FC<PillNavProps> = ({
                     {item.label}
                   </span>
                   <span
-                    className="pill-label-hover absolute left-0 top-0 z-[3] inline-block"
+                    className="pill-label-hover absolute top-0 left-0 z-[3] inline-block"
                     style={{
                       color: 'var(--hover-text)',
                       willChange: 'transform, opacity',

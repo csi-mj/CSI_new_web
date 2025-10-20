@@ -71,10 +71,10 @@ const Hero = () => {
   return (
     <section
       ref={heroRef}
-      className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden py-8 px-4"
+      className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden px-4 py-8"
       aria-label="Hero section"
     >
-      <BackgroundLines className="flex items-center justify-center gap-3 w-full flex-col px-2">
+      <BackgroundLines className="flex w-full flex-col items-center justify-center gap-3 px-2">
         <ShootingStars />
         <StarsBackground />
         <div className="hero-logo mb-5">
@@ -84,34 +84,34 @@ const Hero = () => {
             width={224}
             height={224}
             priority
-            className="w-32 sm:w-40 md:w-48 lg:w-56 transition-all duration-700 object-contain drop-shadow-2xl hover:scale-105"
+            className="w-32 object-contain drop-shadow-2xl transition-all duration-700 hover:scale-105 sm:w-40 md:w-48 lg:w-56"
           />
         </div>
 
-        <div className="w-full mx-auto px-1">
-          <div className="hero-title flex items-center justify-center w-full">
+        <div className="mx-auto w-full px-1">
+          <div className="hero-title flex w-full items-center justify-center">
             <MorphingText
               texts={['CSI MJCET', 'COMPUTER SOCIETY OF INDIA']}
-              className="font-silkscreen w-full text-3xl sm:text-3xl md:text-4xl lg:text-5xl text-center leading-tight"
+              className="font-silkscreen w-full text-center text-3xl leading-tight sm:text-3xl md:text-4xl lg:text-5xl"
             />
           </div>
 
-          <div className="hero-greeting min-h-[2.5rem] flex items-center justify-center w-full mt-2 sm:mt-3">
+          <div className="hero-greeting mt-2 flex min-h-[2.5rem] w-full items-center justify-center sm:mt-3">
             <TypingAnimation
               delay={1500}
-              className="font-silkscreen text-lg sm:text-xl md:text-2xl font-extrabold bg-gradient-to-r from-red-500 via-red-500 to-red-600 bg-clip-text text-transparent text-center w-full px-2"
+              className="font-silkscreen w-full bg-gradient-to-r from-red-500 via-red-500 to-red-600 bg-clip-text px-2 text-center text-lg font-extrabold text-transparent sm:text-xl md:text-2xl"
             >
               eidjof . fhdads . hkjijf
             </TypingAnimation>
           </div>
         </div>
 
-        <div className="hero-btn flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-2xl pt-6">
+        <div className="hero-btn flex w-full max-w-2xl flex-col items-center justify-center gap-4 pt-6 sm:flex-row">
           <Link
             href="https://forms.gle/ePeDHzKgrb9MUGTx6"
             target="_blank"
             rel="noopener noreferrer"
-            className="group relative flex h-11 w-full sm:w-48 items-center justify-center rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-3 font-silkscreen text-sm font-bold text-white shadow-lg transition-all duration-500 hover:scale-105 hover:from-blue-700 hover:to-blue-800"
+            className="group font-silkscreen relative flex h-11 w-full items-center justify-center rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-3 text-sm font-bold text-white shadow-lg transition-all duration-500 hover:scale-105 hover:from-blue-700 hover:to-blue-800 sm:w-48"
             aria-label="Join CSI MJCET"
           >
             <span className="relative z-10 flex items-center gap-2">
@@ -121,7 +121,7 @@ const Hero = () => {
 
           <button
             onClick={scrollToAbout}
-            className="group relative flex h-11 w-full sm:w-48 items-center justify-center rounded-lg border-2 border-red-500 bg-transparent backdrop-blur-[1px] px-6 py-3 font-silkscreen text-sm font-bold text-red-500 transition-all duration-500 hover:bg-red-500 hover:text-black hover:scale-105 cursor-pointer"
+            className="group font-silkscreen relative flex h-11 w-full cursor-pointer items-center justify-center rounded-lg border-2 border-red-500 bg-transparent px-6 py-3 text-sm font-bold text-red-500 backdrop-blur-[1px] transition-all duration-500 hover:scale-105 hover:bg-red-500 hover:text-black sm:w-48"
             aria-label="Learn more about CSI MJCET"
           >
             <span className="relative z-10 flex items-center gap-2">

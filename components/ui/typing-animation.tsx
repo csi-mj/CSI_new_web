@@ -158,17 +158,17 @@ export function TypingAnimation({
     <MotionComponent
       ref={elementRef}
       className={cn(
-        'inline-flex items-center justify-center w-full',
+        'inline-flex w-full items-center justify-center',
         className,
         {
-          "relative after:content-[''] after:inline-block after:ml-1 after:w-[2px] after:h-5 after:bg-current after:animate-pulse":
+          "relative after:ml-1 after:inline-block after:h-5 after:w-[2px] after:animate-pulse after:bg-current after:content-['']":
             showCursor,
           'after:animate-none after:opacity-0': !blinkCursor && showCursor,
-          'after:border-r-2 after:border-current after:animate-blink':
+          'after:animate-blink after:border-r-2 after:border-current':
             showCursor && cursorStyle === 'line',
-          'after:w-2 after:bg-current after:animate-blink':
+          'after:animate-blink after:w-2 after:bg-current':
             showCursor && cursorStyle === 'block',
-          "after:content-['_'] after:border-b-2 after:border-current after:animate-blink after:leading-3":
+          "after:animate-blink after:border-b-2 after:border-current after:leading-3 after:content-['_']":
             showCursor && cursorStyle === 'underscore'
         }
       )}

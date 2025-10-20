@@ -32,7 +32,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${silkscreen.variable} antialiased min-h-screen bg-black text-white`}
+        className={`${geistSans.variable} ${geistMono.variable} ${silkscreen.variable} min-h-screen bg-black text-white antialiased`}
       >
         <Navbar />
         <main className="pt-0">{children}</main>
