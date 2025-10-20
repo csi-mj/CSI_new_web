@@ -9,6 +9,7 @@ export type PillNavItem = {
   href: string;
   ariaLabel?: string;
 };
+console.log()
 
 export interface PillNavProps {
   logo: string;
