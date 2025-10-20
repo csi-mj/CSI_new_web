@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import React, { useState, useEffect, useRef, useReducer } from 'react';
 import { gsap } from 'gsap';
 import Link from 'next/link';
@@ -65,11 +65,11 @@ const PillNav: React.FC<PillNavProps> = ({
     setHoveredIndex(null);
 
     // Kill all active animations
-    activeTweenRefs.current.forEach(tween => tween?.kill());
+    activeTweenRefs.current.forEach((tween) => tween?.kill());
     activeTweenRefs.current = [];
 
     // Reset all timelines
-    tlRefs.current.forEach(tl => {
+    tlRefs.current.forEach((tl) => {
       if (tl) {
         tl.progress(0).pause(0);
       }
@@ -92,14 +92,19 @@ const PillNav: React.FC<PillNavProps> = ({
         const { width: w, height: h } = rect;
         const R = ((w * w) / 4 + h * h) / (2 * h);
         const D = Math.ceil(2 * R) + 2;
-        const delta = Math.ceil(R - Math.sqrt(Math.max(0, R * R - (w * w) / 4))) + 1;
+        const delta =
+          Math.ceil(R - Math.sqrt(Math.max(0, R * R - (w * w) / 4))) + 1;
         const originY = D - delta;
 
         circle.style.width = `${D}px`;
         circle.style.height = `${D}px`;
         circle.style.bottom = `-${delta}px`;
 
-        gsap.set(circle, { xPercent: -50, scale: 0, transformOrigin: `50% ${originY}px` });
+        gsap.set(circle, {
+          xPercent: -50,
+          scale: 0,
+          transformOrigin: `50% ${originY}px`
+        });
 
         const label = pill.querySelector<HTMLElement>('.pill-label');
         const white = pill.querySelector<HTMLElement>('.pill-label-hover');
@@ -121,7 +126,7 @@ const PillNav: React.FC<PillNavProps> = ({
 
     layout();
     window.addEventListener('resize', layout);
-    if (document.fonts) document.fonts.ready.then(layout).catch(() => { });
+    if (document.fonts) document.fonts.ready.then(layout).catch(() => {});
 
     if (initialLoadAnimation) {
       const logoEl = logoRef.current;
@@ -198,7 +203,12 @@ const PillNav: React.FC<PillNavProps> = ({
     });
   };
 
-  const isExternalLink = (href: string) => href.startsWith('http') || href.startsWith('//') || href.startsWith('mailto') || href.startsWith('tel') || href.startsWith('#');
+  const isExternalLink = (href: string) =>
+    href.startsWith('http') ||
+    href.startsWith('//') ||
+    href.startsWith('mailto') ||
+    href.startsWith('tel') ||
+    href.startsWith('#');
   const isRouterLink = (href?: string) => href && !isExternalLink(href);
 
   const cssVars = {
@@ -207,30 +217,37 @@ const PillNav: React.FC<PillNavProps> = ({
     ['--hover-text']: hoveredPillTextColor,
     ['--pill-text']: resolvedPillTextColor,
     ['--active-pill-text']: 'white',
-    ['--active-pill-bg']: activePillColor,
+    ['--active-pill-bg']: activePillColor
   } as React.CSSProperties;
 
   return (
     <div className={`relative ${className}`} style={cssVars}>
       <div ref={navItemsRef} className="relative flex items-center h-full">
-        <ul role="menubar" className="list-none flex items-stretch m-0 p-2 h-full gap-2">
+        <ul
+          role="menubar"
+          className="list-none flex items-stretch m-0 p-2 h-full gap-2"
+        >
           {items.map((item, i) => {
             const isItemActive = isActive(item.href);
             const isHovered = hoveredIndex === i;
             const pillStyle: React.CSSProperties = {
               background: isItemActive
                 ? 'var(--active-pill-bg)'
-                : (isHovered ? 'var(--pill-bg-hover, var(--pill-bg))' : 'var(--pill-bg)'),
+                : isHovered
+                  ? 'var(--pill-bg-hover, var(--pill-bg))'
+                  : 'var(--pill-bg)',
               color: isItemActive
                 ? 'var(--active-pill-text, white)'
-                : (isHovered ? 'var(--hover-text, var(--pill-text))' : 'var(--pill-text)'),
+                : isHovered
+                  ? 'var(--hover-text, var(--pill-text))'
+                  : 'var(--pill-text)',
               paddingLeft: '20px',
               paddingRight: '20px',
               transition: 'all 0.3s ease',
               border: '1px solid rgba(148, 163, 184, 0.2)',
               backdropFilter: 'blur(8px)',
               position: 'relative',
-              overflow: 'hidden',
+              overflow: 'hidden'
             };
 
             const PillContent = (
@@ -239,7 +256,9 @@ const PillNav: React.FC<PillNavProps> = ({
                   className="hover-circle absolute left-1/2 bottom-0 rounded-full z-[1] block pointer-events-none"
                   style={{ background: 'var(--base)', willChange: 'transform' }}
                   aria-hidden="true"
-                  ref={el => { circleRefs.current[i] = el; }}
+                  ref={(el) => {
+                    circleRefs.current[i] = el;
+                  }}
                 />
                 <span className="label-stack relative inline-block leading-none z-[2]">
                   <span
@@ -266,7 +285,8 @@ const PillNav: React.FC<PillNavProps> = ({
               </>
             );
 
-            const basePillClasses = 'relative overflow-hidden p-3 inline-flex items-center justify-center h-full no-underline rounded-full box-border font-bold text-[14px] leading-none uppercase tracking-wider whitespace-nowrap cursor-pointer';
+            const basePillClasses =
+              'relative overflow-hidden p-3 inline-flex items-center justify-center h-full no-underline rounded-full box-border font-bold text-[14px] leading-none uppercase tracking-wider whitespace-nowrap cursor-pointer';
 
             return (
               <li key={item.href} role="none" className="flex h-full">

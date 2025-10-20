@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from 'react';
 
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
 
 const morphTime = 2;
 const cooldownTime = 1;
@@ -59,10 +59,10 @@ const useMorphingText = (texts: string[]) => {
     morphRef.current = 0;
     const [current1, current2] = [text1Ref.current, text2Ref.current];
     if (current1 && current2) {
-      current2.style.filter = "none";
-      current2.style.opacity = "100%";
-      current1.style.filter = "none";
-      current1.style.opacity = "0%";
+      current2.style.filter = 'none';
+      current2.style.opacity = '100%';
+      current1.style.filter = 'none';
+      current1.style.opacity = '0%';
     }
   }, []);
 
@@ -96,7 +96,7 @@ interface MorphingTextProps {
   texts: string[];
 }
 
-const Texts: React.FC<Pick<MorphingTextProps, "texts">> = ({ texts }) => {
+const Texts: React.FC<Pick<MorphingTextProps, 'texts'>> = ({ texts }) => {
   const { text1Ref, text2Ref } = useMorphingText(texts);
   return (
     <>
@@ -135,11 +135,11 @@ const SvgFilters: React.FC = () => (
 
 export const MorphingText: React.FC<MorphingTextProps> = ({
   texts,
-  className,
+  className
 }) => (
   <div
     className={cn(
-      "relative mx-auto w-full max-w-screen text-center font-sans text-4xl leading-none font-bold [filter:url(#threshold)_blur(0.3px)] min-h-[6rem] md:min-h-[4rem] lg:text-[2.5rem]",
+      'relative mx-auto w-full max-w-screen text-center font-sans text-4xl leading-none font-bold [filter:url(#threshold)_blur(0.3px)] min-h-[6rem] md:min-h-[4rem] lg:text-[2.5rem]',
       className
     )}
   >

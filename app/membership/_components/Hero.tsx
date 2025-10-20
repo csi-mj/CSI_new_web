@@ -1,60 +1,58 @@
-"use client";
-import { BackgroundLines } from "@/components/ui/background-lines";
-import Image from "next/image";
-import React, { useEffect, useRef } from "react";
-import logo from "../../../public/assets/logos/csi_logo.png";
-import { MorphingText } from "@/components/ui/morphing-text";
-import { TypingAnimation } from "@/components/ui/typing-animation";
-import Link from "next/link";
-import { gsap } from "gsap";
-import { ShootingStars } from "@/components/ui/shooting-stars";
-import { StarsBackground } from "@/components/ui/stars-background";
+'use client';
+import { BackgroundLines } from '@/components/ui/background-lines';
+import Image from 'next/image';
+import React, { useEffect, useRef } from 'react';
+import logo from '../../../public/assets/logos/csi_logo.png';
+import { MorphingText } from '@/components/ui/morphing-text';
+import { TypingAnimation } from '@/components/ui/typing-animation';
+import Link from 'next/link';
+import { gsap } from 'gsap';
+import { ShootingStars } from '@/components/ui/shooting-stars';
+import { StarsBackground } from '@/components/ui/stars-background';
 
-type Props = {};
-
-const Hero = (props: Props) => {
+const Hero = () => {
   const heroRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     if (!heroRef.current) return;
 
     const ctx = gsap.context(() => {
-      gsap.set([".hero-logo", ".hero-title", ".hero-greeting", ".hero-btn"], {
+      gsap.set(['.hero-logo', '.hero-title', '.hero-greeting', '.hero-btn'], {
         opacity: 0,
-        y: 20,
+        y: 20
       });
 
-      gsap.to(".hero-logo", {
+      gsap.to('.hero-logo', {
         y: 0,
         opacity: 1,
         duration: 1,
         delay: 0.5,
-        ease: "power2.out",
+        ease: 'power2.out'
       });
 
-      gsap.to(".hero-title", {
+      gsap.to('.hero-title', {
         y: 0,
         opacity: 1,
         duration: 0.8,
         delay: 1,
-        ease: "power2.out",
+        ease: 'power2.out'
       });
 
-      gsap.to(".hero-greeting", {
+      gsap.to('.hero-greeting', {
         y: 0,
         opacity: 1,
         duration: 0.8,
         delay: 1.5,
-        ease: "power2.out",
+        ease: 'power2.out'
       });
 
-      gsap.to(".hero-btn", {
+      gsap.to('.hero-btn', {
         y: 0,
         opacity: 1,
         duration: 0.8,
         delay: 3.2,
         stagger: 0.1,
-        ease: "back.out(1.7)",
+        ease: 'back.out(1.7)'
       });
     }, heroRef);
 
@@ -62,11 +60,11 @@ const Hero = (props: Props) => {
   }, []);
 
   const scrollToAbout = () => {
-    const aboutSection = document.getElementById("about");
+    const aboutSection = document.getElementById('about');
     if (aboutSection) {
-      aboutSection.scrollIntoView({ behavior: "smooth" });
+      aboutSection.scrollIntoView({ behavior: 'smooth' });
     } else {
-      window.scrollTo({ top: window.innerHeight, behavior: "smooth" });
+      window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
     }
   };
 
@@ -93,7 +91,7 @@ const Hero = (props: Props) => {
         <div className="w-full mx-auto px-1">
           <div className="hero-title flex items-center justify-center w-full">
             <MorphingText
-              texts={["CSI MJCET", "COMPUTER SOCIETY OF INDIA"]}
+              texts={['CSI MJCET', 'COMPUTER SOCIETY OF INDIA']}
               className="font-silkscreen w-full text-3xl sm:text-3xl md:text-4xl lg:text-5xl text-center leading-tight"
             />
           </div>

@@ -1,6 +1,6 @@
-"use client";
-import { cn } from "@/lib/utils";
-import React, { useEffect, useState, useRef } from "react";
+'use client';
+import { cn } from '@/lib/utils';
+import React, { useEffect, useState, useRef } from 'react';
 
 interface ShootingStar {
   id: number;
@@ -46,11 +46,11 @@ export const ShootingStars: React.FC<ShootingStarsProps> = ({
   maxSpeed = 20,
   minDelay = 1200,
   maxDelay = 4200,
-  starColor = "#9E00FF",
-  trailColor = "#2EB9DF",
+  starColor = '#9E00FF',
+  trailColor = '#2EB9DF',
   starWidth = 12,
   starHeight = 1,
-  className,
+  className
 }) => {
   const [star, setStar] = useState<ShootingStar | null>(null);
   const svgRef = useRef<SVGSVGElement>(null);
@@ -65,7 +65,7 @@ export const ShootingStars: React.FC<ShootingStarsProps> = ({
         angle,
         scale: 1,
         speed: Math.random() * (maxSpeed - minSpeed) + minSpeed,
-        distance: 0,
+        distance: 0
       };
       setStar(newStar);
 
@@ -104,7 +104,7 @@ export const ShootingStars: React.FC<ShootingStarsProps> = ({
             x: newX,
             y: newY,
             distance: newDistance,
-            scale: newScale,
+            scale: newScale
           };
         });
       }
@@ -117,7 +117,7 @@ export const ShootingStars: React.FC<ShootingStarsProps> = ({
   return (
     <svg
       ref={svgRef}
-      className={cn("w-full h-full absolute inset-0", className)}
+      className={cn('w-full h-full absolute inset-0', className)}
     >
       {star && (
         <rect

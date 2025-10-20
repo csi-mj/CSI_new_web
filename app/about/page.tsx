@@ -1,11 +1,7 @@
-import React from 'react'
+import React from 'react';
 
-type Props = {}
+const page = () => {
+  return <div>About page</div>;
+};
 
-const  page = (props: Props) => {
-  return (
-    <div>About page</div>
-  )
-}
-
-export default  page
+export default page;
