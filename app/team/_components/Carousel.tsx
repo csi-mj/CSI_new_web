@@ -2,12 +2,14 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { TeamMember } from './TeamCard3D';
+import type { TeamMember } from './TeamCard3D';
 import MobileLayout from './MobileLayout';
 import DesktopLayout from './DesktopLayout';
 import ExpandedView from './ExpandedView';
 
-interface CarouselProps {
+export type { TeamMember };
+
+export interface CarouselProps {
   teamMembers: TeamMember[];
   className?: string;
 }

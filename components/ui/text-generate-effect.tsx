@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { motion, stagger, useAnimate } from 'motion/react';
 import { cn } from '@/lib/utils';
 
@@ -40,7 +40,7 @@ export const TextGenerateEffect: React.FC<TextGenerateEffectProps> = ({
     animation();
   }, [animate, duration, filter, scope]);
 
-  const renderWords = (): JSX.Element => {
+  const renderWords = (): React.ReactElement => {
     return (
       <motion.div ref={scope}>
         {wordsArray.map((word, idx) => {
