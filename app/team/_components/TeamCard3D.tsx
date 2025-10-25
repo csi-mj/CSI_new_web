@@ -36,7 +36,7 @@ const TeamCard3D: React.FC<TeamCard3DProps> = ({
     <div className="w-full h-full" onClick={() => onImageClick?.(member)}>
       <CardContainer className="w-full h-full" containerClassName="py-0">
         <CardBody className="w-full h-full">
-          <CardItem className="w-full h-full">
+          <CardItem className="w-full h-full cursor-target">
             <div className="relative group w-full h-full cursor-pointer">
               <div className="relative overflow-hidden rounded-xl md:rounded-2xl h-full">
                 <div className="relative w-[85%] h-[85%] mx-auto mt-2 overflow-hidden rounded-xl md:rounded-2xl border border-white/10 shadow-2xl">

@@ -54,10 +54,10 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({
             <span className="text-gray-400 italic font-light">OUR</span>
           </div>
           <div>
-            <span className="text-gray-400 italic font-light">TECHNICAL</span>
+            <span className="text-gray-400 italic font-light">TECH</span>
           </div>
           <div>
-            <span className="text-white font-medium">TEAM</span>
+            <span className="text-white font-medium">HEADS</span>
           </div>
         </motion.h1>
       </motion.div>

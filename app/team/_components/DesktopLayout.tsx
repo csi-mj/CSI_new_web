@@ -54,28 +54,28 @@ const DesktopLayout: React.FC<DesktopLayoutProps> = ({
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
               >
-                <span className="text-white font-normal">MEET</span>
+                <span className="text-white font-normal cursor-target">MEET</span>
               </motion.div>
               <motion.div
                 initial={{ opacity: 0, x: -30 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.5 }}
               >
-                <span className="text-gray-400 italic font-light">OUR</span>
+                <span className="text-gray-400 italic font-light cursor-target">OUR</span>
               </motion.div>
               <motion.div
                 initial={{ opacity: 0, x: -30 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.5 }}
               >
-                <span className="text-gray-400 italic font-light">TECHNICAL</span>
+                <span className="text-gray-400 italic font-light cursor-target">TECH</span>
               </motion.div>
               <motion.div
                 initial={{ opacity: 0, x: -30 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.6 }}
               >
-                <span className=" text-white font-normal">TEAM</span>
+                <span className=" text-white font-normal cursor-target">Heads</span>
               </motion.div>
             </motion.h1>
 
@@ -86,15 +86,20 @@ const DesktopLayout: React.FC<DesktopLayoutProps> = ({
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.8 }}
             >
-              <AnimatedButton
-                direction="left"
-                onClick={onPrevMember}
-              />
+              <div className='cursor-target'>
+                <AnimatedButton
+                  direction="left"
+                  onClick={onPrevMember}
+                />
+              </div>
 
-              <AnimatedButton
-                direction="right"
-                onClick={onNextMember}
-              />
+              <div className='cursor-target'>
+                <AnimatedButton
+                  direction="right"
+                  onClick={onNextMember}
+                />
+              </div>
+
             </motion.div>
           </motion.div>
 

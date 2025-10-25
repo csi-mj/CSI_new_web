@@ -6,6 +6,7 @@ import type { TeamMember } from './TeamCard3D';
 import MobileLayout from './MobileLayout';
 import DesktopLayout from './DesktopLayout';
 import ExpandedView from './ExpandedView';
+import TargetCursor from '@/components/TargetCursor';
 
 export type { TeamMember };
 
@@ -77,6 +78,10 @@ export const Carousel: React.FC<CarouselProps> = ({
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
       >
+        <TargetCursor 
+        spinDuration={2}
+        hideDefaultCursor={true}
+      />
         {/* Mobile Layout */}
         <MobileLayout
           teamMembers={teamMembers}
