@@ -71,9 +71,9 @@ export const Carousel: React.FC<CarouselProps> = ({
   const maxVisibleCards = isMobile ? 2 : 4;
 
   return (
-    <div className="relative w-full h-full overflow-hidden">
+    <div className="relative w-full max-w-[100vw] h-full overflow-hidden">
       <motion.div
-        className={`min-h-screen bg-black text-white overflow-hidden ${className || ''}`}
+        className={`min-h-screen w-full max-w-[100vw] bg-black text-white overflow-hidden ${className || ''}`}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8, ease: "easeOut" }}

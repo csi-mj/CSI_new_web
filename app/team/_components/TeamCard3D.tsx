@@ -54,19 +54,19 @@ const TeamCard3D: React.FC<TeamCard3DProps> = ({
   
   return (
     <motion.div 
-      className="w-full h-full" 
+      className="w-full h-full max-w-full" 
       onClick={() => onImageClick?.(member)}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
     >
-      <CardContainer className="w-full h-full" containerClassName="py-0">
-        <CardBody className="w-full h-full">
-          <CardItem className="w-full h-full cursor-target">
-            <div className="relative group w-full h-full cursor-pointer">
-              <div className="relative rounded-xl md:rounded-2xl h-full">
+      <CardContainer className="w-full h-full max-w-full" containerClassName="py-0">
+        <CardBody className="w-full h-full max-w-full">
+          <CardItem className="w-full h-full max-w-full cursor-target">
+            <div className="relative group w-full h-full max-w-full cursor-pointer">
+              <div className="relative rounded-xl md:rounded-2xl h-full max-w-full">
                 <motion.div 
-                  className="relative w-[85%] h-[85%] mx-auto mt-2 overflow-hidden rounded-xl md:rounded-2xl border border-white/10 shadow-2xl"
+                  className="relative w-[85%] h-[85%] max-w-full mx-auto mt-2 overflow-hidden rounded-xl md:rounded-2xl border border-white/10 shadow-2xl"
                   whileHover={{ 
                     scale: 1.02,
                     rotateX: 5,
