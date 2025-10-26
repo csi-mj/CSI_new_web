@@ -62,5 +62,9 @@ const teamMembers: TeamMember[] = [
 ];
 
 export default function TeamPage() {
-  return <Carousel teamMembers={teamMembers} />;
+  return <>
+  <Carousel teamMembers={teamMembers} />
+  <Carousel teamMembers={teamMembers} />
+
+  </>;
 }

@@ -18,8 +18,8 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
   const dotRef = useRef<HTMLDivElement>(null);
   const constants = useMemo(
     () => ({
-      borderWidth: 3,
-      cornerSize: 12,
+      borderWidth: 1,
+      cornerSize: 8,
       parallaxStrength: 0.00005
     }),
     []
@@ -328,28 +328,28 @@ const TargetCursor: React.FC<TargetCursorProps> = ({
   return (
     <div
       ref={cursorRef}
-      className="fixed top-0 left-0 w-0 h-0 pointer-events-none z-[9999] mix-blend-difference transform -translate-x-1/2 -translate-y-1/2"
+      className=" hidden md:block fixed top-0 left-0 w-0 h-0 pointer-events-none z-[1000] mix-blend-difference transform -translate-x-1/2 -translate-y-1/2"
       style={{ willChange: 'transform' }}
     >
-      <div
+      {/* <div
         ref={dotRef}
         className="absolute left-1/2 top-1/2 w-1 h-1 bg-white rounded-full transform -translate-x-1/2 -translate-y-1/2"
         style={{ willChange: 'transform' }}
-      />
+      /> */}
       <div
-        className="target-cursor-corner absolute left-1/2 top-1/2 w-3 h-3 border-[3px] border-white transform -translate-x-[150%] -translate-y-[150%] border-r-0 border-b-0"
+        className="target-cursor-corner absolute left-1/2 top-1/2 w-2 h-2 border-[2px] border-white transform -translate-x-[150%] -translate-y-[150%] border-r-0 border-b-0"
         style={{ willChange: 'transform' }}
       />
       <div
-        className="target-cursor-corner absolute left-1/2 top-1/2 w-3 h-3 border-[3px] border-white transform translate-x-1/2 -translate-y-[150%] border-l-0 border-b-0"
+        className="target-cursor-corner absolute left-1/2 top-1/2 w-2 h-2 border-[2px] border-white transform translate-x-1/2 -translate-y-[150%] border-l-0 border-b-0"
         style={{ willChange: 'transform' }}
       />
       <div
-        className="target-cursor-corner absolute left-1/2 top-1/2 w-3 h-3 border-[3px] border-white transform translate-x-1/2 translate-y-1/2 border-l-0 border-t-0"
+        className="target-cursor-corner absolute left-1/2 top-1/2 w-2 h-2 border-[2px] border-white transform translate-x-1/2 translate-y-1/2 border-l-0 border-t-0"
         style={{ willChange: 'transform' }}
       />
       <div
-        className="target-cursor-corner absolute left-1/2 top-1/2 w-3 h-3 border-[3px] border-white transform -translate-x-[150%] translate-y-1/2 border-r-0 border-t-0"
+        className="target-cursor-corner absolute left-1/2 top-1/2 w-2 h-2 border-[2px] border-white transform -translate-x-[150%] translate-y-1/2 border-r-0 border-t-0"
         style={{ willChange: 'transform' }}
       />
     </div>

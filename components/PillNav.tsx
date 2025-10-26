@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef, useReducer } from 'react';
 import { gsap } from 'gsap';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import TargetCursor from './TargetCursor';
 
 export type PillNavItem = {
   label: string;
@@ -126,7 +127,7 @@ const PillNav: React.FC<PillNavProps> = ({
 
     layout();
     window.addEventListener('resize', layout);
-    if (document.fonts) document.fonts.ready.then(layout).catch(() => {});
+    if (document.fonts) document.fonts.ready.then(layout).catch(() => { });
 
     if (initialLoadAnimation) {
       const logoEl = logoRef.current;
@@ -221,8 +222,11 @@ const PillNav: React.FC<PillNavProps> = ({
   } as React.CSSProperties;
 
   return (
+
     <div className={`relative ${className}`} style={cssVars}>
+
       <div ref={navItemsRef} className="relative flex h-full items-center">
+
         <ul
           role="menubar"
           className="m-0 flex h-full list-none items-stretch gap-2 p-2"
@@ -253,7 +257,7 @@ const PillNav: React.FC<PillNavProps> = ({
             const PillContent = (
               <>
                 <span
-                  className="hover-circle pointer-events-none absolute bottom-0 left-1/2 z-[1] block rounded-full"
+                  className="hover-circle cursor-target pointer-events-none absolute bottom-0 left-1/2 z-[1] block rounded-full"
                   style={{ background: 'var(--base)', willChange: 'transform' }}
                   aria-hidden="true"
                   ref={(el) => {
@@ -286,7 +290,7 @@ const PillNav: React.FC<PillNavProps> = ({
             );
 
             const basePillClasses =
-              'relative overflow-hidden p-3 inline-flex items-center justify-center h-full no-underline rounded-full box-border font-bold text-[14px] leading-none uppercase tracking-wider whitespace-nowrap cursor-pointer';
+              'relative overflow-hidden p-3 cursor-target inline-flex items-center justify-center h-full no-underline rounded-full box-border font-bold text-[14px] leading-none uppercase tracking-wider whitespace-nowrap cursor-pointer';
 
             return (
               <li key={item.href} role="none" className="flex h-full">

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono, Silkscreen } from 'next/font/google';
 import './globals.css';
 import Navbar from '@/components/shared/Navbar';
+import { CursorWrapper } from '@/components/shared/CursorWrapper';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -34,6 +35,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${silkscreen.variable} min-h-screen bg-black text-white antialiased`}
       >
+        <CursorWrapper />
         <Navbar />
         <main className="pt-0">{children}</main>
       </body>

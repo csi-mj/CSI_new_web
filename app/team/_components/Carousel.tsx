@@ -71,17 +71,13 @@ export const Carousel: React.FC<CarouselProps> = ({
   const maxVisibleCards = isMobile ? 2 : 4;
 
   return (
-    <>
+    <div className="relative w-full h-full overflow-hidden">
       <motion.div
         className={`min-h-screen bg-black text-white overflow-hidden ${className || ''}`}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
       >
-        <TargetCursor 
-        spinDuration={2}
-        hideDefaultCursor={true}
-      />
         {/* Mobile Layout */}
         <MobileLayout
           teamMembers={teamMembers}
@@ -105,14 +101,16 @@ export const Carousel: React.FC<CarouselProps> = ({
         />
       </motion.div>
       
-      {/* Expanded View */}
-      <AnimatePresence>
-        <ExpandedView 
-          expandedMember={expandedMember}
-          onClose={closeExpanded}
-        />
+      <AnimatePresence mode="wait">
+        {expandedMember && (
+          <ExpandedView 
+            key="expanded-view"
+            expandedMember={expandedMember} 
+            onClose={closeExpanded} 
+          />
+        )}
       </AnimatePresence>
-    </>
+    </div>
   );
 };
 

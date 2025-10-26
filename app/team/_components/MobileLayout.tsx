@@ -37,37 +37,77 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({
       {/* Mobile Header */}
       <motion.div
         className="text-center space-y-0 mb-1"
-        initial={{ opacity: 0, y: -20 }}
+        initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.2 }}
+        transition={{ 
+          duration: 1.2, 
+          delay: 0.3,
+          ease: [0.22, 1, 0.36, 1]
+        }}
       >
         <motion.h1
           className="text-5xl font-serif leading-tight"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.0, delay: 0.5 }}
         >
-          <div>
-            <span className="text-white font-medium">MEET</span>
-          </div>
-          <div>
-            <span className="text-gray-400 italic font-light">OUR</span>
-          </div>
-          <div>
-            <span className="text-gray-400 italic font-light">TECH</span>
-          </div>
-          <div>
-            <span className="text-white font-medium">HEADS</span>
-          </div>
+          <motion.div
+            initial={{ opacity: 0, x: -40, rotateX: -90 }}
+            animate={{ opacity: 1, x: 0, rotateX: 0 }}
+            transition={{ 
+              duration: 1.0, 
+              delay: 0.6,
+              ease: [0.22, 1, 0.36, 1]
+            }}
+          >
+            <span className="text-white font-medium inline-block">MEET</span>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, x: -40, rotateX: -90 }}
+            animate={{ opacity: 1, x: 0, rotateX: 0 }}
+            transition={{ 
+              duration: 1.0, 
+              delay: 0.75,
+              ease: [0.22, 1, 0.36, 1]
+            }}
+          >
+            <span className="text-gray-400 italic font-light inline-block">OUR</span>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, x: -40, rotateX: -90 }}
+            animate={{ opacity: 1, x: 0, rotateX: 0 }}
+            transition={{ 
+              duration: 1.0, 
+              delay: 0.9,
+              ease: [0.22, 1, 0.36, 1]
+            }}
+          >
+            <span className="text-gray-400 italic font-light inline-block">TECH</span>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, x: -40, rotateX: -90 }}
+            animate={{ opacity: 1, x: 0, rotateX: 0 }}
+            transition={{ 
+              duration: 1.0, 
+              delay: 1.05,
+              ease: [0.22, 1, 0.36, 1]
+            }}
+          >
+            <span className="text-white font-medium inline-block">HEADS</span>
+          </motion.div>
         </motion.h1>
       </motion.div>
 
       {/* Mobile Images */}
       <motion.div
         className="flex justify-center items-center py-0 h-[350px]"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, delay: 0.6 }}
+        initial={{ opacity: 0, scale: 0.85, y: 40 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ 
+          duration: 1.4, 
+          delay: 0.8,
+          ease: [0.22, 1, 0.36, 1]
+        }}
       >
         <div className="relative w-full max-w-[350px] h-[420px] mx-auto">
           {teamMembers.map((member, index) => {
@@ -88,6 +128,12 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({
                 key={member.id}
                 className="absolute"
                 style={{ zIndex }}
+                initial={offset === 0 ? { 
+                  opacity: 0, 
+                  scale: 0.5, 
+                  y: 80,
+                  rotate: 15
+                } : undefined}
                 animate={{
                   x: adjustedX,
                   y: pos.y,
@@ -97,8 +143,12 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({
                   rotate: pos.rotation,
                 }}
                 transition={{
-                  duration: 0.7,
-                  ease: [0.34, 1.56, 0.64, 1],
+                  duration: 1.0,
+                  ease: [0.22, 1, 0.36, 1],
+                  opacity: { duration: 0.7 },
+                  scale: { duration: 1.0 },
+                  y: { duration: 1.0 },
+                  rotate: { duration: 1.2 }
                 }}
               >
                 <TeamCard3D
@@ -115,17 +165,36 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({
       </motion.div>
 
       {/* Navigation Controls - Mobile */}
-      <div className="flex items-center justify-center gap-6 mt-1 mb-2">
-        <AnimatedButton
-          direction="left"
-          onClick={onPrevMember}
-        />
+      <motion.div 
+        className="flex items-center justify-center gap-6 mt-1 mb-2"
+        initial={{ opacity: 0, y: 30, scale: 0.8 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ 
+          duration: 1.0, 
+          delay: 1.3,
+          ease: [0.22, 1, 0.36, 1]
+        }}
+      >
+        <motion.div
+          whileTap={{ scale: 0.9 }}
+          transition={{ duration: 0.2 }}
+        >
+          <AnimatedButton
+            direction="left"
+            onClick={onPrevMember}
+          />
+        </motion.div>
 
-        <AnimatedButton
-          direction="right"
-          onClick={onNextMember}
-        />
-      </div>
+        <motion.div
+          whileTap={{ scale: 0.9 }}
+          transition={{ duration: 0.2 }}
+        >
+          <AnimatedButton
+            direction="right"
+            onClick={onNextMember}
+          />
+        </motion.div>
+      </motion.div>
     </div>
   );
 };

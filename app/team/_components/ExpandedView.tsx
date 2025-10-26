@@ -2,7 +2,8 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+import AnimatedButton from '@/components/ui/animatedButton';
 
 export interface TeamMember {
   id: string;
@@ -22,27 +23,43 @@ const ExpandedView: React.FC<ExpandedViewProps> = ({ expandedMember, onClose }) 
 
   return (
     <motion.div
-      className="fixed bottom-0 left-0 right-0 h-[calc(100vh-6rem)] z-50 bg-black/90 backdrop-blur-md"
+      className="fixed inset-0 z-40 bg-black/90 backdrop-blur-md pt-20"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.3 }}
+      transition={{ duration: 0.4, ease: 'easeInOut' }}
       onClick={onClose}
     >
       <motion.div
-        className="h-full flex flex-col md:flex-row"
-        initial={{ scale: 0.8, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.8, opacity: 0 }}
-        transition={{ duration: 0.4, ease: "easeOut" }}
+        className="h-full flex flex-col md:flex-row max-w-5xl mx-auto w-full"
         onClick={(e) => e.stopPropagation()}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 1, y: 20 }}
+        transition={{ duration: 0.3, delay: 0 }}
       >
-        {/* Image Section - Full width on mobile, half on desktop */}
+        {/* Image Section - Expands from center to left */}
         <motion.div
-          className="w-full md:w-1/2 h-1/2 md:h-full relative overflow-hidden"
-          initial={{ y: -100, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
+          className="w-full md:w-[50%] h-[60vh] md:h-full relative overflow-hidden px-2 md:px-8 py-4 md:py-4"
+          initial={{ 
+            x: '50%',
+            scale: 0.8,
+            opacity: 1
+          }}
+          animate={{ 
+            x: 0,
+            scale: 1,
+            opacity: 1
+          }}
+          exit={{ 
+            x: '-100%',
+            scale: 1,
+            opacity: 1
+          }}
+          transition={{ 
+            duration: 0.4, 
+            // ease: [0.22, 1, 0.36, 1]
+          }}
         >
           <div className="relative w-full h-full">
             <Image
@@ -50,76 +67,77 @@ const ExpandedView: React.FC<ExpandedViewProps> = ({ expandedMember, onClose }) 
               alt={expandedMember.name}
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
-              className="object-cover"
+              className="object-cover rounded-2xl"
               priority
               unoptimized={process.env.NODE_ENV !== 'production'}
+              style={{
+                objectPosition: 'center top'
+              }}
             />
           </div>
-          <div className="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-black/20 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-black/30 via-transparent to-transparent" />
         </motion.div>
 
-        {/* Description Section - Full width on mobile, half on desktop */}
+        {/* Description Section - Slides up from bottom */}
         <motion.div
-          className="w-full md:w-1/2 h-1/2 md:h-full p-4 md:p-12 flex flex-col justify-center overflow-y-auto"
-          initial={{ y: 100, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
+          className="w-full md:w-1/2 h-1/2 md:h-full p-6 md:p-16 flex flex-col justify-center overflow-y-auto bg-gradient-to-br from-black/50 to-black/80 no-scrollbar"
+          initial={{ 
+            y: '100%',
+            opacity: 0
+          }}
+          animate={{ 
+            y: 0,
+            opacity: 1
+          }}
+          exit={{ 
+            y: '100%',
+            opacity: 1,
+          }}
+          transition={{ 
+            duration: 0.5, 
+            delay: 0.3,
+            // ease: [0.22, 1, 0.36, 1]
+          }}
         >
           <motion.h1
-            className="text-3xl md:text-5xl font-bold text-white mb-4 md:mb-6"
+            className="text-4xl md:text-6xl font-bold text-white mb-3 md:mb-4 tracking-tight no-scrollbar"
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
+            transition={{ duration: 0.5, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
           >
-            {expandedMember.name}
+            <span className='cursor-target'>{expandedMember.name}</span>
           </motion.h1>
-          
-          <motion.h2
-            className="text-lg md:text-2xl text-gray-300 mb-4 md:mb-8"
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-          >
-            {expandedMember.title}
-          </motion.h2>
 
-          <motion.div
-            className="space-y-3 md:space-y-4"
+          <motion.h2
+            className="text-xl md:text-3xl text-gray-300 mb-6 md:mb-8 font-light no-scrollbar"
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
+            transition={{ duration: 0.5, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
           >
-            <h3 className="text-lg md:text-xl font-semibold text-white mb-3 md:mb-4">Specialties</h3>
-            <div className="flex flex-wrap gap-2 md:gap-3">
-              {expandedMember.specialties.map((specialty, index) => (
-                <motion.span
-                  key={index}
-                  className="px-3 py-1.5 md:px-4 md:py-2 bg-white/10 backdrop-blur-sm text-white/90 rounded-full text-xs md:text-sm"
-                  initial={{ scale: 0, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ duration: 0.3, delay: 0.6 + index * 0.1 }}
-                >
-                  {specialty}
-                </motion.span>
-              ))}
-            </div>
-          </motion.div>
+            <span className='cursor-target'>{expandedMember.title}</span>
+          </motion.h2>
 
           {/* Close Button */}
           <motion.button
-            className="absolute top-4 right-4 md:top-6 md:right-6 w-8 h-8 md:w-10 md:h-10 bg-white/10 hover:bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center transition-all duration-300"
-            onClick={onClose}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
+            className="fixed md:scale-75 top-28 hover:rotate-90 cursor-pointer cursor-target right-4 rounded-full flex items-center justify-center transition-all duration-500 z-40 focus:outline-none focus:ring-4 focus:ring-white/30 shadow-lg"
+            onClick={(e) => {
+              e.stopPropagation();
+              onClose();
+            }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            initial={{ opacity: 0, x:120,rotate:90 }}
+            animate={{ opacity: 1, x:0,rotate:0 }}
+            exit={{ opacity: 0, scale: 0.5,rotate:90 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            aria-label="Close expanded view"
           >
-            <svg className="w-4 h-4 md:w-5 md:h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
+            <AnimatedButton direction="x" onClick={onClose} />
           </motion.button>
         </motion.div>
       </motion.div>
     </motion.div>
-  );
+  ); 
 };
 
 export default ExpandedView;
