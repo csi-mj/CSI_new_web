@@ -34,10 +34,11 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${silkscreen.variable} min-h-screen bg-black text-white antialiased`}
+        style={{ margin: 0, padding: 0 }}
       >
         <CursorWrapper />
         <Navbar />
-        <main className="pt-0">{children}</main>
+        <main className="m-0 p-0 w-screen overflow-x-hidden" style={{ margin: 0, padding: 0 }}>{children}</main>
       </body>
     </html>
   );

@@ -183,12 +183,12 @@ const TeamCard3D: React.FC<TeamCard3DProps> = ({
                     transition={{ duration: 0.6 }}
                   />
                   {/* Subtle border highlight */}
-                  <div className="absolute inset-0 rounded-xl md:rounded-2xl border border-white/5" />
+                  <div className="absolute inset-0 rounded-xl md:rounded-2xl border border-white/10" />
                 </motion.div>
                 
                 {isActive && (
                   <motion.div 
-                    className="absolute px-12 inset-0 p-6 flex flex-col justify-end pointer-events-none"
+                    className="absolute px-8 md:px-12 inset-0 p-6 flex flex-col justify-end pointer-events-none"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
@@ -203,7 +203,7 @@ const TeamCard3D: React.FC<TeamCard3DProps> = ({
                     </motion.div>
                     
                     <motion.button
-                      className="absolute scale-75 right-10 bottom-2 rounded-full flex items-center justify-center transition-all duration-500 pointer-events-auto"
+                      className="absolute scale-75 right-8 bottom-2 rounded-full flex items-center justify-center transition-all duration-500 pointer-events-auto"
                       onClick={(e) => {
                         e.stopPropagation();
                         onImageClick?.(member);

@@ -6,17 +6,19 @@ import type { TeamMember } from './TeamCard3D';
 import MobileLayout from './MobileLayout';
 import DesktopLayout from './DesktopLayout';
 import ExpandedView from './ExpandedView';
-import TargetCursor from '@/components/TargetCursor';
+
 
 export type { TeamMember };
 
 export interface CarouselProps {
   teamMembers: TeamMember[];
+  teamName: string;
   className?: string;
 }
 
 export const Carousel: React.FC<CarouselProps> = ({
   teamMembers,
+  teamName,
   className
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -81,6 +83,7 @@ export const Carousel: React.FC<CarouselProps> = ({
         {/* Mobile Layout */}
         <MobileLayout
           teamMembers={teamMembers}
+          teamName={teamName}
           currentIndex={currentIndex}
           maxVisibleCards={maxVisibleCards}
           positions={positions}
@@ -92,6 +95,7 @@ export const Carousel: React.FC<CarouselProps> = ({
         {/* Desktop Layout */}
         <DesktopLayout
           teamMembers={teamMembers}
+          teamName={teamName}
           currentIndex={currentIndex}
           maxVisibleCards={maxVisibleCards}
           positions={positions}

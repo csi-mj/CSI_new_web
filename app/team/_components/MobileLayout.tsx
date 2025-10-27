@@ -5,9 +5,11 @@ import { motion } from 'framer-motion';
 import TeamCard3D from './TeamCard3D';
 import AnimatedButton from '@/components/ui/animatedButton';
 import { TeamMember } from './TeamCard3D';
+import Shuffle from '@/components/Shuffle';
 
 interface MobileLayoutProps {
   teamMembers: TeamMember[];
+  teamName: string;
   currentIndex: number;
   maxVisibleCards: number;
   positions: Array<{
@@ -25,6 +27,7 @@ interface MobileLayoutProps {
 
 const MobileLayout: React.FC<MobileLayoutProps> = ({
   teamMembers,
+  teamName,
   currentIndex,
   maxVisibleCards,
   positions,
@@ -33,7 +36,7 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({
   onImageClick
 }) => {
   return (
-    <div className="md:hidden min-h-screen w-full max-w-[100vw] flex flex-col gap-4 px-4 pt-24 pb-8 overflow-hidden">
+    <div className="md:hidden min-h-screen w-full max-w-[100vw] flex flex-col gap-8 px-4 pt-24 pb-8 overflow-hidden">
       {/* Mobile Header */}
       <motion.div
         className="text-center space-y-0 mb-1"
@@ -94,14 +97,34 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({
               ease: [0.22, 1, 0.36, 1]
             }}
           >
-            <span className="text-white font-medium inline-block">TECH HEADS</span>
+            <span className="text-red-500 font-medium inline-block">{teamName} </span>
+            <span className="text-white pl-2 font-medium inline-block"> HEADS</span>
+            
+              {/* <Shuffle
+                  text="TECH HEADS"
+                  shuffleDirection="right"
+                  duration={0.5}
+                  animationMode="evenodd"
+                  shuffleTimes={1}
+                  ease="power3.out"
+                  stagger={0.1}
+                  threshold={0.1}
+                  triggerOnce={true}
+                  triggerOnHover={true}
+                  respectReducedMotion={true}
+                  loop={true}
+                  loopDelay={1}
+                  colorTo="#5227fe"
+                  colorFrom=""
+                  className="font-silkscreen cursor-target text-2xl sm:text-3xl lg:text-6xl text-red-500 tracking-tight"
+                /> */}
           </motion.div>
         </motion.h1>
       </motion.div>
 
       {/* Mobile Images */}
       <motion.div
-        className="flex justify-center items-center flex-1 w-full max-w-full overflow-visible"
+        className="flex justify-center items-center w-full max-w-full overflow-visible"
         initial={{ opacity: 0, scale: 0.85, y: 40 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ 
@@ -110,7 +133,7 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({
           ease: [0.22, 1, 0.36, 1]
         }}
       >
-        <div className="relative w-full max-w-[280px] sm:max-w-[320px] h-[300px] sm:h-[420px] mx-auto">
+        <div className="relative w-full max-w-[280px] sm:max-w-[320px] h-[320px] sm:h-[420px] mx-auto">
           {teamMembers.map((member, index) => {
             const offset = (index - currentIndex + teamMembers.length) % teamMembers.length;
             const isVisible = offset < maxVisibleCards;
