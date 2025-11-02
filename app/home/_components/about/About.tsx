@@ -54,7 +54,7 @@ const About = () => {
 
           <motion.div 
             className="mt-16 grid grid-cols-1 gap-6 md:grid-cols-3"
-            initial={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, ease: "easeOut", delay: 0.1 }}
             viewport={{ once: true, margin: "-100px" }}
