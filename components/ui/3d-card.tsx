@@ -9,7 +9,6 @@ import {
   useEffect,
   type ReactNode,
   type ElementType,
-  type ComponentPropsWithoutRef,
 } from "react";
 
 const MouseEnterContext = createContext<
@@ -114,9 +113,9 @@ export const CardItem = ({
   rotateX?: number | string;
   rotateY?: number | string;
   rotateZ?: number | string;
-  [key: string]: unknown;
-}) => {
-  const ref = useRef<HTMLDivElement>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+} & Record<string, any>) => {
+  const ref = useRef<HTMLElement>(null);
   const [isMouseEntered] = useMouseEnter();
 
   useEffect(() => {
@@ -129,14 +128,17 @@ export const CardItem = ({
     }
   }, [isMouseEntered, translateX, translateY, translateZ, rotateX, rotateY, rotateZ]);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const Component = Tag as any;
+
   return (
-    <Tag
+    <Component
       ref={ref}
       className={cn("w-fit transition-all duration-200 ease-linear", className)}
       {...rest}
     >
       {children}
-    </Tag>
+    </Component>
   );
 };
 

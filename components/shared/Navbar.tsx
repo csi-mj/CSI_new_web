@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import PillNav from '../PillNav';
-import TargetCursor from '../TargetCursor';
+
 
 const items = [
   { label: 'Home', href: '/home' },

@@ -1,58 +1,49 @@
-'use client';
+"use client";
+import { useEffect } from "react";
+import { motion, stagger, useAnimate } from "motion/react";
+import { cn } from "@/lib/utils";
 
-import React, { useEffect, useMemo } from 'react';
-import { motion, stagger, useAnimate } from 'motion/react';
-import { cn } from '@/lib/utils';
-
-interface TextGenerateEffectProps {
-  words: string;
-  className?: string;
-  filter?: boolean;
-  duration?: number;
-}
-
-export const TextGenerateEffect: React.FC<TextGenerateEffectProps> = ({
+export const TextGenerateEffect = ({
   words,
   className,
   filter = true,
   duration = 0.5,
+}: {
+  words: string;
+  className?: string;
+  filter?: boolean;
+  duration?: number;
 }) => {
   const [scope, animate] = useAnimate();
-  const wordsArray = useMemo(() => words.split(' '), [words]);
-  
+  const wordsArray = words.split(" ");
   useEffect(() => {
-    const animation = async () => {
-      if (scope.current) {
-        await animate(
-          'span',
-          {
-            opacity: 1,
-            filter: filter ? 'blur(0px)' : 'none',
-          },
-          {
-            duration: duration || 1,
-            delay: stagger(0.2),
-          },
-        );
+    animate(
+      "span",
+      {
+        opacity: 1,
+        filter: filter ? "blur(0px)" : "none",
+      },
+      {
+        duration: duration ? duration : 1,
+        delay: stagger(0.03),
       }
-    };
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [scope.current]);
 
-    animation();
-  }, [animate, duration, filter, scope]);
-
-  const renderWords = (): React.ReactElement => {
+  const renderWords = () => {
     return (
       <motion.div ref={scope}>
         {wordsArray.map((word, idx) => {
           return (
             <motion.span
-              key={`${word}-${idx}`}
-              className="text-black opacity-0 dark:text-white"
+              key={word + idx}
+              className="text-white opacity-0"
               style={{
-                filter: filter ? 'blur(10px)' : 'none',
+                filter: filter ? "blur(10px)" : "none",
               }}
             >
-              {`${word} `}
+              {word}{" "}
             </motion.span>
           );
         })}
@@ -61,9 +52,9 @@ export const TextGenerateEffect: React.FC<TextGenerateEffectProps> = ({
   };
 
   return (
-    <div className={cn('font-bold', className)}>
+    <div className={cn(className)}>
       <div className="mt-4">
-        <div className="text-2xl leading-snug tracking-wide text-black dark:text-white">
+        <div className="text-white">
           {renderWords()}
         </div>
       </div>
