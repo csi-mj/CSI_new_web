@@ -5,15 +5,11 @@ import { BackgroundBeams } from '@/components/ui/background-beams';
 import Orbit from './_components/connect/Orbit';
 import Galaxy from '@/components/Galaxy';
 import Title from './_components/connect/Title';
-import { BackgroundGradient } from '@/components/ui/background-gradient';
-import { BackgroundLines } from '@/components/ui/background-lines';
-import { Meteors } from '@/components/ui/meteors';
 import { MarqueeScroll } from './_components/Mem/MarqueeScroll';
 import Faculty from './_components/Mem/Faculty';
 import Dither from '@/components/Dither';
 import Shuffle from '@/components/Shuffle';
 import Cursor from '@/components/ui/cursor';
-import Hot from './_components/Hot/HackrevCta';
 import HackrevCta from './_components/Hot/HackrevCta';
 
 export default function HomePage() {
