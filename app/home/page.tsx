@@ -24,7 +24,7 @@ export default function HomePage() {
      </section>
 
 
-      {/* <SmoothCursor /> */}
+
       <section className="relative mb-24">
          <div className="absolute h-[600px] inset-0 z-0 pointer-events-none">
           <BackgroundBeams />
@@ -41,7 +41,7 @@ export default function HomePage() {
 
       <section className="relative mb-24">
         <div className="absolute inset-0 z-0 ">
-          {/* <Dither
+          <Dither
             waveColor={[0.22, 0.22, 0.28]}
             disableAnimation={false}
             enableMouseInteraction={true}
@@ -50,7 +50,7 @@ export default function HomePage() {
             waveAmplitude={0.22}
             waveFrequency={2.9}
             waveSpeed={0.18}
-          /> */}
+          />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(0,0,0,0.65),transparent_60%),linear-gradient(to_bottom,rgba(0,0,0,0.35),rgba(0,0,0,0.55))]" />
         </div>
         <div className="relative z-20 text-neutral-100">

@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Silkscreen, Orbitron, Inter, Space_Grotesk } from 'n
 import './globals.css';
 import Navbar from '@/components/shared/Navbar';
 import { CursorWrapper } from '@/components/shared/CursorWrapper';
+import { ReduxProvider } from '@/redux/provider';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -51,9 +52,11 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${silkscreen.variable} ${orbitron.variable} ${inter.variable} ${spaceGrotesk.variable} min-h-screen bg-black text-white antialiased`}
         style={{ margin: 0, padding: 0 }}
       >
-        <CursorWrapper />
-        <Navbar />
-        <main className="m-0 p-0 w-screen overflow-x-hidden" style={{ margin: 0, padding: 0 }}>{children}</main>
+        <ReduxProvider>
+          <CursorWrapper />
+          <Navbar />
+          <main className="m-0 p-0 w-screen overflow-x-hidden" style={{ margin: 0, padding: 0 }}>{children}</main>
+        </ReduxProvider>
       </body>
     </html>
   );
