@@ -7,12 +7,14 @@ export const TextGenerateEffect = ({
   words,
   className,
   filter = true,
-  duration = 0.5,
+  duration = 1,
+  delay = 0.04,
 }: {
   words: string;
   className?: string;
   filter?: boolean;
   duration?: number;
+  delay?: number;
 }) => {
   const [scope, animate] = useAnimate();
   const wordsArray = words.split(" ");
@@ -25,7 +27,7 @@ export const TextGenerateEffect = ({
       },
       {
         duration: duration ? duration : 1,
-        delay: stagger(0.03),
+        delay: stagger(delay),
       }
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -9,23 +9,22 @@ const Title = () => {
   return (
     <motion.div 
       className="text-center"
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 1, y: 0 }}
       whileInView={{ opacity: 1, y: 0 }}
       onViewportEnter={() => setIsInView(true)}
-      transition={{ duration: 0.8, ease: "easeOut" }}
-      viewport={{ margin: "-100px" }}
+      onViewportLeave={() => setIsInView(false)}
+      transition={{ duration: 1, ease: "easeOut" }}
+      viewport={{ amount: 0.6 }}
     >
-        {isInView ? (
-          <TextGenerateEffect 
-            words='Connect With Us' 
-            duration={3} 
-            className='text-primary text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight' 
-          />
-        ) : (
-          <div className='text-primary text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight opacity-0'>
-            Connect With Us
-          </div>
-        )}
+         {isInView && (
+           <TextGenerateEffect 
+             words='Connect With Us' 
+             duration={1} 
+             delay={.1}
+             
+             className='text-primary font-orbitron text-3xl md:text-5xl lg:text-6xl font-medium cursor-target' 
+           />
+         )}
     </motion.div>
   )
 }

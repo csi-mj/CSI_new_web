@@ -12,10 +12,10 @@ export function Bento() {
   useGSAP(() => {
     gsap.to('.bent', {
       scale: 0.9,
-      y: 80,
+      y: 90,
       scrollTrigger: {
         trigger: '.bent',
-        start: 'top 91%',
+        start: 'top 89%',
         end: 'top 50%',
         scrub: 3
       }

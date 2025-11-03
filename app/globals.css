@@ -62,7 +62,19 @@
   0% {
     transform: rotate(calc(var(--angle) * 1deg)) translateY(calc(var(--radius) * 1px)) rotate(calc(var(--angle) * -1deg));}
   100% {
-    transform: rotate(calc(var(--angle) * 1deg + 360deg)) translateY(calc(var(--radius) * 1px)) rotate(calc((var(--angle) * -1deg) - 360deg));}}}
+    transform: rotate(calc(var(--angle) * 1deg + 360deg)) translateY(calc(var(--radius) * 1px)) rotate(calc((var(--angle) * -1deg) - 360deg));}}
+  --animate-marquee: marquee var(--duration) infinite linear;
+  --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
+  @keyframes marquee {
+  from {
+    transform: translateX(0);}
+  to {
+    transform: translateX(calc(-100% - var(--gap)));}}
+  @keyframes marquee-vertical {
+  from {
+    transform: translateY(0);}
+  to {
+    transform: translateY(calc(-100% - var(--gap)));}}}
 
 :root {
   --radius: 0.625rem;
@@ -182,8 +194,17 @@
   margin-top: calc(var(--icon-size) / -2);
 }
 
-.animate-orbit.\[animation-play-state\:paused\] {
+.animate-orbit.orbit-reverse {
+  animation-direction: reverse;
+}
+
+/* Pause support via concrete class */
+.animate-orbit.orbit-paused {
   animation-play-state: paused;
+}
+/* Pause SVG glow arc when parent carries orbit-paused */
+.orbit-paused .orbit-glow {
+  animation-play-state: paused !important;
 }
 
 @layer base {
@@ -193,4 +214,105 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Meteors animation */
+@keyframes meteor-effect {
+  0% {
+    transform: rotate(45deg) translate3d(0, 0, 0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    /* travel diagonally across viewport */
+    transform: rotate(45deg) translate3d(120vw, 120vh, 0);
+    opacity: 0;
+  }
+}
+.animate-meteor-effect {
+  animation-name: meteor-effect;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  will-change: transform, opacity;
+}
+
+
+.social-wrapper {
+  display: inline-flex;
+  list-style: none;
+  padding: 0;
+  margin-top: 1rem;
+  font-family: 'Poppins', sans-serif;
+  gap: 1rem;
+}
+
+.social-wrapper .icon {
+  position: relative;
+  background: #ffffff10;
+  border-radius: 50%;
+ 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  color: white;
+  backdrop-filter: blur(4px);
+}
+
+.social-wrapper .tooltip {
+  position: absolute;
+  top: 0;
+  font-size: 14px;
+  background: #fff;
+  color: #fff;
+  padding: 5px 8px;
+  border-radius: 5px;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.social-wrapper .tooltip::before {
+  position: absolute;
+  content: '';
+  height: 8px;
+  width: 8px;
+  background: #fff;
+  bottom: -3px;
+  left: 50%;
+  transform: translate(-50%) rotate(45deg);
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.social-wrapper .icon:hover .tooltip {
+  top: -45px;
+  opacity: 1;
+  z-index: 100;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.social-wrapper .github:hover,
+.social-wrapper .github:hover .tooltip,
+.social-wrapper .github:hover .tooltip::before {
+  background: #333;
+  color: #fff;
+}
+
+.social-wrapper .linkedin:hover,
+.social-wrapper .linkedin:hover .tooltip,
+.social-wrapper .linkedin:hover .tooltip::before {
+  background: #0077b5;
+  color: #fff;
+}
+
+.social-wrapper .twitter:hover,
+.social-wrapper .twitter:hover .tooltip,
+.social-wrapper .twitter:hover .tooltip::before {
+  background: #1da1f2;
+  color: #fff;
 }
