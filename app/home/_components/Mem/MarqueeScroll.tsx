@@ -87,12 +87,11 @@ export function MarqueeScroll() {
     return (
         <div className="relative flex w-full flex-col items-center justify-center gap-12 overflow-hidden">
             <motion.div
-                initial={{ opacity: 0, y: 45 }}
+                initial={{ opacity: 0, y: 160 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ amount: 0.01 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
+                viewport={{ amount: 0 }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
             >
-                <Shuffle text="MEMBERS" />
                 <Marquee className="[--duration:20s]">
                     {firstRow.map((member, i) => (
                         <CardsDemo
@@ -106,10 +105,10 @@ export function MarqueeScroll() {
                 </Marquee>
             </motion.div>
             <motion.div
-                initial={{ opacity: 0, y: 45 }}
+                initial={{ opacity: 0, y: 160 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ amount: 0.01 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
+                viewport={{ amount: 0 }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
             >
                 <Marquee reverse className="[--duration:20s]">
                     {secondRow.map((member, i) => (

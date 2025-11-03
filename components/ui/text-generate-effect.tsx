@@ -40,7 +40,8 @@ export const TextGenerateEffect = ({
           return (
             <motion.span
               key={word + idx}
-              className="opacity-0 inline-block mr-2"
+              className="opacity-0 inline-block mr-2 cursor-target"
+              data-gen-word="1"
               style={{
                 filter: filter ? "blur(10px)" : "none",
               }}
@@ -55,8 +56,8 @@ export const TextGenerateEffect = ({
 
   return (
     <div className={cn(className)}>
-      <div className="mt-4">
-        <div>
+      <div className="mt-4" >
+        <div id="generate-text">
           {renderWords()}
         </div>
       </div>

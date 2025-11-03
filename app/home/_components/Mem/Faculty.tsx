@@ -65,7 +65,7 @@ export default function Faculty({
             onViewportEnter={() => setImgInView(true)}
             onViewportLeave={() => setImgInView(false)}
             viewport={{ amount: 0.3 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
             className="relative aspect-[3/4] w-full overflow-hidden rounded-xl border border-white/15 bg-black/20"
           >
             <img
@@ -86,7 +86,7 @@ export default function Faculty({
             onViewportEnter={() => setContentInView(true)}
             onViewportLeave={() => setContentInView(false)}
             viewport={{ amount: 0.3 }}
-            transition={{ duration: 0.8, ease: "easeOut", delay: 0.05 }}
+            transition={{ duration: 0.6, ease: "easeOut", delay: 0.05 }}
             className="min-w-0"
           >
             <motion.div
@@ -99,17 +99,17 @@ export default function Faculty({
             >
               {nameInView && (
                 <h2 className="text-white  text-2xl md:text-3xl font-semibold tracking-tight">
-                  <span className="cursor-target">{name}</span>
+                  <span id="cursor" className="cursor-target">{name}</span>
                 </h2>
               )}
             </motion.div>
             <p className="mt-2 text-white/80 cursor-target text-sm md:text-base">
-              <span className="cursor-target">{department}</span>
+              <span id="cursor" className="cursor-target">{department}</span>
             </p>
 
             <div className="mt-4 cursor-target inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1">
               <span className="inline-block h-2 w-2 rounded-full bg-emerald-400" />
-              <span className="text-xs  md:text-sm text-white/85">{quote}</span>
+              <span id="cursor" className="text-xs  md:text-sm text-white/85">{quote}</span>
             </div>
 
             {/* Divider */}

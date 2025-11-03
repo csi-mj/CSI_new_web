@@ -8,14 +8,17 @@ import { cn } from '@/lib/utils';
 import Shuffle from '@/components/Shuffle';
 import { Users, Calendar, TrendingUp } from 'lucide-react';
 
+
 // import FollowCursorHideCursor from "../ui/simpleCursor";
 
 const About = () => {
   const aboutText = `At CSI MJCET, we are dedicated to fostering a vibrant community of tech enthusiasts and future innovators. Our mission is to bridge the gap between academic learning and industry requirements, providing students with hands-on experience and exposure to cutting-edge technologies.`;
 
   return (
-    <div className="pt-12">
-      <div className="relative flex w-full flex-col items-center justify-center bg-black">
+    <div className="">
+       
+      <div className="relative pt-20 flex w-full flex-col items-center justify-center">
+       
 
         <div className="relative z-10 w-full max-w-4xl px-4">
           <motion.div
@@ -63,7 +66,7 @@ const About = () => {
               title="Members"
               value={200}
               description="Active Members"
-              icon={<Users className="w-6 h-6" />}
+              icon={<Users className="w-6 h-6 cursor" />}
               delay={0}
             />
             <StatsCard
@@ -156,14 +159,14 @@ const StatsCard = ({
       viewport={{ once: true }}
     >
       <div className="flex items-center justify-between">
-        <div className="text-neutral-400">
+        <div className="text-neutral-400" id='cursor'>
           {icon}
         </div>
       </div>
       
       <div className="space-y-2">
         <div className="flex items-baseline gap-2">
-          <span className="text-4xl font-bold tracking-tight text-neutral-200">
+          <span className="text-4xl font-bold tracking-tight text-neutral-200" id='cursor'>
             {count.toLocaleString()}
           </span>
           <span className="text-xl font-semibold text-neutral-400">+</span>

@@ -298,6 +298,7 @@ const PillNav: React.FC<PillNavProps> = ({
                   <Link
                     role="menuitem"
                     href={item.href}
+                    id='cursor-mid'
                     className={`${basePillClasses} ${isItemActive ? 'active' : ''}`}
                     style={pillStyle}
                     aria-label={item.ariaLabel || item.label}
@@ -311,6 +312,7 @@ const PillNav: React.FC<PillNavProps> = ({
                   <a
                     role="menuitem"
                     href={item.href}
+                    id='cursor-mid'
                     className={basePillClasses}
                     style={pillStyle}
                     aria-label={item.ariaLabel || item.label}

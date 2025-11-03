@@ -17,13 +17,15 @@ const Title = () => {
       viewport={{ amount: 0.6 }}
     >
          {isInView && (
-           <TextGenerateEffect 
+          <div>
+            <TextGenerateEffect 
              words='Connect With Us' 
              duration={1} 
              delay={.1}
-             
-             className='text-primary font-orbitron text-3xl md:text-5xl lg:text-6xl font-medium cursor-target' 
+             className='text-primary z-50 font-orbitron text-3xl md:text-5xl lg:text-6xl font-medium'
            />
+          </div>
+           
          )}
     </motion.div>
   )

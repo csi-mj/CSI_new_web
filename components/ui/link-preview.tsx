@@ -21,6 +21,7 @@ type LinkPreviewProps = {
   height?: number;
   onMouseEnter?: React.MouseEventHandler<HTMLAnchorElement>;
   onMouseLeave?: React.MouseEventHandler<HTMLAnchorElement>;
+  id?: string;
 } & (
   | { isStatic: true; imageSrc: string }
   | { isStatic?: false; imageSrc?: never }
@@ -29,6 +30,7 @@ type LinkPreviewProps = {
 export const LinkPreview = ({
   children,
   url,
+  id='cursor-mid',
   className,
   width = 200,
   height = 125,
@@ -103,9 +105,10 @@ export const LinkPreview = ({
             onMouseMove={handleMouseMove}
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
-            className={cn("text-black dark:text-white", className)}
+            className={cn("text-white", className)}
             target="_blank"
             rel="noreferrer noopener"
+            id={id}
           >
             {children}
           </a>

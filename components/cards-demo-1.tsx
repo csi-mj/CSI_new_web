@@ -83,12 +83,12 @@ export default function CardDemo({
           {/* footer */}
           <footer className="relative z-10 p-4 text-white font-sans grid grid-cols-[1fr_auto] items-center gap-x-3 gap-y-1">
             <div className="min-w-0">
-              <h3 className="m-0 text-[1.05rem] font-semibold truncate"><span className="cursor-target">{name}</span></h3>
-              <p className="m-0 text-[0.85rem] opacity-85 truncate"><span className="cursor-target">{profession}</span></p>
+              <h3 className="m-0 text-[1.05rem] font-semibold truncate"><span className="cursor-target" id="cursor">{name}</span></h3>
+              <p className="m-0 text-[0.85rem] opacity-85 truncate"><span className="cursor-target" id="cursor">{profession}</span></p>
             </div>
             <ul className="social-wrapper">
 
-              <li className="icon github cursor-target h-10 w-10">
+              <li className="icon github cursor-target h-10 w-10" id="cursor">
                 <span className="tooltip">Github</span>
                 <a href={githubUrl} target="_blank" rel="noreferrer" aria-label="GitHub" className="text-white/80 hover:text-white transition-colors">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
@@ -98,7 +98,7 @@ export default function CardDemo({
               </li>
 
 
-              <li className="icon linkedin cursor-target h-10 w-10 ">
+              <li className="icon linkedin cursor-target h-10 w-10 " id="cursor">
                 <span className="tooltip">LinkedIn</span>
                 <a href={linkedinUrl} target="_blank" rel="noreferrer" aria-label="LinkedIn" className="text-white/80 hover:text-white transition-colors">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24">

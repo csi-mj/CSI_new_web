@@ -1,3 +1,4 @@
+'use client'
 import React, { useRef, useEffect, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -381,7 +382,7 @@ const Shuffle: React.FC<ShuffleProps> = ({
   );
 
   const baseTw =
-    'inline-block whitespace-normal break-words will-change-transform uppercase text-4xl md:text-xl leading-none';
+    'inline-block cursor-target whitespace-normal break-words will-change-transform uppercase text-4xl md:text-xl leading-none';
   const commonStyle: React.CSSProperties = {
     textAlign,
     // fontFamily: `font-silkscreen`,
@@ -397,7 +398,8 @@ const Shuffle: React.FC<ShuffleProps> = ({
     {
       ref: ref as React.RefObject<HTMLElement>,
       className: classes,
-      style: commonStyle
+      style: commonStyle,
+      'data-shuffle-root': '1'
     },
     text
   );

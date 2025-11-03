@@ -15,7 +15,7 @@ export function Bento() {
       y: 90,
       scrollTrigger: {
         trigger: '.bent',
-        start: 'top 89%',
+        start: 'top 119%',
         end: 'top 50%',
         scrub: 3
       }
@@ -24,7 +24,7 @@ export function Bento() {
 
   return (
     <div className="flex h-max w-screen items-center justify-center bg-black pb-10">
-      <BentoGrid className="bent mx-auto mb-7 max-w-4xl will-change-transform">
+      <BentoGrid className="relative bent mx-auto mb-7 max-w-4xl will-change-transform">
         {items.map((item, idx) => (
           <BentoGridItem
             key={idx}

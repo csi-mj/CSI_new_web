@@ -78,13 +78,13 @@ const Orbit = () => {
       <div className="relative flex h-[500px] w-[600px] items-center justify-center">
         {/* Center Icon - Empty for now */}
         <motion.div 
-          className="z-10 flex aspect-square h-20 w-20 items-center justify-center rounded-full border-2 border-white/20 bg-black"
+          className="z-[2147483647] flex aspect-square h-20 w-20 items-center justify-center rounded-full border-2 border-white/20 bg-black"
           initial={{ scale: 0, rotate: -180 }}
           whileInView={{ scale: 1, rotate: 0 }}
           transition={{ duration: 0.6, ease: "easeOut", delay: 0.3 }}
           viewport={{ once: true }}
         >
-          <Image src={logo} alt="CSI" />
+          <Image src={logo} alt="CSI" id='cursor-big' className='' />
         </motion.div>
 
         {/* Inner Orbit - 4 Icons */}
