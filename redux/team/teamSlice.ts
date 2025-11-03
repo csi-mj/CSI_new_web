@@ -56,7 +56,7 @@ export const fetchCoreTeam = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await fetch('/api/team/core');
-      if (!response.ok) throw new Error('Failed to fetch core team data');
+      if (!response.ok) throw new Error('Failed to fetch core team dataa');
       return await response.json();
     } catch (error) {
       return rejectWithValue((error as Error).message);
@@ -69,7 +69,7 @@ export const fetchGBTeam = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await fetch('/api/team/gb');
-      if (!response.ok) throw new Error('Failed to fetch GB team data');
+      if (!response.ok) throw new Error('Failed to fetch GB team dataa');
       return await response.json();
     } catch (error) {
       return rejectWithValue((error as Error).message);
@@ -82,7 +82,7 @@ export const fetchExecomTeam = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await fetch('/api/team/execom');
-      if (!response.ok) throw new Error('Failed to fetch execom team data');
+      if (!response.ok) throw new Error('Failed to fetch execom team dataa');
       return await response.json();
     } catch (error) {
       return rejectWithValue((error as Error).message);
