@@ -6,7 +6,7 @@ export async function GET() {
     .select("*")
     .eq("role", "execom")
     .eq("is_active", true)
-    .order("id", { ascending: true });
+    .order("sno", { ascending: true });
 
   if (error) return Response.json({ error: error.message }, { status: 500 });
 

@@ -2,7 +2,11 @@
 
 This document contains all API endpoint requests and responses for testing the CSI Events system.
 
-**Base URL:** `http://localhost:3001`
+**Base URL:** The base URL should be where your frontend is running. Examples:
+- Development: `http://localhost:3001` (or whatever port your Next.js dev server uses)
+- Production: `https://your-domain.com`
+
+**Note:** All API endpoints are relative to the base URL where your Next.js application is running.
 
 ---
 
@@ -634,6 +638,8 @@ curl -X POST http://localhost:3001/api/events/db21ef9d-7a52-47c6-9e4a-0d7ff13e86
 ---
 
 ## Notes
+
+0. **Base URL:** Replace `http://localhost:3001` in all examples with the actual URL where your Next.js frontend is running. The API endpoints are served from the same Next.js application as your frontend.
 
 1. **Registration for Ongoing Events:** Online registration is always closed for ongoing events. Users must register on-the-spot at the venue if `try_on_spot: true` and spots are available.
 

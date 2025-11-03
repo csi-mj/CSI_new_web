@@ -327,3 +327,38 @@ FROM events e
 LEFT JOIN event_registration_forms erf ON e.id = erf.event_id
 WHERE erf.form_fields IS NOT NULL;
 
+-- =====================================================
+-- Team Dummy Data
+-- =====================================================
+
+-- GB (Governing Body) Members
+INSERT INTO csi_team (sno, name, position, role, image_url, linkedin, github, mail, is_active) VALUES
+(1, 'Dr. John Smith', 'Chairperson', 'gb', 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop&crop=face', 'https://linkedin.com/in/johnsmith', 'https://github.com/johnsmith', 'john.smith@mjcollege.ac.in', true),
+(2, 'Dr. Sarah Johnson', 'Vice Chairperson', 'gb', 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=500&fit=crop&crop=face', 'https://linkedin.com/in/sarahjohnson', 'https://github.com/sarahjohnson', 'sarah.johnson@mjcollege.ac.in', true),
+(3, 'Dr. Michael Chen', 'Secretary', 'gb', 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=500&fit=crop&crop=face', 'https://linkedin.com/in/michaelchen', 'https://github.com/michaelchen', 'michael.chen@mjcollege.ac.in', true);
+
+-- Core Team Members
+INSERT INTO csi_team (sno, name, position, role, image_url, linkedin, github, mail, is_active) VALUES
+(1, 'Alex Kumar', 'Technical Lead', 'core', 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=500&fit=crop&crop=face', 'https://linkedin.com/in/alexkumar', 'https://github.com/alexkumar', 'alex.kumar@mjcollege.ac.in', true),
+(2, 'Priya Sharma', 'Web Development Lead', 'core', 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=500&fit=crop&crop=face', 'https://linkedin.com/in/priyasharma', 'https://github.com/priyasharma', 'priya.sharma@mjcollege.ac.in', true),
+(3, 'Rahul Mehta', 'Mobile Development Lead', 'core', 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=500&fit=crop&crop=face', 'https://linkedin.com/in/rahulmehta', 'https://github.com/rahulmehta', 'rahul.mehta@mjcollege.ac.in', true),
+(4, 'Anjali Patel', 'Design Lead', 'core', 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&h=500&fit=crop&crop=face', 'https://linkedin.com/in/anjalipatel', 'https://github.com/anjalipatel', 'anjali.patel@mjcollege.ac.in', true),
+(5, 'Vikram Singh', 'Content Lead', 'core', 'https://images.unsplash.com/photo-1506277886164-e25aa3f4ef7f?w=400&h=500&fit=crop&crop=face', 'https://linkedin.com/in/vikramsingh', 'https://github.com/vikramsingh', 'vikram.singh@mjcollege.ac.in', true);
+
+-- Execom (Executive Committee) Members
+INSERT INTO csi_team (sno, name, position, role, image_url, linkedin, github, mail, is_active) VALUES
+(1, 'Sneha Reddy', 'Event Coordinator', 'execom', 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&h=500&fit=crop&crop=face', 'https://linkedin.com/in/snehareddy', 'https://github.com/snehareddy', 'sneha.reddy@mjcollege.ac.in', true),
+(2, 'Arjun Nair', 'Marketing Head', 'execom', 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&h=500&fit=crop&crop=face', 'https://linkedin.com/in/arjunnair', 'https://github.com/arjunnair', 'arjun.nair@mjcollege.ac.in', true),
+(3, 'Meera Iyer', 'Social Media Manager', 'execom', 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=400&h=500&fit=crop&crop=face', 'https://linkedin.com/in/meeraiyer', 'https://github.com/meeraiyer', 'meera.iyer@mjcollege.ac.in', true),
+(4, 'Karan Desai', 'Community Manager', 'execom', 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=500&fit=crop&crop=face', 'https://linkedin.com/in/kardesai', 'https://github.com/kardesai', 'karan.desai@mjcollege.ac.in', true),
+(5, 'Divya Agarwal', 'Outreach Coordinator', 'execom', 'https://images.unsplash.com/photo-1542909168-82c3e7fdca5c?w=400&h=500&fit=crop&crop=face', 'https://linkedin.com/in/divyaagarwal', 'https://github.com/divyaagarwal', 'divya.agarwal@mjcollege.ac.in', true);
+
+-- Verification Query
+SELECT 
+  role,
+  COUNT(*) as count,
+  COUNT(CASE WHEN is_active = true THEN 1 END) as active_count
+FROM csi_team
+GROUP BY role
+ORDER BY role;
+
