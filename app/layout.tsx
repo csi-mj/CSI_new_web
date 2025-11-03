@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono, Silkscreen } from 'next/font/google';
+import { Geist, Geist_Mono, Silkscreen, Orbitron, Inter, Space_Grotesk } from 'next/font/google';
 import './globals.css';
 import Navbar from '@/components/shared/Navbar';
 import { CursorWrapper } from '@/components/shared/CursorWrapper';
@@ -20,6 +20,21 @@ const silkscreen = Silkscreen({
   subsets: ['latin']
 });
 
+const orbitron = Orbitron({
+  variable: '--font-orbitron',
+  subsets: ['latin']
+});
+
+const inter = Inter({
+  variable: '--font-inter',
+  subsets: ['latin']
+});
+
+const spaceGrotesk = Space_Grotesk({
+  variable: '--font-space-grotesk',
+  subsets: ['latin']
+});
+
 export const metadata: Metadata = {
   title: 'CSI',
   description: 'CSI'
@@ -33,7 +48,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${silkscreen.variable} min-h-screen bg-black text-white antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${silkscreen.variable} ${orbitron.variable} ${inter.variable} ${spaceGrotesk.variable} min-h-screen bg-black text-white antialiased`}
         style={{ margin: 0, padding: 0 }}
       >
         <CursorWrapper />

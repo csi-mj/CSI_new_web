@@ -2,7 +2,7 @@
 import { BackgroundLines } from '@/components/ui/background-lines';
 import Image from 'next/image';
 import React, { useEffect, useRef } from 'react';
-import logo from '../../../public/assets/logos/csi_logo.png';
+import logo from '../../../public/logos/csi_logo.png';
 import { MorphingText } from '@/components/ui/morphing-text';
 import { TypingAnimation } from '@/components/ui/typing-animation';
 import Link from 'next/link';
