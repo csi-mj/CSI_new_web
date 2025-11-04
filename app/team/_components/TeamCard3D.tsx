@@ -1,9 +1,8 @@
 'use client';
 
-import React from 'react';
+import React, { useCallback } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { cn } from '@/lib/utils';
 import { CardContainer, CardBody, CardItem } from '@/components/ui/3d-card';
 import AnimatedButton from '@/components/ui/animatedButton';
 
@@ -24,7 +23,7 @@ interface TeamCard3DProps {
 }
 
 // 3D Team Card Component
-const TeamCard3D: React.FC<TeamCard3DProps> = ({ 
+const TeamCard3D: React.FC<TeamCard3DProps> = React.memo(({ 
   member, 
   isActive, 
   className, 
@@ -35,8 +34,8 @@ const TeamCard3D: React.FC<TeamCard3DProps> = ({
   const [isAnimating, setIsAnimating] = React.useState(false);
   const prevImageRef = React.useRef<string>(member.image);
   
-  // Handle image load state with animation trigger
-  const handleImageLoad = () => {
+  // Handle image load state with animation trigger - memoized
+  const handleImageLoad = useCallback(() => {
     setIsImageLoaded(true);
     console.log('Image loaded successfully:', member.image);
     
@@ -47,15 +46,21 @@ const TeamCard3D: React.FC<TeamCard3DProps> = ({
       return () => clearTimeout(timer);
     }
     prevImageRef.current = member.image;
-  };
+  }, [member.image]);
 
-  // Log image URL for debugging
-  console.log('Loading image:', member.image);
+  const handleCardClick = useCallback(() => {
+    onImageClick?.(member);
+  }, [onImageClick, member]);
+
+  const handleButtonClick = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    onImageClick?.(member);
+  }, [onImageClick, member]);
   
   return (
     <motion.div 
       className="w-full h-full max-w-full" 
-      onClick={() => onImageClick?.(member)}
+      onClick={handleCardClick}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
@@ -105,7 +110,7 @@ const TeamCard3D: React.FC<TeamCard3DProps> = ({
                         filter: { duration: 1.5 }
                       }}
                     >
-                      <motion.div
+                      <motion.div 
                         className="absolute inset-0 z-10"
                         initial={false}
                         animate={{
@@ -139,13 +144,13 @@ const TeamCard3D: React.FC<TeamCard3DProps> = ({
                         <Image
                           src={member.image}
                           alt={member.name}
-                          width={400}
-                          height={500}
+                          fill
+                          sizes="(max-width: 768px) 100vw, 600px"
                           className="object-cover w-full h-full"
                           priority={isActive}
-                          unoptimized={true}
-                          onLoad={handleImageLoad}
+                          onLoadingComplete={handleImageLoad}
                           onError={(e) => console.error('Image failed to load:', e)}
+                          unoptimized={process.env.NODE_ENV !== 'production'}
                         />
                       </motion.div>
                       <motion.div 
@@ -204,10 +209,7 @@ const TeamCard3D: React.FC<TeamCard3DProps> = ({
                     
                     <motion.button
                       className="absolute scale-75 right-8 bottom-2 rounded-full flex items-center justify-center transition-all duration-500 pointer-events-auto"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onImageClick?.(member);
-                      }}
+                      onClick={handleButtonClick}
                       initial={{ opacity: 0, scale: 0, rotate: -180 }}
                       animate={{ opacity: 1, scale: 1, rotate: 0 }}
                       transition={{ 
@@ -237,6 +239,8 @@ const TeamCard3D: React.FC<TeamCard3DProps> = ({
       </CardContainer>
     </motion.div>
   );
-};
+});
+
+TeamCard3D.displayName = 'TeamCard3D';
 
 export default TeamCard3D;

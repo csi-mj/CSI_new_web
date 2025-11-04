@@ -41,7 +41,7 @@ export function OrbitingCircles({
         >
           {/* This is the faint, static path */}
           <circle
-            className="stroke-red-400/25 stroke-2"
+            className="stroke-red-200/25 stroke-2"
             cx="50%"
             cy="50%"
             r={radius}
@@ -54,14 +54,14 @@ export function OrbitingCircles({
             cy="50%"
             r={radius}
             fill="none"
-            stroke="rgb(239,68,68)"
-            strokeWidth={.4} // <-- Increased from 1 to 2
+            stroke="rgb(214, 3, 3)"
+            strokeWidth={2} 
             strokeLinecap="round"
             className="pointer-events-none orbit-glow"
             strokeDasharray={`${segment} ${circumference}`}
             style={{
-              // --- Here is the increased glow ---
-              filter: "drop-shadow(0 0 15px rgba(239,68,68,0.75))",
+              
+              filter: "drop-shadow(0 0 15px rgba(255, 5, 5, 0.75))",
               animation: `${reverse ? 'orbit-dash-rev' : 'orbit-dash-fwd'} ${glowDuration}s linear infinite`,
             }}
           />

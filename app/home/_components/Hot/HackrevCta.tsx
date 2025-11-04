@@ -39,7 +39,7 @@ const HackrevCta = () => {
 
                 <div className="sm:hidden">
                     <PixelImage
-                        src="/logos/hackrevLogo.png"
+                        src="/logos/hackrevmLogo.png"
                         customGrid={{ rows: 4, cols: 6 }}
                     />
                 </div>
@@ -54,7 +54,7 @@ const HackrevCta = () => {
             >
                 <LinkPreview url="https://hackrevolution.in" id="cursor-big">
                    
-                    <button className="relative hover:border-sky-600 duration-500 group cursor-pointer text-sky-50  overflow-hidden h-12 w-36 rounded-2xl bg-sky-800 p-2 flex justify-center items-center font-extrabold">
+                    <button className="relative cursor-target hover:border-sky-600 duration-500 group cursor-pointer text-sky-50  overflow-hidden h-12 w-36 rounded-2xl bg-sky-800 p-2 flex justify-center items-center font-extrabold">
                         <div className="absolute z-10 w-44 h-44 rounded-full group-hover:scale-150 transition-all  duration-500 ease-in-out bg-sky-900 delay-150 group-hover:delay-75"></div>
                         <div className="absolute z-10 w-36 h-36 rounded-full group-hover:scale-150 transition-all  duration-500 ease-in-out bg-sky-800 delay-150 group-hover:delay-100"></div>
                         <div className="absolute z-10 w-28 h-28 rounded-full group-hover:scale-150 transition-all  duration-500 ease-in-out bg-sky-700 delay-150 group-hover:delay-150"></div>

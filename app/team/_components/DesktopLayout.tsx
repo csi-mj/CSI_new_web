@@ -43,55 +43,39 @@ const DesktopLayout: React.FC<DesktopLayoutProps> = ({
 
   return (
     <div className="hidden md:flex w-screen justify-center items-center">
-      <div className="container px-16 h-screen flex items-center pt-24">
+      <div className="container px-16 h-screen flex items-center pt-2">
         <div className="grid grid-cols-12 gap-8 lg:gap-28 items-center w-full">
           {/* Left Section - Text Content */}
           <motion.div
             className="col-span-12 lg:col-span-4 space-y-6 lg:space-y-8 px-6"
-            initial={!hasAnimated ? { opacity: 0, x: -100 } : false}
+            initial={!hasAnimated ? { opacity: 0, x: -40 } : false}
             animate={{ opacity: 1, x: 0 }}
-            transition={{
-              duration: 1.3,
-              ease: [0.22, 1, 0.36, 1],
-              delay: 0.3
-            }}
+            transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }}
           >
             <motion.h1
               className="text-4xl lg:text-[3.3rem] font-silkscreen leading-tight"
               initial={!hasAnimated ? { opacity: 0 } : false}
               animate={{ opacity: 1 }}
-              transition={{ duration: 1.2, delay: 0.5 }}
+              transition={{ duration: 0.5, delay: 0.3, ease: 'easeOut' }}
             >
               <motion.div
-                initial={!hasAnimated ? { opacity: 0, x: -60, rotateX: -90 } : false}
-                animate={{ opacity: 1, x: 0, rotateX: 0 }}
-                transition={{
-                  duration: 1.2,
-                  delay: 0.6,
-                  ease: [0.22, 1, 0.36, 1]
-                }}
+                initial={!hasAnimated ? { opacity: 0, x: -20 } : false}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.35, ease: 'easeOut' }}
               >
                 <span className="text-white font-normal cursor-target  inline-block">MEET</span>
               </motion.div>
               <motion.div
-                initial={!hasAnimated ? { opacity: 0, x: -60, rotateX: -90 } : false}
-                animate={{ opacity: 1, x: 0, rotateX: 0 }}
-                transition={{
-                  duration: 1.2,
-                  delay: 0.8,
-                  ease: [0.22, 1, 0.36, 1]
-                }}
+                initial={!hasAnimated ? { opacity: 0, x: -20 } : false}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.45, ease: 'easeOut' }}
               >
                 <span className="text-gray-400 italic font-light cursor-target inline-block">OUR</span>
               </motion.div>
               <motion.div
-                initial={!hasAnimated ? { opacity: 0, x: -60, rotateX: -90 } : false}
-                animate={{ opacity: 1, x: 0, rotateX: 0 }}
-                transition={{
-                  duration: 1.2,
-                  delay: 1.0,
-                  ease: [0.22, 1, 0.36, 1]
-                }}
+                initial={!hasAnimated ? { opacity: 0, x: -20 } : false}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.55, ease: 'easeOut' }}
               >
                 <span className="text-red-500 italic font-light cursor-target inline-block">{teamName}</span>
                 {/* <Shuffle
@@ -105,7 +89,7 @@ const DesktopLayout: React.FC<DesktopLayoutProps> = ({
                 animate={{ opacity: 1, x: 0, rotateX: 0 }}
                 transition={{
                   duration: 1.2,
-                  delay: 1.2,
+                  delay: .6,
                   ease: [0.22, 1, 0.36, 1]
                 }}
               >
@@ -116,18 +100,14 @@ const DesktopLayout: React.FC<DesktopLayoutProps> = ({
             {/* Navigation Controls */}
             <motion.div
               className="flex items-center gap-4 pt-4"
-              initial={!hasAnimated ? { opacity: 0, y: 40, scale: 0.8 } : false}
+              initial={!hasAnimated ? { opacity: 0, y: 20, scale: 0.95 } : false}
               animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{
-                duration: 1.0,
-                delay: 1,
-                ease: [0.22, 1, 0.36, 1]
-              }}
+              transition={{ duration: 0.5, delay: 0.2, ease: 'easeOut' }}
             >
               <motion.div
                 className='cursor-target'
-                whileHover={{ x: -5 }}
-                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={{ x: -3 }}
+                transition={{ duration: 0.2, ease: 'easeOut' }}
               >
                 <AnimatedButton
                   direction="left"
@@ -137,8 +117,8 @@ const DesktopLayout: React.FC<DesktopLayoutProps> = ({
 
               <motion.div
                 className='cursor-target'
-                whileHover={{ x: 5 }}
-                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                whileHover={{ x: 3 }}
+                transition={{ duration: 0.2, ease: 'easeOut' }}
               >
                 <AnimatedButton
                   direction="right"
@@ -151,13 +131,9 @@ const DesktopLayout: React.FC<DesktopLayoutProps> = ({
           {/* Center Section - Stacked Images */}
           <motion.div
             className="col-span-8 lg:col-span-8 flex justify-center items-center"
-            initial={!hasAnimated ? { opacity: 0, scale: 0.85, rotateY: -25 } : false}
-            animate={{ opacity: 1, scale: 1, rotateY: 0 }}
-            transition={{
-              duration: 1.2,
-              delay: 0.9,
-              ease: [0.22, 1, 0.36, 1]
-            }}
+            initial={!hasAnimated ? { opacity: 0, scale: 0.95 } : false}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.3, ease: 'easeOut' }}
           >
             <div className="relative w-full max-w-4xl mx-auto h-[500px] lg:h-[500px] mt-4">
               {teamMembers.map((member, index) => {
@@ -175,36 +151,25 @@ const DesktopLayout: React.FC<DesktopLayoutProps> = ({
                     key={member.id}
                     className="absolute"
                     style={{ zIndex }}
-                    initial={(offset === 0 && !hasAnimated) ? {
-                      opacity: 0,
-                      scale: 0.6,
-                      y: 100,
-                      rotateY: 45
-                    } : false}
+                    initial={(offset === 0 && !hasAnimated) ? { opacity: 0, scale: 0.9, y: 40 } : false}
                     animate={{
                       x: pos.x,
                       y: pos.y,
                       scale: pos.scale,
                       opacity: pos.opacity,
-                      filter: `blur(${pos.blur}px)`,
-                      rotateY: 0
+                      filter: `blur(${pos.blur}px)`
                     }}
                     transition={{
-                      duration: 1.2,
-                      ease: [0.22, 1, 0.36, 1],
-                      opacity: { duration: 0.8 },
-                      scale: { duration: 1.2 },
-                      y: { duration: 1.2 },
-                      rotateY: { duration: 1.4 }
+                      duration: 0.6,
+                      ease: 'easeOut',
+                      opacity: { duration: 0.4 },
+                      scale: { duration: 0.6 },
+                      y: { duration: 0.6 }
                     }}
                     whileHover={offset === 0 ? {
-                      scale: 1.04,
-                      y: -10,
-                      rotateY: 2,
-                      transition: {
-                        duration: 0.6,
-                        ease: [0.22, 1, 0.36, 1]
-                      }
+                      scale: 1.02,
+                      y: -6,
+                      transition: { duration: 0.25, ease: 'easeOut' }
                     } : {}}
                   >
                     <TeamCard3D

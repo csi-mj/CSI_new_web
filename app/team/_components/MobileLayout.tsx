@@ -36,32 +36,24 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({
   onImageClick
 }) => {
   return (
-    <div className="md:hidden min-h-screen w-full max-w-[100vw] flex flex-col gap-8 px-4 pt-24 pb-8 overflow-hidden">
+    <div className="md:hidden w-full max-w-[100vw] flex flex-col gap-8 px-4 pt-12 pb-8 overflow-hidden">
       {/* Mobile Header */}
       <motion.div
         className="text-center space-y-0 mb-1"
-        initial={{ opacity: 0, y: -50 }}
+        initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ 
-          duration: 1.2, 
-          delay: 0.3,
-          ease: [0.22, 1, 0.36, 1]
-        }}
+        transition={{ duration: 0.6, delay: 0.2, ease: 'easeOut' }}
       >
         <motion.h1
           className="text-4xl sm:text-5xl font-silkscreen leading-tight"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1.0, delay: 0.5 }}
+          transition={{ duration: 0.5, delay: 0.3, ease: 'easeOut' }}
         >
           <motion.div
-            initial={{ opacity: 0, x: -40, rotateX: -90 }}
-            animate={{ opacity: 1, x: 0, rotateX: 0 }}
-            transition={{ 
-              duration: 1.0, 
-              delay: 0.6,
-              ease: [0.22, 1, 0.36, 1]
-            }}
+            initial={{ opacity: 0, x: -16 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.35, ease: 'easeOut' }}
           >
             <span className="text-white font-medium inline-block">MEET</span>
             <span className="text-gray-400 italic font-light inline-block">OUR</span>
@@ -89,13 +81,9 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({
             <span className="text-gray-400 italic font-light inline-block"></span>
           </motion.div> */}
           <motion.div
-            initial={{ opacity: 0, x: -40, rotateX: -90 }}
-            animate={{ opacity: 1, x: 0, rotateX: 0 }}
-            transition={{ 
-              duration: 1.0, 
-              delay: 1.05,
-              ease: [0.22, 1, 0.36, 1]
-            }}
+            initial={{ opacity: 0, x: -16 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.45, ease: 'easeOut' }}
           >
             <span className="text-red-500 font-medium inline-block">{teamName} </span>
             <span className="text-white pl-2 font-medium inline-block"> HEADS</span>
@@ -125,13 +113,9 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({
       {/* Mobile Images */}
       <motion.div
         className="flex justify-center items-center w-full max-w-full overflow-visible"
-        initial={{ opacity: 0, scale: 0.85, y: 40 }}
+        initial={{ opacity: 0, scale: 0.95, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
-        transition={{ 
-          duration: 1.4, 
-          delay: 0.8,
-          ease: [0.22, 1, 0.36, 1]
-        }}
+        transition={{ duration: 0.6, delay: 0.3, ease: 'easeOut' }}
       >
         <div className="relative w-full max-w-[280px] sm:max-w-[320px] h-[320px] sm:h-[420px] mx-auto">
           {teamMembers.map((member, index) => {
@@ -152,27 +136,20 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({
                 key={member.id}
                 className="absolute w-full"
                 style={{ zIndex }}
-                initial={offset === 0 ? { 
-                  opacity: 0, 
-                  scale: 0.5, 
-                  y: 80,
-                  rotate: 15
-                } : undefined}
+                initial={offset === 0 ? { opacity: 0, scale: 0.9, y: 30 } : undefined}
                 animate={{
                   x: adjustedX,
                   y: pos.y,
                   scale: pos.scale,
                   opacity: pos.opacity,
-                  filter: `blur(${pos.blur}px)`,
-                  rotate: pos.rotation,
+                  filter: `blur(${pos.blur}px)`
                 }}
                 transition={{
-                  duration: 1.0,
-                  ease: [0.22, 1, 0.36, 1],
-                  opacity: { duration: 0.7 },
-                  scale: { duration: 1.0 },
-                  y: { duration: 1.0 },
-                  rotate: { duration: 1.2 }
+                  duration: 0.5,
+                  ease: 'easeOut',
+                  opacity: { duration: 0.4 },
+                  scale: { duration: 0.5 },
+                  y: { duration: 0.5 }
                 }}
               >
                 <TeamCard3D

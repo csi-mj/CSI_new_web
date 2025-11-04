@@ -58,27 +58,27 @@ export const Carousel: React.FC<CarouselProps> = ({
   // Mobile positioning (only 2 cards visible)
   const mobilePositions = [
     { x: 0, y: 0, scale: 1, opacity: 1, blur: 0, rotation: 0 },
-    { x: 45, y: -6, scale: 0.88, opacity: 0.7, blur: 1, rotation: 3 },
+    { x: 36, y: -4, scale: 0.9, opacity: 0.75, blur: 0.5, rotation: 1 },
   ];
 
   // Desktop positioning (4 cards visible)
   const desktopPositions = [
     { x: 0, y: 0, scale: 1, opacity: 1, blur: 0, rotation: 0 },
-    { x: 140, y: -10, scale: 0.92, opacity: 0.85, blur: 1, rotation: 3 },
-    { x: 240, y: -15, scale: 0.85, opacity: 0.65, blur: 2, rotation: 5 },
-    { x: 320, y: -20, scale: 0.78, opacity: 0.45, blur: 3, rotation: 7 },
+    { x: 120, y: -8, scale: 0.93, opacity: 0.88, blur: 0.5, rotation: 2 },
+    { x: 200, y: -12, scale: 0.88, opacity: 0.72, blur: 1, rotation: 3 },
+    { x: 260, y: -16, scale: 0.82, opacity: 0.55, blur: 1.5, rotation: 4 },
   ];
 
   const positions = isMobile ? mobilePositions : desktopPositions;
   const maxVisibleCards = isMobile ? 2 : 4;
 
   return (
-    <div className="relative w-full max-w-[100vw] h-full overflow-hidden">
+    <div className="relative w-full max-w-[100vw] overflow-hidden">
       <motion.div
-        className={`min-h-screen w-full max-w-[100vw] bg-black text-white overflow-hidden ${className || ''}`}
+        className={` w-full max-w-[100vw] text-white overflow-hidden ${className || ''}`}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
       >
         {/* Mobile Layout */}
         <MobileLayout

@@ -52,7 +52,7 @@ export default function CardDemo({
           translateZ={12}
           onMouseMove={handleCardMove}
           onClick={handleClick}
-          className="group relative flex flex-col w-[300px] rounded-[20px] overflow-hidden border-2 border-transparent transition-colors duration-300 cursor-pointer"
+          className="group cursor-target relative flex flex-col w-[300px] rounded-[20px] overflow-hidden border-2 border-transparent transition-colors duration-300 cursor-pointer"
           style={{
             "--card-border": borderColor,
             background: gradient,
@@ -74,7 +74,7 @@ export default function CardDemo({
               alt={name}
               fill
               sizes="(max-width: 768px) 100vw, 300px"
-              className="object-cover cursor-target rounded-[10px]"
+              className="object-cover rounded-[10px]"
               onMouseEnter={onEnter}
               onMouseLeave={onLeave}
               unoptimized

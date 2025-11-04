@@ -15,8 +15,8 @@ export function Bento() {
       y: 90,
       scrollTrigger: {
         trigger: '.bent',
-        start: 'top 119%',
-        end: 'top 50%',
+        start: 'top 60%',
+        end: 'top 30%',
         scrub: 3
       }
     });

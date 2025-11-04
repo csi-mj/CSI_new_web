@@ -1,23 +1,32 @@
 "use client";
 
-import { useEffect } from "react";
+import React, { useEffect, useCallback, useMemo, useRef } from "react";
 import { motion, useSpring } from "framer-motion";
 
-export default function Cursor() {
-  const springConfig = { damping: 20, stiffness: 200, mass: 1 };
+const Cursor = React.memo(function Cursor() {
+  const springConfig = useMemo(() => ({ damping: 20, stiffness: 200, mass: 1 }), []);
   const cursorX = useSpring(0, springConfig);
   const cursorY = useSpring(0, springConfig);
   const scale = useSpring(1, springConfig);
   const rotate = useSpring(0, springConfig);
+  const rafId = useRef<number | null>(null);
+  const pendingPos = useRef<{ x: number; y: number } | null>(null);
 
-  useEffect(() => {
-    const moveCursor = (e: MouseEvent) => {
-      const { clientX, clientY } = e;
-      cursorX.set(clientX);
-      cursorY.set(clientY);
-    };
+  const moveCursor = useCallback((e: MouseEvent) => {
+    pendingPos.current = { x: e.clientX, y: e.clientY };
+    if (rafId.current == null) {
+      rafId.current = requestAnimationFrame(() => {
+        const p = pendingPos.current;
+        if (p) {
+          cursorX.set(p.x);
+          cursorY.set(p.y);
+        }
+        rafId.current = null;
+      });
+    }
+  }, [cursorX, cursorY]);
 
-    const handleMouseOver = (e: MouseEvent) => {
+  const handleMouseOver = useCallback((e: MouseEvent) => {
       const target = e.target as HTMLElement;
       const isGenWord = target.closest('[data-gen-word="1"]');
       const inShuffleText = target.closest('[data-shuffle-root="1"]');
@@ -62,16 +71,18 @@ export default function Cursor() {
         scale.set(1);
         rotate.set(0);
       }
-    };
+  }, [scale, rotate]);
 
+  useEffect(() => {
     window.addEventListener("mousemove", moveCursor);
     document.addEventListener("mouseover", handleMouseOver);
 
     return () => {
       window.removeEventListener("mousemove", moveCursor);
       document.removeEventListener("mouseover", handleMouseOver);
+      if (rafId.current) cancelAnimationFrame(rafId.current);
     };
-  }, [cursorX, cursorY, scale]);
+  }, [moveCursor, handleMouseOver]);
 
   return (
     <motion.div
@@ -87,4 +98,8 @@ export default function Cursor() {
       }}
     />
   );
-}
+});
+
+Cursor.displayName = 'Cursor';
+
+export default Cursor;

@@ -1,9 +1,15 @@
 'use client';
 
-import React from 'react';
-import { useInView } from 'react-intersection-observer';
+import React, { useState } from 'react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
 import { Carousel, TeamMember } from './_components/Carousel';
-import { motion } from 'framer-motion';
+import GB from './_components/GB';
+import NavTabs from './_components/NavTabs';
+import Shuffle from '@/components/Shuffle';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const teamMembers: TeamMember[] = [
   {
@@ -77,20 +83,12 @@ const teams = [
     name: 'TECH',
     teamMembers: teamMembers
   },
-  {
-    name: 'ASSOCIATE TECH',
-    teamMembers: teamMembers
-  },
-  {
+   {
     name: 'WEB',
     teamMembers: teamMembers
   },
   {
     name: 'HR',
-    teamMembers: teamMembers
-  },
-  {
-    name: 'ASSOCIATE HR',
     teamMembers: teamMembers
   },
   {
@@ -100,50 +98,168 @@ const teams = [
   {
     name: 'DESIGN',
     teamMembers: teamMembers
-  }
+  },
+   {
+    name: 'EDITORIAL',
+    teamMembers: teamMembers
+  },
+   {
+    name: 'MEDIA',
+    teamMembers: teamMembers
+  },
+   {
+    name: 'MARKETING',
+    teamMembers: teamMembers
+  },
+   {
+    name: 'OPERATIONS',
+    teamMembers: teamMembers
+  },
 ];
 
-const CarouselSection = ({
-  teamMembers,
-  teamName,
-  index
-}: {
-  teamMembers: TeamMember[];
-  teamName: string;
-  index: number;
-}) => {
-  const { ref, inView } = useInView({
-    threshold: 0.1,
-    triggerOnce: true
-  });
-
-  return (
-    <motion.div
-      ref={ref}
-      className="h-screen w-screen"
-      initial={{ opacity: 0, y: 50 }}
-      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
-      transition={{
-        duration: 0.8,
-        ease: [0.22, 1, 0.36, 1]
-      }}
-    >
-      {inView && <Carousel teamMembers={teamMembers} teamName={teamName} />}
-    </motion.div>
-  );
-};
+ 
 
 export default function TeamPage() {
+  const [activeIdx, setActiveIdx] = useState(0);
+  const activeTeam = teams[activeIdx];
+  const teamTabs = teams.map((t) => t.name);
+
+  // Secondary NavTabs for GB section
+  const [activeGbIdx, setActiveGbIdx] = useState(0);
+  const gbTabs = ['GB ONE', 'GB TWO', 'GB THREE'];
+  const gbItems = Array.from({ length: 5 }).map((_, i) => ({
+    name: `Member ${i + 1}`,
+    profession: i % 2 ? 'ASSOCIATE' : 'TECH HEAD',
+    image:
+      'https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=800&auto=format&fit=crop',
+    hoverGif: 'https://media1.tenor.com/m/7HYOnFr3-aIAAAAd/sad-sad-monkey.gif',
+    gradient: 'linear-gradient(135deg, rgba(20,20,20,0.9), rgba(30,30,30,0.9))',
+    borderColor: 'transparent',
+    githubUrl: 'https://github.com/',
+    linkedinUrl: 'https://www.linkedin.com/'
+  }));
+
+  // Scroll-triggered animations for sections
+  useGSAP(() => {
+    // GB Section: enter from bottom to top (no scrub)
+    gsap.fromTo(
+      '.gb-section',
+      { y: 100, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 1,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: '.gb-section',
+          start: 'top 80%',
+          toggleActions: 'play none none none'
+        }
+      }
+    );
+
+    // Executive Committee Section scroll animation (scale only)
+    gsap.to('.exec-section', {
+      scale: 0.93,
+      y: 90,
+      scrollTrigger: {
+        trigger: '.exec-section',
+        start: 'top 60%',
+        end: 'top 30%',
+        scrub: 3
+      }
+    });
+
+    // Core Team Section scroll animation (scale only)
+    gsap.to('.core-section', {
+      scale: 0.93,
+      y: 40,
+      scrollTrigger: {
+        trigger: '.core-section',
+        start: 'top 60%',
+        end: 'top 30%',
+        scrub: 6
+      }
+    });
+  }, []);
+
   return (
-    <div className="w-screen">
-      {teams.map((team, index) => (
-        <CarouselSection
-          key={team.name}
-          teamMembers={team.teamMembers}
-          teamName={team.name}
-          index={index}
-        />
-      ))}
+    <div className="w-screen mt-20">
+      <section className="gb-section will-change-transform">
+        <div className='w-full flex justify-center relative z-10'>
+          <Shuffle 
+              text="GOVERNING BODY" 
+              tag="h1"
+              className="font-silkscreen !text-5xl mt-16 mb-8 md:!text-6xl !text-primary !normal-case !font-bold"
+              immediate={true}
+              loop={true}
+              loopDelay={2}
+              duration={0.4}
+              stagger={0.04}
+              shuffleTimes={4}
+              animationMode="evenodd"
+              triggerOnce={false}
+              triggerOnHover={true}
+            />
+        </div>
+         <div className="relative w-full px-4">
+        <div className="flex flex-wrap gap-2 justify-center mb-6">
+          <NavTabs tabs={gbTabs} activeIdx={activeGbIdx} onChange={setActiveGbIdx} />
+        </div>
+      </div>
+      <GB items={gbItems} />
+      </section>
+      <section className="exec-section will-change-transform">
+        <div className='w-full flex justify-center relative z-10'>
+          <Shuffle 
+              text="EXECUTIVE COMMITTEE" 
+              tag="h1"
+              className="font-silkscreen !text-3xl mt-16 mb-8 md:!text-6xl !text-primary !normal-case !font-bold"
+              immediate={true}
+              loop={true}
+              loopDelay={2}
+              duration={0.4}
+              stagger={0.04}
+              shuffleTimes={2}
+              animationMode="evenodd"
+              triggerOnce={false}
+              triggerOnHover={true}
+            />
+        </div>
+      <div className="relative w-full px-4">
+        <div className="flex flex-wrap gap-2 justify-center">
+          <NavTabs tabs={teamTabs} activeIdx={activeIdx} onChange={setActiveIdx} />
+        </div>
+      </div>
+
+      <div className="w-full">
+        <Carousel teamMembers={activeTeam.teamMembers} teamName={activeTeam.name} />
+      </div>
+      </section>
+       <section className="core-section will-change-transform">
+        <div className='w-full flex justify-center relative z-10'>
+          <Shuffle 
+              text="CORE TEAM" 
+              tag="h1"
+              className="font-silkscreen !text-5xl mt-16 mb-8 md:!text-6xl !text-primary !normal-case !font-bold"
+              immediate={true}
+              loop={true}
+              loopDelay={2}
+              duration={0.4}
+              stagger={0.04}
+              shuffleTimes={4}
+              animationMode="evenodd"
+              triggerOnce={false}
+              triggerOnHover={true}
+            />
+        </div>
+         <div className="relative w-full px-4">
+        <div className="flex flex-wrap gap-2 justify-center mb-6">
+          <NavTabs tabs={teamTabs} activeIdx={activeIdx} onChange={setActiveIdx} />
+        </div>
+      </div>
+      <GB items={gbItems} />
+      </section>
     </div>
   );
 }

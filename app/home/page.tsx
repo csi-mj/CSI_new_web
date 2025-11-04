@@ -1,94 +1,157 @@
-import React from 'react';
-import About from './_components/about/About';
-import { Bento } from './_components/about/Bento';
-import { BackgroundBeams } from '@/components/ui/background-beams';
-import Orbit from './_components/connect/Orbit';
-import Galaxy from '@/components/Galaxy';
-import Title from './_components/connect/Title';
-import { MarqueeScroll } from './_components/Mem/MarqueeScroll';
-import Faculty from './_components/Mem/Faculty';
-import Dither from '@/components/Dither';
+'use client';
+
+import React, { Suspense, lazy, useEffect, useState, useRef } from 'react';
 import Shuffle from '@/components/Shuffle';
 import Cursor from '@/components/ui/cursor';
-import HackrevCta from './_components/Hot/HackrevCta';
+
+// Lazy load heavy animation components
+const HackrevCta = lazy(() => import('./_components/Hot/HackrevCta'));
+const BackgroundBeams = lazy(() => import('@/components/ui/background-beams').then(module => ({ default: module.BackgroundBeams })));
+const About = lazy(() => import('./_components/about/About'));
+const Bento = lazy(() => import('./_components/about/Bento').then(module => ({ default: module.Bento })));
+const Dither = lazy(() => import('@/components/Dither'));
+const Faculty = lazy(() => import('./_components/Mem/Faculty'));
+const MarqueeScroll = lazy(() => import('./_components/Mem/MarqueeScroll').then(module => ({ default: module.MarqueeScroll })));
+const Title = lazy(() => import('./_components/connect/Title'));
+const Galaxy = lazy(() => import('@/components/Galaxy'));
+const Orbit = lazy(() => import('./_components/connect/Orbit'));
+
+// Loading fallback component
+const LoadingFallback = ({ className = "" }: { className?: string }) => (
+  <div className={`flex items-center justify-center min-h-[200px] ${className}`}>
+    <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+  </div>
+);
 
 export default function HomePage() {
+  const [showBackgrounds, setShowBackgrounds] = useState(false);
+  const [showGalaxy, setShowGalaxy] = useState(false);
+  const [showDither, setShowDither] = useState(false);
+  const ditherRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const t1 = setTimeout(() => setShowBackgrounds(true), 250);
+    const t2 = setTimeout(() => setShowGalaxy(true), 400);
+    // Observe Dither section; mount only when entering viewport
+    const io = new IntersectionObserver(
+      (entries) => {
+        const e = entries[0];
+        if (e && e.isIntersecting) {
+          setShowDither(true);
+          io.disconnect();
+        }
+      },
+      {
+        // Preload slightly before the section enters the viewport
+        root: null,
+        rootMargin: '1000px 0px',
+        threshold: 0,
+      }
+    );
+    if (ditherRef.current) io.observe(ditherRef.current);
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      io.disconnect();
+    };
+  }, []);
   return (
     <div className="pt-24">
-     <section className="">
-       <HackrevCta />
-     </section>
-
-
-
-      <section className="relative mb-24">
-         <div className="absolute h-[600px] inset-0 z-0 pointer-events-none">
-          <BackgroundBeams />
-        </div>
-        <div className="flex w-full flex-col items-center">
-        {/* <BackgroundBeams /> */}
-
-          <About />
-          <Bento />
-        </div>
-        
+      <section className="">
+        <Suspense fallback={<LoadingFallback className="min-h-[100px]" />}>
+          <HackrevCta />
+        </Suspense>
       </section>
 
+      <section className="relative mb-24">
+        <div className="absolute h-[600px] inset-0 z-0 pointer-events-none">
+          {showBackgrounds && (
+            <Suspense fallback={null}>
+              <BackgroundBeams />
+            </Suspense>
+          )}
+        </div>
+        <div className="flex w-full flex-col items-center">
+          <Suspense fallback={<LoadingFallback />}>
+            <About />
+          </Suspense>
+          <Suspense fallback={<LoadingFallback />}>
+            <Bento />
+          </Suspense>
+        </div>
+      </section>
 
       <section className="relative mb-24">
-        <div className="absolute inset-0 z-0 ">
-          <Dither
-            waveColor={[0.22, 0.22, 0.28]}
-            disableAnimation={false}
-            enableMouseInteraction={true}
-            mouseRadius={0.35}
-            colorNum={5}
-            waveAmplitude={0.22}
-            waveFrequency={2.9}
-            waveSpeed={0.18}
-          />
+        <div ref={ditherRef} className="absolute inset-0 z-0 min-h-screen">
+          {showDither && (
+            <Suspense fallback={null}>
+              <Dither
+                waveColor={[0.22, 0.22, 0.28]}
+                disableAnimation={!showDither}
+                enableMouseInteraction={true}
+                mouseRadius={0.35}
+                colorNum={5}
+                waveAmplitude={0.22}
+                waveFrequency={2.9}
+                waveSpeed={0.18}
+              />
+            </Suspense>
+          )}
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(0,0,0,0.65),transparent_60%),linear-gradient(to_bottom,rgba(0,0,0,0.35),rgba(0,0,0,0.55))]" />
         </div>
         <div className="relative z-20 text-neutral-100">
           <div className="relative z-10 w-full flex flex-col items-center">
-            <Faculty />
-             <Shuffle 
-                text="GOVERNING BODY" 
-                tag="h1"
-                className="!text-3xl mt-20 mb-8 md:!text-6xl !text-primary !normal-case !font-bold"
-                style={{ fontFamily: 'var(--font-orbitron)' }}
-                loop={true}
-                loopDelay={2}
-                duration={0.4}
-                stagger={0.04}
-                shuffleTimes={2}
-                animationMode="evenodd"
-                triggerOnce={false}
-                triggerOnHover={true}
-              />
-            <MarqueeScroll />
+            <Suspense fallback={<LoadingFallback />}>
+              <Faculty />
+            </Suspense>
+            <Shuffle 
+              text="GOVERNING BODY" 
+              tag="h1"
+              className="!text-3xl mt-20 mb-8 md:!text-6xl !text-primary !normal-case !font-bold"
+              style={{ fontFamily: 'var(--font-orbitron)' }}
+              loop={false}
+              loopDelay={2}
+              duration={0.4}
+              stagger={0.04}
+              shuffleTimes={2}
+              animationMode="evenodd"
+              triggerOnce={true}
+              triggerOnHover={true}
+            />
+            <Suspense fallback={<LoadingFallback />}>
+              <MarqueeScroll />
+            </Suspense>
           </div>
         </div>
-
       </section>
-     <section className="relative mb-24">
-  <div className="relative z-20 pointer-events-auto">
-    <Title />
-  </div>
 
-  <div className="absolute inset-0 z-0 pointer-events-auto">
-    <Galaxy
-      density={0.9}
-      glowIntensity={0.06}
-      hueShift={240}
-      twinkleIntensity={0.1}
-    />
-  </div>
+      <section className="relative mb-24">
+        <div className="relative z-20 pointer-events-auto">
+          <Suspense fallback={<LoadingFallback />}>
+            <Title />
+          </Suspense>
+        </div>
 
-  <div className="relative z-10 pointer-events-none">
-    <Orbit />
-  </div>
-</section>
+        <div className="absolute inset-0 z-0 pointer-events-auto">
+          {showGalaxy && (
+            <Suspense fallback={null}>
+              <Galaxy
+                density={0.9}
+                glowIntensity={0.06}
+                hueShift={240}
+                twinkleIntensity={0.1}
+              />
+            </Suspense>
+          )}
+        </div>
+
+        <div className="relative z-10 pointer-events-none">
+          <Suspense fallback={null}>
+            <Orbit />
+          </Suspense>
+        </div>
+      </section>
+
       <Cursor />
     </div>
   );

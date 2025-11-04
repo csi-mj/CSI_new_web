@@ -1,6 +1,6 @@
 'use client'
 import { useRef, useEffect, forwardRef } from 'react';
-import { Canvas, useFrame, useThree, ThreeEvent } from '@react-three/fiber';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { EffectComposer, wrapEffect } from '@react-three/postprocessing';
 import { Effect } from 'postprocessing';
 import * as THREE from 'three';
@@ -201,7 +201,6 @@ function DitheredWaves({
   mouseRadius
 }: DitheredWavesProps) {
   const mesh = useRef<THREE.Mesh>(null);
-  const mouseRef = useRef(new THREE.Vector2());
   const { viewport, size, gl } = useThree();
 
   const waveUniformsRef = useRef<WaveUniforms>({
@@ -243,20 +242,10 @@ function DitheredWaves({
       prevColor.current = [...waveColor];
     }
 
-    u.enableMouseInteraction.value = enableMouseInteraction ? 1 : 0;
-    u.mouseRadius.value = mouseRadius;
-
-    if (enableMouseInteraction) {
-      u.mousePos.value.copy(mouseRef.current);
-    }
+    // Disable mouse interaction for performance
+    u.enableMouseInteraction.value = 0;
+    u.mouseRadius.value = 0;
   });
-
-  const handlePointerMove = (e: ThreeEvent<PointerEvent>) => {
-    if (!enableMouseInteraction) return;
-    const rect = gl.domElement.getBoundingClientRect();
-    const dpr = gl.getPixelRatio();
-    mouseRef.current.set((e.clientX - rect.left) * dpr, (e.clientY - rect.top) * dpr);
-  };
 
   return (
     <>
@@ -273,15 +262,7 @@ function DitheredWaves({
         <RetroEffect colorNum={colorNum} pixelSize={pixelSize} />
       </EffectComposer>
 
-      <mesh
-        onPointerMove={handlePointerMove}
-        position={[0, 0, 0.01]}
-        scale={[viewport.width, viewport.height, 1]}
-        visible={false}
-      >
-        <planeGeometry args={[1, 1]} />
-        <meshBasicMaterial transparent opacity={0} />
-      </mesh>
+      {/* Mouse interaction layer removed for performance */}
     </>
   );
 }

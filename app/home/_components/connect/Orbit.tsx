@@ -70,7 +70,7 @@ const Orbit = () => {
   return (
     <motion.div 
       className="pointer-events-none relative flex h-[500px] w-full items-center justify-center overflow-hidden"
-      initial={{ opacity: 0, scale: 0.7 }}
+      initial={{ opacity: 0, scale: 0.8 }}
       whileInView={{ opacity: 1, scale: 1 }}
       transition={{ duration: 1, ease: "easeOut" }}
       viewport={{ margin: "-100px" }}

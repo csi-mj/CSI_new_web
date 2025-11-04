@@ -31,6 +31,7 @@ export interface ShuffleProps {
   triggerOnce?: boolean;
   respectReducedMotion?: boolean;
   triggerOnHover?: boolean;
+  immediate?: boolean;
 }
 
 const Shuffle: React.FC<ShuffleProps> = ({
@@ -56,7 +57,8 @@ const Shuffle: React.FC<ShuffleProps> = ({
   colorTo,
   triggerOnce = true,
   respectReducedMotion = true,
-  triggerOnHover = true
+  triggerOnHover = true,
+  immediate = false
 }) => {
   const ref = useRef<HTMLElement>(null);
   const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -341,15 +343,20 @@ const Shuffle: React.FC<ShuffleProps> = ({
         setReady(true);
       };
 
-      const st = ScrollTrigger.create({
-        trigger: el,
-        start,
-        once: triggerOnce,
-        onEnter: create
-      });
+      let st: ScrollTrigger | null = null;
+      if (immediate) {
+        create();
+      } else {
+        st = ScrollTrigger.create({
+          trigger: el,
+          start,
+          once: triggerOnce,
+          onEnter: create
+        });
+      }
 
       return () => {
-        st.kill();
+        st?.kill();
         removeHover();
         teardown();
         setReady(false);
