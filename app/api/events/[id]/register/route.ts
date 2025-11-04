@@ -31,8 +31,8 @@ export async function POST(
 
     // Separate standard fields from extra fields
     const standardFieldNames = ['user_name', 'user_email', 'user_phone', 'user_college', 'user_year'];
-    const standardFields: Record<string, any> = {};
-    const extraFields: Record<string, any> = {};
+    const standardFields: Record<string, unknown> = {};
+    const extraFields: Record<string, unknown> = {};
 
     // Extract standard fields and extra fields
     Object.keys(registrationData).forEach((key) => {

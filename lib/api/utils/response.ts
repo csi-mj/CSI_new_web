@@ -12,7 +12,7 @@ export function errorResponse(
     message: string,
     code: string = 'ERROR',
     status: number = 500,
-    details?: Record<string, any>
+    details?: Record<string, unknown>
 ){
     const response: ApiResponse<never> = {
         success: false,

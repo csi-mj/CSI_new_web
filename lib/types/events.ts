@@ -94,7 +94,7 @@ export interface EventRegistration {
     user_phone: string | null;
     user_college: string | null;
     user_year: string | null;
-    additional_info: Record<string, any> | null;
+    additional_info: Record<string, unknown> | null;
     registration_status: 'pending' | 'confirmed' | 'rejected' | 'waitlisted';
     created_at: string;
     updated_at: string;
@@ -120,7 +120,7 @@ export interface RegistrationRequest {
     user_phone?: string;
     user_college?: string;
     user_year?: string;
-    additional_info?: Record<string, any>;
+    additional_info?: Record<string, unknown>;
 }
 
 export interface RegistrationResponse {
@@ -135,6 +135,6 @@ export interface ApiResponse<T> {
     error?: {
         code: string;
         message: string;
-        details?: Record<string, any>;
+        details?: Record<string, unknown>;
     };
 }
