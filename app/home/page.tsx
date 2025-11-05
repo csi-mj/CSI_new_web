@@ -19,7 +19,7 @@ const Orbit = lazy(() => import('./_components/connect/Orbit'));
 // Loading fallback component
 const LoadingFallback = ({ className = "" }: { className?: string }) => (
   <div className={`flex items-center justify-center min-h-[200px] ${className}`}>
-    <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+    CSI
   </div>
 );
 

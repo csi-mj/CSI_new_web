@@ -38,8 +38,9 @@ export async function GET(request: NextRequest) {
     }
 
     // Count events by status
+    type StatusRow = { status: string };
     const statusGroups = statusCounts?.reduce(
-      (acc, event) => {
+      (acc: Record<string, number>, event: StatusRow) => {
         acc[event.status] = (acc[event.status] || 0) + 1;
         return acc;
       },
@@ -81,9 +82,10 @@ export async function GET(request: NextRequest) {
       console.error('Error fetching participants:', participantsError);
     }
 
+    type ParticipantsRow = { current_participants: number | null };
     const totalRegistrations =
       allEvents?.reduce(
-        (sum, event) => sum + (event.current_participants || 0),
+        (sum: number, event: ParticipantsRow) => sum + (event.current_participants || 0),
         0
       ) || 0;
 

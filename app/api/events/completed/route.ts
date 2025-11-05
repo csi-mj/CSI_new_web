@@ -24,7 +24,22 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const completedEvents: CompletedEvent[] = (events || []).map((event) => {
+    type DbEvent = {
+      id: string;
+      title: string;
+      description: string | null;
+      poster_url: string | null;
+      status: string;
+      event_date: string;
+      event_end_date: string | null;
+      venue: string | null;
+      category: string | null;
+      current_participants: number | null;
+      max_participants: number | null;
+      tags?: string[] | null;
+    };
+
+    const completedEvents: CompletedEvent[] = (events || []).map((event: DbEvent) => {
       const completedDate = event.event_end_date
         ? new Date(event.event_end_date)
         : new Date(event.event_date);

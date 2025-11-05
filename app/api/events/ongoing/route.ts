@@ -33,8 +33,23 @@ export async function GET(request: NextRequest) {
 
     // Filter out completed events (events that have ended)
     const nowDate = new Date();
+    type DbEvent = {
+      id: string;
+      title: string;
+      description: string | null;
+      poster_url: string | null;
+      status: string;
+      event_date: string;
+      event_end_date: string | null;
+      venue: string | null;
+      category: string | null;
+      current_participants: number | null;
+      max_participants: number | null;
+      tags?: string[] | null;
+    };
+
     const ongoingEvents: OngoingEvent[] = (events || [])
-      .filter((event) => {
+      .filter((event: DbEvent) => {
         // If event has an end_date, check if it hasn't ended yet
         if (event.event_end_date) {
           return new Date(event.event_end_date) >= nowDate;
@@ -42,7 +57,7 @@ export async function GET(request: NextRequest) {
         // If no end_date, event is ongoing if it has started
         return true;
       })
-      .map((event) => {
+      .map((event: DbEvent) => {
         // Calculate hours remaining
         const endDate = event.event_end_date
           ? new Date(event.event_end_date)
