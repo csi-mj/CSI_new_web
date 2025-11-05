@@ -57,13 +57,13 @@ export default function HomePage() {
   }, []);
   return (
     <div className="pt-24">
-      <section className="">
+      <section className="" id='hot'>
         <Suspense fallback={<LoadingFallback className="min-h-[100px]" />}>
           <HackrevCta />
         </Suspense>
       </section>
 
-      <section className="relative mb-24">
+      <section className="relative mb-24" id='about'>
         <div className="absolute h-[600px] inset-0 z-0 pointer-events-none">
           {showBackgrounds && (
             <Suspense fallback={null}>
@@ -81,7 +81,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="relative mb-24">
+      <section className="relative mb-24" id='faculty'>
         <div ref={ditherRef} className="absolute inset-0 z-0 min-h-screen">
           {showDither && (
             <Suspense fallback={null}>
@@ -122,7 +122,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="relative">
+      <section className="relative" id='connect'>
         <div className="relative z-20 pointer-events-auto">
           <Suspense fallback={<LoadingFallback />}>
             <Title />
