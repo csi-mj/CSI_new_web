@@ -316,3 +316,56 @@
   background: #1da1f2;
   color: #fff;
 }
+
+
+/* Slide up + fade effect */
+@keyframes slideUpFade {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slideUpFade {
+  animation: slideUpFade 1.2s ease-out forwards;
+}
+/* Typing animation */
+@keyframes typewriter {
+  0% {
+    width: 0;
+  }
+  40% {
+    width: 100%;
+  }
+  60% {
+    width: 100%;
+  }
+  100% {
+    width: 0;
+  }
+}
+
+/* Cursor blink */
+@keyframes blinkCursor {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+/* Typing text */
+.animate-typewriter {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  animation: typewriter 6s steps(40, end) infinite;
+}
+
+/* Cursor */
+.animate-cursor {
+  color: #d40924;
+  animation: blinkCursor 0.8s step-end infinite;
+  align-self: center;
+}
