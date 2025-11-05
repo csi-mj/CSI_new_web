@@ -2,17 +2,15 @@
 import React, { useRef, useEffect, useState, useMemo, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { TextGenerateEffect } from '@/components/ui/text-generate-effect';
-import { BackgroundBeams } from '@/components/ui/background-beams';
-import { TracingBeam } from '@/components/ui/tracing-beam';
-import { cn } from '@/lib/utils';
 import Shuffle from '@/components/Shuffle';
-import { Users, Calendar, TrendingUp } from 'lucide-react';
+import { Users, Calendar, TrendingUp, Plus } from 'lucide-react';
 
 
 // import FollowCursorHideCursor from "../ui/simpleCursor";
 
 const About = React.memo(() => {
-  const aboutText = useMemo(() => `At CSI MJCET, we are dedicated to fostering a vibrant community of tech enthusiasts and future innovators. Our mission is to bridge the gap between academic learning and industry requirements, providing students with hands-on experience and exposure to cutting-edge technologies.`, []);
+  const aboutText = useMemo(() => `
+The Computer Society of India – MJCET (CSI MJCET) is the college's oldest student chapter, fostering a legacy of technical excellence. It's a vibrant community that hosts numerous workshops, hackathons, and projects to build students' programming, leadership, and collaborative skills, connecting them with industry certifications and national events.`, []);
   const [textInView, setTextInView] = useState(false);
   const textRef = useRef<HTMLDivElement>(null);
 
@@ -96,14 +94,14 @@ const About = React.memo(() => {
             />
             <StatsCard
               title="Events"
-              value={50}
-              description="Successfully Organized"
+              value={130}
+              description="Successfully Organized in 11 Years of CSI"
               iconType="calendar"
               delay={0.1}
             />
             <StatsCard
               title="Reach"
-              value={20000}
+              value={400000}
               description="Social Media Impact"
               iconType="trending"
               delay={0.2}
@@ -237,7 +235,7 @@ const StatsCard = React.memo(({
       <div className="space-y-3 flex-1 flex flex-col justify-between">
         {/* Value */}
         <div className="space-y-1">
-          <div className="flex items-baseline gap-2">
+          <div className="flex items-center gap-1">
             <motion.span 
               className={`text-3xl md:text-4xl font-bold tracking-tight ${config.color} cursor-target`}
               id='cursor-big'
@@ -247,14 +245,14 @@ const StatsCard = React.memo(({
             >
               {count.toLocaleString()}
             </motion.span>
-            <motion.span 
-              className={`text-2xl font-semibold ${config.color} opacity-70`}
+            <motion.div
+              className="flex items-center mt-1 justify-center"
               initial={{ opacity: 0 }}
-              animate={isVisible ? { opacity: 0.7 } : { opacity: 0 }}
+              animate={isVisible ? { opacity: 1 } : { opacity: 0 }}
               transition={{ duration: 0.5, delay: delay + 0.5 }}
             >
-              +
-            </motion.span>
+              <Plus className={`${config.color}`} size={24} strokeWidth={3} />
+            </motion.div>
           </div>
         </div>
 

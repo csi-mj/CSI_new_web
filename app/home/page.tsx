@@ -88,9 +88,6 @@ export default function HomePage() {
               <Dither
                 waveColor={[0.22, 0.22, 0.28]}
                 disableAnimation={!showDither}
-                enableMouseInteraction={true}
-                mouseRadius={0.35}
-                colorNum={5}
                 waveAmplitude={0.22}
                 waveFrequency={2.9}
                 waveSpeed={0.18}
@@ -125,7 +122,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="relative mb-24">
+      <section className="relative">
         <div className="relative z-20 pointer-events-auto">
           <Suspense fallback={<LoadingFallback />}>
             <Title />
@@ -136,10 +133,10 @@ export default function HomePage() {
           {showGalaxy && (
             <Suspense fallback={null}>
               <Galaxy
-                density={0.9}
-                glowIntensity={0.06}
+                density={1.2}
+                glowIntensity={0.09}
                 hueShift={240}
-                twinkleIntensity={0.1}
+                twinkleIntensity={0.3}
               />
             </Suspense>
           )}

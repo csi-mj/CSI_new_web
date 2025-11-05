@@ -5,7 +5,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import type { TeamMember } from './TeamCard3D';
 import MobileLayout from './MobileLayout';
 import DesktopLayout from './DesktopLayout';
-import ExpandedView from './ExpandedView';
+import ExpandedView from '@/components/ui/ExpandedView';
+
 
 
 export type { TeamMember };

@@ -2,6 +2,8 @@
 import React from "react";
 import { CardContainer, CardBody, CardItem } from "@/components/ui/3d-card";
 import Image from "next/image";
+import ExpandedView, { type TeamMember } from "@/components/ui/ExpandedView";
+import { AnimatePresence } from "framer-motion";
 
 type CardProps = {
   image?: string;
@@ -27,6 +29,7 @@ export default function CardDemo({
   linkedinUrl,
 }: CardProps) {
   const [bg, setBg] = React.useState(image);
+  const [expandedMember, setExpandedMember] = React.useState<TeamMember | null>(null);
   const onEnter = () => setBg(hoverGif || image);
   const onLeave = () => setBg(image);
   const handleCardMove = (e: React.MouseEvent<HTMLElement>) => {
@@ -41,11 +44,17 @@ export default function CardDemo({
     el.style.setProperty("--r", `260px`);
   };
   const handleClick = () => {
-    if (url) {
-      window.open(url, "_blank");
-    }
+    const member: TeamMember = {
+      id: `${name}-${image}`,
+      name: name || "",
+      title: profession || "",
+      image: image || bg,
+      specialties: [],
+    };
+    setExpandedMember(member);
   };
   return (
+    <>
     <CardContainer containerClassName="w-[300px]">
       <CardBody className="w-[300px]">
         <CardItem
@@ -137,5 +146,11 @@ export default function CardDemo({
         </CardItem>
       </CardBody>
     </CardContainer>
+    <AnimatePresence mode="wait" initial={false}>
+      {expandedMember && (
+        <ExpandedView key={expandedMember.id} expandedMember={expandedMember} onClose={() => setExpandedMember(null)} />
+      )}
+    </AnimatePresence>
+    </>
   );
 }

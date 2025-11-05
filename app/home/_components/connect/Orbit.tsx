@@ -1,6 +1,6 @@
 'use client'
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion } from 'framer-motion'; // Use 'framer-motion'
 import { 
   FaLinkedin, 
   FaInstagram, 
@@ -13,7 +13,6 @@ import {
   FaWhatsapp
 } from 'react-icons/fa';
 import logo from '@/public/logos/csi_logo.png'
-
 import { OrbitingCircles } from '@/components/ui/orbiting-circles';
 import Image from 'next/image';
 import { LinkPreview } from '@/components/ui/link-preview';
@@ -68,68 +67,56 @@ const Orbit = () => {
   ];
 
   return (
+    // 1. This is now the ONLY animation container for the whole section.
+    // It does exactly what you asked: scales and fades in.
     <motion.div 
       className="pointer-events-none relative flex h-[500px] w-full items-center justify-center overflow-hidden"
       initial={{ opacity: 0, scale: 0.8 }}
       whileInView={{ opacity: 1, scale: 1 }}
       transition={{ duration: 1, ease: "easeOut" }}
-      viewport={{ margin: "-100px" }}
+      viewport={{  margin: "-100px" }} 
     >
       <div className="relative flex h-[500px] w-[600px] items-center justify-center">
-        {/* Center Icon - Empty for now */}
+        {/* Center Icon - This animation is unique, so it's fine to keep */}
         <motion.div 
           className="z-[2147483647] flex aspect-square h-20 w-20 items-center justify-center rounded-full border-2 border-white/20 bg-black"
           initial={{ scale: 0, rotate: -180 }}
           whileInView={{ scale: 1, rotate: 0 }}
           transition={{ duration: 0.6, ease: "easeOut", delay: 0.3 }}
-          viewport={{ once: true }}
+          // viewport={{ once: true }}
         >
           <Image src={logo} alt="CSI" id='cursor-big' className='' />
         </motion.div>
 
-        {/* Inner Orbit - 4 Icons */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.5 }}
-          viewport={{ once: true }}
-        >
-          <OrbitingCircles radius={100} reverse={false} duration={10} iconSize={48} className={isPaused ? 'orbit-paused' : ''}>
-            {innerItems.map((item, idx) => (
-              <LinkPreview
-                key={idx}
-                url={item.url}
-                className={`pointer-events-auto size-full cursor-target flex items-center justify-center rounded-full border border-white/20 bg-black transition-all hover:scale-110 ${item.hoverBorder}`}
-                onMouseEnter={() => setIsPaused(true)}
-                onMouseLeave={() => setIsPaused(false)}
-              >
-                {item.icon}
-              </LinkPreview>
-            ))}
-          </OrbitingCircles>
-        </motion.div>
+        {/* 2. Inner Orbit - Unnecessary motion.div wrapper REMOVED */}
+        <OrbitingCircles radius={100} reverse={false} duration={10} iconSize={48} className={isPaused ? 'orbit-paused' : ''}>
+          {innerItems.map((item, idx) => (
+            <LinkPreview
+              key={idx}
+              url={item.url}
+              className={`pointer-events-auto size-full cursor-target flex items-center justify-center rounded-full border border-white/20 bg-black transition-all hover:scale-110 ${item.hoverBorder}`}
+              onMouseEnter={() => setIsPaused(true)}
+              onMouseLeave={() => setIsPaused(false)}
+            >
+              {item.icon}
+            </LinkPreview>
+          ))}
+        </OrbitingCircles>
 
-        {/* Outer Orbit - 4 Icons */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.7 }}
-          viewport={{ once: true }}
-        >
-          <OrbitingCircles radius={180} duration={20} iconSize={56} reverse className={isPaused ? 'orbit-paused' : ''}>
-            {outerItems.map((item, idx) => (
-              <LinkPreview
-                key={idx}
-                url={item.url}
-                className={`pointer-events-auto size-full cursor-target flex items-center justify-center rounded-full border border-white/20 bg-black transition-all hover:scale-110 ${item.hoverBorder}`}
-                onMouseEnter={() => setIsPaused(true)}
-                onMouseLeave={() => setIsPaused(false)}
-              >
-                {item.icon}
-              </LinkPreview>
-            ))}
-          </OrbitingCircles>
-        </motion.div>
+        {/* 3. Outer Orbit - Unnecessary motion.div wrapper REMOVED */}
+        <OrbitingCircles radius={180} duration={20} iconSize={56} reverse className={isPaused ? 'orbit-paused' : ''}>
+          {outerItems.map((item, idx) => (
+            <LinkPreview
+              key={idx}
+              url={item.url}
+              className={`pointer-events-auto size-full cursor-target flex items-center justify-center rounded-full border border-white/20 bg-black transition-all hover:scale-110 ${item.hoverBorder}`}
+              onMouseEnter={() => setIsPaused(true)}
+              onMouseLeave={() => setIsPaused(false)}
+            >
+              {item.icon}
+            </LinkPreview>
+          ))}
+        </OrbitingCircles>
       </div>
     </motion.div>
   );

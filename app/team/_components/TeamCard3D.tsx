@@ -30,23 +30,10 @@ const TeamCard3D: React.FC<TeamCard3DProps> = React.memo(({
   isMobile, 
   onImageClick 
 }) => {
-  const [isImageLoaded, setIsImageLoaded] = React.useState(false);
   const [isAnimating, setIsAnimating] = React.useState(false);
-  const prevImageRef = React.useRef<string>(member.image);
   
   // Handle image load state with animation trigger - memoized
-  const handleImageLoad = useCallback(() => {
-    setIsImageLoaded(true);
-    console.log('Image loaded successfully:', member.image);
-    
-    // Trigger animation when image changes
-    if (prevImageRef.current !== member.image) {
-      setIsAnimating(true);
-      const timer = setTimeout(() => setIsAnimating(false), 1000);
-      return () => clearTimeout(timer);
-    }
-    prevImageRef.current = member.image;
-  }, [member.image]);
+ 
 
   const handleCardClick = useCallback(() => {
     onImageClick?.(member);
@@ -123,7 +110,7 @@ const TeamCard3D: React.FC<TeamCard3DProps> = React.memo(({
                         }}
                       />
                       <motion.div
-                        className="w-full h-full"
+                        className="relative w-full h-full"
                         key={member.image}
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{
@@ -141,16 +128,12 @@ const TeamCard3D: React.FC<TeamCard3DProps> = React.memo(({
                           filter: { duration: 1.2 }
                         }}
                       >
-                        <Image
+                        <img
                           src={member.image}
                           alt={member.name}
-                          fill
+                          
                           sizes="(max-width: 768px) 100vw, 600px"
                           className="object-cover w-full h-full"
-                          priority={isActive}
-                          onLoadingComplete={handleImageLoad}
-                          onError={(e) => console.error('Image failed to load:', e)}
-                          unoptimized={process.env.NODE_ENV !== 'production'}
                         />
                       </motion.div>
                       <motion.div 

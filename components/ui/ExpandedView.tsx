@@ -31,7 +31,7 @@ const ExpandedView: React.FC<ExpandedViewProps> = ({ expandedMember, onClose }) 
 
   return createPortal(
     <motion.div
-      className="fixed inset-0 z-40 bg-black/70 backdrop-blur-sm flex items-center md:items-end justify-center p-4 md:px-8"
+      className="fixed inset-0 z-40 bg-white/5 backdrop-blur-md flex items-center md:items-end justify-center p-4 md:px-8"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -50,7 +50,7 @@ const ExpandedView: React.FC<ExpandedViewProps> = ({ expandedMember, onClose }) 
         exit={{ opacity: 0, y: 12, scale: 0.98 }}
         transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
       >
-        <div className="relative h-full w-full rounded-2xl overflow-hidden shadow-2xl flex flex-col md:flex-row bg-white/10 backdrop-blur-xl border border-white/10">
+        <div className="relative h-full w-full rounded-2xl overflow-hidden  flex flex-col md:flex-row bg-white/10 backdrop-blur-xl border border-white/10">
           {/* Image Section */}
           <motion.div
             className="w-full md:w-1/2 h-[40vh] sm:h-[50vh] md:h-full relative overflow-hidden p-3 md:p-6"
@@ -93,7 +93,7 @@ const ExpandedView: React.FC<ExpandedViewProps> = ({ expandedMember, onClose }) 
 
           {/* Description Section */}
           <motion.div
-            className="w-full md:w-1/2 flex-1 h-full p-6 md:p-12 flex flex-col justify-center overflow-y-auto bg-gradient-to-br from-black/60 to-black/80 no-scrollbar"
+            className="w-full md:w-1/2 flex-1 h-full p-6 md:p-12 flex flex-col justify-center overflow-y-auto bg-gradient-to-br from-black/90 to-black/60 no-scrollbar"
             initial={{ 
               y: '100%',
               opacity: 0
@@ -119,7 +119,7 @@ const ExpandedView: React.FC<ExpandedViewProps> = ({ expandedMember, onClose }) 
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
             >
-              <span className='cursor-target'>{expandedMember.name}</span>
+              <span className='cursor-target' id='cursor-mid'>{expandedMember.name}</span>
             </motion.h1>
 
             <motion.h2
@@ -128,7 +128,7 @@ const ExpandedView: React.FC<ExpandedViewProps> = ({ expandedMember, onClose }) 
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
             >
-              <span className='cursor-target'>{expandedMember.title}</span>
+              <span className='cursor-target' id='cursor'>{expandedMember.title}</span>
             </motion.h2>
 
             <motion.ul 
@@ -137,7 +137,7 @@ const ExpandedView: React.FC<ExpandedViewProps> = ({ expandedMember, onClose }) 
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.6 }}
             >
-              <li className="icon github cursor-target inline-flex items-center justify-center !w-12 !h-12 !min-w-12 !min-h-12 rounded-full bg-white/10 hover:bg-white/20 transition-colors select-none shrink-0">
+              <li id='cursor-mid' className="icon github cursor-target inline-flex items-center justify-center !w-12 !h-12 !min-w-12 !min-h-12 rounded-full bg-white/10 hover:bg-white/20 transition-colors select-none shrink-0">
                 <span className="tooltip">Github</span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -149,7 +149,7 @@ const ExpandedView: React.FC<ExpandedViewProps> = ({ expandedMember, onClose }) 
                 </svg>
               </li>
 
-              <li className="icon linkedin cursor-target inline-flex items-center justify-center !w-12 !h-12 !min-w-12 !min-h-12 rounded-full bg-white/10 hover:bg-white/20 transition-colors select-none shrink-0">
+              <li id='cursor-mid' className="icon linkedin cursor-target inline-flex items-center justify-center !w-12 !h-12 !min-w-12 !min-h-12 rounded-full bg-white/10 hover:bg-white/20 transition-colors select-none shrink-0">
                 <span className="tooltip">LinkedIn</span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -164,6 +164,7 @@ const ExpandedView: React.FC<ExpandedViewProps> = ({ expandedMember, onClose }) 
             </motion.ul>
 
             <motion.button
+            id='cursor'
               className="fixed md:scale-75 top-6 md:top-8 right-6 hover:rotate-90 cursor-pointer cursor-target rounded-full flex items-center justify-center transition-all duration-500 z-40 focus:outline-none focus:ring-4 focus:ring-white/30 shadow-lg"
               onClick={(e) => {
                 e.stopPropagation();
@@ -177,7 +178,7 @@ const ExpandedView: React.FC<ExpandedViewProps> = ({ expandedMember, onClose }) 
               transition={{ duration: 0.7, delay: 0.2 }}
               aria-label="Close expanded view"
             >
-              <AnimatedButton direction="x" onClick={onClose} />
+              <AnimatedButton direction="x"  onClick={onClose} />
             </motion.button>
           </motion.div>
         </div>

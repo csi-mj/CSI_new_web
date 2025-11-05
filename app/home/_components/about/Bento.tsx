@@ -1,30 +1,19 @@
 'use client';
 import React from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useGSAP } from '@gsap/react';
-
-gsap.registerPlugin(ScrollTrigger);
-
+import { motion } from 'framer-motion';
 import { BentoGrid, BentoGridItem } from '../../../../components/ui/bento-grid';
 
 export function Bento() {
-  useGSAP(() => {
-    gsap.to('.bent', {
-      scale: 0.9,
-      y: 90,
-      scrollTrigger: {
-        trigger: '.bent',
-        start: 'top 60%',
-        end: 'top 30%',
-        scrub: 3
-      }
-    });
-  }, []);
-
   return (
-    <div className="flex h-max w-screen items-center justify-center bg-black pb-10">
-      <BentoGrid className="relative bent mx-auto mb-7 max-w-4xl will-change-transform">
+    <motion.section
+      initial={{ opacity: 1, y: -40, scale: 1 }}
+      whileInView={{ opacity: 1, y: 50, scale: .9 }}
+      viewport={{ amount: 0.2 }}
+      transition={{ duration: 1, ease: 'easeOut' }}
+      className="bent-wrapper flex h-max w-screen items-center justify-center bg-black mt-16"
+      style={{ contain: 'layout paint' }}
+    >
+      <BentoGrid className="relative mx-auto mb-7 max-w-4xl will-change-transform transform-gpu">
         {items.map((item, idx) => (
           <BentoGridItem
             key={idx}
@@ -32,70 +21,66 @@ export function Bento() {
             description={item.description}
             header={item.header}
             imageSrc={item.imageSrc}
-            href={item.href}
-            className={`${idx === 2 || idx === 5 || idx === 1 ? 'md:col-span-2' : ''} `}
+            className={` ${idx === 2 || idx === 5 || idx === 1 ? 'md:col-span-2' : ''}`}
           />
         ))}
       </BentoGrid>
-    </div>
+    </motion.section>
   );
 }
+
 const Skeleton = () => (
-  <div className="flex size-full min-h-24 flex-1 rounded-xl bg-gradient-to-br from-neutral-200 to-neutral-100 dark:from-neutral-900 dark:to-neutral-800"></div>
+  <div className="flex size-full min-h-28 flex-1 rounded-xl bg-gradient-to-br from-neutral-200 to-neutral-100 dark:from-neutral-900 dark:to-neutral-800"></div>
 );
+
 const items = [
   {
-    title: 'Our Faculty Coordinator',
+    title: "Explore Our Events",
     description:
-      'lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.lorem ipsum dolor sit ame ',
+      "At CSI, our events bring together thinkers, creators, and problem-solvers to explore technology, exchange ideas, and build meaningful connections. Dive into hands-on learning, competitive experiences, and opportunities that shape your tech journey. Together, we create platforms that turn potential into purpose and passion into progress.",
     header: <Skeleton />,
     imageSrc:
-      'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&h=500&fit=crop&crop=face',
-    href: ''
+      "/about/events.jpg",
   },
   {
-    title: 'Innovate, Inspire, Impact: Explore Our Event',
+    title: "Team Hack Revolution 2024-25",
     description:
-      'lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magn ',
+      "The driving force behind MJCET’s flagship hackathon — Hack Revolution, organized in collaboration with E-Cell MJCET. A celebration of innovation, technology, and collaboration, the team brings together creative minds to build impactful solutions. With passion and precision, they continue to make Hack Revolution a benchmark for student-led innovation and excellence.",
     header: <Skeleton />,
     imageSrc:
-      'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&h=500&fit=crop&crop=face',
-    href: '/events'
+      "/about/hackrev.jpg",
   },
   {
-    title: 'The Team',
+    title: "Meet the Team",
     description:
-      'lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore m ',
+      "A team driven by purpose. A community built on passion. The strength of CSI lies in the dedication of its Core Team and ExCom, who work tirelessly behind the scenes to plan, coordinate, and execute initiatives with purpose and precision. United by a mission to empower students, they foster innovation, create opportunities, and build a culture where leadership and creativity thrive — turning vision into impact and ambition into achievement.",
     header: <Skeleton />,
     imageSrc:
-      'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&h=500&fit=crop&crop=face',
-    href: '/team'
+      "/about/team.jpg",
   },
   {
-    title: 'Hackathons: Compete, Excel',
+    title: "Our Faculty Coordinator",
     description:
-      'lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.lorem ipsum dolor sit amet, ',
+      "Mr. Zainuddin Naveed, founder of the CSI MJCET Student Chapter, has been a driving force behind its growth since 2014. As an Assistant Professor in the CSE Department, he brings deep expertise and passion for technology education. With his guidance and mentorship, CSI MJCET continues to thrive as a platform for innovation, collaboration, and skill development.",
     header: <Skeleton />,
     imageSrc:
-      'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&h=500&fit=crop&crop=face',
-    href: 'https://hackrevolution.in'
+      "/about/zainsir.jpg",
+  },
+    {
+    title: "Our Chief Coordinators",
+    description:
+      "Muhammed Affan Asif, Touseef Banu, and Abdullah Shareef embody leadership, teamwork, and innovation within CSI MJCET.",
+    header: <Skeleton />,
+    imageSrc:
+      "/about/cc.jpg",
   },
   {
-    title: 'Blogs: Voices of Innovation',
+    title: "Our Governing Body",
     description:
-      'lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.lorem ipsum dolor sit amet,df',
+      "Steering CSI like a future tech powerhouse. Our Governing Body leads with vision, empowers with trust, and champions innovation at every step. From guiding initiatives to nurturing student leadership, they ensure CSI remains dynamic, impactful, and full of growth opportunities. Their dedication shapes a culture of learning, collaboration, and ambition — they lead, inspire, and elevate CSI.",
     header: <Skeleton />,
     imageSrc:
-      'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&h=500&fit=crop&crop=face',
-    href: '/blogs'
+      "/about/gbs.png",
   },
-  {
-    title: 'Membership: Empower Your Entrepreneurial Journey',
-    description:
-      'lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
-    header: <Skeleton />,
-    imageSrc:
-      'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&h=500&fit=crop&crop=face',
-    href: '/membership'
-  }
+
 ];

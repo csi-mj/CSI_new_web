@@ -149,7 +149,7 @@ const DesktopLayout: React.FC<DesktopLayoutProps> = ({
                 return (
                   <motion.div
                     key={member.id}
-                    className="absolute"
+                    className="absolute h-full"
                     style={{ zIndex }}
                     initial={(offset === 0 && !hasAnimated) ? { opacity: 0, scale: 0.9, y: 40 } : false}
                     animate={{

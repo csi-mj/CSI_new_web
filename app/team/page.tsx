@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
+
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
@@ -83,7 +84,7 @@ const teams = [
     name: 'TECH',
     teamMembers: teamMembers
   },
-   {
+  {
     name: 'WEB',
     teamMembers: teamMembers
   },
@@ -99,25 +100,23 @@ const teams = [
     name: 'DESIGN',
     teamMembers: teamMembers
   },
-   {
+  {
     name: 'EDITORIAL',
     teamMembers: teamMembers
   },
-   {
+  {
     name: 'MEDIA',
     teamMembers: teamMembers
   },
-   {
+  {
     name: 'MARKETING',
     teamMembers: teamMembers
   },
-   {
+  {
     name: 'OPERATIONS',
     teamMembers: teamMembers
   },
 ];
-
- 
 
 export default function TeamPage() {
   const [activeIdx, setActiveIdx] = useState(0);
@@ -139,53 +138,70 @@ export default function TeamPage() {
     linkedinUrl: 'https://www.linkedin.com/'
   }));
 
-  // Scroll-triggered animations for sections
-  useGSAP(() => {
-    // GB Section: enter from bottom to top (no scrub)
-    gsap.fromTo(
-      '.gb-section',
-      { y: 100, opacity: 0 },
-      {
-        y: 0,
-        opacity: 1,
-        duration: 1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: '.gb-section',
-          start: 'top 80%',
-          toggleActions: 'play none none none'
-        }
-      }
-    );
+  // Refs for section scoping (prevents global DOM scans)
+  const gbRef = useRef<HTMLElement | null>(null);
+  const execRef = useRef<HTMLElement | null>(null);
+  const coreRef = useRef<HTMLElement | null>(null);
 
-    // Executive Committee Section scroll animation (scale only)
-    gsap.to('.exec-section', {
-      scale: 0.93,
-      y: 90,
-      scrollTrigger: {
-        trigger: '.exec-section',
-        start: 'top 60%',
-        end: 'top 30%',
-        scrub: 3
+  // Scroll-triggered animations for sections (scoped for performance)
+  useGSAP(
+    () => {
+      if (gbRef.current) {
+        gsap.fromTo(
+          gbRef.current,
+          { y: 100, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 1,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: gbRef.current,
+              start: 'top 80%',
+              toggleActions: 'play none none none'
+            }
+          }
+        );
       }
-    });
 
-    // Core Team Section scroll animation (scale only)
-    gsap.to('.core-section', {
-      scale: 0.93,
-      y: 40,
-      scrollTrigger: {
-        trigger: '.core-section',
-        start: 'top 60%',
-        end: 'top 30%',
-        scrub: 6
+      if (execRef.current) {
+        gsap.to(execRef.current, {
+          scale: 0.93,
+          y: 90,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: execRef.current,
+            start: 'top 60%',
+            end: 'top 30%',
+            scrub: 1.5
+          }
+        });
       }
-    });
-  }, []);
+
+      if (coreRef.current) {
+        gsap.to(coreRef.current, {
+          scale: 0.93,
+          y: 40,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: coreRef.current,
+            start: 'top 60%',
+            end: 'top 30%',
+            scrub: 2.5
+          }
+        });
+      }
+    },
+    { dependencies: [], revertOnUpdate: false }
+  );
 
   return (
     <div className="w-screen mt-20">
-      <section className="gb-section will-change-transform">
+      <section
+        ref={gbRef}
+        className="gb-section will-change-transform transform-gpu"
+        style={{ willChange: 'transform', transform: 'translateZ(0)', backfaceVisibility: 'hidden' as const, contain: 'paint' as const }}
+      >
         <div className='w-full flex justify-center relative z-10'>
           <Shuffle 
               text="GOVERNING BODY" 
@@ -209,7 +225,11 @@ export default function TeamPage() {
       </div>
       <GB items={gbItems} />
       </section>
-      <section className="exec-section will-change-transform">
+      <section
+        ref={execRef}
+        className="exec-section will-change-transform transform-gpu"
+        style={{ willChange: 'transform', transform: 'translateZ(0)', backfaceVisibility: 'hidden' as const, contain: 'paint' as const }}
+      >
         <div className='w-full flex justify-center relative z-10'>
           <Shuffle 
               text="EXECUTIVE COMMITTEE" 
@@ -236,7 +256,11 @@ export default function TeamPage() {
         <Carousel teamMembers={activeTeam.teamMembers} teamName={activeTeam.name} />
       </div>
       </section>
-       <section className="core-section will-change-transform">
+       <section
+        ref={coreRef}
+        className="core-section will-change-transform transform-gpu"
+        style={{ willChange: 'transform', transform: 'translateZ(0)', backfaceVisibility: 'hidden' as const, contain: 'paint' as const }}
+      >
         <div className='w-full flex justify-center relative z-10'>
           <Shuffle 
               text="CORE TEAM" 
