@@ -57,7 +57,7 @@ export default function HomePage() {
   }, []);
   return (
     <div className="pt-24">
-      <section className="" id='hot'>
+      <section className="">
         <Suspense fallback={<LoadingFallback className="min-h-[100px]" />}>
           <HackrevCta />
         </Suspense>

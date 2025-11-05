@@ -1,7 +1,19 @@
+import { StripedPattern } from "@/components/magicui/striped-pattern";
+
 export default function RootLayout({
-  children
+  children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <div className="mt-24">{children}</div>;
+  return (
+    <div className="relative mt-24">
+      <div className="fixed inset-0 opacity-60 pointer-events-none" aria-hidden>
+        <StripedPattern className="text-gray-500/80" />
+      </div>
+      <div className="relative z-10">
+        {children}
+      </div>
+
+    </div>
+  );
 }
