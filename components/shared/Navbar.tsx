@@ -5,6 +5,9 @@ import PillNav from '../PillNav';
 
 const items = [
   { label: 'Home', href: '/home' },
+  { label: 'Team', href: '/team' },
+  { label: 'Events', href: '/events' },
+
   { label: 'About', href: '/about' },
   { label: 'Contact us', href: '/contactus' },
   { label: 'Team', href: '/team' },
