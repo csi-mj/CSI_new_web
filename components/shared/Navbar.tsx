@@ -7,7 +7,7 @@ const items = [
   { label: 'Home', href: '/home' },
   { label: 'Team', href: '/team' },
   { label: 'Events', href: '/events' },
-
+  { label: 'magazine', href: '/magazine' },
   { label: 'About', href: '/about' },
   { label: 'Contact us', href: '/contactus' },
   { label: 'Become a Member', href: '/membership' }
