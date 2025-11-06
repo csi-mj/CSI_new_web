@@ -30,16 +30,15 @@ export default function Page() {
             words="CSI Bulletins"
             duration={1}
             delay={0.4}
-            className="text-primary font-silkscreen pb-3 text-4xl md:text-6xl font-semibold tracking-tight my-4"
+            className="text-primary font-silkscreen pb-0 text-4xl md:text-6xl font-semibold tracking-tight my-6 mb-9"
           />
         </div>
 
-        {/* ✅ Animate Grid */}
         <motion.div
           initial={{ opacity: 1, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: .6, ease: "easeOut" }}
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={{ once: true, amount: 0 }}
         >
           <GridCards cards={cards} onSelect={(file) => setSelectedFile(file)} />
         </motion.div>

@@ -3,108 +3,78 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 
 const ResourceCard = ({ title, pdfUrl, imageUrl, description, onClick }) => {
-  const [style, setStyle] = useState({});
   const [hovered, setHovered] = useState(false);
 
-  const handleMouseMove = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-
-    const rotateX = ((y - centerY) / centerY) * 10;
-    const rotateY = ((x - centerX) / centerX) * 10;
-
-    setStyle({
-      transform: `rotateX(${-rotateX}deg) rotateY(${rotateY}deg) scale(1.05)`,
-      transition: "transform 0.1s",
-    });
-  };
-
   const handleMouseLeave = () => {
-    setStyle({
-      transform: "rotateX(0deg) rotateY(0deg) scale(1)",
-      transition: "transform 0.3s ease-out",
-    });
     setHovered(false);
   };
 
   return (
     <motion.div
-      className="relative w-full h-80 sm:h-96 cursor-pointer perspective-1000 group"
-      onMouseMove={handleMouseMove}
+      className="group cursor-target relative w-full h-72 sm:h-80 cursor-pointer rounded-xl overflow-hidden border border-white/10 bg-neutral-900/40 shadow-md hover:shadow-lg transition-shadow"
       onMouseLeave={handleMouseLeave}
       onMouseEnter={() => setHovered(true)}
-      onClick={() => onClick(pdfUrl)}
-      initial={{ opacity: 0, y: 40 }}
+      onClick={() => onClick({ pdf: pdfUrl, title })}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") onClick({ pdf: pdfUrl, title });
+      }}
+      initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
+      viewport={{ amount: 0.15 }}
+      transition={{ duration: 0.4, ease: "easeOut" }}
+      aria-label={title}
     >
-      {/* Glow */}
-      <div
-        className="absolute inset-0 rounded-2xl pointer-events-none transition-all duration-500"
-        style={{
-          boxShadow: hovered
-            ? "0 0 80px 40px rgba(255, 255, 255, 0.3)"
-            : "0 0 0px 0px rgba(0,0,0,0)",
-        }}
+      {/* Image layer */}
+      <motion.img
+        src={imageUrl}
+        alt={title}
+        className="absolute inset-0 w-full h-full object-cover"
+        animate={{ scale: hovered ? 1.04 : 1 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
       />
 
-      {/* Card */}
-      <div
-        className="relative w-full h-full rounded-2xl overflow-hidden shadow-lg bg-black"
-        style={style}
-      >
-        {/* Background */}
-        <motion.div
-          className="absolute inset-0 bg-cover bg-center transition-transform duration-700"
-          style={{ backgroundImage: `url(${imageUrl})` }}
-          animate={{
-            scale: hovered ? 1.1 : 1,
-            y: hovered ? -8 : 0,
+      {/* Subtle gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent z-10" />
+
+      <div className={`absolute inset-0 z-20 flex items-center justify-center transition-opacity duration-300 ${hovered ? "opacity-100" : "opacity-0"}`}>
+        <motion.button
+          type="button"
+          className="pointer-events-auto px-4 py-2 rounded-2xl bg-white/10 text-white border border-white/20 backdrop-blur-sm hover:bg-white/15 cursor-pointer cursor-target"
+          initial={{ scale: 0.95, opacity: 0.9 }}
+          animate={{ scale: hovered ? 1 : 0.95, opacity: hovered ? 1 : 0.9 }}
+          transition={{ duration: 0.2, ease: "easeOut" }}
+          onClick={(e) => {
+            e.stopPropagation();
+            onClick({ pdf: pdfUrl, title });
           }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-        />
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.stopPropagation();
+              onClick({ pdf: pdfUrl, title });
+            }
+          }}
+          aria-label={`View ${title}`}
+        >
+          View
+        </motion.button>
+      </div>
 
-        {/* Overlay */}
-        <div
-          className={`absolute inset-0 bg-black/60 z-10 transition-opacity duration-500 ${
-            hovered ? "opacity-100" : "opacity-0"
-          }`}
-        />
-
-        {/* Hover description with Silkscreen font */}
+      {/* Footer: title + optional description */}
+      <div className="absolute bottom-0 left-0 right-0 z-20 p-4 bg-black/35 backdrop-blur-sm border-t border-white/10">
+        <h2 className="text-base sm:text-lg font-semibold text-white tracking-tight">
+          {title}
+        </h2>
         {description && (
-          <motion.div
-            className="absolute inset-0 flex flex-col justify-end p-4 z-20 font-silkscreen"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{
-              opacity: hovered ? 1 : 0,
-              y: hovered ? 0 : 20,
-            }}
-            transition={{ duration: 0.4 }}
+          <p
+            className={`mt-1 text-xs sm:text-sm text-gray-200/90 transition-opacity duration-300 ${
+              hovered ? "opacity-100" : "opacity-80"
+            } line-clamp-2 sm:line-clamp-3`}
           >
-            <p className="mt-2 text-sm text-gray-200 line-clamp-3">
-              {description}
-            </p>
-            <span className="mt-2 inline-block text-xs font-medium text-white underline">
-              Click to view resources →
-            </span>
-          </motion.div>
+            {description}
+          </p>
         )}
-
-        {/* Main Heading (always visible, Silkscreen, subtle scale on hover) */}
-        <motion.div className="absolute top-4 left-4 z-30 font-silkscreen">
-          <motion.h2
-            className="text-lg sm:text-xl font-bold text-white drop-shadow-md"
-            animate={{ scale: hovered ? 1.05 : 1 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-          >
-            {title}
-          </motion.h2>
-        </motion.div>
       </div>
     </motion.div>
   );
@@ -117,9 +87,6 @@ export default ResourceCard;
 
 
 
-
-// "use client";
-// import React, { useState } from "react";
 // import { motion } from "framer-motion";
 
 // const ResourceCard = ({ title, pdfUrl, imageUrl, description, onClick }) => {
