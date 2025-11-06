@@ -28,7 +28,7 @@ const cardVariants = {
 
 const GridCards: React.FC<GridCardsProps> = ({ cards, onSelect }) => {
   return (
-    <div className="w-full px-2 sm:px-4 md:px-6 lg:px-8 py-12">
+    <div className="w-full px-2 sm:px-4 md:px-6 lg:px-8 pb-12 md:pt-8">
       <div
         className="
           grid 

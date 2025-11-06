@@ -39,7 +39,7 @@ const ExpandedView: React.FC<ExpandedViewProps> = ({ expandedMember, onClose }) 
       onClick={onClose}
     >
       <motion.div
-        className="relative h-[65vh] md:h-[80vh]  max-h-[80vh] mx-auto w-full max-w-4xl px-4"
+        className="relative h-[70vh] md:h-[80vh]  max-h-[80vh] mx-auto w-full max-w-4xl px-4"
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
@@ -165,7 +165,7 @@ const ExpandedView: React.FC<ExpandedViewProps> = ({ expandedMember, onClose }) 
 
             <motion.button
             id='cursor'
-              className="fixed md:scale-75 top-6 md:top-8 right-6 hover:rotate-90 cursor-pointer cursor-target rounded-full flex items-center justify-center transition-all duration-500 z-40 focus:outline-none focus:ring-4 focus:ring-white/30 shadow-lg"
+              className="fixed md:scale-75 top-2 md:top-8 right-1 md:right-6 hover:rotate-90 cursor-pointer cursor-target rounded-full flex items-center justify-center transition-all duration-500 z-40 focus:outline-none max-md:scale-50 focus:ring-4 focus:ring-white/30 shadow-lg"
               onClick={(e) => {
                 e.stopPropagation();
                 onClose();
@@ -176,7 +176,7 @@ const ExpandedView: React.FC<ExpandedViewProps> = ({ expandedMember, onClose }) 
               animate={{ opacity: 1, x:0,rotate:0 }}
               exit={{ opacity: 0, scale: 0.5,rotate:90 }}
               transition={{ duration: 0.7, delay: 0.2 }}
-              aria-label="Close expanded view"
+              aria-label="Close"
             >
               <AnimatedButton direction="x"  onClick={onClose} />
             </motion.button>
