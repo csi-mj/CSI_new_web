@@ -67,7 +67,7 @@ const GridCards: React.FC<GridCardsProps> = ({ cards, onSelect }) => {
                 `}
               />
 
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
 
               {/* Centered hover indicator */}
               <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-0  group-hover:opacity-100 transition-all duration-700">
@@ -77,11 +77,11 @@ const GridCards: React.FC<GridCardsProps> = ({ cards, onSelect }) => {
                 </span>
               </div>
 
-             <div className="absolute bottom-0 w-full p-4 text-white space-y-1">
-               <h3 className="font-semibold text-3xl mb-6">{card.title}</h3>
+             <div className="absolute bottom-0 w-full px-4 py-3 text-white space-y-1">
+               <h3 className="font-semibold text-3xl mb-3">{card.title}</h3>
                {
                 index==0 &&
-                <p className="text-lg mb-2 text-white/80">{card.description}</p>
+                <p className="text-sm md:text-lg mb-1 text-white/80">{card.description}</p>
                }
               
                 <a
