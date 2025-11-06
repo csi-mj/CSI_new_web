@@ -3,6 +3,8 @@
 import React, { Suspense, lazy, useEffect, useState, useRef } from 'react';
 import Shuffle from '@/components/Shuffle';
 import Cursor from '@/components/ui/cursor';
+import Hero from './_components/hero/Hero';
+import Landing from './_components/hero/Landing';
 
 // Lazy load heavy animation components
 const HackrevCta = lazy(() => import('./_components/Hot/HackrevCta'));
@@ -24,46 +26,63 @@ const LoadingFallback = ({ className = "" }: { className?: string }) => (
 );
 
 export default function HomePage() {
+  // Visibility-gated mounts per section
+  const hackRef = useRef<HTMLElement>(null);
+  const aboutRef = useRef<HTMLElement>(null);
+  const facultyRef = useRef<HTMLElement>(null);
+  const connectRef = useRef<HTMLElement>(null);
+
+  const [showHack, setShowHack] = useState(false);
+  const [showAbout, setShowAbout] = useState(false);
   const [showBackgrounds, setShowBackgrounds] = useState(false);
-  const [showGalaxy, setShowGalaxy] = useState(false);
+  const [showFaculty, setShowFaculty] = useState(false);
   const [showDither, setShowDither] = useState(false);
-  const ditherRef = useRef<HTMLDivElement>(null);
+  const [showConnect, setShowConnect] = useState(false);
+  const [showGalaxy, setShowGalaxy] = useState(false);
 
   useEffect(() => {
-    const t1 = setTimeout(() => setShowBackgrounds(true), 250);
-    const t2 = setTimeout(() => setShowGalaxy(true), 400);
-    // Observe Dither section; mount only when entering viewport
     const io = new IntersectionObserver(
       (entries) => {
-        const e = entries[0];
-        if (e && e.isIntersecting) {
-          setShowDither(true);
-          io.disconnect();
-        }
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          if (entry.target === hackRef.current) setShowHack(true);
+          if (entry.target === aboutRef.current) {
+            setShowAbout(true);
+            setShowBackgrounds(true);
+          }
+          if (entry.target === facultyRef.current) {
+            setShowFaculty(true);
+            setShowDither(true);
+          }
+          if (entry.target === connectRef.current) {
+            setShowConnect(true);
+            setShowGalaxy(true);
+          }
+        });
       },
-      {
-        // Preload slightly before the section enters the viewport
-        root: null,
-        rootMargin: '1000px 0px',
-        threshold: 0,
-      }
+      { rootMargin: '300px 0px', threshold: 0.01 }
     );
-    if (ditherRef.current) io.observe(ditherRef.current);
-    return () => {
-      clearTimeout(t1);
-      clearTimeout(t2);
-      io.disconnect();
-    };
+    if (hackRef.current) io.observe(hackRef.current);
+    if (aboutRef.current) io.observe(aboutRef.current);
+    if (facultyRef.current) io.observe(facultyRef.current);
+    if (connectRef.current) io.observe(connectRef.current);
+    return () => io.disconnect();
   }, []);
   return (
-    <div className="pt-24">
-      <section className="">
-        <Suspense fallback={<LoadingFallback className="min-h-[100px]" />}>
-          <HackrevCta />
-        </Suspense>
+    <div className="pt-0">
+      <section>
+        <Hero />
+        {/* <Landing /> */}
+      </section>
+      <section ref={hackRef} className="">
+        {showHack && (
+          <Suspense fallback={<LoadingFallback className="min-h-[100px]" />}>
+            <HackrevCta />
+          </Suspense>
+        )}
       </section>
 
-      <section className="relative mb-24" id='about'>
+      <section ref={aboutRef} className="relative mb-24" id='about'>
         <div className="absolute h-[600px] inset-0 z-0 pointer-events-none">
           {showBackgrounds && (
             <Suspense fallback={null}>
@@ -72,22 +91,26 @@ export default function HomePage() {
           )}
         </div>
         <div className="flex w-full flex-col items-center">
-          <Suspense fallback={<LoadingFallback />}>
-            <About />
-          </Suspense>
-          <Suspense fallback={<LoadingFallback />}>
-            <Bento />
-          </Suspense>
+          {showAbout && (
+            <>
+              <Suspense fallback={<LoadingFallback />}>
+                <About />
+              </Suspense>
+              <Suspense fallback={<LoadingFallback />}>
+                <Bento />
+              </Suspense>
+            </>
+          )}
         </div>
       </section>
 
-      <section className="relative mb-24" id='faculty'>
-        <div ref={ditherRef} className="absolute inset-0 z-0 min-h-screen">
-          {showDither && (
+      <section ref={facultyRef} className="relative mb-24" id='faculty'>
+        <div className="absolute inset-0 z-0 min-h-screen">
+          {showFaculty && showDither && (
             <Suspense fallback={null}>
               <Dither
                 waveColor={[0.22, 0.22, 0.28]}
-                disableAnimation={!showDither}
+                disableAnimation={!showFaculty}
                 waveAmplitude={0.22}
                 waveFrequency={2.9}
                 waveSpeed={0.18}
@@ -98,9 +121,11 @@ export default function HomePage() {
         </div>
         <div className="relative z-20 text-neutral-100">
           <div className="relative z-10 w-full flex flex-col items-center">
-            <Suspense fallback={<LoadingFallback />}>
-              <Faculty />
-            </Suspense>
+            {showFaculty && (
+              <Suspense fallback={<LoadingFallback />}>
+                <Faculty />
+              </Suspense>
+            )}
             <Shuffle 
               text="GOVERNING BODY" 
               tag="h1"
@@ -115,37 +140,43 @@ export default function HomePage() {
               triggerOnce={true}
               triggerOnHover={true}
             />
-            <Suspense fallback={<LoadingFallback />}>
-              <MarqueeScroll />
-            </Suspense>
+            {showFaculty && (
+              <Suspense fallback={<LoadingFallback />}>
+                <MarqueeScroll />
+              </Suspense>
+            )}
           </div>
         </div>
       </section>
 
-      <section className="relative" id='connect'>
+      <section ref={connectRef} className="relative" id='connect'>
         <div className="relative z-20 pointer-events-auto">
-          <Suspense fallback={<LoadingFallback />}>
-            <Title />
-          </Suspense>
+          {showConnect && (
+            <Suspense fallback={<LoadingFallback />}>
+              <Title />
+            </Suspense>
+          )}
         </div>
 
         <div className="absolute inset-0 z-0 pointer-events-auto">
-          {showGalaxy && (
+          {showConnect && showGalaxy && (
             <Suspense fallback={null}>
               <Galaxy
-                density={1.2}
-                glowIntensity={0.09}
+                density={1}
+                glowIntensity={0.08}
                 hueShift={240}
-                twinkleIntensity={0.3}
+                twinkleIntensity={0.2}
               />
             </Suspense>
           )}
         </div>
 
         <div className="relative z-10 pointer-events-none">
-          <Suspense fallback={null}>
-            <Orbit />
-          </Suspense>
+          {showConnect && (
+            <Suspense fallback={null}>
+              <Orbit />
+            </Suspense>
+          )}
         </div>
       </section>
        <div className='max-md:hidden'>

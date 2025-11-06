@@ -1,0 +1,442 @@
+[
+  {
+    "id": 1,
+    "name": "Md Feroz Ahmed",
+    "position": "Tech Head",
+    "portfolio": "Tech",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-feroz@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 2,
+    "name": "Rabia Mansoor",
+    "position": "Tech Head",
+    "portfolio": "Tech",
+    "linkedinUrl": "https://www.linkedin.com/in/rabiamansoor",
+    "githubUrl": "https://github.com/Rabia4M",
+    "email": "rmansoor4002@gmail.com",
+    "imageUrl": "https://drive.google.com/thumbnail?id=1BSp5_2UJoSx9N7Gc-VqcOG1t9UQrjYsp"
+  },
+  {
+    "id": 3,
+    "name": "Irfan Sirkar",
+    "position": "Tech Head",
+    "portfolio": "Tech",
+    "linkedinUrl": "https://www.linkedin.com/in/irfan-sirkar-2124932a0?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
+    "githubUrl": "https://github.com/irfansirkar",
+    "email": "Sirkarks@gmail.com",
+    "imageUrl": "https://drive.google.com/thumbnail?id=1GkybJrfVgOv97N2k_4zamoY8vlunS9K3"
+  },
+  {
+    "id": 4,
+    "name": "Mohammed Imran Ahmed",
+    "position": "Tech Head",
+    "portfolio": "Tech",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-imran@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 5,
+    "name": "Abdullah Hafeez",
+    "position": "Tech Associate Head",
+    "portfolio": "Tech",
+    "linkedinUrl": "https://www.linkedin.com/in/abdullah-hafeez-qureshi-16a25a142?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+    "githubUrl": "https://github.com/AbdullahHafeez2004",
+    "email": "abdullahhafeez712@gmail.com",
+    "imageUrl": "https://drive.google.com/thumbnail?id=18onRLfae1aRvtxvZuM0rrxOZvqzLfmq-"
+  },
+  {
+    "id": 6,
+    "name": "Dervesh Khan",
+    "position": "Tech Associate Head",
+    "portfolio": "Tech",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-dervesh@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 7,
+    "name": "Mir Reza Ali",
+    "position": "Tech Associate Head",
+    "portfolio": "Tech",
+    "linkedinUrl": "https://www.linkedin.com/in/mir-reza-ali-khan",
+    "githubUrl": "https://github.com/MirRezaAliKhan",
+    "email": "mirrezaalikhan.in@gmail.com",
+    "imageUrl": "https://drive.google.com/thumbnail?id=1vJnoexmeM4OAtvuXYz9dFf2VzykH8f9n"
+  },
+  {
+    "id": 8,
+    "name": "Mohd Ali Khan",
+    "position": "Tech Associate Head",
+    "portfolio": "Tech",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-ali@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 9,
+    "name": "Mohd Haseeb Uddin",
+    "position": "Tech Associate Head",
+    "portfolio": "Tech",
+    "linkedinUrl": "#",
+    "githubUrl": "https://github.com/MohdHaseebUddin786",
+    "email": "mohdhaseebuddin814@gmail.com",
+    "imageUrl": "https://drive.google.com/thumbnail?id=1CS700DNCq0tEbQItx5CBThphMKbqp-jy"
+  },
+  {
+    "id": 10,
+    "name": "Abdul Mateen Khan",
+    "position": "Web Head",
+    "portfolio": "Web",
+    "linkedinUrl": "https://www.linkedin.com/in/abdul-mateen-khan-85163829b?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+    "githubUrl": "https://github.com/05mateenkhan",
+    "email": "05mateenkhan@gmail.com",
+    "imageUrl": "https://drive.google.com/thumbnail?id=1n0mS2us7QN_w-AdlVUJ-LFpS6Xkt4tfj"
+  },
+  {
+    "id": 11,
+    "name": "Shaik Ismail",
+    "position": "Web Head",
+    "portfolio": "Web",
+    "linkedinUrl": "https://www.linkedin.com/in/shaik-mohammed-ismail/",
+    "githubUrl": "https://github.com/shaik-ismail-27",
+    "email": "ismail.email.at@gmail.com",
+    "imageUrl": "https://drive.google.com/thumbnail?id=1k6pQ_80HHgxvuGYeGmwLb6RNNpYSqUNZ"
+  },
+  {
+    "id": 12,
+    "name": "Iram Fatima",
+    "position": "HR Associate Head",
+    "portfolio": "HR",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-iram@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 13,
+    "name": "Farhan Uddin",
+    "position": "HR Associate Head",
+    "portfolio": "HR",
+    "linkedinUrl": "https://www.linkedin.com/in/farhanuddin0721",
+    "githubUrl": "https://github.com/FarhanUddin0721",
+    "email": "farhaanu851@gmail.com",
+    "imageUrl": "https://drive.google.com/thumbnail?id=11aC9x3-_sAgTj0_R9NR_jA0cD3junTz4"
+  },
+  {
+    "id": 14,
+    "name": "Mohammed Omer Farooqui",
+    "position": "HR Associate Head",
+    "portfolio": "HR",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-omer@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 15,
+    "name": "Mohammed Najeeb Jilan",
+    "position": "Events Head",
+    "portfolio": "Events",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-najeeb@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 16,
+    "name": "Hamza Mohammed Jeela",
+    "position": "Events Head",
+    "portfolio": "Events",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-hamza@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 17,
+    "name": "Saniah Fatima",
+    "position": "Design Head",
+    "portfolio": "Design",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-saniah@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 18,
+    "name": "Asma Begum",
+    "position": "Design Head",
+    "portfolio": "Design",
+    "linkedinUrl": "https://www.linkedin.com/in/asma-begum-7862702a4",
+    "githubUrl": "https://github.com/Asma6304",
+    "email": "160423733070@mjcollege.ac.in",
+    "imageUrl": "https://drive.google.com/thumbnail?id=1QBKHUACLSnzJscIoSnWFG5Jemk2AmB9i"
+  },
+  {
+    "id": 19,
+    "name": "Syed Rehan Pasha",
+    "position": "Design Head",
+    "portfolio": "Design",
+    "linkedinUrl": "#",
+    "githubUrl": "https://github.com/Syedrehan9824",
+    "email": "rehan848179@gmail.com",
+    "imageUrl": "https://drive.google.com/thumbnail?id=1O6vMX6sZSeusVwq6gmtsfWscSh0NhiSm"
+  },
+  {
+    "id": 20,
+    "name": "Syeda Kaneez Fatima",
+    "position": "Design Associate Head",
+    "portfolio": "Design",
+    "linkedinUrl": "#",
+    "githubUrl": "https://github.com/Syeda-kaneez",
+    "email": "syedakaneez06@gmail.com",
+    "imageUrl": "https://drive.google.com/thumbnail?id=1u3oIkYT5tk26c1KEVtaAaQrepgcGmzgN"
+  },
+  {
+    "id": 21,
+    "name": "Mohammed Fawaz Malik",
+    "position": "Editorial Head",
+    "portfolio": "Editorial",
+    "linkedinUrl": "https://www.linkedin.com/in/mohammed-fawaz-malik-922388310?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+    "githubUrl": "https://github.com/fxwyz08",
+    "email": "fxwyz08@gmail.com",
+    "imageUrl": "https://drive.google.com/thumbnail?id=1q4t6SLDZZAhrQOroUBw-ESTYKOFqaEIx"
+  },
+  {
+    "id": 22,
+    "name": "Sana Sayeed",
+    "position": "Editorial Associate Head",
+    "portfolio": "Editorial",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-sana@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 23,
+    "name": "Syed Mohammed Moinuddin Hussaini",
+    "position": "Editorial Associate Head",
+    "portfolio": "Editorial",
+    "linkedinUrl": "https://www.linkedin.com/in/syed-mohammed-moinuddin-hussaini-572791332?utm_source=share_via&utm_content=profile&utm_medium=member_android",
+    "githubUrl": "https://github.com/MR-AWESOME99",
+    "email": "syedmoinuddin.smmh@gmail.com",
+    "imageUrl": "https://drive.google.com/thumbnail?id=1ZWh4uRPZ6F6jntW_-RwT2nniHjFCNRI9"
+  },
+  {
+    "id": 24,
+    "name": "Ateeb Mirza",
+    "position": "Editorial Associate Head",
+    "portfolio": "Editorial",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-ateeb@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 25,
+    "name": "Faiza Mahveen",
+    "position": "Media Associate Head",
+    "portfolio": "Media",
+    "linkedinUrl": "https://www.linkedin.com/in/faiza-mahveen-82b389308?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
+    "githubUrl": "https://github.com/famahi04",
+    "email": "faiza.mahveen2206@gmail.com",
+    "imageUrl": "https://drive.google.com/thumbnail?id=1HiF354FRlDdS-Jm0Dw3GfQbXC037gW2Y"
+  },
+  {
+    "id": 26,
+    "name": "Shujath ali khan",
+    "position": "Media Associate Head",
+    "portfolio": "Media",
+    "linkedinUrl": "https://www.linkedin.com/in/shujath-ali-khan-53b42738a?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+    "githubUrl": "https://github.com/shujaatkhan20",
+    "email": "Kshujath16@gmail.com",
+    "imageUrl": "https://drive.google.com/thumbnail?id=18AaWH1G8SsTxZTl7A7F-63wVs7kDLFBy"
+  },
+  {
+    "id": 27,
+    "name": "Raisa Ahmed",
+    "position": "Media Associate Head",
+    "portfolio": "Media",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "raisa9885771138@gmail.com",
+    "imageUrl": "https://drive.google.com/thumbnail?id=1TItZAcAxk0AjypnXci8cnXRemSs6goZ8"
+  },
+  {
+    "id": 28,
+    "name": "Mudassiruddin Ahmed",
+    "position": "Marketing Head",
+    "portfolio": "Marketing",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-mudassiruddin@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 29,
+    "name": "Syeda Shahakaar",
+    "position": "Marketing Associate Head",
+    "portfolio": "Marketing",
+    "linkedinUrl": "https://www.linkedin.com/in/syeda-shahakaar-bb5885376",
+    "githubUrl": "#",
+    "email": "syedashahakaar8@gmail.com",
+    "imageUrl": "https://drive.google.com/thumbnail?id=1wrivDffFiZ07wACA47YwgGadqjmYyOby"
+  },
+  {
+    "id": 30,
+    "name": "Mohammed Ayaz Khan",
+    "position": "Operations Head",
+    "portfolio": "Operations",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-ayaz@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 31,
+    "name": "Zaina Bilquis",
+    "position": "Tech Associate Head",
+    "portfolio": "Tech",
+    "linkedinUrl": "https://www.linkedin.com/in/zaina-bilquis-208586331",
+    "githubUrl": "https://github.com/Zaina-B06",
+    "email": "zainabilquis06@gmail.com",
+    "imageUrl": "https://drive.google.com/thumbnail?id=1gTT63lHODdOLd5uyr5INW_Pg0t32wl9Y"
+  },
+  {
+    "id": 32,
+    "name": "Syed Unais Panjathan",
+    "position": "Tech Associate Head",
+    "portfolio": "Tech",
+    "linkedinUrl": "https://www.linkedin.com/in/syed-unais-panjathan?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+    "githubUrl": "https://github.com/syedunaisp",
+    "email": "syedunais516@gmail.com",
+    "imageUrl": "https://drive.google.com/thumbnail?id=1tjVEx0-c0uFeOtISaFnwegMmKafb_Ewb"
+  },
+  {
+    "id": 33,
+    "name": "Mohammed Osman",
+    "position": "Web Associate Head",
+    "portfolio": "Web",
+    "linkedinUrl": "https://www.linkedin.com/in/mohammed-osman-b7b656381?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+    "githubUrl": "httpsB://www.github.com/thecodinganvil",
+    "email": "muhammedosmanraheemkhan@gmail.com",
+    "imageUrl": "https://drive.google.com/thumbnail?id=1DGIGMziwwRSaRWGaNQ6dq_K2i55oxZwn"
+  },
+  {
+    "id": 34,
+    "name": "Hasifa Ammara",
+    "position": "HR Associate Head",
+    "portfolio": "HR",
+    "linkedinUrl": "https://www.linkedin.com/in/hasifa-ammara-3b9a842a0?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+    "githubUrl": "https://github.com/Tiu8g84588g83r8y8v8r8y8f8e8t88fr9/portfolio-basic",
+    "email": "Ammarahasifa@gmail.com",
+    "imageUrl": null
+  },
+  {
+    "id": 35,
+    "name": "Mohammed Abbu Bakar",
+    "position": "Events Associate Head",
+    "portfolio": "Events",
+    "linkedinUrl": "#",
+    "githubUrl": "https://github.com/abbubakar07",
+    "email": "mohdabbubakar05@gmail.com",
+    "imageUrl": "https://drive.google.com/thumbnail?id=13k4bBLXc9IxL8Aus5EkyOViN0Fy9vqS2"
+  },
+  {
+    "id": 36,
+    "name": "Juveria Zaheer",
+    "position": "Events Associate Head",
+    "portfolio": "Events",
+    "linkedinUrl": "#",
+    "githubUrl": "https://github.com/jaarso0",
+    "email": "160423733125@mjcollege.ac.in",
+    "imageUrl": "https://drive.google.com/thumbnail?id=19_0SyOFoOX_zOdihC3uhwkF87KelLEGX"
+  },
+  {
+    "id": 37,
+    "name": "Syed Abu Bakr Hussain",
+    "position": "Marketing Associate Head",
+    "portfolio": "Marketing",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-abubakr@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 38,
+    "name": "Omar Saboor",
+    "position": "Marketing Associate Head",
+    "portfolio": "Marketing",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-omarsaboor@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 39,
+    "name": "Omar Alamgir",
+    "position": "Marketing Associate Head",
+    "portfolio": "Marketing",
+    "linkedinUrl": "https://www.linkedin.com/in/omer-alam-49343531a",
+    "githubUrl": "https://github.com/aalamomar88-star",
+    "email": "aalamomar88@gmail.com",
+    "imageUrl": "https://drive.google.com/thumbnail?id=1mmvKlns0WE22RweZDySlhvbPB2tu2xuJ"
+  },
+  {
+    "id": 40,
+    "name": "Abdul qavi khan",
+    "position": "Marketing Associate Head",
+    "portfolio": "Marketing",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-qavi@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 41,
+    "name": "Mohammed Ilyas Ahmed",
+    "position": "Operations Associate Head",
+    "portfolio": "Operations",
+    "linkedinUrl": "https://www.linkedin.com/in/mohammed-ilyas-ahmed-0b52ab334?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+    "githubUrl": "https://github.com/Ilyakhudus",
+    "email": "ahmedmohammedilyas129@gmail.com",
+    "imageUrl": "https://drive.google.com/thumbnail?id=1Ii8S4PcJ3rWg-E7X0gdoOgYBaB4BLAT8"
+  },
+  {
+    "id": 42,
+    "name": "Mohammed Arif",
+    "position": "Operations Associate Head",
+    "portfolio": "Operations",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-arif@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 43,
+    "name": "Saifuddin",
+    "position": "Operations Associate Head",
+    "portfolio": "Operations",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-saifuddin@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 44,
+    "name": "Hamoody",
+    "position": "Media Associate Head",
+    "portfolio": "Media",
+    "linkedinUrl": "#",
+    "githubUrl": "https://github.com/hamoody08",
+    "email": "hxmoody08@gmail.com",
+    "imageUrl": "https://drive.google.com/thumbnail?id=1-3cUNy_VVrds7PU9ETGdj-Co2e8QmRGL"
+  }
+]

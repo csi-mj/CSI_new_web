@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -9,141 +9,157 @@ import { Carousel, TeamMember } from './_components/Carousel';
 import GB from './_components/GB';
 import NavTabs from './_components/NavTabs';
 import Shuffle from '@/components/Shuffle';
+import gbData from './_data/gb.json';
+import execData from './_data/exec.json';
+import coreData from './_data/core.json';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const teamMembers: TeamMember[] = [
-  {
-    id: '1',
-    name: 'Dr. Carolyn Solverson',
-    title: 'MD',
-    image:
-      'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&h=500&fit=crop&crop=face',
-    specialties: ['OB/GYN', 'PREVENTIVE CARE']
-  },
-  {
-    id: '2',
-    name: 'Dr. Sarah Johnson',
-    title: 'MD',
-    image:
-      'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&h=500&fit=crop&crop=face',
-    specialties: ['CARDIOLOGY', 'INTERNAL MEDICINE']
-  },
-  {
-    id: '3',
-    name: 'Dr. Michael Chen',
-    title: 'MD',
-    image:
-      'https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=400&h=500&fit=crop&crop=face',
-    specialties: ['PEDIATRICS', 'FAMILY MEDICINE']
-  },
-  {
-    id: '4',
-    name: 'Dr. Emily Rodriguez',
-    title: 'MD',
-    image:
-      'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&h=500&fit=crop&crop=face',
-    specialties: ['DERMATOLOGY', 'COSMETIC SURGERY']
-  },
-  {
-    id: '5',
-    name: 'Dr. James Wilson',
-    title: 'MD',
-    image:
-      'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&h=500&fit=crop&crop=face',
-    specialties: ['ORTHOPEDICS', 'SPORTS MEDICINE']
-  },
-  {
-    id: '6',
-    name: 'Dr. Lisa Thompson',
-    title: 'MD',
-    image:
-      'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&h=500&fit=crop&crop=face',
-    specialties: ['NEUROLOGY', 'SLEEP MEDICINE']
-  },
-  {
-    id: '7',
-    name: 'Dr. Robert Davis',
-    title: 'MD',
-    image:
-      'https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=400&h=500&fit=crop&crop=face',
-    specialties: ['EMERGENCY MEDICINE', 'TRAUMA CARE']
-  },
-  {
-    id: '8',
-    name: 'Dr. Maria Garcia',
-    title: 'MD',
-    image:
-      'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&h=500&fit=crop&crop=face',
-    specialties: ['PSYCHIATRY', 'MENTAL HEALTH']
-  }
-];
+type ExecRaw = {
+  id: number;
+  name: string;
+  position: string;
+  portfolio: string;
+  linkedinUrl?: string | null;
+  githubUrl?: string | null;
+  email?: string | null;
+  imageUrl?: string | null;
+};
 
-const teams = [
-  {
-    name: 'TECH',
-    teamMembers: teamMembers
-  },
-  {
-    name: 'WEB',
-    teamMembers: teamMembers
-  },
-  {
-    name: 'HR',
-    teamMembers: teamMembers
-  },
-  {
-    name: 'EVENT',
-    teamMembers: teamMembers
-  },
-  {
-    name: 'DESIGN',
-    teamMembers: teamMembers
-  },
-  {
-    name: 'EDITORIAL',
-    teamMembers: teamMembers
-  },
-  {
-    name: 'MEDIA',
-    teamMembers: teamMembers
-  },
-  {
-    name: 'MARKETING',
-    teamMembers: teamMembers
-  },
-  {
-    name: 'OPERATIONS',
-    teamMembers: teamMembers
-  },
-];
+const execRawData: ExecRaw[] = execData as ExecRaw[];
+
+const PLACEHOLDER_IMG = 'https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=800&auto=format&fit=crop';
+
+// URL normalizers used by GB and Core cards
+const toUrl = (val?: string): string | undefined => {
+  if (!val) return undefined;
+  const v = val.trim();
+  if (v.startsWith('http://') || v.startsWith('https://')) return v;
+  return `https://www.linkedin.com/in/${v}`;
+};
+
+const toGithubUrl = (val?: string): string | undefined => {
+  if (!val) return undefined;
+  const v = val.trim();
+  if (v.startsWith('http://') || v.startsWith('https://')) return v;
+  return `https://github.com/${v}`;
+};
+
+const groupedExec: Record<string, TeamMember[]> = execRawData.reduce((acc, m) => {
+  const key = (m.portfolio || 'Misc').toUpperCase();
+  const member: TeamMember = {
+    id: String(m.id),
+    name: m.name,
+    title: m.position,
+    image: PLACEHOLDER_IMG,
+    specialties: [],
+  };
+  if (!acc[key]) acc[key] = [];
+  acc[key].push(member);
+  return acc;
+}, {} as Record<string, TeamMember[]>);
+
+const teams = Object.keys(groupedExec).map((name) => ({
+  name,
+  teamMembers: groupedExec[name],
+}));
+
+// Core team uses the same shape as ExecRaw; adapt to GB CardItem for grid display
+const coreRawData: ExecRaw[] = coreData as ExecRaw[];
+const groupedCoreCards: Record<string, CardItem[]> = coreRawData.reduce((acc, m) => {
+  const key = (m.portfolio || 'Misc').toUpperCase();
+  const item: CardItem = {
+    name: m.name,
+    profession: m.position,
+    image: m.imageUrl || undefined,
+    githubUrl: toGithubUrl(m.githubUrl || undefined),
+    linkedinUrl: toUrl(m.linkedinUrl || undefined),
+  };
+  if (!acc[key]) acc[key] = [];
+  acc[key].push(item);
+  return acc;
+}, {} as Record<string, CardItem[]>);
+
+type RawGbMember = {
+  id: number;
+  Name: string;
+  Position: string;
+  Portfolio: string;
+  'Linkedin Id'?: string;
+  'Email Id'?: string;
+  'Github Id'?: string;
+  'Formal Picture'?: string;
+  'Governing Body Position': string;
+};
+
+type CardItem = {
+  name?: string;
+  profession?: string; 
+  image?: string;
+  githubUrl?: string;
+  linkedinUrl?: string;
+};
+
+const rawGbData: RawGbMember[] = gbData as RawGbMember[];
+
+const mapGbGroup = (pos: string): string => {
+  const p = pos.trim();
+  if (p === 'Chief Coordinator' || p === 'Associate CC') return 'Chief Coordinator';
+  if (p === 'Deputy GS' || p === 'General Secretary') return 'General Secretary';
+  return p;
+};
+
+const gbByPosition: Record<string, CardItem[]> = rawGbData.reduce((acc, m) => {
+  const original = m['Governing Body Position'].trim();
+  const key = mapGbGroup(original);
+  const item: CardItem = {
+    name: m.Name,
+    profession: original,
+    githubUrl: toGithubUrl(m['Github Id'] || undefined),
+    linkedinUrl: toUrl(m['Linkedin Id'] || undefined),
+  };
+  if (!acc[key]) acc[key] = [];
+  acc[key].push(item);
+  return acc;
+}, {} as Record<string, CardItem[]>);
 
 export default function TeamPage() {
   const [activeIdx, setActiveIdx] = useState(0);
-  const activeTeam = teams[activeIdx];
-  const teamTabs = teams.map((t) => t.name);
+  const teamTabs = useMemo(() => teams.map((t) => t.name), []);
+  const activeTeam = useMemo(() => teams[activeIdx], [activeIdx]);
 
-  // Secondary NavTabs for GB section
   const [activeGbIdx, setActiveGbIdx] = useState(0);
-  const gbTabs = ['GB ONE', 'GB TWO', 'GB THREE'];
-  const gbItems = Array.from({ length: 5 }).map((_, i) => ({
-    name: `Member ${i + 1}`,
-    profession: i % 2 ? 'ASSOCIATE' : 'TECH HEAD',
-    image:
-      'https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=800&auto=format&fit=crop',
-    hoverGif: 'https://media1.tenor.com/m/7HYOnFr3-aIAAAAd/sad-sad-monkey.gif',
-    gradient: 'linear-gradient(135deg, rgba(20,20,20,0.9), rgba(30,30,30,0.9))',
-    borderColor: 'transparent',
-    githubUrl: 'https://github.com/',
-    linkedinUrl: 'https://www.linkedin.com/'
-  }));
+  const gbTabs = useMemo(() => Object.keys(gbByPosition), []);
+  const gbItems = useMemo(() => (gbTabs.length ? gbByPosition[gbTabs[activeGbIdx]] : []), [gbTabs, activeGbIdx]);
 
-  // Refs for section scoping (prevents global DOM scans)
+  const [activeCoreIdx, setActiveCoreIdx] = useState(0);
+  const coreTeamTabs = useMemo(() => Object.keys(groupedCoreCards), []);
+  const coreItems = useMemo(() => (coreTeamTabs.length ? groupedCoreCards[coreTeamTabs[activeCoreIdx]] : []), [coreTeamTabs, activeCoreIdx]);
+
   const gbRef = useRef<HTMLElement | null>(null);
   const execRef = useRef<HTMLElement | null>(null);
   const coreRef = useRef<HTMLElement | null>(null);
 
-  // Scroll-triggered animations for sections (scoped for performance)
+  const [execVisible, setExecVisible] = useState(false);
+  const [coreVisible, setCoreVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            if (entry.target === execRef.current) setExecVisible(true);
+            if (entry.target === coreRef.current) setCoreVisible(true);
+          }
+        });
+      },
+      { rootMargin: '200px 0px' }
+    );
+    if (execRef.current) observer.observe(execRef.current);
+    if (coreRef.current) observer.observe(coreRef.current);
+    return () => observer.disconnect();
+  }, []);
+
   useGSAP(
     () => {
       if (gbRef.current) {
@@ -166,7 +182,7 @@ export default function TeamPage() {
 
       if (execRef.current) {
         gsap.to(execRef.current, {
-          scale: 0.93,
+          scale: 0.9,
           y: 90,
           ease: 'none',
           scrollTrigger: {
@@ -252,9 +268,11 @@ export default function TeamPage() {
         </div>
       </div>
 
-      <div className="w-full">
-        <Carousel teamMembers={activeTeam.teamMembers} teamName={activeTeam.name} />
-      </div>
+      {execVisible && (
+        <div className="w-full">
+          <Carousel teamMembers={activeTeam.teamMembers} teamName={activeTeam.name} />
+        </div>
+      )}
       </section>
        <section
         ref={coreRef}
@@ -278,11 +296,13 @@ export default function TeamPage() {
             />
         </div>
          <div className="relative w-full px-4">
-        <div className="flex flex-wrap gap-2 justify-center mb-6">
-          <NavTabs tabs={teamTabs} activeIdx={activeIdx} onChange={setActiveIdx} />
-        </div>
+        {coreVisible && (
+          <div className="flex flex-wrap gap-2 justify-center mb-6">
+            <NavTabs tabs={coreTeamTabs} activeIdx={activeCoreIdx} onChange={setActiveCoreIdx} />
+          </div>
+        )}
       </div>
-      <GB items={gbItems} />
+      {coreVisible && <GB items={coreItems} />}
       </section>
     </div>
   );

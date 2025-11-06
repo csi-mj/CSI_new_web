@@ -12,7 +12,7 @@ const items = [
   { label: 'Magazine', href: '/magazine' },
   { label: 'Events', href: '/events' },
   { label: 'Resources', href: '/resources' },
-  { label: 'Become a Member', href: '/membership' },
+  // { label: 'Become a Member', href: '/membership' },
 ];
 
 const Navbar = () => {

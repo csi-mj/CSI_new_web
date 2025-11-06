@@ -131,9 +131,9 @@ const TeamCard3D: React.FC<TeamCard3DProps> = React.memo(({
                         <img
                           src={member.image}
                           alt={member.name}
-                          
-                          sizes="(max-width: 768px) 100vw, 600px"
-                          className="object-cover w-full h-full"
+                          width={450}
+                          height={470}
+                          className="object-cover w-[260px] h-[320px] sm:w-[320px] sm:h-[420px] md:w-[450px] md:h-[470px]"
                         />
                       </motion.div>
                       <motion.div 

@@ -3,6 +3,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
+import image from "@/public/about/zainsir.jpg";
 
 type FacultyProps = {
   image?: string;
@@ -12,7 +13,6 @@ type FacultyProps = {
 };
 
 const Faculty = React.memo(function Faculty({
-  image = "https://images.unsplash.com/photo-1544723795-3fb6469f5b39?q=80&w=1200&auto=format&fit=crop",
   name = "Zainuddin Naveed",
   department = "Department of Computer Science & Engineering",
   quote = "Inspiring minds to build the future.",
