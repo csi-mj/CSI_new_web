@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { motion } from "framer-motion";
-import { FiEye } from "react-icons/fi";
+import { FiDownload, FiEye } from "react-icons/fi";
 
 export interface Card {
   id: number;
@@ -22,7 +22,7 @@ const cardVariants = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6 },
+    transition: { duration: 0.8 },
   },
 };
 
@@ -50,9 +50,8 @@ const GridCards: React.FC<GridCardsProps> = ({ cards, onSelect }) => {
             transition={{ delay: index * 0.05 }}
             onClick={() => onSelect(card)}
             className={`
-              group cursor-target bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-2
+              group cursor-target bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-2
               hover:bg-white/10 transition-all duration-300 cursor-pointer
-              hover:shadow-[0_8px_30px_rgba(0,0,0,0.25)]
               overflow-hidden relative 
               ${index === 0 ? "lg:row-span-2" : ""}
             `}
@@ -68,11 +67,11 @@ const GridCards: React.FC<GridCardsProps> = ({ cards, onSelect }) => {
                 `}
               />
 
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
 
               {/* Centered hover indicator */}
               <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                <span className="inline-flex items-center gap-2 rounded-full bg-gray-500/10 px-4 py-2 text-sm font-medium text-white cursor-target ring-1 ring-white/20 backdrop-blur-sm">
+                <span className="inline-flex items-center gap-2 rounded-full bg-gray-500/30 px-4 py-2 text-sm font-medium text-white cursor-target ring-1 ring-white/20 backdrop-blur-sm">
                   <FiEye className="h-4 w-4" />
                   View
                 </span>
@@ -85,14 +84,14 @@ const GridCards: React.FC<GridCardsProps> = ({ cards, onSelect }) => {
                 <p className="text-lg mb-2 text-white/80">{card.description}</p>
                }
               
-               <a
-                 onClick={(e) => e.stopPropagation()}
-                 href={card.pdf}
-                 download
-                 className="mt-2 bg-primary/80 hover:bg-primary text-xs px-3 py-2 rounded-lg shadow transition cursor-pointer cursor-target"
-               >
-                 Download PDF
-               </a>
+                <a
+                   href={card.pdf}
+                   download
+                   className="px-4 py-2 rounded-lg bg-primary/80 hover:bg-primary text-white text-sm font-medium transition-all duration-200 inline-flex items-center gap-2 cursor-target cursor-pointer"
+                 >
+                   <FiDownload className="h-4 w-4" />
+                   Download
+                 </a>
              </div>
 
             </div>

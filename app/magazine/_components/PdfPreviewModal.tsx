@@ -20,30 +20,30 @@ export default function PdfPreviewModal({
   return createPortal(
     <>
       <motion.div
-        className="fixed inset-0 z-[9999] bg-white/5 backdrop-blur-sm flex items-center md:items-end justify-center p-4 md:px-8"
+        className="fixed inset-0 z-[9999] bg-white/5 backdrop-blur-sm flex items-center md:items-end justify-center p-0 md:px-8"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.4, ease: "easeOut" }}
       >
         <motion.div
-          className="relative w-[90%] md:w-[70%] lg:w-[55%] h-[75vh] md:h-[95vh] bg-[#0B0B0D]/60 rounded-2xl border border-white/40 overflow-hidden"
+          className="relative w-[92%] md:w-[70%] lg:w-[55%] h-[75vh] md:h-[95vh] bg-[#0B0B0D]/60 rounded-2xl border border-white/40 overflow-hidden "
           initial={{ opacity: 0, y: 34, scale: 0.7 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 24, scale: 0.7 }}
-          transition={{ duration: 0.3, ease: "easeOut" }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
           role="dialog"
           aria-modal="true"
           aria-label={file.title}
         >
 
           {/* Header */}
-          <div className="flex justify-between items-center p-4 bg-[#111214]/10 border-b border-white/10">
-            <h2 className="font-semibold text-white text-xl tracking-wide">
+          <div className="flex justify-between items-center p-4 bg-[#111214]/10 border-b border-white/10 max-sm:flex-wrap">
+            <h2 className="font-semibold mb-3 max-sm:text-center max-sm:w-full text-white text-xl tracking-wide">
               {file.title}
             </h2>
 
-            <div className="flex gap-3 items-center">
+            <div className="max-sm:w-full flex gap-3 items-center max-sm:justify-between">
 
   {/* View Full Page */}
   <a

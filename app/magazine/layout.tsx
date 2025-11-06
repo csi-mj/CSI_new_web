@@ -8,7 +8,7 @@ export default function RootLayout({
   return (
     <div className="relative mt-24">
       <div className="fixed inset-0 opacity-60 pointer-events-none" aria-hidden>
-        <StripedPattern className="text-gray-500/80" />
+        <StripedPattern className="text-gray-600/70" />
       </div>
       <div className="relative z-10">
         {children}
