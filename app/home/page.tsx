@@ -148,8 +148,10 @@ export default function HomePage() {
           </Suspense>
         </div>
       </section>
-
+       <div className='max-md:hidden'>
       <Cursor />
+
+       </div>
     </div>
   );
 }

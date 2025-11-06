@@ -49,7 +49,6 @@ export const BentoGridItem = ({
           {/* Define size container */}
           <Image
             src={imageSrc}
-            id='cursor-mid'
             alt="Image"
             layout="fill" // Ensures the image fills the container
             sizes="(min-width: 768px) 33vw, 100vw"
