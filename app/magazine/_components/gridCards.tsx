@@ -70,7 +70,7 @@ const GridCards: React.FC<GridCardsProps> = ({ cards, onSelect }) => {
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
 
               {/* Centered hover indicator */}
-              <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+              <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-0  group-hover:opacity-100 transition-all duration-700">
                 <span className="inline-flex items-center gap-2 rounded-full bg-gray-500/30 px-4 py-2 text-sm font-medium text-white cursor-target ring-1 ring-white/20 backdrop-blur-sm">
                   <FiEye className="h-4 w-4" />
                   View

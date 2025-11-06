@@ -20,7 +20,7 @@ export default function PdfPreviewModal({
   return createPortal(
     <>
       <motion.div
-        className="fixed inset-0 z-[9999] bg-white/5 backdrop-blur-sm flex items-center md:items-end justify-center p-0 md:px-8"
+        className="fixed inset-0 z-[9999] bg-white/5 backdrop-blur-sm flex items-center justify-center p-0 md:px-8"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
