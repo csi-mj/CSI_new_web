@@ -28,7 +28,7 @@ export default function Page() {
         <div className="w-full flex justify-center">
           <TextGenerateEffect
             words="CSI Bulletins"
-            duration={1.3}
+            duration={1}
             delay={0.4}
             className="text-primary font-silkscreen pb-3 text-4xl md:text-6xl font-semibold tracking-tight my-4"
           />
@@ -36,9 +36,9 @@ export default function Page() {
 
         {/* ✅ Animate Grid */}
         <motion.div
-          initial={{ opacity: 1, y: 60 }}
+          initial={{ opacity: 1, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: "easeOut" }}
+          transition={{ duration: .6, ease: "easeOut" }}
           viewport={{ once: true, amount: 0.2 }}
         >
           <GridCards cards={cards} onSelect={(file) => setSelectedFile(file)} />
