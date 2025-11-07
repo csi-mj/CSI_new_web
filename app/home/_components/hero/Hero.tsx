@@ -2,7 +2,7 @@
 import { BackgroundLines } from '@/components/ui/background-lines';
 import Image from 'next/image';
 import React, { useEffect, useRef } from 'react';
-import logo from '../../../public/logos/csi_logo.png';
+import logo from '@/public/logos/csi_logo.png';
 import { MorphingText } from '@/components/ui/morphing-text';
 import { TypingAnimation } from '@/components/ui/typing-animation';
 import Link from 'next/link';
@@ -71,7 +71,7 @@ const Hero = () => {
   return (
     <section
       ref={heroRef}
-      className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden px-4 py-8"
+      className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden px-4 py-0"
       aria-label="Hero section"
     >
       <BackgroundLines className="flex w-full flex-col items-center justify-center gap-3 px-2">
@@ -106,7 +106,7 @@ const Hero = () => {
           </div>
         </div>
 
-        <div className="hero-btn flex w-full max-w-2xl flex-col items-center justify-center gap-4 pt-6 sm:flex-row">
+        {/* <div className="hero-btn flex w-full max-w-2xl flex-col items-center justify-center gap-4 pt-6 sm:flex-row">
           <Link
             href="https://forms.gle/ePeDHzKgrb9MUGTx6"
             target="_blank"
@@ -128,7 +128,7 @@ const Hero = () => {
               Know More
             </span>
           </button>
-        </div>
+        </div> */}
       </BackgroundLines>
     </section>
   );

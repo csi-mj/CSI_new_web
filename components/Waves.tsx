@@ -89,20 +89,6 @@ interface Point {
   x: number;
   y: number;
   wave: { x: number; y: number };
-  cursor: { x: number; y: number; vx: number; vy: number };
-}
-
-interface Mouse {
-  x: number;
-  y: number;
-  lx: number;
-  ly: number;
-  sx: number;
-  sy: number;
-  v: number;
-  vs: number;
-  a: number;
-  set: boolean;
 }
 
 interface Config {
@@ -111,9 +97,6 @@ interface Config {
   waveSpeedY: number;
   waveAmpX: number;
   waveAmpY: number;
-  friction: number;
-  tension: number;
-  maxCursorMove: number;
   xGap: number;
   yGap: number;
 }
@@ -127,9 +110,6 @@ interface WavesProps {
   waveAmpY?: number;
   xGap?: number;
   yGap?: number;
-  friction?: number;
-  tension?: number;
-  maxCursorMove?: number;
   style?: CSSProperties;
   className?: string;
 }
@@ -143,9 +123,6 @@ const Waves: React.FC<WavesProps> = ({
   waveAmpY = 16,
   xGap = 10,
   yGap = 32,
-  friction = 0.925,
-  tension = 0.005,
-  maxCursorMove = 100,
   style = {},
   className = ''
 }) => {
@@ -155,28 +132,12 @@ const Waves: React.FC<WavesProps> = ({
   const boundingRef = useRef<{
     width: number;
     height: number;
-    left: number;
-    top: number;
   }>({
     width: 0,
-    height: 0,
-    left: 0,
-    top: 0
+    height: 0
   });
   const noiseRef = useRef(new Noise(Math.random()));
   const linesRef = useRef<Point[][]>([]);
-  const mouseRef = useRef<Mouse>({
-    x: -10,
-    y: 0,
-    lx: 0,
-    ly: 0,
-    sx: 0,
-    sy: 0,
-    v: 0,
-    vs: 0,
-    a: 0,
-    set: false
-  });
 
   const configRef = useRef<Config>({
     lineColor,
@@ -184,9 +145,6 @@ const Waves: React.FC<WavesProps> = ({
     waveSpeedY,
     waveAmpX,
     waveAmpY,
-    friction,
-    tension,
-    maxCursorMove,
     xGap,
     yGap
   });
@@ -200,13 +158,10 @@ const Waves: React.FC<WavesProps> = ({
       waveSpeedY,
       waveAmpX,
       waveAmpY,
-      friction,
-      tension,
-      maxCursorMove,
       xGap,
       yGap
     };
-  }, [lineColor, waveSpeedX, waveSpeedY, waveAmpX, waveAmpY, friction, tension, maxCursorMove, xGap, yGap]);
+  }, [lineColor, waveSpeedX, waveSpeedY, waveAmpX, waveAmpY, xGap, yGap]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -219,9 +174,7 @@ const Waves: React.FC<WavesProps> = ({
       const rect = container.getBoundingClientRect();
       boundingRef.current = {
         width: rect.width,
-        height: rect.height,
-        left: rect.left,
-        top: rect.top
+        height: rect.height
       };
       canvas.width = rect.width;
       canvas.height = rect.height;
@@ -243,8 +196,7 @@ const Waves: React.FC<WavesProps> = ({
           pts.push({
             x: xStart + xGap * i,
             y: yStart + yGap * j,
-            wave: { x: 0, y: 0 },
-            cursor: { x: 0, y: 0, vx: 0, vy: 0 }
+            wave: { x: 0, y: 0 }
           });
         }
         linesRef.current.push(pts);
@@ -253,41 +205,20 @@ const Waves: React.FC<WavesProps> = ({
 
     function movePoints(time: number) {
       const lines = linesRef.current;
-      const mouse = mouseRef.current;
       const noise = noiseRef.current;
-      const { waveSpeedX, waveSpeedY, waveAmpX, waveAmpY, friction, tension, maxCursorMove } = configRef.current;
+      const { waveSpeedX, waveSpeedY, waveAmpX, waveAmpY } = configRef.current;
       lines.forEach(pts => {
         pts.forEach(p => {
           const move = noise.perlin2((p.x + time * waveSpeedX) * 0.002, (p.y + time * waveSpeedY) * 0.0015) * 12;
           p.wave.x = Math.cos(move) * waveAmpX;
           p.wave.y = Math.sin(move) * waveAmpY;
-
-          const dx = p.x - mouse.sx,
-            dy = p.y - mouse.sy;
-          const dist = Math.hypot(dx, dy);
-          const l = Math.max(175, mouse.vs);
-          if (dist < l) {
-            const s = 1 - dist / l;
-            const f = Math.cos(dist * 0.001) * s;
-            p.cursor.vx += Math.cos(mouse.a) * f * l * mouse.vs * 0.00065;
-            p.cursor.vy += Math.sin(mouse.a) * f * l * mouse.vs * 0.00065;
-          }
-
-          p.cursor.vx += (0 - p.cursor.x) * tension;
-          p.cursor.vy += (0 - p.cursor.y) * tension;
-          p.cursor.vx *= friction;
-          p.cursor.vy *= friction;
-          p.cursor.x += p.cursor.vx * 2;
-          p.cursor.y += p.cursor.vy * 2;
-          p.cursor.x = Math.min(maxCursorMove, Math.max(-maxCursorMove, p.cursor.x));
-          p.cursor.y = Math.min(maxCursorMove, Math.max(-maxCursorMove, p.cursor.y));
         });
       });
     }
 
-    function moved(point: Point, withCursor = true): { x: number; y: number } {
-      const x = point.x + point.wave.x + (withCursor ? point.cursor.x : 0);
-      const y = point.y + point.wave.y + (withCursor ? point.cursor.y : 0);
+    function moved(point: Point): { x: number; y: number } {
+      const x = point.x + point.wave.x;
+      const y = point.y + point.wave.y;
       return { x: Math.round(x * 10) / 10, y: Math.round(y * 10) / 10 };
     }
 
@@ -299,12 +230,12 @@ const Waves: React.FC<WavesProps> = ({
       ctx.beginPath();
       ctx.strokeStyle = configRef.current.lineColor;
       linesRef.current.forEach(points => {
-        let p1 = moved(points[0], false);
+        let p1 = moved(points[0]);
         ctx.moveTo(p1.x, p1.y);
         points.forEach((p, idx) => {
           const isLast = idx === points.length - 1;
-          p1 = moved(p, !isLast);
-          const p2 = moved(points[idx + 1] || points[points.length - 1], !isLast);
+          p1 = moved(p);
+          const p2 = moved(points[idx + 1] || points[points.length - 1]);
           ctx.lineTo(p1.x, p1.y);
           if (isLast) ctx.moveTo(p2.x, p2.y);
         });
@@ -313,22 +244,6 @@ const Waves: React.FC<WavesProps> = ({
     }
 
     function tick(t: number) {
-      if (!container) return;
-      const mouse = mouseRef.current;
-      mouse.sx += (mouse.x - mouse.sx) * 0.1;
-      mouse.sy += (mouse.y - mouse.sy) * 0.1;
-      const dx = mouse.x - mouse.lx,
-        dy = mouse.y - mouse.ly;
-      const d = Math.hypot(dx, dy);
-      mouse.v = d;
-      mouse.vs += (d - mouse.vs) * 0.1;
-      mouse.vs = Math.min(100, mouse.vs);
-      mouse.lx = mouse.x;
-      mouse.ly = mouse.y;
-      mouse.a = Math.atan2(dy, dx);
-      container.style.setProperty('--x', `${mouse.sx}px`);
-      container.style.setProperty('--y', `${mouse.sy}px`);
-
       movePoints(t);
       drawLines();
       frameIdRef.current = requestAnimationFrame(tick);
@@ -338,38 +253,14 @@ const Waves: React.FC<WavesProps> = ({
       setSize();
       setLines();
     }
-    function onMouseMove(e: MouseEvent) {
-      updateMouse(e.clientX, e.clientY);
-    }
-    function onTouchMove(e: TouchEvent) {
-      const touch = e.touches[0];
-      updateMouse(touch.clientX, touch.clientY);
-    }
-    function updateMouse(x: number, y: number) {
-      const mouse = mouseRef.current;
-      const b = boundingRef.current;
-      mouse.x = x - b.left;
-      mouse.y = y - b.top;
-      if (!mouse.set) {
-        mouse.sx = mouse.x;
-        mouse.sy = mouse.y;
-        mouse.lx = mouse.x;
-        mouse.ly = mouse.y;
-        mouse.set = true;
-      }
-    }
 
     setSize();
     setLines();
     frameIdRef.current = requestAnimationFrame(tick);
     window.addEventListener('resize', onResize);
-    window.addEventListener('mousemove', onMouseMove);
-    window.addEventListener('touchmove', onTouchMove, { passive: false });
 
     return () => {
       window.removeEventListener('resize', onResize);
-      window.removeEventListener('mousemove', onMouseMove);
-      window.removeEventListener('touchmove', onTouchMove);
       if (frameIdRef.current !== null) {
         cancelAnimationFrame(frameIdRef.current);
       }
@@ -385,13 +276,6 @@ const Waves: React.FC<WavesProps> = ({
       }}
       className={`absolute top-0 left-0 w-full h-full overflow-hidden ${className}`}
     >
-      <div
-        className="absolute top-0 left-0 bg-[#160000] rounded-full w-[0.5rem] h-[0.5rem]"
-        style={{
-          transform: 'translate3d(calc(var(--x) - 50%), calc(var(--y) - 50%), 0)',
-          willChange: 'transform'
-        }}
-      />
       <canvas ref={canvasRef} className="block w-full h-full" />
     </div>
   );

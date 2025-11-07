@@ -19,7 +19,7 @@ const Title = () => {
          {isInView && (
           <div>
             <TextGenerateEffect 
-             words='Connect With Us' 
+             words='Connect With  Us' 
              duration={1} 
              delay={.1}
              className='text-primary z-50 font-orbitron text-3xl md:text-5xl lg:text-6xl font-medium'

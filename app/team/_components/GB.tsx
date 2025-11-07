@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useMemo } from "react";
 import CardDemo from "@/components/cards-demo-1";
 
 type CardItem = {
@@ -67,7 +67,7 @@ const GB: React.FC<GBProps> = ({ items = demoItems, className }) => {
     return rows;
   };
 
-  const rows = computeRows(items);
+  const rows = useMemo(() => computeRows(items), [items]);
 
   return (
     <div className={"container mx-auto px-4 sm:px-6 lg:px-4 xl:px-28 py-6 " + (className || "") }>
@@ -95,4 +95,4 @@ const GB: React.FC<GBProps> = ({ items = demoItems, className }) => {
   );
 };
 
-export default GB;
+export default React.memo(GB);

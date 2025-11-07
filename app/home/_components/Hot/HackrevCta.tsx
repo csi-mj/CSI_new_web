@@ -18,7 +18,7 @@ const HackrevCta = () => {
                     borderColor="#333"
                     hoverFillColor="#1a1a1a"
                 />
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(0,0,0,0.15),transparent_100%),linear-gradient(to_bottom,rgba(0,0,0,0.02),rgba(0,0,0,0.5))]" />
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(0,0,0,0.15),transparent_100%),linear-gradient(to_bottom,rgba(0,0,0,0.02),rgba(0,0,0,0.2))]" />
             </div>
 
             <motion.div

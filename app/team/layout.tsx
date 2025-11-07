@@ -10,7 +10,7 @@ export default function RootLayout({
       <Waves
         lineColor="rgba(255,255,255,0.12)"
         backgroundColor="transparent"
-        className="pointer-events-none"
+        // className="pointer-events-none"
       />
       <div className="relative z-10">
         {children}
