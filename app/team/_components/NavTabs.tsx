@@ -20,7 +20,7 @@ const NavTabs: React.FC<NavTabsProps> = ({ tabs, activeIdx, onChange, className 
             key={label}
             type="button"
             onClick={() => onChange(idx)}
-            className={`relative cursor-target font-silkscreen cursor-pointer select-none rounded-xl px-4 py-2.5 sm:px-5 sm:py-3 text-xs sm:text-sm md:text-base font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent overflow-hidden ${
+            className={`relative cursor-target cursor-pointer select-none rounded-xl px-4 py-2.5 sm:px-5 sm:py-3 text-xs sm:text-sm md:text-base font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent overflow-hidden ${
               active
                 ? "bg-white/50 text-black shadow-2xl shadow-white/20"
                 : "bg-white/5 text-white/70 hover:text-white hover:bg-white/10 border border-white/10 backdrop-blur-sm"

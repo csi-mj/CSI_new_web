@@ -2,28 +2,25 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import ResourceCard from "./components/resourcecard";
+import PdfPreviewModal from "../../components/ui/PdfPreviewModal";
+import { StripedPattern } from "@/components/magicui/striped-pattern";
 
 const ResourcesPage = () => {
-  const [selectedPdf, setSelectedPdf] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [selectedPdf, setSelectedPdf] = useState(null); // { pdf, title }
 
-  useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 1500);
-    return () => clearTimeout(timer);
-  }, []);
+ 
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black text-white pt-24 px-8 pb-40 sm:pb-48 relative overflow-hidden">
-      {/* ✨ animated floating background */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(255,0,150,0.1),transparent_70%),radial-gradient(circle_at_80%_70%,rgba(0,200,255,0.1),transparent_70%)] animate-pulse" />
+    <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black text-white pt-24 px-8 pb-40 relative overflow-hidden">
 
+      <StripedPattern className="text-gray-600/35" />
       {/* 🧠 Header Section */}
-      <section className="text-center mb-16 pt-12 pb-10 relative z-10">
+      <section className="text-center mb-5 relative z-10">
         <motion.h1
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="font-silkscreen text-3xl sm:text-4xl md:text-5xl lg:text-8xl font-extrabold tracking-tight text-white drop-shadow-lg mt-8 text-center"
+          className="font-silkscreen text-3xl sm:text-4xl md:text-4xl lg:text-6xl font-extrabold tracking-tight text-white drop-shadow-lg mt-3 text-center"
         >
           <span className="inline-flex items-baseline justify-center">
             <span className="animate-typewriter overflow-hidden whitespace-nowrap inline-block">
@@ -37,31 +34,22 @@ const ResourcesPage = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.8 }}
-          className="font-silkscreen mt-6 text-lg max-w-2xl mx-auto text-[#d40924]"
+          className="font-silkscreen mt-3 text-md max-w-2xl mx-auto text-[#d40924]"
         >
           Explore curated resources from all our tech domains. Click a card to dive in!
         </motion.p>
 
-        <motion.div
+        {/* <motion.div
           initial={{ scaleX: 0 }}
           animate={{ scaleX: 1 }}
           transition={{ delay: 0.8, duration: 0.6, ease: "easeOut" }}
           className="mt-10 sm:mt-12 w-24 h-1 bg-gradient-to-r from-red-500 to-blue-500 mx-auto rounded-full origin-left"
-        />
+        /> */}
       </section>
 
       {/* 📚 Resource Cards */}
       <section className="relative z-10">
-        {isLoading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
-            {[...Array(6)].map((_, i) => (
-              <div
-                key={i}
-                className="animate-pulse bg-gradient-to-r from-gray-700 via-gray-800 to-gray-700 h-80 rounded-2xl"
-              />
-            ))}
-          </div>
-        ) : (
+        
           <motion.div
             className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10"
             initial="hidden"
@@ -133,47 +121,12 @@ const ResourcesPage = () => {
               onClick={setSelectedPdf}
             />
           </motion.div>
-        )}
       </section>
 
-      {/* 🪟 Animated Modal */}
+      {/* 🪟 PDF Modal (shared with Magazine) */}
       <AnimatePresence>
         {selectedPdf && (
-          <motion.div
-            className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            <motion.div
-              className="relative bg-white rounded-lg w-11/12 md:w-3/4 lg:w-1/2 p-4 shadow-2xl"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              transition={{ duration: 0.3 }}
-            >
-              <button
-                onClick={() => setSelectedPdf(null)}
-                className="absolute top-2 right-2 text-black text-2xl font-bold hover:scale-110 transition-transform"
-              >
-                ✕
-              </button>
-
-              <a
-                href={selectedPdf}
-                download
-                className="absolute top-2 left-2 px-3 py-1 bg-blue-500 text-white rounded-lg hover:bg-blue-600 text-sm shadow-lg transition-all duration-200"
-              >
-                Download PDF
-              </a>
-
-              <iframe
-                src={selectedPdf}
-                className="w-full h-[80vh] mt-8 rounded-md border border-gray-300"
-                title="PDF Viewer"
-              ></iframe>
-            </motion.div>
-          </motion.div>
+          <PdfPreviewModal file={selectedPdf} onClose={() => setSelectedPdf(null)} />
         )}
       </AnimatePresence>
     </div>
@@ -194,7 +147,6 @@ export default ResourcesPage;
 
 
 
-// "use client";
 // import { useState, useEffect } from "react";
 // import { motion } from "framer-motion";
 // import ResourceCard from "./components/resourcecard"; // ✅ import your card here

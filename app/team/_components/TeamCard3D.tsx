@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
+
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { CardContainer, CardBody, CardItem } from '@/components/ui/3d-card';
@@ -12,6 +13,11 @@ export interface TeamMember {
   title: string;
   image: string;
   specialties: string[];
+  social?: {
+    github?: string;
+    linkedin?: string;
+    twitter?: string;
+  };
 }
 
 interface TeamCard3DProps {
@@ -31,9 +37,9 @@ const TeamCard3D: React.FC<TeamCard3DProps> = React.memo(({
   onImageClick 
 }) => {
   const [isAnimating, setIsAnimating] = React.useState(false);
-  
-  // Handle image load state with animation trigger - memoized
- 
+  const [imageOk, setImageOk] = React.useState<boolean>(Boolean(member?.image));
+
+  // Handle image load state with animation trigger - memoized 
 
   const handleCardClick = useCallback(() => {
     onImageClick?.(member);
@@ -81,20 +87,14 @@ const TeamCard3D: React.FC<TeamCard3DProps> = React.memo(({
                 >
                   <div className="relative w-full h-full overflow-hidden">
                     <motion.div 
-                      className="relative w-full h-full bg-gray-800"
+                      className="relative w-full h-full"
                       initial={false}
                       animate={{
                         scale: isAnimating ? [1, 1.05, 1] : 1,
-                        filter: isAnimating ? [
-                          'brightness(1) contrast(1)',
-                          'brightness(1.3) contrast(1.1)',
-                          'brightness(1) contrast(1)'
-                        ] : 'brightness(1) contrast(1)'
                       }}
                       transition={{
                         duration: 1.2,
                         ease: [0.22, 1, 0.36, 1],
-                        filter: { duration: 1.5 }
                       }}
                     >
                       <motion.div 
@@ -116,32 +116,40 @@ const TeamCard3D: React.FC<TeamCard3DProps> = React.memo(({
                         animate={{
                           opacity: 1,
                           scale: 1,
-                          filter: isAnimating ? [
-                            'brightness(1) contrast(1)',
-                            'brightness(1.1) contrast(1.1)'
-                          ] : 'brightness(1) contrast(1)'
                         }}
                         exit={{ opacity: 0, scale: 0.95 }}
                         transition={{
                           opacity: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
                           scale: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
-                          filter: { duration: 1.2 }
                         }}
                       >
-                        <img
-                          src={member.image}
-                          alt={member.name}
-                          width={450}
-                          height={470}
-                          className="object-cover w-[260px] h-[320px] sm:w-[320px] sm:h-[420px] md:w-[450px] md:h-[470px]"
-                        />
+                        {imageOk && member.image ? (
+                          <img
+                            src={member.image}
+                            alt={member.name}
+                            width={450}
+                            height={470}
+                            className="object-cover object-top w-[260px] h-[320px] sm:w-[320px] sm:h-[420px] md:w-[450px] md:h-[470px] mx-auto block"
+                            onError={() => setImageOk(false)}
+                          />
+                        ) : (
+                          <div className="relative object-cover w-[260px] h-[320px] sm:w-[320px] sm:h-[420px] md:w-[450px] md:h-[470px] mx-auto">
+                            <div className="absolute inset-0 rounded-xl md:rounded-2xl bg-gradient-to-br from-black via-neutral-800 to-black backdrop-blur-md border border-white/10" />
+                            <div className="absolute pr-8 md:pr-14 lg:pr-16 inset-0 flex items-center justify-center">
+                              <div className="flex items-center justify-center w-28 h-28 sm:w-32 sm:h-32 md:w-40 md:h-40 rounded-full bg-white/10 border border-white/20 text-white text-2xl sm:text-3xl md:text-4xl font-semibold ">
+                                {(member.name || '')
+                                  .trim()
+                                  .split(/\s+/)
+                                  .filter(Boolean)
+                                  .slice(0,3)
+                                  .map((s) => s[0]?.toUpperCase())
+                                  .join('') || 'NA'}
+                              </div>
+                            </div>
+                          </div>
+                        )}
                       </motion.div>
-                      <motion.div 
-                        className="absolute inset-0 bg-black/20"
-                        initial={{ opacity: 0.4 }}
-                        whileHover={{ opacity: 0.1 }}
-                        transition={{ duration: 0.6 }}
-                      />
+
                       {isAnimating && (
                         <motion.div 
                           className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent"
@@ -187,7 +195,8 @@ const TeamCard3D: React.FC<TeamCard3DProps> = React.memo(({
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.8, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
                     >
-                      <h3 className="text-white text-xl font-silkscreen break-words w-[70%] font-medium">{member.name}</h3>
+                      <h3 className="text-white text-xl break-words w-[70%] font-medium">{member.name}</h3>
+                      <p className="text-white/80 text-md break-words w-[70%] font-medium">{member.title}</p>
                     </motion.div>
                     
                     <motion.button

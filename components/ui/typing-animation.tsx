@@ -27,7 +27,7 @@ export function TypingAnimation({
   words,
   className,
   duration = 100,
-  typeSpeed = 50,
+  typeSpeed = 20,
   deleteSpeed,
   delay = 1500,
   pauseDelay = 1000,
@@ -174,7 +174,7 @@ export function TypingAnimation({
       )}
       {...props}
     >
-      <span className="inline-block text-center">{displayedText}</span>
+      <span id='cursor-mid' className="inline-block cursor-target text-center">{displayedText}</span>
     </MotionComponent>
   );
 }

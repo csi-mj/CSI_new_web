@@ -21,7 +21,7 @@ const Orbit = lazy(() => import('./_components/connect/Orbit'));
 // Loading fallback component
 const LoadingFallback = ({ className = "" }: { className?: string }) => (
   <div className={`flex items-center justify-center min-h-[200px] ${className}`}>
-    CSI
+    <img src="\logos\csi_logo.png" alt="" />
   </div>
 );
 
@@ -104,8 +104,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section ref={facultyRef} className="relative mb-24" id='faculty'>
-        <div className="absolute inset-0 z-0 min-h-screen">
+      <section ref={facultyRef} className="relative pb-24" id='faculty'>
+        <div className="max-md:hidden absolute inset-0 z-0 min-h-screen">
           {showFaculty && showDither && (
             <Suspense fallback={null}>
               <Dither
@@ -120,7 +120,7 @@ export default function HomePage() {
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(0,0,0,0.65),transparent_60%),linear-gradient(to_bottom,rgba(0,0,0,0.35),rgba(0,0,0,0.55))]" />
         </div>
         <div className="relative z-20 text-neutral-100">
-          <div className="relative z-10 w-full flex flex-col items-center">
+          <div className="relative z-10 w-full flex flex-col items-center pt-12">
             {showFaculty && (
               <Suspense fallback={<LoadingFallback />}>
                 <Faculty />
@@ -129,7 +129,7 @@ export default function HomePage() {
             <Shuffle 
               text="GOVERNING BODY" 
               tag="h1"
-              className="!text-3xl mt-20 mb-8 md:!text-6xl !text-primary !normal-case !font-bold"
+              className="!text-3xl mt-24 mb-12 md:!text-6xl !text-primary !normal-case !font-bold"
               style={{ fontFamily: 'var(--font-orbitron)' }}
               loop={false}
               loopDelay={2}
@@ -149,13 +149,11 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section ref={connectRef} className="relative" id='connect'>
+      <section ref={connectRef} className="relative pt-24" id='connect'>
         <div className="relative z-20 pointer-events-auto">
-          {showConnect && (
-            <Suspense fallback={<LoadingFallback />}>
+          
               <Title />
-            </Suspense>
-          )}
+            
         </div>
 
         <div className="absolute inset-0 z-0 pointer-events-auto">

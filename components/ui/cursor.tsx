@@ -33,6 +33,7 @@ const Cursor = React.memo(function Cursor() {
       const inCursorWrapper = target.closest('#cursor');
       const inCursorMid = target.closest('#cursor-mid');
       const inCursorBig = target.closest('#cursor-big');
+      const inCursorLogo = target.closest('#logo');
       const inHot = target.closest('#hot');
 
       // Big scale only for actual generated words and shuffle text
@@ -40,6 +41,7 @@ const Cursor = React.memo(function Cursor() {
         scale.set(5);
         rotate.set(180);
       }
+      
       else if (inCursorMid) {
         scale.set(4);
         rotate.set(120);

@@ -9,12 +9,12 @@ const Title = () => {
   return (
     <motion.div 
       className="text-center"
-      initial={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, y: 0 }}
       whileInView={{ opacity: 1, y: 0 }}
       onViewportEnter={() => setIsInView(true)}
       onViewportLeave={() => setIsInView(false)}
       transition={{ duration: 1, ease: "easeOut" }}
-      viewport={{ amount: 0.6 }}
+      viewport={{ once: true }}
     >
          {isInView && (
           <div>

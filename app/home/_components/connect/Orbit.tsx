@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'; // Use 'framer-motion'
 import { 
   FaLinkedin, 
   FaInstagram, 
-  FaTwitter, 
+  FaMedium, 
   FaGithub, 
   FaYoutube, 
   FaDiscord, 
@@ -17,50 +17,64 @@ import { OrbitingCircles } from '@/components/ui/orbiting-circles';
 import Image from 'next/image';
 import { LinkPreview } from '@/components/ui/link-preview';
 
+type SocialItem = {
+  url: string;
+  label: string;
+  hoverBorder: string;
+  icon: React.ReactElement;
+  noPreview?: boolean;
+};
+
 const Orbit = () => {
   const [isPaused, setIsPaused] = useState(false);
 
-  const innerItems = [
+  const innerItems: SocialItem[] = [
+   
     {
-      url: 'https://www.linkedin.com',
-      hoverBorder: 'hover:border-[#0077B5]/50',
-      icon: <FaLinkedin className="h-5 w-5 text-[#0077B5]" />,
-    },
-    {
-      url: 'https://www.instagram.com',
+      url: 'https://www.instagram.com/csi_mjcet',
+      label: 'Instagram',
+      noPreview: true,
       hoverBorder: 'hover:border-[#E4405F]/50',
       icon: <FaInstagram className="h-5 w-5 text-[#E4405F]" />,
     },
     {
-      url: 'https://x.com',
+      url: 'https://medium.com/@csi_mjcet',
+      label: 'Medium',
       hoverBorder: 'hover:border-[#1DA1F2]/50',
-      icon: <FaTwitter className="h-5 w-5 text-[#1DA1F2]" />,
+      icon: <FaMedium className="h-5 w-5 text-[#1DA1F2]" />,
     },
     {
-      url: 'https://www.gmail.com',
+      url: 'mailto:csi@mjcollege.ac.in',
+      label: 'Email',
+      noPreview: true,
       hoverBorder: 'hover:border-[#EA4335]/50',
       icon: <FaEnvelope className="h-5 w-5 text-[#EA4335]" />,
     },
   ];
 
-  const outerItems = [
+  const outerItems: SocialItem[] = [
     {
-      url: 'https://github.com/CSI-UST',
+      url: 'https://github.com/orgs/csi-mj',
+      label: 'GitHub',
       hoverBorder: 'hover:border-white/50',
       icon: <FaGithub className="h-7 w-7 text-white" />,
     },
+     {
+      url: 'https://www.linkedin.com/company/csi-mjcet',
+      label: 'LinkedIn',
+      hoverBorder: 'hover:border-[#0077B5]/50',
+      icon: <FaLinkedin className="h-5 w-5 text-[#0077B5]" />,
+    },
     {
       url: 'https://www.youtube.com',
+      label: 'YouTube',
       hoverBorder: 'hover:border-[#FF0000]/50',
       icon: <FaYoutube className="h-7 w-7 text-[#FF0000]" />,
     },
-    {
-      url: 'https://discord.com',
-      hoverBorder: 'hover:border-[#5865F2]/50',
-      icon: <FaDiscord className="h-7 w-7 text-[#5865F2]" />,
-    },
+    
     {
       url: 'https://www.whatsapp.com',
+      label: 'WhatsApp',
       hoverBorder: 'hover:border-[#1877F2]/50',
       icon: <FaWhatsapp className="h-7 w-7 text-[#25D366]" />,
     },
@@ -94,6 +108,7 @@ const Orbit = () => {
             <LinkPreview
               key={idx}
               url={item.url}
+              tooltipLabel={item.noPreview ? item.label : undefined}
               className={`pointer-events-auto size-full cursor-target flex items-center justify-center rounded-full border border-white/20 bg-black transition-all hover:scale-110 ${item.hoverBorder}`}
               onMouseEnter={() => setIsPaused(true)}
               onMouseLeave={() => setIsPaused(false)}
@@ -109,6 +124,7 @@ const Orbit = () => {
             <LinkPreview
               key={idx}
               url={item.url}
+              tooltipLabel={item.noPreview ? item.label : undefined}
               className={`pointer-events-auto size-full cursor-target flex items-center justify-center rounded-full border border-white/20 bg-black transition-all hover:scale-110 ${item.hoverBorder}`}
               onMouseEnter={() => setIsPaused(true)}
               onMouseLeave={() => setIsPaused(false)}
@@ -117,6 +133,7 @@ const Orbit = () => {
             </LinkPreview>
           ))}
         </OrbitingCircles>
+
       </div>
     </motion.div>
   );

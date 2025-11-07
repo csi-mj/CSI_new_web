@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import PillNav from '../PillNav';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 const items = [
   { label: 'Home', href: '/home' },
@@ -17,12 +19,18 @@ const items = [
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
+
+  const isActive = (href: string) => {
+    if (href === '/') return pathname === '/';
+    return pathname?.startsWith(href);
+  };
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-8 py-6 bg-black/60 max-lg:backdrop-blur-lg lg:bg-transparent">
+      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between  px-6 md:px-8 py-6 bg-black/60 max-lg:backdrop-blur-lg lg:bg-transparent">
         {/* Left: Logo */}
-        <div className="flex items-center">
+        <Link href="/home" className="flex items-center lg:hidden">
           <img
             src="/logos/csi_logo.png"
             alt="CSI"
@@ -30,14 +38,35 @@ const Navbar = () => {
             height={70}
             className="object-contain"
           />
-        </div>
+        </Link>
 
-        {/* Center: Desktop Nav */}
+
+       
+
+
         <div className="hidden lg:flex justify-center flex-1">
-          <div className="flex h-[62px] items-center rounded-full border border-white/12 bg-white/5 px-[3px] shadow-[0_8px_32px_0_rgba(0,0,0,0.6)] backdrop-blur-md">
+           <div>
+          <Link
+            href="/home"
+            aria-label="CSI"
+            className="relative inline-flex items-center justify-center h-full mr-1 hover:rotate-[360deg] transition-all duration-500 cursor-target"
+            id='cursor-mid'
+          >
+            <span
+              className="inline-flex h-[62px] w-[62px] items-center justify-center rounded-full border border-white/15 bg-white/5 backdrop-blur-md overflow-hidden"
+            >
+              <img
+                src="/logos/csi_logo.png"
+                alt="CSI"
+                className="w-12 object-contain"
+              />
+            </span>
+          </Link>
+        </div>
+          <div className="flex h-[62px] items-center rounded-full border border-white/12 bg-white/5 px-[3px] backdrop-blur-md">
             <PillNav
-              logo="/logo.png"
-              logoAlt="Company Logo"
+              logo="/logos/csi_logo.png"
+              logoAlt="CSI"
               items={items}
               activeHref="/"
               ease="power2.easeOut"
@@ -83,23 +112,23 @@ const Navbar = () => {
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
-            transition={{ 
-              type: 'spring', 
-              damping: 25, 
+            transition={{
+              type: 'spring',
+              damping: 25,
               stiffness: 200,
-              duration: 0.4 
+              duration: 0.4
             }}
             className="fixed top-0 right-0 bottom-0 w-[300px] bg-[#0B0B0D]/28 backdrop-blur-xl border-l border-white/10 z-50 lg:hidden overflow-y-auto"
           >
             {/* Menu Header */}
-            <div className="px-6 py-8 border-b border-white/10 flex items-center justify-between">
-              <img
+            <div className="px-6 py-8 border-b border-white/10 flex items-center justify-end">
+              {/* <img
                 src="/logos/csi_logo.png"
                 alt="CSI"
                 width={60}
                 height={60}
                 className="object-contain"
-              />
+              /> */}
               <button
                 onClick={() => setMenuOpen(false)}
                 className="p-2 text-white bg-white/10 hover:bg-white/20 rounded-lg transition"
@@ -110,34 +139,41 @@ const Navbar = () => {
             </div>
 
             {/* Menu Items */}
-            <ul className="flex flex-col py-6">
-              {items.map((item, index) => (
-                <motion.li
-                  key={item.href}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ 
-                    delay: index * 0.05,
-                    duration: 0.3 
-                  }}
-                >
-                  <a
-                    href={item.href}
-                    onClick={() => setMenuOpen(false)}
-                    className="block px-6 py-4 text-white hover:bg-white/10 transition-colors text-base font-medium border-l-2 border-transparent hover:border-blue-500"
+            <ul className="flex flex-col gap-3 py-6 px-4">
+              {items.map((item, index) => {
+                const active = isActive(item.href);
+                return (
+                  <motion.li
+                    key={item.href}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{
+                      delay: index * 0.05,
+                      duration: 0.3
+                    }}
                   >
-                    {item.label}
-                  </a>
-                </motion.li>
-              ))}
+                    <Link
+                      href={item.href}
+                      onClick={() => setMenuOpen(false)}
+                      className={`inline-flex items-center justify-between rounded-full border px-5 py-3 text-base font-semibold uppercase tracking-wide transition-all w-full ${active
+                          ? 'bg-primary text-white border-white/20'
+                          : 'bg-white/10 text-white/90 hover:bg-white/20 border-white/12'
+                        }`}
+                    >
+                      <span>{item.label}</span>
+
+                    </Link>
+                  </motion.li>
+                );
+              })}
             </ul>
 
             {/* Menu Footer (Optional) */}
-            {/* <div className="absolute bottom-0 left-0 right-0 p-6 border-t border-white/10">
+            <div className="absolute bottom-0 left-0 right-0 p-6 border-t border-white/10">
               <p className="text-white/50 text-xs text-center">
-                © 2024 CSI. All rights reserved.
+                &copy; {new Date().getFullYear()} CSI MJCET. All rights reserved.
               </p>
-            </div> */}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
