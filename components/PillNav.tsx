@@ -232,7 +232,7 @@ const PillNav: React.FC<PillNavProps> = ({
           className="m-0 flex h-full list-none items-stretch gap-2 p-2"
         >
           {items.map((item, i) => {
-            const isItemActive = isActive(item.href);
+            const isItemActive = activeHref ? item.href === activeHref : isActive(item.href);
             const isHovered = hoveredIndex === i;
             const pillStyle: React.CSSProperties = {
               background: isItemActive

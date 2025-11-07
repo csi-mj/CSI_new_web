@@ -43,12 +43,12 @@ export default function EventCard({ event, reverse = false }: { event: Event; re
         reverse ? "md:flex-row-reverse" : ""
       } border border-gray-800 bg-zinc-950 hover:border-gray-700 transition-colors duration-200 rounded-xl sm:rounded-2xl overflow-hidden`}
     >
-      {/* Image - No Zoom, Just Grayscale Effect */}
+      {/* Image - Keep Grayscale, No Color on Hover */}
       <div className="md:w-2/5 relative overflow-hidden">
         <img
           src={event.poster_url ?? "/default-poster.png"}
           alt={event.title}
-          className="w-full h-56 sm:h-72 md:h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-300"
+          className="w-full h-56 sm:h-72 md:h-full object-cover grayscale transition-all duration-300"
         />
         
         {/* Status Badge */}
@@ -80,7 +80,7 @@ export default function EventCard({ event, reverse = false }: { event: Event; re
           )}
 
           {/* Title */}
-          <h3 className="text-2xl sm:text-3xl font-bold text-white mb-3 tracking-tight leading-tight">
+          <h3 className="text-2xl sm:text-3xl font-bold text-red-500 mb-3 tracking-tight leading-tight">
             {event.title}
           </h3>
           

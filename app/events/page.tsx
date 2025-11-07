@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import EventGrid from "./_components/EventGrid";
 import PillNav from "@/components/PillNav";
 import type { Event } from "@/lib/types/events";
+import { BackgroundBeams } from "@/components/ui/background-beams";
 
 type Tab = "upcoming" | "ongoing" | "past";
 
@@ -37,7 +38,7 @@ export default function EventsPage() {
     { label: "Ongoing", href: "#ongoing" },
     { label: "Past", href: "#past" },
   ];
-
+  
   // Store fetched data for instant switching
   const handleDataLoaded = useCallback((tab: Tab, events: Event[]) => {
     setPrefetchedData(prev => ({ ...prev, [tab]: events }));
@@ -91,16 +92,14 @@ export default function EventsPage() {
   return (
     <section className="min-h-screen relative overflow-hidden bg-black">
       {/* Static Background */}
-      <div className="fixed inset-0 -z-10">
-        <div className="absolute top-20 left-10 w-96 h-96 bg-red-600/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-red-600/5 rounded-full blur-3xl" />
-      </div>
+             <BackgroundBeams className="opacity-25" />
+
 
       <div className="relative z-10 px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-20">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="text-center mb-10 sm:mb-16">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-3 sm:mb-4 tracking-tight px-4">
+            <h1 className="font-silkscreen text-4xl sm:text-5xl lg:text-6xl font-bold text-red-500 mb-3 sm:mb-4 tracking-tight px-4">
               {headings[activeTab].title}
             </h1>
             <p className="text-base sm:text-lg text-gray-400 max-w-2xl mx-auto px-4 leading-relaxed">

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import EventCard from "./EventCard";
 import type { Event } from "@/lib/types/events";
+import { GlareCard } from "@/components/ui/glare-card";
 
 type Tab = "upcoming" | "ongoing" | "past";
 
@@ -126,7 +127,13 @@ export default function EventGrid({ activeTab, onDataLoaded }: { activeTab: Tab;
   return (
     <div className="space-y-6 sm:space-y-10">
       {events.map((ev, i) => (
-        <EventCard key={ev.id} event={ev} reverse={i % 2 !== 0} />
+        <GlareCard
+          key={ev.id}
+          containerClassName="rounded-2xl max-w-2xl mx-auto w-full"
+          disableFoil
+        >
+          <EventCard event={ev} reverse={i % 2 !== 0} />
+        </GlareCard>
       ))}
     </div>
   );
