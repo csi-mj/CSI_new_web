@@ -4,23 +4,13 @@
     "name": "Md Feroz Ahmed",
     "position": "Tech Head",
     "portfolio": "Tech",
-    "linkedinUrl": "#",
-    "githubUrl": "#",
-    "email": "placeholder-feroz@example.com",
+    "linkedinUrl": "https://www.linkedin.com/in/md-feroz-ahmed-2a3633375",
+    "githubUrl": "https://github.com/phero20",
+    "email": "mdferozahmed27156@gmail.com",
     "imageUrl": null
   },
-  {
+   {
     "id": 2,
-    "name": "Rabia Mansoor",
-    "position": "Tech Head",
-    "portfolio": "Tech",
-    "linkedinUrl": "https://www.linkedin.com/in/rabiamansoor",
-    "githubUrl": "https://github.com/Rabia4M",
-    "email": "rmansoor4002@gmail.com",
-    "imageUrl": "https://drive.google.com/thumbnail?id=1BSp5_2UJoSx9N7Gc-VqcOG1t9UQrjYsp"
-  },
-  {
-    "id": 3,
     "name": "Irfan Sirkar",
     "position": "Tech Head",
     "portfolio": "Tech",
@@ -29,6 +19,17 @@
     "email": "Sirkarks@gmail.com",
     "imageUrl": "https://drive.google.com/thumbnail?id=1GkybJrfVgOv97N2k_4zamoY8vlunS9K3"
   },
+  {
+    "id": 3,
+    "name": "Rabia Mansoor",
+    "position": "Tech Head",
+    "portfolio": "Tech",
+    "linkedinUrl": "https://www.linkedin.com/in/rabiamansoor",
+    "githubUrl": "https://github.com/Rabia4M",
+    "email": "rmansoor4002@gmail.com",
+    "imageUrl": "https://drive.google.com/thumbnail?id=1BSp5_2UJoSx9N7Gc-VqcOG1t9UQrjYsp"
+  },
+ 
   {
     "id": 4,
     "name": "Mohammed Imran Ahmed",
@@ -51,7 +52,7 @@
   },
   {
     "id": 6,
-    "name": "Dervesh Khan",
+    "name": "Daaniyah Khan",
     "position": "Tech Associate Head",
     "portfolio": "Tech",
     "linkedinUrl": "#",

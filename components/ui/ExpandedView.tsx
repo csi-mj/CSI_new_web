@@ -19,6 +19,15 @@ export interface TeamMember {
   };
 }
 
+type FlatUrlFields = {
+  githubUrl?: string;
+  linkedinUrl?: string;
+};
+
+function hasFlatUrls(member: TeamMember | (TeamMember & FlatUrlFields)): member is TeamMember & FlatUrlFields {
+  return ('githubUrl' in (member as object)) || ('linkedinUrl' in (member as object));
+}
+
 interface ExpandedViewProps {
   expandedMember: TeamMember | null;
   onClose: () => void;
@@ -26,12 +35,22 @@ interface ExpandedViewProps {
 
 const ExpandedView: React.FC<ExpandedViewProps> = ({ expandedMember, onClose }) => {
   const [mounted, setMounted] = useState(false);
+  const [imageOk, setImageOk] = useState<boolean>(Boolean(expandedMember?.image));
   useEffect(() => setMounted(true), []);
   if (!expandedMember || !mounted) return null;
 
+  // Resolve social links from either nested social object or flat fields
+  const rawGithub = expandedMember.social?.github ?? (hasFlatUrls(expandedMember) ? expandedMember.githubUrl : undefined);
+  const rawLinkedin = expandedMember.social?.linkedin ?? (hasFlatUrls(expandedMember) ? expandedMember.linkedinUrl : undefined);
+  const isPlaceholder = (v?: string) => !v || ['N/A','NA','-','#'].includes(v.trim());
+  const DEFAULT_GITHUB = 'https://github.com/orgs/csi-mj';
+  const DEFAULT_LINKEDIN = 'https://www.linkedin.com/company/csi-mjcet/';
+  const github = isPlaceholder(rawGithub) ? DEFAULT_GITHUB : rawGithub;
+  const linkedin = isPlaceholder(rawLinkedin) ? DEFAULT_LINKEDIN : rawLinkedin;
+
   return createPortal(
     <motion.div
-      className="fixed inset-0 z-40 bg-white/5 backdrop-blur-md flex items-center md:items-end justify-center p-4 md:px-8"
+      className="fixed inset-0 z-40 bg-white/5 backdrop-blur-lg flex items-center md:items-end justify-center p-4 md:px-8"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -50,7 +69,7 @@ const ExpandedView: React.FC<ExpandedViewProps> = ({ expandedMember, onClose }) 
         exit={{ opacity: 0, y: 12, scale: 0.98 }}
         transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
       >
-        <div className="relative h-full w-full rounded-2xl overflow-hidden  flex flex-col md:flex-row bg-white/10 backdrop-blur-xl border border-white/10">
+        <div className="relative h-full w-full rounded-2xl overflow-hidden  flex flex-col md:flex-row bg-black/30 backdrop-blur-xl border border-white/10">
           {/* Image Section */}
           <motion.div
             className="w-full md:w-1/2 h-[40vh] sm:h-[50vh] md:h-full relative overflow-hidden p-3 md:p-6"
@@ -75,18 +94,31 @@ const ExpandedView: React.FC<ExpandedViewProps> = ({ expandedMember, onClose }) 
             }}
           >
             <div className="relative w-full h-full">
-              <Image
-                src={expandedMember.image}
-                alt={expandedMember.name}
-                fill
-                sizes="(max-width: 768px) 100vw, 50vw"
-                className="object-cover rounded-xl md:rounded-2xl"
-                priority
-                unoptimized={process.env.NODE_ENV !== 'production'}
-                style={{
-                  objectPosition: 'center top'
-                }}
-              />
+              {imageOk ? (
+                <Image
+                  src={expandedMember.image}
+                  alt={expandedMember.name}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="object-cover cursor-target rounded-xl md:rounded-2xl"
+                  priority
+                  unoptimized={process.env.NODE_ENV !== 'production'}
+                  style={{ objectPosition: 'center top' }}
+                  onError={() => setImageOk(false)}
+                />
+              ) : (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="flex cursor-target items-center justify-center w-32 h-32 md:w-40 md:h-40 rounded-full bg-white/10 border border-white/20 text-white text-3xl md:text-4xl font-semibold">
+                    {(expandedMember.name || '')
+                      .trim()
+                      .split(/\s+/)
+                      .filter(Boolean)
+                      .slice(0,5)
+                      .map((s) => s[0]?.toUpperCase())
+                      .join('') || 'NA'}
+                  </div>
+                </div>
+              )}
             </div>
             <div className="absolute inset-0 bg-gradient-to-b md:bg-gradient-to-r from-black/30 via-transparent to-transparent" />
           </motion.div>
@@ -137,14 +169,15 @@ const ExpandedView: React.FC<ExpandedViewProps> = ({ expandedMember, onClose }) 
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.6 }}
             >
-              <li id='cursor-mid' className="icon github cursor-target inline-flex items-center justify-center !w-12 !h-12 !min-w-12 !min-h-12 rounded-full bg-white/10 hover:bg-white/20 transition-colors select-none shrink-0">
+              <li id='cursor' className="icon github cursor-target inline-flex items-center justify-center !w-12 !h-12 !min-w-12 !min-h-12 rounded-full bg-white/10 hover:bg-white/20 transition-colors select-none shrink-0">
                 <span className="tooltip">Github</span>
                 <a
-                  href={expandedMember.social?.github}
-                  target={expandedMember.social?.github ? "_blank" : undefined}
-                  rel={expandedMember.social?.github ? "noreferrer" : undefined}
+                  href={github}
+                  target={github ? "_blank" : undefined}
+                  rel={github ? "noreferrer noopener" : undefined}
                   aria-label="GitHub"
-                  className={`text-white/80 hover:text-white transition-colors ${expandedMember.social?.github ? '' : 'pointer-events-none opacity-50'}`}
+                  className={`text-white/80 hover:text-white transition-colors ${github ? '' : 'pointer-events-none opacity-50'}`}
+                  onClick={(e) => e.stopPropagation()}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -157,14 +190,15 @@ const ExpandedView: React.FC<ExpandedViewProps> = ({ expandedMember, onClose }) 
                 </a>
               </li>
 
-              <li id='cursor-mid' className="icon linkedin cursor-target inline-flex items-center justify-center !w-12 !h-12 !min-w-12 !min-h-12 rounded-full bg-white/10 hover:bg-white/20 transition-colors select-none shrink-0">
+              <li id='cursor' className="icon linkedin cursor-target inline-flex items-center justify-center !w-12 !h-12 !min-w-12 !min-h-12 rounded-full bg-white/10 hover:bg-white/20 transition-colors select-none shrink-0">
                 <span className="tooltip">LinkedIn</span>
                 <a
-                  href={expandedMember.social?.linkedin}
-                  target={expandedMember.social?.linkedin ? "_blank" : undefined}
-                  rel={expandedMember.social?.linkedin ? "noreferrer" : undefined}
+                  href={linkedin}
+                  target={linkedin ? "_blank" : undefined}
+                  rel={linkedin ? "noreferrer noopener" : undefined}
                   aria-label="LinkedIn"
-                  className={`text-white/80 hover:text-white transition-colors ${expandedMember.social?.linkedin ? '' : 'pointer-events-none opacity-50'}`}
+                  className={`text-white/80 hover:text-white transition-colors ${linkedin ? '' : 'pointer-events-none opacity-50'}`}
+                  onClick={(e) => e.stopPropagation()}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -181,7 +215,7 @@ const ExpandedView: React.FC<ExpandedViewProps> = ({ expandedMember, onClose }) 
 
             <motion.button
               id='cursor'
-              className="fixed md:scale-75 top-2 md:top-3 right-1 md:right-2 hover:rotate-90 cursor-pointer cursor-target rounded-full flex items-center justify-center transition-all duration-500 z-40 focus:outline-none max-md:scale-75 focus:ring-4 focus:ring-white/30 shadow-lg"
+              className="fixed md:scale-75 top-2 right-1 hover:rotate-90 cursor-pointer cursor-target rounded-full flex items-center justify-center transition-all duration-500 z-40 focus:outline-none max-md:scale-75 focus:ring-4 focus:ring-white/30 shadow-lg"
               onClick={(e) => {
                 e.stopPropagation();
                 onClose();

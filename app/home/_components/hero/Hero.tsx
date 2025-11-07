@@ -80,6 +80,7 @@ const Hero = () => {
         <div className="hero-logo mb-5">
           <Image
             src={logo}
+            id='hot'
             alt="Computer Society of India MJCET Logo"
             width={224}
             height={224}
@@ -96,7 +97,7 @@ const Hero = () => {
             />
           </div>
 
-          <div className="hero-greeting mt-2 flex min-h-[2.5rem] w-full items-center justify-center sm:mt-3">
+          <div className="hero-greeting mt-6 flex min-h-[2.5rem] w-full items-center justify-center sm:mt-3">
             <TypingAnimation
               delay={1500}
               className="font-silkscreen w-full bg-gradient-to-r from-red-500 via-red-500 to-red-600 bg-clip-text px-2 text-center text-lg font-extrabold text-transparent sm:text-xl md:text-2xl"

@@ -174,7 +174,7 @@ export function TypingAnimation({
       )}
       {...props}
     >
-      <span className="inline-block text-center">{displayedText}</span>
+      <span id='cursor-mid' className="inline-block cursor-target text-center">{displayedText}</span>
     </MotionComponent>
   );
 }

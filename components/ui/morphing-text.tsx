@@ -101,10 +101,12 @@ const Texts: React.FC<Pick<MorphingTextProps, 'texts'>> = ({ texts }) => {
   return (
     <>
       <span
+      id='cursor-big'
         className="absolute inset-x-0 top-0 m-auto inline-block w-full"
         ref={text1Ref}
       />
       <span
+      id='cursor-big'
         className="absolute inset-x-0 top-0 m-auto inline-block w-full"
         ref={text2Ref}
       />
@@ -115,7 +117,7 @@ const Texts: React.FC<Pick<MorphingTextProps, 'texts'>> = ({ texts }) => {
 const SvgFilters: React.FC = () => (
   <svg
     id="filters"
-    className="fixed h-0 w-0"
+    className="fixed cursor-target h-0 w-0"
     preserveAspectRatio="xMidYMid slice"
   >
     <defs>

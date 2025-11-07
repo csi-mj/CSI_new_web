@@ -8,7 +8,7 @@ export default function RootLayout({
   return (
     <div className="relative m-0 p-0 w-screen min-h-screen overflow-hidden">
       <Waves
-        lineColor="rgba(255,255,255,0.12)"
+        lineColor="rgba(255,255,255,0.10)"
         backgroundColor="transparent"
         // className="pointer-events-none"
       />

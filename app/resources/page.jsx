@@ -2,7 +2,8 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import ResourceCard from "./components/resourcecard";
-import PdfPreviewModal from "../magazine/_components/PdfPreviewModal";
+import PdfPreviewModal from "../../components/ui/PdfPreviewModal";
+import { StripedPattern } from "@/components/magicui/striped-pattern";
 
 const ResourcesPage = () => {
   const [selectedPdf, setSelectedPdf] = useState(null); // { pdf, title }
@@ -12,7 +13,7 @@ const ResourcesPage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black text-white pt-24 px-8 pb-40 relative overflow-hidden">
 
-
+      <StripedPattern className="text-gray-600/35" />
       {/* 🧠 Header Section */}
       <section className="text-center mb-5 relative z-10">
         <motion.h1

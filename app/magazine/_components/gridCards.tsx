@@ -43,11 +43,11 @@ const GridCards: React.FC<GridCardsProps> = ({ cards, onSelect }) => {
           <motion.div
             key={card.id}
             variants={cardVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ amount: 0.2 }}
+            initial={{opacity:0.2,}}
+            whileInView={{opacity:1}}
+            viewport={{ amount: 0.3 }}
             whileHover={{ scale: 1.03 }}
-            transition={{ delay: index * 0.05 }}
+            transition={{ duration: 0.9,delay: index * 0.02 }}
             onClick={() => onSelect(card)}
             className={`
               group cursor-target bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-2

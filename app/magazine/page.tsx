@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import GridCards, { Card } from "./_components/gridCards";
-import PdfPreviewModal from "./_components/PdfPreviewModal";
+import PdfPreviewModal from "../../components/ui/PdfPreviewModal";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 import { motion, AnimatePresence } from "framer-motion"; 
 

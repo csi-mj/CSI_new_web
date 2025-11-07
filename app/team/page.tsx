@@ -28,12 +28,12 @@ type ExecRaw = {
 
 const execRawData: ExecRaw[] = execData as ExecRaw[];
 
-const PLACEHOLDER_IMG = 'https://images.unsplash.com/photo-1527980965255-d3b416303d12?q=80&w=800&auto=format&fit=crop';
 
 // URL normalizers used by GB and Core cards
 const toUrl = (val?: string): string | undefined => {
   if (!val) return undefined;
   const v = val.trim();
+  if (!v || v === 'N/A' || v === 'NA' || v === '-' || v === '#') return undefined;
   if (v.startsWith('http://') || v.startsWith('https://')) return v;
   return `https://www.linkedin.com/in/${v}`;
 };
@@ -41,6 +41,7 @@ const toUrl = (val?: string): string | undefined => {
 const toGithubUrl = (val?: string): string | undefined => {
   if (!val) return undefined;
   const v = val.trim();
+  if (!v || v === 'N/A' || v === 'NA' || v === '-' || v === '#') return undefined;
   if (v.startsWith('http://') || v.startsWith('https://')) return v;
   return `https://github.com/${v}`;
 };
@@ -51,8 +52,12 @@ const groupedExec: Record<string, TeamMember[]> = execRawData.reduce((acc, m) =>
     id: String(m.id),
     name: m.name,
     title: m.position,
-    image: PLACEHOLDER_IMG,
+    image: m.imageUrl || '',
     specialties: [],
+    social: {
+      github: m.githubUrl ? toGithubUrl(m.githubUrl || undefined) : undefined,
+      linkedin: m.linkedinUrl ? toUrl(m.linkedinUrl || undefined) : undefined,
+    },
   };
   if (!acc[key]) acc[key] = [];
   acc[key].push(member);
@@ -115,6 +120,7 @@ const gbByPosition: Record<string, CardItem[]> = rawGbData.reduce((acc, m) => {
   const item: CardItem = {
     name: m.Name,
     profession: original,
+    image: m["Formal Picture"] || undefined,
     githubUrl: toGithubUrl(m['Github Id'] || undefined),
     linkedinUrl: toUrl(m['Linkedin Id'] || undefined),
   };
@@ -160,6 +166,11 @@ export default function TeamPage() {
     return () => observer.disconnect();
   }, []);
 
+  // Ensure ScrollTrigger recalculates once content mounts/lazy-mounts
+  useEffect(() => {
+    ScrollTrigger.refresh();
+  }, [execVisible, coreVisible]);
+
   useGSAP(
     () => {
       if (gbRef.current) {
@@ -185,11 +196,13 @@ export default function TeamPage() {
           scale: 0.9,
           y: 90,
           ease: 'none',
+          immediateRender: false,
           scrollTrigger: {
             trigger: execRef.current,
-            start: 'top 60%',
-            end: 'top 30%',
-            scrub: 1.5
+            start: 'top 30%',
+            end: 'top 70%',
+            scrub: 1.5,
+            invalidateOnRefresh: true,
           }
         });
       }
@@ -197,13 +210,15 @@ export default function TeamPage() {
       if (coreRef.current) {
         gsap.to(coreRef.current, {
           scale: 0.93,
-          y: 40,
+          y: 60,
           ease: 'none',
+          immediateRender: false,
           scrollTrigger: {
             trigger: coreRef.current,
-            start: 'top 60%',
-            end: 'top 30%',
-            scrub: 2.5
+            start: 'top 50%',
+            end: 'top 70%',
+            scrub: 2.5,
+            invalidateOnRefresh: true,
           }
         });
       }
