@@ -1,13 +1,22 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import EventGrid from "./_components/EventGrid";
 import PillNav from "@/components/PillNav";
+import type { Event } from "@/lib/types/events";
+import { BackgroundBeams } from "@/components/ui/background-beams";
 
 type Tab = "upcoming" | "ongoing" | "past";
 
 export default function EventsPage() {
   const [activeTab, setActiveTab] = useState<Tab>("ongoing");
+  const [prefetchedData, setPrefetchedData] = useState<Record<Tab, Event[] | null>>({
+    upcoming: null,
+    ongoing: null,
+    past: null,
+  });
+  const [prefetchTabs, setPrefetchTabs] = useState<Tab[]>([]);
+  const prefetchTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   const headings: Record<Tab, { title: string; subtitle: string }> = {
     upcoming: {
@@ -29,37 +38,68 @@ export default function EventsPage() {
     { label: "Ongoing", href: "#ongoing" },
     { label: "Past", href: "#past" },
   ];
+  
+  // Store fetched data for instant switching
+  const handleDataLoaded = useCallback((tab: Tab, events: Event[]) => {
+    setPrefetchedData(prev => ({ ...prev, [tab]: events }));
+  }, []);
 
-  // Handle tab clicks
+  // Prefetch adjacent tabs after a short delay by mounting hidden EventGrid
+  const prefetchAdjacentTabs = useCallback((currentTab: Tab) => {
+    if (prefetchTimerRef.current) {
+      clearTimeout(prefetchTimerRef.current);
+    }
+    prefetchTimerRef.current = setTimeout(() => {
+      const tabs: Tab[] = ["upcoming", "ongoing", "past"];
+      const candidates = tabs.filter(t => t !== currentTab && prefetchedData[t] == null);
+      setPrefetchTabs(candidates);
+    }, 150);
+  }, [prefetchedData]);
+
+  // Handle tab navigation
+  const handleTabChange = useCallback((newTab: Tab) => {
+    setActiveTab(newTab);
+    prefetchAdjacentTabs(newTab);
+  }, [prefetchAdjacentTabs]);
+
+  // Handle hash clicks
   useEffect(() => {
-    const handleHashClick = (e: Event) => {
+    const handleHashClick = (e: MouseEvent) => {
       const target = e.target as HTMLAnchorElement;
-      if (target.href && target.href.includes('#')) {
+      if (target && target.href && target.href.includes('#')) {
         e.preventDefault();
         const hash = target.href.split('#')[1];
-        if (['upcoming', 'ongoing', 'past'].includes(hash)) {
-          setActiveTab(hash as Tab);
+        if (["upcoming", "ongoing", "past"].includes(hash)) {
+          handleTabChange(hash as Tab);
         }
       }
     };
 
     document.addEventListener('click', handleHashClick);
-    return () => document.removeEventListener('click', handleHashClick);
-  }, []);
+    return () => {
+      document.removeEventListener('click', handleHashClick);
+      if (prefetchTimerRef.current) {
+        clearTimeout(prefetchTimerRef.current);
+      }
+    };
+  }, [handleTabChange]);
+
+  // Initial prefetch for first render
+  useEffect(() => {
+    prefetchAdjacentTabs(activeTab);
+  }, [activeTab, prefetchAdjacentTabs]);
 
   return (
     <section className="min-h-screen relative overflow-hidden bg-black">
       {/* Static Background */}
-      <div className="fixed inset-0 -z-10">
-        <div className="absolute top-20 left-10 w-96 h-96 bg-red-600/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-red-600/5 rounded-full blur-3xl" />
-      </div>
+             <BackgroundBeams className="opacity-25" />
+
 
       <div className="relative z-10 px-4 sm:px-6 lg:px-8 pt-24 sm:pt-32 pb-20">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="text-center mb-10 sm:mb-16">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-3 sm:mb-4 tracking-tight px-4">
+            <h1 className="font-silkscreen text-4xl sm:text-5xl lg:text-6xl font-bold text-red-500 mb-3 sm:mb-4 tracking-tight px-4">
               {headings[activeTab].title}
             </h1>
             <p className="text-base sm:text-lg text-gray-400 max-w-2xl mx-auto px-4 leading-relaxed">
@@ -83,8 +123,15 @@ export default function EventsPage() {
             />
           </div>
 
-          {/* Event Grid */}
-          <EventGrid activeTab={activeTab} />
+          {/* Event Grid - visible */}
+          <EventGrid activeTab={activeTab} onDataLoaded={handleDataLoaded} />
+
+          {/* Hidden prefetchers - mounted to warm EventGrid cache without UI */}
+          <div style={{ display: 'none' }} aria-hidden="true">
+            {prefetchTabs.map(tab => (
+              <EventGrid key={`prefetch-${tab}`} activeTab={tab} onDataLoaded={handleDataLoaded} />
+            ))}
+          </div>
         </div>
       </div>
     </section>

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import EventCard from "./EventCard";
 import type { Event } from "@/lib/types/events";
+import { GlareCard } from "@/components/ui/glare-card";
 
 type Tab = "upcoming" | "ongoing" | "past";
 
@@ -16,7 +17,10 @@ function isApiResponse<T>(obj: unknown): obj is ApiResponse<T> {
   return typeof obj === "object" && obj !== null && "success" in obj && "data" in obj;
 }
 
-export default function EventGrid({ activeTab }: { activeTab: Tab }) {
+// simple module-level cache shared across mounts
+const eventsCache: Partial<Record<Tab, Event[]>> = {};
+
+export default function EventGrid({ activeTab, onDataLoaded }: { activeTab: Tab; onDataLoaded?: (tab: Tab, events: Event[]) => void }) {
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -25,8 +29,16 @@ export default function EventGrid({ activeTab }: { activeTab: Tab }) {
   useEffect(() => {
     const controller = new AbortController();
     const fetchEvents = async () => {
-      setLoading(true);
       setError(null);
+
+      // serve from cache if present
+      const cached = eventsCache[activeTab];
+      if (cached) {
+        setEvents(cached);
+        return;
+      }
+
+      setLoading(true);
 
       try {
         const endpoint =
@@ -39,14 +51,16 @@ export default function EventGrid({ activeTab }: { activeTab: Tab }) {
         }
 
         const json = (await res.json()) as unknown;
-
-        if (isApiResponse<Event[]>(json)) {
-          setEvents(json.data);
-        } else if (Array.isArray(json)) {
-          setEvents(json as Event[]);
-        } else {
-          throw new Error("Unexpected response format");
-        }
+        const data = isApiResponse<Event[]>(json)
+          ? json.data
+          : Array.isArray(json)
+          ? (json as Event[])
+          : (() => {
+              throw new Error("Unexpected response format");
+            })();
+        eventsCache[activeTab] = data;
+        setEvents(data);
+        onDataLoaded?.(activeTab, data);
       } catch (err) {
         if (err instanceof Error && err.name !== "AbortError") {
           setError(err.message);
@@ -58,7 +72,7 @@ export default function EventGrid({ activeTab }: { activeTab: Tab }) {
 
     fetchEvents();
     return () => controller.abort();
-  }, [activeTab]);
+  }, [activeTab, onDataLoaded]);
 
   // Skeleton Loading
   if (loading) {
@@ -113,7 +127,13 @@ export default function EventGrid({ activeTab }: { activeTab: Tab }) {
   return (
     <div className="space-y-6 sm:space-y-10">
       {events.map((ev, i) => (
-        <EventCard key={ev.id} event={ev} reverse={i % 2 !== 0} />
+        <GlareCard
+          key={ev.id}
+          containerClassName="rounded-2xl max-w-2xl mx-auto w-full"
+          disableFoil
+        >
+          <EventCard event={ev} reverse={i % 2 !== 0} />
+        </GlareCard>
       ))}
     </div>
   );
