@@ -26,7 +26,7 @@ function Footer() {
   ]
 
   const contactInfo = [
-    { icon: Mail, text: 'csi@mjcet.ac.in', href: 'mailto:csi@mjcet.ac.in' },
+    { icon: Mail, text: 'csi@mjcollege.ac.in', href: 'mailto:csi@mjcollege.ac.in' },
   ]
 
   const [showDev, setShowDev] = useState(false)

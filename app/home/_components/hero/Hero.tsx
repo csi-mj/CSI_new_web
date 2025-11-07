@@ -89,7 +89,7 @@ const Hero = () => {
   return (
     <section
       ref={heroRef}
-      className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden px-4 py-0"
+      className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden px-4 py-6"
       aria-label="Hero section"
     >
       <BackgroundLines className="flex w-full flex-col items-center justify-center gap-3 px-2">
@@ -103,7 +103,7 @@ const Hero = () => {
             width={224}
             height={224}
             priority
-            className="w-32 object-contain drop-shadow-2xl transition-all duration-700 hover:scale-105 sm:w-40 md:w-48 lg:w-56"
+            className="w-32 object-contain drop-shadow-2xl transition-all duration-700 hover:scale-105 sm:w-44 md:w-52 lg:w-72"
           />
         </div>
 
@@ -115,14 +115,14 @@ const Hero = () => {
             />
           </div>
 
-          <div className="hero-greeting mt-6 flex min-h-[2.5rem] w-full items-center justify-center sm:mt-3">
-           <h1 className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-center">
+          <div className="hero-greeting mt-8 flex min-h-[2.5rem] w-full items-center justify-center sm:mt-3">
+           <h1 id='cursor' className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-center">
           <div className="flex">
             <span className="font-silkscreen text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">C</span>
             <span className="font-silkscreen text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">o</span>
             <span className="font-silkscreen text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">d</span>
-            <span className="font-silkscreen text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">e</span>
-            <span className="font-silkscreen text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">.</span>
+            <span className="font-silkscreen text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">e </span>
+            <span className="font-silkscreen text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary pl-3"> . </span>
           </div>
           <div className="flex">
             <span className="font-silkscreen text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">C</span>
@@ -130,8 +130,8 @@ const Hero = () => {
             <span className="font-silkscreen text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">e</span>
             <span className="font-silkscreen text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">a</span>
             <span className="font-silkscreen text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">t</span>
-            <span className="font-silkscreen text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">e</span>
-            <span className="font-silkscreen text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">.</span>
+            <span className="font-silkscreen text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">e </span>
+            <span className="font-silkscreen text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary pl-3"> . </span>
           </div>
           <div className="flex">
             <span className="font-silkscreen text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">I</span>

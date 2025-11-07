@@ -38,14 +38,23 @@ export function Developer() {
 
   return (
     <div
-      className="relative flex items-center justify-center overflow-hidden px-16 pt-16"
+      className="relative flex items-center justify-center overflow-hidden px-16 py-16"
       ref={containerRef}
     >
       <div className="flex w-full max-w-md flex-col items-stretch justify-center gap-1">
         <div className="flex flex-row items-center justify-between">
+          
           <div className="tt-wrap relative inline-flex items-center justify-center">
+            <span className="tt">Shaik Ismail</span>
+            <Circle ref={div2Ref}>
+              <a href="https://github.com/shaik-ismail-27"  aria-label="Iqra Fatima" target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="block h-full w-full rounded-full overflow-hidden">
+                <img src="https://avatars.githubusercontent.com/shaik-ismail-27?s=96" alt="shaik-ismail-27" className="h-full w-full object-cover" />
+              </a>
+            </Circle>
+          </div>
+          <div className="tt-wrap mb-8 relative inline-flex items-center justify-center">
             <span className="tt">Md Feroz Ahmed</span>
-            <Circle ref={div1Ref} className="w-16 h-16">
+            <Circle ref={div1Ref} className="w-14 h-14">
               <a href="https://github.com/phero20" id="cursor-big" aria-label="Md Feroz Ahmed" target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="block h-full w-full rounded-full overflow-hidden">
                 <img src="https://avatars.githubusercontent.com/phero20?s=96" alt="phero20" className="h-full w-full object-cover" />
               </a>
@@ -85,6 +94,7 @@ export function Developer() {
               </a>
             </Circle>
           </div>
+          
         </div>
        <style jsx>{`
   .tt-wrap { 
@@ -151,11 +161,13 @@ export function Developer() {
         curvature={-75}
         endYOffset={-10}
       />
-      {/* <AnimatedBeam
+      <AnimatedBeam
         containerRef={containerRef}
         fromRef={div2Ref}
         toRef={div4Ref}
-      /> */}
+         curvature={-75}
+        endYOffset={-10}
+      />
       <AnimatedBeam
         containerRef={containerRef}
         fromRef={div3Ref}

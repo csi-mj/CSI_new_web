@@ -28,7 +28,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center  px-6 md:px-8 py-6 bg-black/60 max-lg:backdrop-blur-lg lg:bg-transparent">
+      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between  px-6 md:px-8 py-6 bg-black/60 max-lg:backdrop-blur-lg lg:bg-transparent">
         {/* Left: Logo */}
         <Link href="/home" className="flex items-center lg:hidden">
           <img

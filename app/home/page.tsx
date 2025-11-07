@@ -105,7 +105,7 @@ export default function HomePage() {
       </section>
 
       <section ref={facultyRef} className="relative pb-24" id='faculty'>
-        <div className="absolute inset-0 z-0 min-h-screen">
+        <div className="max-md:hidden absolute inset-0 z-0 min-h-screen">
           {showFaculty && showDither && (
             <Suspense fallback={null}>
               <Dither

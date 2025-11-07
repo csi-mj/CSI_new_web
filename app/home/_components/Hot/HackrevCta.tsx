@@ -31,7 +31,7 @@ const HackrevCta = () => {
             >
                 <div>
                     <h1
-                        className='text-sky-200 z-50 font-silkscreen text-xl md:text-3xl lg:text-4xl font-medium'
+                        className='text-sky-200 z-50 font-silkscreen text-2xl md:text-4xl lg:text-4xl font-medium'
                     >Happening Now</h1>
                 </div>
                 <LinkPreview url="https://hackrevolution.in" id='hot'>
