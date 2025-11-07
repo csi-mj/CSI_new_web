@@ -4,15 +4,16 @@ import { Developer } from './Developer'
 import { ArrowUp, Mail, MapPin, Phone, Github, Linkedin, Twitter, Instagram, Calendar, Users, BookOpen, Award } from 'lucide-react'
 import Link from 'next/link'
 import { AnimatePresence, motion } from 'framer-motion'
+import { FaMedium } from 'react-icons/fa'
 
 
 
 function Footer() {
   const socialLinks = [
-    { icon: Github, href: '#', label: 'GitHub' },
-    { icon: Linkedin, href: '#', label: 'LinkedIn' },
-    { icon: Twitter, href: '#', label: 'Twitter' },
-    { icon: Instagram, href: '#', label: 'Instagram' },
+    { icon: Github, href: 'https://github.com/orgs/csi-mj', label: 'GitHub' },
+    { icon: Linkedin, href: 'https://www.linkedin.com/company/csi-mjcet', label: 'LinkedIn' },
+    { icon: FaMedium, href: 'https://medium.com/@csi_mjcet', label: 'Medium' },
+    { icon: Instagram, href: 'https://www.instagram.com/csi_mjcet', label: 'Instagram' },
   ]
 
   const quickLinks = [
@@ -66,6 +67,7 @@ function Footer() {
                   id="cursor"
                   key={idx}
                   href={social.href}
+                  target="_blank"
                   aria-label={social.label}
                   className="group relative p-3 bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 hover:border-zinc-700 rounded-xl transition-all duration-300 cursor-target"
                 >
@@ -122,9 +124,9 @@ function Footer() {
                       <div className="p-2 bg-primary/10 border border-primary/20 rounded-lg">
                         <contact.icon className="w-5 h-5 text-primary" />
                       </div>
-                        <span className="text-zinc-400 group-hover:text-white transition-colors">
-                          {contact.text}
-                        </span>
+                      <span className="text-zinc-400 group-hover:text-white transition-colors">
+                        {contact.text}
+                      </span>
                     </a>
                   </li>
                 ))}
@@ -153,9 +155,9 @@ function Footer() {
             <motion.div
               id="developer-section"
               ref={devRef}
-              initial={{ opacity: 0,y:16 }}
-              animate={{ opacity: 1,y:0 }}
-              exit={{ opacity: 0,y:-16 }}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -16 }}
               transition={{ duration: .6, ease: 'easeOut' }}
               className="mt-24 w-full flex flex-col items-center"
             >
@@ -164,7 +166,7 @@ function Footer() {
                 <Developer />
               </div>
             </motion.div>
-          )}  
+          )}
         </AnimatePresence>
 
 

@@ -27,7 +27,7 @@ export function TypingAnimation({
   words,
   className,
   duration = 100,
-  typeSpeed = 50,
+  typeSpeed = 20,
   deleteSpeed,
   delay = 1500,
   pauseDelay = 1000,

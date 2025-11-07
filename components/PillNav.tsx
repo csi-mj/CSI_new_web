@@ -225,12 +225,14 @@ const PillNav: React.FC<PillNavProps> = ({
 
     <div className={`relative ${className}`} style={cssVars}>
 
-      <div ref={navItemsRef} className="relative flex h-full items-center">
+      <div className="relative flex h-full items-center">
 
-        <ul
-          role="menubar"
-          className="m-0 flex h-full list-none items-stretch gap-2 p-2"
-        >
+        
+        <div ref={navItemsRef} className="relative flex h-full items-center">
+          <ul
+            role="menubar"
+            className="m-0 flex h-full list-none items-stretch gap-2 p-2"
+          >
           {items.map((item, i) => {
             const isItemActive = isActive(item.href);
             const isHovered = hoveredIndex === i;
@@ -325,7 +327,8 @@ const PillNav: React.FC<PillNavProps> = ({
               </li>
             );
           })}
-        </ul>
+          </ul>
+        </div>
       </div>
     </div>
   );
