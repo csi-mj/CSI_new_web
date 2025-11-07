@@ -39,16 +39,16 @@ export default function EventCard({ event, reverse = false }: { event: Event; re
 
   return (
     <article
-      className={`group flex flex-col md:flex-row ${
+      className={`group flex flex-col cursor-target md:flex-row ${
         reverse ? "md:flex-row-reverse" : ""
       } border border-gray-800 bg-zinc-950 hover:border-gray-700 transition-colors duration-200 rounded-xl sm:rounded-2xl overflow-hidden`}
     >
-      {/* Image - No Zoom, Just Grayscale Effect */}
+      {/* Image - Keep Grayscale, No Color on Hover */}
       <div className="md:w-2/5 relative overflow-hidden">
         <img
           src={event.poster_url ?? "/default-poster.png"}
           alt={event.title}
-          className="w-full h-56 sm:h-72 md:h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-300"
+          className="w-full h-56 sm:h-72 md:h-full object-cover transition-all duration-300"
         />
         
         {/* Status Badge */}
@@ -58,12 +58,12 @@ export default function EventCard({ event, reverse = false }: { event: Event; re
           </div>
         )}
         {isUpcoming && upcoming.is_registration_open && (
-          <div className="absolute top-3 sm:top-4 right-3 sm:right-4 bg-white text-black text-xs font-bold uppercase px-3 py-1.5 tracking-wider">
+          <div className="absolute top-3 sm:top-4 right-3 sm:right-4 bg-white text-black text-xs rounded-xl font-bold uppercase px-3 py-1.5 tracking-wider">
             Open
           </div>
         )}
         {isCompleted && (
-          <div className="absolute top-3 sm:top-4 right-3 sm:right-4 bg-gray-800 text-gray-400 text-xs font-bold uppercase px-3 py-1.5 tracking-wider">
+          <div className="absolute top-3 sm:top-4 right-3 sm:right-4 bg-gray-800 text-gray-400 rounded-xl text-xs font-bold uppercase px-3 py-1.5 tracking-wider">
             Ended
           </div>
         )}
@@ -80,7 +80,7 @@ export default function EventCard({ event, reverse = false }: { event: Event; re
           )}
 
           {/* Title */}
-          <h3 className="text-2xl sm:text-3xl font-bold text-white mb-3 tracking-tight leading-tight">
+          <h3 className="text-2xl sm:text-3xl font-bold text-red-500 mb-3 tracking-tight leading-tight">
             {event.title}
           </h3>
           
@@ -150,12 +150,13 @@ export default function EventCard({ event, reverse = false }: { event: Event; re
                 Register
               </button>
             ) : (
-              <a
-                href={`/events/${event.id}`}
-                className="block sm:inline-block text-center w-full sm:w-auto border border-gray-700 hover:border-white text-white px-6 sm:px-8 py-3 font-medium uppercase text-xs sm:text-sm tracking-wider transition-colors rounded-lg"
-              >
-                Details
-              </a>
+              // <a
+              //   href={`/events/${event.id}`}
+              //   className="block sm:inline-block text-center w-full sm:w-auto border border-gray-700 hover:border-white text-white px-6 sm:px-8 py-3 font-medium uppercase text-xs sm:text-sm tracking-wider transition-colors rounded-lg"
+              // >
+              //   Details
+              // </a>
+              <div></div>
             )}
           </div>
         </div>
