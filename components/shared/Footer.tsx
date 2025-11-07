@@ -212,7 +212,7 @@ function Footer() {
                 bg-zinc-900/50 cursor-pointer border-zinc-800 text-zinc-300 hover:bg-zinc-900 hover:text-white
               `}
             >
-              <span>{showDev ? 'Hide Developers' : 'Developers'}</span>
+              <span>{showDev ? 'Hide Developers' : 'Show Developers'}</span>
               <span
                 className={`ml-1 h-2 w-2 rounded-full transition-colors bg-zinc-600 group-hover:bg-zinc-400`}
               />
