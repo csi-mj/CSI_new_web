@@ -48,13 +48,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${silkscreen.variable} ${orbitron.variable} ${inter.variable} ${spaceGrotesk.variable} min-h-screen bg-black text-white antialiased`}
-        style={{ margin: 0, padding: 0 }}
+        className={`${geistSans.variable} ${geistMono.variable} ${silkscreen.variable} ${orbitron.variable} ${inter.variable} ${spaceGrotesk.variable} min-h-screen bg-black text-white antialiased m-0 p-0`}
       >
         {/* <ReduxProvider> */}
           <CursorWrapper />
           <Navbar />
-          <main className="m-0 p-0 w-screen overflow-x-hidden" style={{ margin: 0, padding: 0 }}>{children}</main>
+          <main className="m-0 p-0 w-screen overflow-x-hidden">{children}</main>
         {/* </ReduxProvider> */}
       </body>
     </html>
