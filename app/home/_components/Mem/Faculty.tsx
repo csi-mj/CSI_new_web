@@ -25,11 +25,12 @@ const Faculty = React.memo(function Faculty({
         
         <motion.div
           className="text-center"
-          initial={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 0 }}
           whileInView={{ opacity: 1, y: 0 }}
           onViewportEnter={() => setTitleInView(true)}
+          onViewportLeave={() => setTitleInView(false)}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          viewport={{ amount: 0.6, once: true }}
+          viewport={{ amount: 0.6}}
         >
           {titleInView ? (
             <TextGenerateEffect

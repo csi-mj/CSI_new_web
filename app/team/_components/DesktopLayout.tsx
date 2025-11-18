@@ -47,13 +47,13 @@ const DesktopLayout: React.FC<DesktopLayoutProps> = ({
         <div className="grid grid-cols-12 gap-8 lg:gap-28 items-center w-full">
           {/* Left Section - Text Content */}
           <motion.div
-            className="col-span-12 lg:col-span-4 space-y-6 lg:space-y-8 px-6"
+            className="col-span-12 font-semibold lg:col-span-4 space-y-6 lg:space-y-8 px-6"
             initial={!hasAnimated ? { opacity: 0, x: -40 } : false}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }}
           >
             <motion.h1
-              className="text-4xl lg:text-[3.3rem] font-silkscreen leading-tight"
+              className="text-4xl lg:text-[3.3rem] font-orbitron  leading-tight"
               initial={!hasAnimated ? { opacity: 0 } : false}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.3, ease: 'easeOut' }}
@@ -63,21 +63,21 @@ const DesktopLayout: React.FC<DesktopLayoutProps> = ({
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: 0.35, ease: 'easeOut' }}
               >
-                <span className="text-white font-normal cursor-target  inline-block">MEET</span>
+                <span className="text-white  cursor-target  inline-block">MEET</span>
               </motion.div>
               <motion.div
                 initial={!hasAnimated ? { opacity: 0, x: -20 } : false}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: 0.45, ease: 'easeOut' }}
               >
-                <span className="text-gray-400 italic font-light cursor-target inline-block">OUR</span>
+                <span className="text-gray-400 italic  cursor-target inline-block">OUR</span>
               </motion.div>
               <motion.div
                 initial={!hasAnimated ? { opacity: 0, x: -20 } : false}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: 0.55, ease: 'easeOut' }}
               >
-                <span className="text-red-500 italic font-light cursor-target inline-block">{teamName}</span>
+                <span className="text-red-500 italic  cursor-target inline-block">{teamName}</span>
                 {/* <Shuffle
                   text={teamName}
                   
@@ -93,7 +93,7 @@ const DesktopLayout: React.FC<DesktopLayoutProps> = ({
                   ease: [0.22, 1, 0.36, 1]
                 }}
               >
-                <span className="text-white font-normal cursor-target inline-block">Heads</span>
+                <span className="text-white cursor-target inline-block">Heads</span>
               </motion.div>
             </motion.h1>
 

@@ -13,14 +13,14 @@ const ResourcesPage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black text-white pt-24 px-8 pb-40 relative overflow-hidden">
 
-      <StripedPattern className="text-gray-600/35" />
+      <StripedPattern className="text-gray-600/30" />
       {/* 🧠 Header Section */}
       <section className="text-center mb-5 relative z-10">
         <motion.h1
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="font-silkscreen text-3xl sm:text-4xl md:text-4xl lg:text-6xl font-extrabold tracking-tight text-white drop-shadow-lg mt-3 text-center"
+          className="font-orbitron text-3xl sm:text-4xl md:text-4xl lg:text-6xl font-extrabold tracking-tight text-white drop-shadow-lg mt-3 text-center"
         >
           <span className="inline-flex items-baseline justify-center">
             <span className="animate-typewriter overflow-hidden whitespace-nowrap inline-block">
@@ -34,7 +34,7 @@ const ResourcesPage = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.8 }}
-          className="font-silkscreen mt-3 text-md max-w-2xl mx-auto text-[#d40924]"
+          className="mt-3 text-md max-w-2xl mx-auto text-[#d40924]"
         >
           Explore curated resources from all our tech domains. Click a card to dive in!
         </motion.p>
@@ -172,7 +172,7 @@ export default ResourcesPage;
 //           initial={{ opacity: 0, y: -20 }}
 //           animate={{ opacity: 1, y: 0 }}
 //           transition={{ duration: 0.8, ease: "easeOut" }}
-//           className="font-silkscreen text-3xl sm:text-4xl md:text-5xl lg:text-8xl font-extrabold tracking-tight text-white drop-shadow-lg mt-8 text-center"
+//           className="font-orbitron text-3xl sm:text-4xl md:text-5xl lg:text-8xl font-extrabold tracking-tight text-white drop-shadow-lg mt-8 text-center"
 //         >
 //           <span className="inline-flex items-baseline justify-center">
 //             <span className="animate-typewriter overflow-hidden whitespace-nowrap inline-block">
@@ -186,7 +186,7 @@ export default ResourcesPage;
 //           initial={{ opacity: 0, y: 20 }}
 //           animate={{ opacity: 1, y: 0 }}
 //           transition={{ delay: 0.3, duration: 0.8 }}
-//           className="font-silkscreen mt-6 text-lg max-w-2xl mx-auto text-[#d40924]"
+//           className="font-orbitron mt-6 text-lg max-w-2xl mx-auto text-[#d40924]"
 //         >
 //           Explore curated resources from all our tech domains. Click a card to
 //           dive in!
@@ -351,7 +351,7 @@ export default ResourcesPage;
 //       <section className="text-center mb-16 pt-12 pb-10">
         
 
-// <h1 className="font-silkscreen text-3xl sm:text-4xl md:text-5xl lg:text-8xl font-extrabold tracking-tight text-white drop-shadow-lg mt-8 text-center">
+// <h1 className="font-orbitron text-3xl sm:text-4xl md:text-5xl lg:text-8xl font-extrabold tracking-tight text-white drop-shadow-lg mt-8 text-center">
 //   <span className="inline-flex items-baseline justify-center">
 //     <span className="animate-typewriter overflow-hidden whitespace-nowrap inline-block">Resources</span>
 //     <span className="animate-cursor ml-1">|</span>
@@ -359,11 +359,11 @@ export default ResourcesPage;
 // </h1>
 
         
-//         {/* <h1 className="font-silkscreen animate-typewriter  text-3xl sm:text-4xl md:text-5xl lg:text-8xl font-extrabold tracking-tight text-white drop-shadow-lg mt-8 text-center">
+//         {/* <h1 className="font-orbitron animate-typewriter  text-3xl sm:text-4xl md:text-5xl lg:text-8xl font-extrabold tracking-tight text-white drop-shadow-lg mt-8 text-center">
 //             Resources
 //         </h1> */}
 //         <p
-//           className="font-silkscreen mt-6 text-lg max-w-2xl mx-auto animate-slideUpFade"
+//           className="font-orbitron mt-6 text-lg max-w-2xl mx-auto animate-slideUpFade"
 //           style={{ color: "#d40924" }}
 //         >
 //           Explore curated resources from all our tech domains. Click a card to dive in!

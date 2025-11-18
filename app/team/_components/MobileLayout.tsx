@@ -45,7 +45,7 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({
         transition={{ duration: 0.6, delay: 0.2, ease: 'easeOut' }}
       >
         <motion.h1
-          className="text-4xl sm:text-5xl font-silkscreen leading-tight"
+          className="text-4xl font-semibold sm:text-5xl font-orbitron leading-tight"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.3, ease: 'easeOut' }}
@@ -55,8 +55,8 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.35, ease: 'easeOut' }}
           >
-            <span className="text-white font-medium inline-block">MEET</span>
-            <span className="text-gray-400 italic font-light inline-block">OUR</span>
+            <span className="text-white inline-block">MEET </span>
+            <span className="text-gray-400 italic inline-block"> &nbsp;OUR</span>
 
           </motion.div>
           {/* <motion.div
@@ -85,8 +85,8 @@ const MobileLayout: React.FC<MobileLayoutProps> = ({
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.45, ease: 'easeOut' }}
           >
-            <span className="text-red-500 font-medium inline-block">{teamName} </span>
-            <span className="text-white pl-2 font-medium inline-block"> HEADS</span>
+            <span className="text-red-500  inline-block">{teamName}&nbsp;</span>
+            <span className="text-white pl-2 inline-block"> HEADS</span>
             
               {/* <Shuffle
                   text="TECH HEADS"

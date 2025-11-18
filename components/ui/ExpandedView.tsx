@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
+
 import { motion } from 'framer-motion';
 import AnimatedButton from '@/components/ui/animatedButton';
 import { createPortal } from 'react-dom';
@@ -22,7 +22,7 @@ export interface TeamMember {
 type FlatUrlFields = {
   githubUrl?: string;
   linkedinUrl?: string;
-};
+}
 
 function hasFlatUrls(member: TeamMember | (TeamMember & FlatUrlFields)): member is TeamMember & FlatUrlFields {
   return ('githubUrl' in (member as object)) || ('linkedinUrl' in (member as object));
@@ -36,6 +36,7 @@ interface ExpandedViewProps {
 const ExpandedView: React.FC<ExpandedViewProps> = ({ expandedMember, onClose }) => {
   const [mounted, setMounted] = useState(false);
   const [imageOk, setImageOk] = useState<boolean>(Boolean(expandedMember?.image));
+
   useEffect(() => setMounted(true), []);
   if (!expandedMember || !mounted) return null;
 
@@ -95,14 +96,10 @@ const ExpandedView: React.FC<ExpandedViewProps> = ({ expandedMember, onClose }) 
           >
             <div className="relative w-full h-full">
               {imageOk ? (
-                <Image
+                <img
                   src={expandedMember.image}
                   alt={expandedMember.name}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  className="object-cover cursor-target rounded-xl md:rounded-2xl"
-                  priority
-                  unoptimized={process.env.NODE_ENV !== 'production'}
+                  className="w-full h-full object-cover cursor-target rounded-xl md:rounded-2xl"
                   style={{ objectPosition: 'center top' }}
                   onError={() => setImageOk(false)}
                 />

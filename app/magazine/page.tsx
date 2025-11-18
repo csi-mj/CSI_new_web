@@ -27,10 +27,10 @@ export default function Page() {
 
         <div className="w-full flex justify-center">
           <TextGenerateEffect
-            words="CSI Bulletins"
+            words="CSI  Bulletins"
             duration={1}
             delay={0.4}
-            className="text-primary font-silkscreen pb-0 text-4xl md:text-6xl font-semibold tracking-tight my-6 mb-9"
+            className="text-primary font-orbitron pb-0 text-4xl md:text-6xl font-semibold tracking-tight my-6 mb-7"
           />
         </div>
 

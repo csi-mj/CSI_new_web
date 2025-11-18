@@ -70,10 +70,10 @@ function MarqueeScrollComponent() {
   return (
     <div className="relative flex w-full flex-col items-center justify-center gap-20">
       <motion.div
-        initial={{ opacity: 1, y: 60 }}
+        initial={{ opacity: 1, y: 120 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ amount: 0 }}
-        transition={{ duration: 1, ease: "easeOut" }}
+        transition={{ duration: .5, ease: "easeOut" }}
       >
         <Marquee className="[--duration:40s]">
           {topRow.map((member, i) => (
@@ -89,10 +89,10 @@ function MarqueeScrollComponent() {
         </Marquee>
       </motion.div>
       <motion.div
-        initial={{ opacity: 1, y: 60 }}
+        initial={{ opacity: 1, y: 120 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ amount: 0 }}
-        transition={{ duration: 1, ease: "easeOut", delay: 0.12 }}
+        transition={{ duration: .5, ease: "easeOut", delay: 0.12 }}
       >
         <Marquee reverse className="[--duration:40s]">
           {bottomRow.map((member, i) => (

@@ -99,7 +99,7 @@ export default function EventsPage() {
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="text-center mb-10 sm:mb-16">
-            <h1 className="font-silkscreen text-4xl sm:text-5xl lg:text-6xl font-bold text-red-500 mb-3 sm:mb-4 tracking-tight px-4">
+            <h1 className="font-orbitron text-4xl sm:text-5xl lg:text-6xl font-bold text-red-500 mb-3 sm:mb-4 tracking-tight px-4">
               {headings[activeTab].title}
             </h1>
             <p className="text-base sm:text-lg text-gray-400 max-w-2xl mx-auto px-4 leading-relaxed">

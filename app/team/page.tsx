@@ -6,7 +6,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import { Carousel, TeamMember } from './_components/Carousel';
-import GB from './_components/GB';
+import GB from './_components/TeamCard';
 import NavTabs from './_components/NavTabs';
 import Shuffle from '@/components/Shuffle';
 import gbData from './_data/gb.json';
@@ -193,7 +193,7 @@ export default function TeamPage() {
 
       if (execRef.current) {
         gsap.to(execRef.current, {
-          scale: 0.9,
+          scale: 0.95,
           y: 90,
           ease: 'none',
           immediateRender: false,
@@ -201,7 +201,7 @@ export default function TeamPage() {
             trigger: execRef.current,
             start: 'top 30%',
             end: 'top 70%',
-            scrub: 1.5,
+            scrub: 2.5,
             invalidateOnRefresh: true,
           }
         });
@@ -209,7 +209,7 @@ export default function TeamPage() {
 
       if (coreRef.current) {
         gsap.to(coreRef.current, {
-          scale: 0.93,
+          scale: 0.95,
           y: 60,
           ease: 'none',
           immediateRender: false,
@@ -237,7 +237,7 @@ export default function TeamPage() {
           <Shuffle 
               text="GOVERNING BODY" 
               tag="h1"
-              className="font-silkscreen !text-5xl mt-16 mb-8 md:!text-6xl !text-primary !normal-case !font-bold"
+              className="font-orbitron !text-5xl mt-16 mb-8 md:!text-6xl !text-primary !normal-case !font-bold"
               immediate={true}
               loop={true}
               loopDelay={2}
@@ -249,7 +249,7 @@ export default function TeamPage() {
               triggerOnHover={true}
             />
         </div>
-         <div className="relative w-full px-4">
+         <div className="relative w-full px-2">
         <div className="flex flex-wrap gap-2 justify-center mb-6">
           <NavTabs tabs={gbTabs} activeIdx={activeGbIdx} onChange={setActiveGbIdx} />
         </div>
@@ -265,7 +265,7 @@ export default function TeamPage() {
           <Shuffle 
               text="EXECUTIVE COMMITTEE" 
               tag="h1"
-              className="font-silkscreen !text-3xl mt-16 mb-8 md:!text-6xl !text-primary !normal-case !font-bold"
+              className="font-orbitron !text-3xl mt-16 mb-8 md:!text-6xl !text-primary !normal-case !font-bold"
               immediate={true}
               loop={true}
               loopDelay={2}
@@ -277,7 +277,7 @@ export default function TeamPage() {
               triggerOnHover={true}
             />
         </div>
-      <div className="relative w-full px-4">
+      <div className="relative w-full px-2">
         <div className="flex flex-wrap gap-2 justify-center">
           <NavTabs tabs={teamTabs} activeIdx={activeIdx} onChange={setActiveIdx} />
         </div>
@@ -298,7 +298,7 @@ export default function TeamPage() {
           <Shuffle 
               text="CORE TEAM" 
               tag="h1"
-              className="font-silkscreen !text-5xl mt-16 mb-8 md:!text-6xl !text-primary !normal-case !font-bold"
+              className="font-orbitron !text-5xl mt-16 mb-8 md:!text-6xl !text-primary !normal-case !font-bold"
               immediate={true}
               loop={true}
               loopDelay={2}
@@ -310,7 +310,7 @@ export default function TeamPage() {
               triggerOnHover={true}
             />
         </div>
-         <div className="relative w-full px-4">
+         <div className="relative w-full px-2">
         {coreVisible && (
           <div className="flex flex-wrap gap-2 justify-center mb-6">
             <NavTabs tabs={coreTeamTabs} activeIdx={activeCoreIdx} onChange={setActiveCoreIdx} />

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono, Silkscreen, Orbitron, Inter, Space_Grotesk } from 'next/font/google';
+import { Geist, Geist_Mono, Silkscreen, Orbitron, Inter, Space_Grotesk,Poppins } from 'next/font/google';
 import './globals.css';
 import Navbar from '@/components/shared/Navbar';
 import { CursorWrapper } from '@/components/shared/CursorWrapper';
@@ -12,6 +12,12 @@ const geistSans = Geist({
 
 const geistMono = Geist_Mono({
   variable: '--font-geist-mono',
+  subsets: ['latin']
+});
+
+const poppins = Poppins({
+  weight: ['400', '700'],
+  variable: '--font-poppins',
   subsets: ['latin']
 });
 
@@ -49,7 +55,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${silkscreen.variable} ${orbitron.variable} ${inter.variable} ${spaceGrotesk.variable} min-h-screen bg-black text-white antialiased m-0 p-0`}
+        className={`${geistSans.variable} ${geistMono.variable} ${silkscreen.variable} ${orbitron.variable} ${inter.variable} ${spaceGrotesk.variable} ${poppins.variable} min-h-screen bg-black text-white antialiased m-0 p-0`}
       >
         {/* <ReduxProvider> */}
           <CursorWrapper />

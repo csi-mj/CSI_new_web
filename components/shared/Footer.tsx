@@ -33,7 +33,7 @@ function Footer() {
   const devRef = useRef<HTMLDivElement | null>(null)
 
   return (
-    <footer className="relative w-full border-t border-zinc-800/40">
+    <footer className="relative w-full border-t bg-black border-zinc-800/40">
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 pt-16 pb-8">
 

@@ -111,37 +111,37 @@ const Hero = () => {
           <div className="hero-title flex w-full items-center justify-center">
             <MorphingText
               texts={['CSI MJCET', 'COMPUTER SOCIETY OF INDIA']}
-              className="font-silkscreen w-full text-center text-3xl leading-tight sm:text-3xl md:text-4xl lg:text-5xl"
+              className="font-orbitron w-full text-center text-3xl leading-tight sm:text-3xl md:text-4xl lg:text-5xl"
             />
           </div>
 
           <div className="hero-greeting mt-8 flex min-h-[2.5rem] w-full items-center justify-center sm:mt-3">
            <h1 id='cursor' className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-center">
           <div className="flex">
-            <span className="font-silkscreen text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">C</span>
-            <span className="font-silkscreen text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">o</span>
-            <span className="font-silkscreen text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">d</span>
-            <span className="font-silkscreen text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">e </span>
-            <span className="font-silkscreen text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary pl-3"> . </span>
+            <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">C</span>
+            <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">o</span>
+            <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">d</span>
+            <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">e </span>
+            <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary pl-3"> . </span>
           </div>
           <div className="flex">
-            <span className="font-silkscreen text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">C</span>
-            <span className="font-silkscreen text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">r</span>
-            <span className="font-silkscreen text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">e</span>
-            <span className="font-silkscreen text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">a</span>
-            <span className="font-silkscreen text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">t</span>
-            <span className="font-silkscreen text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">e </span>
-            <span className="font-silkscreen text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary pl-3"> . </span>
+            <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">C</span>
+            <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">r</span>
+            <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">e</span>
+            <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">a</span>
+            <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">t</span>
+            <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">e </span>
+            <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary pl-3"> . </span>
           </div>
           <div className="flex">
-            <span className="font-silkscreen text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">I</span>
-            <span className="font-silkscreen text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">n</span>
-            <span className="font-silkscreen text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">n</span>
-            <span className="font-silkscreen text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">o</span>
-            <span className="font-silkscreen text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">v</span>
-            <span className="font-silkscreen text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">a</span>
-            <span className="font-silkscreen text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">t</span>
-            <span className="font-silkscreen text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">e</span>
+            <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">I</span>
+            <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">n</span>
+            <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">n</span>
+            <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">o</span>
+            <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">v</span>
+            <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">a</span>
+            <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">t</span>
+            <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">e</span>
           </div>
         </h1>
           </div>
@@ -152,7 +152,7 @@ const Hero = () => {
             href="https://forms.gle/ePeDHzKgrb9MUGTx6"
             target="_blank"
             rel="noopener noreferrer"
-            className="group font-silkscreen relative flex h-11 w-full items-center justify-center rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-3 text-sm font-bold text-white shadow-lg transition-all duration-500 hover:scale-105 hover:from-blue-700 hover:to-blue-800 sm:w-48"
+            className="group font-orbitron relative flex h-11 w-full items-center justify-center rounded-lg bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-3 text-sm font-bold text-white shadow-lg transition-all duration-500 hover:scale-105 hover:from-blue-700 hover:to-blue-800 sm:w-48"
             aria-label="Join CSI MJCET"
           >
             <span className="relative z-10 flex items-center gap-2">
@@ -162,7 +162,7 @@ const Hero = () => {
 
           <button
             onClick={scrollToAbout}
-            className="group font-silkscreen relative flex h-11 w-full cursor-pointer items-center justify-center rounded-lg border-2 border-red-500 bg-transparent px-6 py-3 text-sm font-bold text-red-500 backdrop-blur-[1px] transition-all duration-500 hover:scale-105 hover:bg-red-500 hover:text-black sm:w-48"
+            className="group font-orbitron relative flex h-11 w-full cursor-pointer items-center justify-center rounded-lg border-2 border-red-500 bg-transparent px-6 py-3 text-sm font-bold text-red-500 backdrop-blur-[1px] transition-all duration-500 hover:scale-105 hover:bg-red-500 hover:text-black sm:w-48"
             aria-label="Learn more about CSI MJCET"
           >
             <span className="relative z-10 flex items-center gap-2">
