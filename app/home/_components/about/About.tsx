@@ -10,7 +10,7 @@ import { Users, Calendar, TrendingUp, Plus } from 'lucide-react';
 
 const About = React.memo(() => {
   const aboutText = useMemo(() => `
-The Computer Society of India – MJCET (CSI MJCET) is the college's oldest student chapter, fostering a legacy of technical excellence. It's a vibrant community that hosts numerous workshops, hackathons, and projects to build students' programming, leadership, and collaborative skills, connecting them with industry certifications and national events.`, []);
+The Computer Society of India – MJCET (CSI MJCET) is one of the oldest student oldest chapter of MJCET, fostering a legacy of technical excellence. It's a vibrant community that hosts numerous workshops, hackathons, and projects to build students' programming, leadership, and collaborative skills, connecting them with industry certifications and national events.`, []);
   const [textInView, setTextInView] = useState(false);
   const textRef = useRef<HTMLDivElement>(null);
 
