@@ -249,7 +249,7 @@ export default function TeamPage() {
               triggerOnHover={true}
             />
         </div>
-         <div className="relative w-full px-2">
+         <div className="relative w-full md:px-6">
         <div className="flex flex-wrap gap-2 justify-center mb-6">
           <NavTabs tabs={gbTabs} activeIdx={activeGbIdx} onChange={setActiveGbIdx} />
         </div>

@@ -72,7 +72,7 @@ function MarqueeScrollComponent() {
       <motion.div
         initial={{ opacity: 1, y: 120 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ amount: 0 }}
+        viewport={{ amount: 0, once: true }}
         transition={{ duration: .5, ease: "easeOut" }}
       >
         <Marquee className="[--duration:40s]">
@@ -91,7 +91,7 @@ function MarqueeScrollComponent() {
       <motion.div
         initial={{ opacity: 1, y: 120 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ amount: 0 }}
+        viewport={{ amount: 0, once: true }}
         transition={{ duration: .5, ease: "easeOut", delay: 0.12 }}
       >
         <Marquee reverse className="[--duration:40s]">

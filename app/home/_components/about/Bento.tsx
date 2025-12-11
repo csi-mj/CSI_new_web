@@ -8,7 +8,7 @@ export function Bento() {
     <motion.section
       initial={{ opacity: 1, y: 0, scale: 1 }}
       whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      viewport={{ amount: 0.2 }}
+      viewport={{ amount: 0.2, once: true }}
       transition={{ duration: 1, ease: 'easeOut' }}
       className="bent-wrapper flex h-max w-screen items-center justify-center bg-black mt-16"
       style={{ contain: 'layout paint' }}
@@ -66,7 +66,7 @@ const items = [
     imageSrc:
       "/about/zainsir.jpg",
   },
-    {
+  {
     title: "Our Chief Coordinators",
     description:
       "Muhammed Affan Asif, Touseef Banu, and Abdullah Shareef embody leadership, teamwork, and innovation within CSI MJCET.",

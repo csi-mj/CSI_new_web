@@ -1,0 +1,372 @@
+[
+  {
+    "id": "dev-showdown",
+    "title": "Dev Showdown",
+    "subtitle": "Execom Project Showcase",
+    "description": "You are invited to 'Dev Showdown', a project showcase by our very own Execom members! Come and watch the teams present the exciting projects they have been working on. Discover creative and practical tech solutions, get inspiration for your future projects, and connect with the CSI technical community.",
+    "poster_url": "/events/past/devshowdown.jpg",
+    "status": "completed",
+    "event_date": "2025-12-06T13:45:00.000Z",
+    "venue": "Lab 4",
+    "category": "Showcase",
+    "organizers": [
+      "CSI MJCET"
+    ],
+    "highlights": [
+      "Discover creative and practical tech solutions",
+      "Get inspiration for your future projects",
+      "Learn new ideas, workflows, and approaches",
+      "Connect with the CSI technical community"
+    ],
+    "time_range": "1:45 PM – 4:00 PM",
+    "tags": [
+      "Project Showcase",
+      "Innovation",
+      "Tech"
+    ],
+    "completed_at": "2025-12-06T16:00:00.000Z",
+    "days_since_completed": 5
+  },
+  {
+    "id": "antigravity-unlocked",
+    "title": "Antigravity Unlocked",
+    "subtitle": "Powered by Gemini",
+    "description": "Antigravity is trending. AI is evolving. But only a few actually understand what’s coming next. Are you ready to be one of them? Join us for “Antigravity Unlocked Powered by Gemini”, a hands-on journey into the world of Agentic AI and Google’s revolutionary Antigravity framework.",
+    "poster_url": "/events/past/antigravity.jpg",
+    "status": "completed",
+    "event_date": "2025-12-05T13:45:00.000Z",
+    "venue": "Student Activity Centre",
+    "category": "Workshop",
+    "organizers": [
+      "Computer Science and Engineering Department",
+      "CSI MJCET"
+    ],
+    "highlights": [
+      "Discover what Agentic AI truly means",
+      "Deep dive into Google Antigravity",
+      "Hands-on Mini Challenge",
+      "Exciting Google swags & exclusive giveaways for winners!"
+    ],
+    "contacts": [
+      {
+        "name": "Abdullah",
+        "phone": "77802 27803"
+      },
+      {
+        "name": "Touseef",
+        "phone": "99895 98636"
+      }
+    ],
+    "time_range": "1:45 PM – 4:00 PM",
+    "tags": [
+      "AI",
+      "Google",
+      "Agentic AI",
+      "Workshop"
+    ],
+    "completed_at": "2025-12-05T16:00:00.000Z",
+    "days_since_completed": 6
+  },
+  {
+    "id": "csi-community-connect",
+    "title": "CSI Community Connect",
+    "subtitle": "The Ultimate CSI Community Meetup",
+    "description": "Brace yourselves because we’re bringing the ultimate CSI COMMUNITY CONNECT! Insanely fun activities, team bonding like never before, high-energy group challenges, and pure chaos + laughter. Meet the entire CSI fam and start the year with a bang!",
+    "poster_url": "/events/past/community.jpg",
+    "status": "completed",
+    "event_date": "2025-11-28T13:45:00.000Z",
+    "venue": "Student Activity Center, Block 1",
+    "category": "Community",
+    "organizers": [
+      "CSI MJCET"
+    ],
+    "highlights": [
+      "Insanely fun activities",
+      "Team bonding like never before",
+      "High-energy group challenges",
+      "Meet the entire CSI fam"
+    ],
+    "time_range": "1:45 PM – Onwards",
+    "tags": [
+      "Community",
+      "Fun",
+      "Networking"
+    ],
+    "completed_at": "2025-11-28T16:00:00.000Z",
+    "days_since_completed": 13
+  },
+  {
+    "id": "prompt-arena",
+    "title": "Prompt Arena",
+    "subtitle": "Outsmart. Outcreate. Outprompt.",
+    "description": "Think you can outsmart AI? Think you can craft prompts that stand out? This is your chance to prove it in a high-energy competition where creativity meets logic and technology! Gear up for 3 electrifying rounds, from a mind-bending Quiz to an intense Prompt Battle and a thrilling Mystery Round!",
+    "poster_url": "/events/past/promptarena.jpg",
+    "status": "completed",
+    "event_date": "2025-11-21T13:45:00.000Z",
+    "venue": "Seminar Hall, Block 4",
+    "category": "Competition",
+    "organizers": [
+      "Computer Science and Engineering Department",
+      "CSI MJCET"
+    ],
+    "highlights": [
+      "3 Electrifying Rounds: Quiz, Prompt Battle, Mystery Round",
+      "Team Size: 2–3 members",
+      "Registration Fee: Absolutely FREE",
+      "Exciting prizes to be won"
+    ],
+    "contacts": [
+      {
+        "name": "Touseef",
+        "phone": "99895 98636"
+      },
+      {
+        "name": "Affan",
+        "phone": "91217 95950"
+      }
+    ],
+    "time_range": "1:45 PM – 4:00 PM",
+    "tags": [
+      "AI",
+      "Prompt Engineering",
+      "Competition",
+      "Creativity"
+    ],
+    "completed_at": "2025-11-21T16:00:00.000Z",
+    "days_since_completed": 20
+  },
+  {
+    "id": "hack-revolution-2025",
+    "title": "Hack Revolution 2025",
+    "subtitle": "Biggest Flagship Event | Powered by Aces",
+    "description": "Get ready to witness the ultimate tech face-off where innovation meets impact. Brought to you by the ultimate duo CSI x E-Cell MJCET a 15-hour coding marathon designed to challenge your creativity, logic, and problem-solving like never before. Win incredible cash prizes from a massive pool of ₹3,00,000! Winners get direct entry to Smart India Hackathon 2026.",
+    "poster_url": "/events/past/hackrev.jpg",
+    "status": "completed",
+    "event_date": "2025-11-08T09:00:00.000Z",
+    "venue": "Ghulam Ahmed Hall MJCET",
+    "category": "Hackathon",
+    "organizers": [
+      "CSI MJCET",
+      "E-Cell MJCET",
+      "ACES"
+    ],
+    "highlights": [
+      "4 Competitive Tracks: Smart Ed, Urban Tech, Agri & Open Hardware",
+      "₹3,00,000 Cash Prize Pool",
+      "Direct entry to SIH 2026 for winners",
+      "15-hour coding marathon"
+    ],
+    "contacts": [
+      {
+        "name": "Abdullah",
+        "phone": "77802 27803"
+      },
+      {
+        "name": "Rayyan",
+        "phone": "99087 84538"
+      }
+    ],
+    "time_range": "9:00 AM – Onwards",
+    "tags": [
+      "Hackathon",
+      "Innovation",
+      "Coding",
+      "Smart India Hackathon"
+    ],
+    "completed_at": "2025-11-08T23:00:00.000Z",
+    "days_since_completed": 33
+  },
+  {
+    "id": "terraview-2025",
+    "title": "Terraview 2025: Turning Data into Stories",
+    "subtitle": "The Ultimate First Year Showdown | Powered by ACES",
+    "description": "Exclusively for First-Years! Step into the world of data visualization and show your mettle! This isn’t just any competition, it’s your chance to turn raw data into jaw-dropping insights. Compete for a ₹30,000 cash prize pool! This is a SOLO event - it’s just you, your data, and your vision.",
+    "poster_url": "/events/past/teraview2.jpg",
+    "status": "completed",
+    "event_date": "2025-11-08T10:00:00.000Z",
+    "venue": "Seminar Hall, Block 4",
+    "category": "Competition",
+    "organizers": [
+      "ACES",
+      "CSI MJCET",
+      "E-Cell MJCET"
+    ],
+    "highlights": [
+      "Exclusively for First-Years",
+      "₹30,000 Cash Prize Pool",
+      "SOLO Event",
+      "Live Presentation Finals"
+    ],
+    "contacts": [
+      {
+        "name": "Abdullah Shareef",
+        "phone": "77802 27803"
+      },
+      {
+        "name": "Rayyan",
+        "phone": "99087 84538"
+      }
+    ],
+    "time_range": "10:00 AM – 1:00 PM",
+    "tags": [
+      "Data Visualization",
+      "Competition",
+      "Terraview",
+      "First Years"
+    ],
+    "completed_at": "2025-11-08T13:00:00.000Z",
+    "days_since_completed": 33
+  },
+  {
+    "id": "terraview-workshop",
+    "title": "Data Analytics using Terraview",
+    "subtitle": "Turning Data into Stories",
+    "description": "First Years Exclusive! Get ready to explore the world of data with Terraview, the platform that transforms raw numbers into impactful insights. Whether you’re a beginner or a curious innovator, this hands-on session will help you craft dashboards that impress and prepare for Terraview 2025 with a ₹30,000 cash prize pool!",
+    "poster_url": "/events/past/terraview.jpg",
+    "status": "completed",
+    "event_date": "2025-10-29T13:30:00.000Z",
+    "venue": "CIC Lab Block 2",
+    "category": "Workshop",
+    "organizers": [
+      "ACES",
+      "CSI MJCET",
+      "E-Cell MJCET"
+    ],
+    "highlights": [
+      "Fundamentals of data visualization & analytics",
+      "Hands on experience with Terraview",
+      "Skills to create impactful data stories",
+      "Expert tips to shine in Terraview 2025",
+      "Certificate of participation"
+    ],
+    "contacts": [
+      {
+        "name": "Abdullah Shareef",
+        "phone": "77802 27803"
+      },
+      {
+        "name": "Rayyan",
+        "phone": "99087 84538"
+      }
+    ],
+    "time_range": "1:30 PM – 4:00 PM",
+    "tags": [
+      "Data Analytics",
+      "Terraview",
+      "Visualization"
+    ],
+    "completed_at": "2025-10-29T16:00:00.000Z",
+    "days_since_completed": 43
+  },
+  {
+    "id": "visionverse",
+    "title": "VisionVerse",
+    "subtitle": "The Official Pre-Hackathon Workshop Series of Hack Revolution",
+    "description": "Join us for VisionVerse an immersive workshop introducing you to Computer Vision, where machines learn to see and understand the world like humans. In the age of AI, Computer Vision is everywhere! From robotics to smart apps. Learn the skills that help machines see, think, and act. Fee: ₹50/- (Free for CSI & E-Cell Members!)",
+    "poster_url": "/events/past/visionverse.jpg",
+    "status": "completed",
+    "event_date": "2025-10-25T09:30:00.000Z",
+    "venue": "CIC Lab, Block 2",
+    "category": "Workshop",
+    "organizers": [
+      "CSI MJCET",
+      "E-Cell MJCET"
+    ],
+    "highlights": [
+      "Fundamentals of Computer Vision & AI",
+      "Image processing and object detection",
+      "Build hands-on projects with OpenCV / Python",
+      "Important Modules of Mediapipe",
+      "Real-world applications and workflows"
+    ],
+    "contacts": [
+      {
+        "name": "Abdullah",
+        "phone": "77802 27803"
+      },
+      {
+        "name": "Rayyan",
+        "phone": "99087 84538"
+      }
+    ],
+    "time_range": "9:30 AM – 4:00 PM",
+    "tags": [
+      "Computer Vision",
+      "AI",
+      "OpenCV",
+      "Python"
+    ],
+    "completed_at": "2025-10-25T16:00:00.000Z",
+    "days_since_completed": 47
+  },
+  {
+    "id": "sih-decoded",
+    "title": "SIH Decoded – Hear it from the Winners!",
+    "subtitle": "Guidance for Smart India Hackathon",
+    "description": "Want to Participate in SIH but need guidance? Hear it from the Winners! In 2024, Two CSI teams from MJCET Won SIH. Now, they’re here to share how they did it. Whether you’re curious about hackathons, planning to participate in SIH, or just want to learn from the winners, this session is for you! Fee: ₹50 (Free for CSI Members).",
+    "poster_url": "/events/past/sihdecoded.jpg",
+    "status": "completed",
+    "event_date": "2025-09-19T10:30:00.000Z",
+    "venue": "CIC Lab, Block 2",
+    "category": "Seminar",
+    "organizers": [
+      "CSI MJCET"
+    ],
+    "highlights": [
+      "Live Interaction with SIH 2024 winners",
+      "PS Selection Tips – how to choose the right problem statement",
+      "Guide to making a Winning PPT",
+      "Journey from PS selection to the finale"
+    ],
+    "contacts": [
+      {
+        "name": "Touseef Banu",
+        "phone": "99895 98636"
+      },
+      {
+        "name": "Affan Asif",
+        "phone": "91217 95950"
+      }
+    ],
+    "time_range": "10:30 AM – 1:00 PM",
+    "tags": [
+      "SIH",
+      "Hackathon",
+      "Guidance",
+      "Success Story"
+    ],
+    "completed_at": "2025-09-19T13:00:00.000Z",
+    "days_since_completed": 83
+  },
+  {
+    "id": "4",
+    "title": "WEBVERSE",
+    "subtitle": "The Official Pre-Hackathon Workshop Series Of Hackrevolution",
+    "description": "CSI and E-Cell MJCET proudly bring you WEBVERSE 🌐– The Web Development Workshop, the first pre-hackathon session of Hack Revolution. Before the hackathon begins, step into the world of web technologies and learn how to turn your ideas into dynamic, creative, and functional web solutions.",
+    "poster_url": "/events/past/webverse.jpg",
+    "status": "completed",
+    "event_date": "2024-11-16T10:00:00.000Z",
+    "event_end_date": "2024-11-16T14:00:00.000Z",
+    "venue": "Lab 301, MJCET",
+    "category": "Workshop",
+    "current_participants": 80,
+    "max_participants": 100,
+    "organizers": [
+      "CSI MJCET",
+      "E-Cell MJCET"
+    ],
+    "highlights": [
+      "Get Ready to Build the Web of Tomorrow!",
+      "Learn React, Next.js, and TypeScript",
+      "Turn ideas into dynamic web solutions"
+    ],
+    "tags": [
+      "Web Development",
+      "React",
+      "Workshop"
+    ],
+    "completed_at": "2024-11-16T14:00:00.000Z",
+    "days_since_completed": 60
+  }
+
+]

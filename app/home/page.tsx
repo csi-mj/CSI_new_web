@@ -56,6 +56,7 @@ export default function HomePage() {
               initial={{ opacity: 0, y: 80, scale: 0.9 }}
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ duration: 1, ease: 'easeOut' }}
+              viewport={{ once: true }}
             >
               <Shuffle
                 text="GOVERNING BODY"

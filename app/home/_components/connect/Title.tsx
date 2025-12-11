@@ -14,6 +14,7 @@ const Title = () => {
       onViewportEnter={() => setIsInView(true)}
       onViewportLeave={() => setIsInView(false)}
       transition={{ duration: 1, ease: 'easeOut' }}
+      viewport={{ once: true }}
     >
       <div>
         {isInView && (

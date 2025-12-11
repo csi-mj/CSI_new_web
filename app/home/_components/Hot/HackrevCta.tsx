@@ -10,7 +10,7 @@ import { TextGenerateEffect } from '@/components/ui/text-generate-effect';
 
 const HackrevCta = () => {
     return (
-        <div className="relative w-full overflow-hidden py-24">
+        <div className="relative w-full overflow-hidden py-32">
             <div className="absolute inset-0 z-0 bg-black">
                 <Squares
                     speed={0.5}
@@ -26,7 +26,7 @@ const HackrevCta = () => {
                 className="relative z-10 w-full flex flex-col justify-center gap-12 items-center"
                 initial={{ opacity: 0, y: 32 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ amount: 0.2 }}
+                viewport={{ amount: 0.2, once: true }}
                 transition={{ duration: 0.6, ease: 'easeOut' }}
             >
                 <div>
@@ -55,7 +55,7 @@ const HackrevCta = () => {
                 className="relative z-10 mt-6 flex w-full justify-center"
                 initial={{ opacity: 0, y: 28 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ amount: 0.2 }}
+                viewport={{ amount: 0.2, once: true }}
                 transition={{ duration: 0.5, ease: 'easeOut', delay: 0.05 }}
             >
                 <LinkPreview url="https://www.linkedin.com/company/csi-mjcet" id="cursor-big">

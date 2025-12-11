@@ -43,11 +43,11 @@ export function Developer() {
     >
       <div className="flex w-full max-w-md flex-col items-stretch justify-center gap-1">
         <div className="flex flex-row items-center justify-between">
-          
+
           <div className="tt-wrap relative inline-flex items-center justify-center">
             <span className="tt">Shaik Ismail</span>
             <Circle ref={div2Ref}>
-              <a href="https://github.com/shaik-ismail-27"  aria-label="Iqra Fatima" target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="block h-full w-full rounded-full overflow-hidden">
+              <a href="https://github.com/shaik-ismail-27" aria-label="Iqra Fatima" target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="block h-full w-full rounded-full overflow-hidden">
                 <img src="https://avatars.githubusercontent.com/shaik-ismail-27?s=96" alt="shaik-ismail-27" className="h-full w-full object-cover" />
               </a>
             </Circle>
@@ -63,7 +63,7 @@ export function Developer() {
           <div className="tt-wrap relative inline-flex items-center justify-center">
             <span className="tt">Iqra Fatima</span>
             <Circle ref={div5Ref}>
-              <a href="https://github.com/iqrfatima"  aria-label="Iqra Fatima" target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="block h-full w-full rounded-full overflow-hidden">
+              <a href="https://github.com/iqrfatima" aria-label="Iqra Fatima" target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="block h-full w-full rounded-full overflow-hidden">
                 <img src="https://avatars.githubusercontent.com/iqrfatima?s=96" alt="iqrfatima" className="h-full w-full object-cover" />
               </a>
             </Circle>
@@ -86,6 +86,14 @@ export function Developer() {
               </a>
             </Circle>
           </div>
+          <div className="tt-wrap relative inline-flex items-center justify-center mt-7">
+            <span className="tt">Muhammad Affan Asif</span>
+            <Circle ref={div6Ref}>
+              <a href="https://github.com/Affan-Asif" target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="block h-full w-full rounded-full overflow-hidden">
+                <img src="https://avatars.githubusercontent.com/Affan-Asif?s=96" alt="affan" className="h-full w-full object-cover" />
+              </a>
+            </Circle>
+          </div>
           <div className="tt-wrap relative inline-flex items-center justify-center">
             <span className="tt">Daaniyah Khan</span>
             <Circle ref={div7Ref}>
@@ -95,8 +103,9 @@ export function Developer() {
             </Circle>
           </div>
           
+
         </div>
-       <style jsx>{`
+        <style jsx>{`
   .tt-wrap { 
     position: relative; 
   }
@@ -165,7 +174,7 @@ export function Developer() {
         containerRef={containerRef}
         fromRef={div2Ref}
         toRef={div4Ref}
-         curvature={-75}
+        curvature={-75}
         endYOffset={-10}
       />
       <AnimatedBeam
@@ -183,19 +192,21 @@ export function Developer() {
         endYOffset={-10}
         reverse
       />
-      {/* <AnimatedBeam
+      <AnimatedBeam
         containerRef={containerRef}
         fromRef={div6Ref}
         toRef={div4Ref}
+        curvature={75}
+        endYOffset={10}
         reverse
-      /> */}
+      />
       <AnimatedBeam
         containerRef={containerRef}
         fromRef={div7Ref}
         toRef={div4Ref}
         curvature={75}
         endYOffset={10}
-        
+
         reverse
       />
     </div>

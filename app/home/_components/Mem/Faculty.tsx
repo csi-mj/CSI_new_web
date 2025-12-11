@@ -22,7 +22,7 @@ const Faculty = React.memo(function Faculty({
   return (
     <section className="w-full px-4 md:px-8 lg:px-12 py-4">
       <div className="mx-auto max-w-5xl rounded-2xl border border-white/15 bg-white/5 p-3 sm:p-4 md:p-6 backdrop-blur-xs shadow-[0_8px_40px_rgba(0,0,0,0.25)] relative overflow-hidden">
-        
+
         <motion.div
           className="text-center"
           initial={{ opacity: 0, y: 0 }}
@@ -30,7 +30,7 @@ const Faculty = React.memo(function Faculty({
           onViewportEnter={() => setTitleInView(true)}
           onViewportLeave={() => setTitleInView(false)}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          viewport={{ amount: 0.6}}
+          viewport={{ amount: 0.6, once: true }}
         >
           {titleInView ? (
             <TextGenerateEffect
@@ -51,12 +51,12 @@ const Faculty = React.memo(function Faculty({
         <div className="pointer-events-none absolute -bottom-24 -right-24 h-72 w-72 rounded-full bg-gradient-to-tr from-white/5 to-transparent blur-3xl" /> */}
 
         <div className="grid grid-cols-1 md:grid-cols-[280px_1fr] items-center gap-4 md:gap-6">
-          
+
           {/* Left Image */}
           <motion.div
             initial={{ opacity: 0, x: -45 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ amount: 0.3 }}
+            viewport={{ amount: 0.3,once: true  }}
             transition={{ duration: 0.6, ease: "easeOut" }}
             className="relative aspect-[3/4] w-full overflow-hidden rounded-xl border border-white/15 bg-black/20"
           >
@@ -77,7 +77,7 @@ const Faculty = React.memo(function Faculty({
           <motion.div
             initial={{ opacity: 0, x: 45 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ amount: 0.3 }}
+            viewport={{ amount: 0.3, once: true }}
             transition={{ duration: 0.6, ease: "easeOut", delay: 0.05 }}
             className="min-w-0 relative"
           >
@@ -85,7 +85,7 @@ const Faculty = React.memo(function Faculty({
             <div className="absolute -left-4 -bottom-4 h-32 w-32 rounded-full bg-gradient-to-tr from-white/10 to-transparent blur-xl opacity-30" />
 
             <div className="relative space-y-4">
-              
+
               {/* Name */}
               <div className="space-y-2">
                 <div className="flex items-center gap-3 mb-1">

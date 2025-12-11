@@ -93,8 +93,8 @@ const Hero = () => {
       aria-label="Hero section"
     >
       <BackgroundLines className="flex w-full flex-col items-center justify-center gap-3 px-2">
-        {/* <ShootingStars />
-        <StarsBackground /> */}
+        <ShootingStars />
+        <StarsBackground />
         <div className="hero-logo mb-5">
           <Image
             src={logo}

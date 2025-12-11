@@ -33,21 +33,21 @@ The Computer Society of India – MJCET (CSI MJCET) is the college's oldest stud
 
   return (
     <div className="">
-       
+
       <div className="relative pt-20 flex w-full flex-col items-center justify-center">
-       
+
 
         <div className="relative z-10 w-full max-w-4xl px-4">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            viewport={{  margin: "-100px" }}
+            viewport={{ margin: "-100px", once: true }}
             className="mb-16 text-center"
           >
             <div className="mb-12">
-              <Shuffle 
-                text="About CSI MJCET" 
+              <Shuffle
+                text="About CSI MJCET"
                 tag="h1"
                 className="!text-3xl md:!text-6xl !text-primary !normal-case !font-bold"
                 style={{ fontFamily: 'var(--font-orbitron)' }}
@@ -62,15 +62,15 @@ The Computer Society of India – MJCET (CSI MJCET) is the college's oldest stud
               />
             </div>
 
-            <div 
+            <div
               ref={textRef}
-              className="mx-auto mt-8 max-w-3xl" 
+              className="mx-auto mt-8 max-w-3xl"
               style={{ fontFamily: 'var(--font-inter)' }}
             >
               {textInView && (
-                <TextGenerateEffect 
-                  words={aboutText} 
-                  className="text-base md:text-lg text-white/80 leading-relaxed !font-light" 
+                <TextGenerateEffect
+                  words={aboutText}
+                  className="text-base md:text-lg text-white/80 leading-relaxed !font-light"
                   duration={0.5}
                   filter={true}
                 />
@@ -78,12 +78,12 @@ The Computer Society of India – MJCET (CSI MJCET) is the college's oldest stud
             </div>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             className="mt-16 grid grid-cols-1 gap-6 md:grid-cols-3"
             initial={{ opacity: 1, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
-            viewport={{  margin: "-10px" }}
+            viewport={{ margin: "-10px", once: true }}
           >
             <StatsCard
               title="Members"
@@ -206,12 +206,12 @@ const StatsCard = React.memo(({
       className="group cursor-target relative flex flex-col space-y-6 rounded-2xl border border-white/[0.15] bg-black/50 backdrop-blur-sm p-6 md:p-8 transition-all duration-300 hover:border-white/[0.25] hover:shadow-xl"
       initial={{ opacity: 0, y: 20, scale: 0.95 }}
       whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ 
-        duration: 0.5, 
+      transition={{
+        duration: 0.5,
         delay,
         ease: "easeOut"
       }}
-      
+
     >
       {/* Icon Section - Circular with colorful background */}
       <motion.div
@@ -219,6 +219,7 @@ const StatsCard = React.memo(({
         initial={{ opacity: 0, y: 20 }}
         animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
         transition={{ duration: 0.6, delay: delay + 0.2, ease: "easeOut" }}
+        viewport={{ once: true }}
       >
         <div className={`relative w-20 h-20 rounded-full ${config.bgColor} ${config.borderColor} border-2 flex items-center justify-center ${config.shadowColor} shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-110`}>
           <div className={config.color}>
@@ -230,18 +231,19 @@ const StatsCard = React.memo(({
         {/* Corner accent */}
         <div className={`absolute -top-2 -right-2 w-6 h-6 ${config.accentColor} rounded-full opacity-60 blur-sm`} />
       </motion.div>
-      
+
       {/* Content Section */}
       <div className="space-y-3 flex-1 flex flex-col justify-between">
         {/* Value */}
         <div className="space-y-1">
           <div className="flex items-center gap-1">
-            <motion.span 
+            <motion.span
               className={`text-3xl md:text-4xl font-bold tracking-tight ${config.color} cursor-target`}
               id='cursor-big'
               initial={{ opacity: 0, y: 10 }}
               animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
               transition={{ duration: 0.5, delay: delay + 0.3 }}
+              viewport={{ once: true }}
             >
               {count.toLocaleString()}
             </motion.span>
@@ -258,15 +260,16 @@ const StatsCard = React.memo(({
 
         {/* Title and Description */}
         <div className="space-y-2 pt-2 border-t border-white/[0.1]">
-          <motion.p 
+          <motion.p
             className="font-bold text-lg md:text-xl text-white"
             initial={{ opacity: 0, y: 10 }}
             animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
             transition={{ duration: 0.5, delay: delay + 0.4 }}
+            viewport={{ once: true }}
           >
             {title}
           </motion.p>
-          <motion.p 
+          <motion.p
             className="font-sans text-sm md:text-base text-white/60"
             initial={{ opacity: 0, y: 10 }}
             animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
@@ -277,7 +280,7 @@ const StatsCard = React.memo(({
         </div>
       </div>
 
-      
+
     </motion.div>
   );
 });

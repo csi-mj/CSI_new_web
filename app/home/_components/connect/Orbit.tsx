@@ -1,13 +1,13 @@
 'use client'
 import React, { useState } from 'react';
 import { motion } from 'framer-motion'; // Use 'framer-motion'
-import { 
-  FaLinkedin, 
-  FaInstagram, 
-  FaMedium, 
-  FaGithub, 
-  FaYoutube, 
-  FaDiscord, 
+import {
+  FaLinkedin,
+  FaInstagram,
+  FaMedium,
+  FaGithub,
+  FaYoutube,
+  FaDiscord,
   FaFacebook,
   FaEnvelope,
   FaWhatsapp
@@ -29,7 +29,7 @@ const Orbit = () => {
   const [isPaused, setIsPaused] = useState(false);
 
   const innerItems: SocialItem[] = [
-   
+
     {
       url: 'https://www.instagram.com/csi_mjcet',
       label: 'Instagram',
@@ -59,21 +59,21 @@ const Orbit = () => {
       hoverBorder: 'hover:border-white/50',
       icon: <FaGithub className="h-7 w-7 text-white" />,
     },
-     {
+    {
       url: 'https://www.linkedin.com/company/csi-mjcet',
       label: 'LinkedIn',
       hoverBorder: 'hover:border-[#0077B5]/50',
       icon: <FaLinkedin className="h-5 w-5 text-[#0077B5]" />,
     },
     {
-      url: 'https://www.youtube.com',
+      url: 'https://docs.google.com/forms/d/e/1FAIpQLSfBZMC6SowK8ct5MinC6IOsMyW9zn6ZwPK-V5T0tDbP-2bSvw/viewform',
       label: 'YouTube',
       hoverBorder: 'hover:border-[#FF0000]/50',
       icon: <FaYoutube className="h-7 w-7 text-[#FF0000]" />,
     },
-    
+
     {
-      url: 'https://www.whatsapp.com',
+      url: 'https://docs.google.com/forms/d/e/1FAIpQLSfBZMC6SowK8ct5MinC6IOsMyW9zn6ZwPK-V5T0tDbP-2bSvw/viewform',
       label: 'WhatsApp',
       hoverBorder: 'hover:border-[#1877F2]/50',
       icon: <FaWhatsapp className="h-7 w-7 text-[#25D366]" />,
@@ -83,21 +83,21 @@ const Orbit = () => {
   return (
     // 1. This is now the ONLY animation container for the whole section.
     // It does exactly what you asked: scales and fades in.
-    <motion.div 
+    <motion.div
       className="pointer-events-none relative flex h-[500px] w-full items-center justify-center overflow-hidden"
       initial={{ opacity: 0, scale: 0.8 }}
       whileInView={{ opacity: 1, scale: 1 }}
       transition={{ duration: 1, ease: "easeOut" }}
-      viewport={{  margin: "-100px" }} 
+      viewport={{ margin: "-100px", once: true }}
     >
       <div className="relative flex h-[500px] w-[600px] items-center justify-center">
         {/* Center Icon - This animation is unique, so it's fine to keep */}
-        <motion.div 
+        <motion.div
           className="z-[2147483647] flex aspect-square h-20 w-20 items-center justify-center rounded-full border-2 border-white/20 bg-black"
           initial={{ scale: 0, rotate: -180 }}
           whileInView={{ scale: 1, rotate: 0 }}
           transition={{ duration: 0.6, ease: "easeOut", delay: 0.3 }}
-          // viewport={{ once: true }}
+        // viewport={{ once: true }}
         >
           <Image src={logo} alt="CSI" id='cursor-big' className='' />
         </motion.div>

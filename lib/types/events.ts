@@ -158,6 +158,11 @@ export interface BaseEvent {
   is_active?: boolean;
   created_at?: ISODateString;
   updated_at?: ISODateString;
+  subtitle?: string | null;
+  highlights?: string[] | null;
+  organizers?: string[] | null;
+  contacts?: { name: string; phone: string }[] | null;
+  time_range?: string | null;
 }
 
 export interface UpcomingEvent extends BaseEvent {
