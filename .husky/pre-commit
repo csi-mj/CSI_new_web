@@ -1,0 +1,13 @@
+
+
+echo "🚀 Starting Husky pre-commit checks..."
+
+echo "🧹 Running lint-staged to format and lint staged files..."
+bun run lint-staged || exit 1
+echo "✅ Lint-staged completed successfully."
+
+echo "🔍 Performing TypeScript type check (no emit)..."
+bunx tsc --noEmit || exit 1
+echo "✅ Type check passed. No type errors found."
+
+echo "🎉 All pre-commit checks passed. Ready to commit!"

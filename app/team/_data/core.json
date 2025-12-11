@@ -1,0 +1,752 @@
+[
+  {
+    "id": 1,
+    "name": "Syed Mukhtar",
+    "position": "Tech Core",
+    "portfolio": "Tech",
+    "linkedinUrl": "#",
+    "githubUrl": "https://GitHub.com/SyedMukhtar11",
+    "email": "160424733011@mjcollege.ac.in",
+    "imageUrl": null
+  },
+  {
+    "id": 2,
+    "name": "Mohammed Abdul Majeed",
+    "position": "Tech Core",
+    "portfolio": "Tech",
+    "linkedinUrl": "https://www.linkedin.com/in/mohammed-abdul-majeed-647093344?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app",
+    "githubUrl": "https://github.com/mabdulmajeed113",
+    "email": "mabdulmajeed113@gmail.com",
+    "imageUrl": "https://drive.google.com/thumbnail?id=1P9Sg5Bzb-_688302TqEcOSaju3jOlngB"
+  },
+  {
+    "id": 3,
+    "name": "Mohammed Saad",
+    "position": "Tech Core",
+    "portfolio": "Tech",
+    "linkedinUrl": "https://www.linkedin.com/in/mohammed-saad-b41b20308",
+    "githubUrl": "https://github.com/183108142",
+    "email": "iamsaad365@gmail.com",
+    "imageUrl": "https://drive.google.com/thumbnail?id=1CURO09da4gGaXLI4CxeZYUVr4vvE2w-B"
+  },
+  {
+    "id": 4,
+    "name": "Mohammad zainuddin",
+    "position": "Tech Core",
+    "portfolio": "Tech",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-zainuddin@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 5,
+    "name": "Ali Mohammad Abedi Syed",
+    "position": "Tech Core",
+    "portfolio": "Tech",
+    "linkedinUrl": "https://www.linkedin.com/in/ali-mohammed-abedi-syed-630491305",
+    "githubUrl": "https://github.com/Mamba343",
+    "email": "ssyedali346@gmail.com",
+    "imageUrl": "https://drive.google.com/thumbnail?id=1VKVFk4w2EvkhN9p6WCp9p2i5xw8I2-1C"
+  },
+  {
+    "id": 6,
+    "name": "Syed Husamuddin Haji",
+    "position": "Tech Core",
+    "portfolio": "Tech",
+    "linkedinUrl": "#",
+    "githubUrl": "https://github.com/husam025",
+    "email": "husam25@proton.me",
+    "imageUrl": "https://drive.google.com/thumbnail?id=1zEtmSjyk_MBW7Uhl3aI8GtnORtLWGrdp"
+  },
+  {
+    "id": 7,
+    "name": "Mohd Mubashir Ahmed",
+    "position": "Tech Core",
+    "portfolio": "Tech",
+    "linkedinUrl": "#",
+    "githubUrl": "https://github.com/MohdMubashir29",
+    "email": "mohdmubashir2909@gmail.com",
+    "imageUrl": "https://drive.google.com/thumbnail?id=1jzhscL549sWwUGBZSYNuz9cEJfKM3Yyr"
+  },
+  {
+    "id": 8,
+    "name": "Ruqayyah Zaheeruddin",
+    "position": "Tech Core",
+    "portfolio": "Tech",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-ruqayyah@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 9,
+    "name": "Ahmed Nehan Razi",
+    "position": "Tech Core",
+    "portfolio": "Tech",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "nehanmjcet@gmai.com",
+    "imageUrl": null
+  },
+  {
+    "id": 10,
+    "name": "Affaaf Ahmed",
+    "position": "Tech Core",
+    "portfolio": "Tech",
+    "linkedinUrl": "https://www.linkedin.com/in/affaaf-ahmed",
+    "githubUrl": "https://github.com/Affaaf-Ahmed",
+    "email": "160424733012@mjcollege.ac.in",
+    "imageUrl": "https://drive.google.com/thumbnail?id=17NM2iYt42KNPPhe3nloiKHv-bLhSAWgq"
+  },
+  {
+    "id": 11,
+    "name": "Linra Khan",
+    "position": "Tech Core",
+    "portfolio": "Tech",
+    "linkedinUrl": "https://www.linkedin.com/in/linra-khan-785585331",
+    "githubUrl": "https://github.com/Linraa24",
+    "email": "160424733426@mjcollege.ac.in",
+    "imageUrl": null
+  },
+  {
+    "id": 12,
+    "name": "Nabeel uddin",
+    "position": "Tech Core",
+    "portfolio": "Tech",
+    "linkedinUrl": "https://linkedin.com/in/mohammed-nabeel-uddin-2ab19b391",
+    "githubUrl": "https://github.com/nabeel-lab?tab=following",
+    "email": "mhnu.6180@gmail.com",
+    "imageUrl": null
+  },
+  {
+    "id": 13,
+    "name": "Zaina Tahniyath",
+    "position": "Tech Core",
+    "portfolio": "Tech",
+    "linkedinUrl": "https://www.linkedin.com/in/zaina-tahniyath-490701336?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+    "githubUrl": "https://github.com/ZAINA11749",
+    "email": "Zainatahniyath7@gmail.com",
+    "imageUrl": "https://drive.google.com/thumbnail?id=14RYJ5GVukJ5MB5lylfPnnEONwOXtgZPr"
+  },
+  {
+    "id": 14,
+    "name": "Abdul Dareem Khan",
+    "position": "Tech Core",
+    "portfolio": "Tech",
+    "linkedinUrl": "https://www.linkedin.com/in/abdul-dareem-khan-711506397?utm_source=share_via&utm_content=profile&utm_medium=member_ios",
+    "githubUrl": "https://github.com/Dareem380",
+    "email": "160424733380@mjcollege.ac.in",
+    "imageUrl": "https://drive.google.com/thumbnail?id=1dm5Zdx6Ssf_TkYyldmSkBJJspHy04cH2"
+  },
+  {
+    "id": 15,
+    "name": "Gulam Mustafa Madni",
+    "position": "Tech Core",
+    "portfolio": "Tech",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "160424733417@mjcollege.ac.in",
+    "imageUrl": null
+  },
+  {
+    "id": 16,
+    "name": "Sama Nooreen",
+    "position": "Web Core",
+    "portfolio": "Web",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-sama@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 17,
+    "name": "Areebha Tazeem",
+    "position": "Web Core",
+    "portfolio": "Web",
+    "linkedinUrl": "https://linkedin.com/in/areebha-tazeem-b221a6340",
+    "githubUrl": "https://github.com/235859911",
+    "email": "jafarareebha@gmail.com",
+    "imageUrl": "https://drive.google.com/thumbnail?id=1xgIRGu5dS32t3rfvpLr3ckdxZW1sYaM9"
+  },
+  {
+    "id": 18,
+    "name": "Aaryan Khoja",
+    "position": "Web Core",
+    "portfolio": "Web",
+    "linkedinUrl": "https://www.linkedin.com/in/aaryan-khoja",
+    "githubUrl": "https://github.com/AaryanKhoja",
+    "email": "008aaryankhoja@gmail.com",
+    "imageUrl": "https://drive.google.com/thumbnail?id=1ONBbnXFIXaTgjYwBmmrunPMucgbLbF5L"
+  },
+  {
+    "id": 19,
+    "name": "Mohammed Humam Tausif",
+    "position": "Web Core",
+    "portfolio": "Web",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-humam@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 20,
+    "name": "Mohammed Muzammil Ahmed",
+    "position": "Web Core",
+    "portfolio": "Web",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-muzammil@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 21,
+    "name": "Syed Jalaluddin",
+    "position": "Web Core",
+    "portfolio": "Web",
+    "linkedinUrl": "https://www.linkedin.com/in/syed-jalaluddin-374797344",
+    "githubUrl": "https://github.com/syedjalal-503",
+    "email": "syedjalaluddin48@gmail.com",
+    "imageUrl": null
+  },
+  {
+    "id": 22,
+    "name": "Mohammed Talha",
+    "position": "Web Core",
+    "portfolio": "Web",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-talha@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 23,
+    "name": "Mirza Zohair Ali Baig",
+    "position": "Web Core",
+    "portfolio": "Web",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-zohair@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 24,
+    "name": "Mohammed Zakeer",
+    "position": "Web Core",
+    "portfolio": "Web",
+    "linkedinUrl": "https://www.linkedin.com/in/mohammed-zakeer-b7ba25342?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+    "githubUrl": "https://github.com/zak104",
+    "email": "zak406999@gmail.com",
+    "imageUrl": "https://drive.google.com/thumbnail?id=1A9IYYtR5tmeVyqe-qLlLL9bVpNlRVesA"
+  },
+  {
+    "id": 25,
+    "name": "Aisha Gowher",
+    "position": "Web Core",
+    "portfolio": "Web",
+    "linkedinUrl": "https://www.linkedin.com/in/aisha-gowher-mir-234940274",
+    "githubUrl": "https://github.com/aisha-mir790",
+    "email": "aishagowhermir@gmail.com",
+    "imageUrl": "https://drive.google.com/thumbnail?id=12_ScsJGcCOAXM9Ic8IvGiuRk9gIMr2FI"
+  },
+  {
+    "id": 26,
+    "name": "Tooba Gowher",
+    "position": "Web Core",
+    "portfolio": "Web",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-tooba@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 27,
+    "name": "Mohammed Talha",
+    "position": "Web Core",
+    "portfolio": "Web",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-talha2@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 28,
+    "name": "Syed Ali Mahmood adeen",
+    "position": "Web Core",
+    "portfolio": "Web",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-adeen@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 29,
+    "name": "Syeda Ayesha",
+    "position": "HR Core",
+    "portfolio": "HR",
+    "linkedinUrl": "#",
+    "githubUrl": "https://github.com/SyedaAyeshaa111",
+    "email": "syedaayesha7496@gmail.com",
+    "imageUrl": "https://drive.google.com/thumbnail?id=18eXKuOI9PiWIbjKLmwSF076zwEQgIbcR"
+  },
+  {
+    "id": 30,
+    "name": "Ayesha Mirza",
+    "position": "HR Core",
+    "portfolio": "HR",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-ayesham@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 31,
+    "name": "Mohammed ismayeel",
+    "position": "HR Core",
+    "portfolio": "HR",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "Ismayeel.07@gmail.com",
+    "imageUrl": "https://drive.google.com/thumbnail?id=1G4qrmWu2N-cfqJZoC3T62GxeK4mpNt-g"
+  },
+  {
+    "id": 32,
+    "name": "Mohammed Zaid Farooqui",
+    "position": "HR Core",
+    "portfolio": "HR",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-zaid@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 33,
+    "name": "Fareeha Manal",
+    "position": "HR Core",
+    "portfolio": "HR",
+    "linkedinUrl": "#",
+    "githubUrl": "https://github.com/Fareeha-manal074",
+    "email": "manalfareeha@gmail.com",
+    "imageUrl": "https://drive.google.com/thumbnail?id=1FI9n0sOga-o_5kNi6X0ofUN6GpdSzTZT"
+  },
+  {
+    "id": 34,
+    "name": "Zunaira Khanam",
+    "position": "HR Core",
+    "portfolio": "HR",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-zunaira@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 35,
+    "name": "Ahamadi Hareem",
+    "position": "HR Core",
+    "portfolio": "HR",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-hareem@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 36,
+    "name": "Mohammed Abdul Waheed",
+    "position": "Events Core",
+    "portfolio": "Events",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-waheed@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 37,
+    "name": "Amaan Khan",
+    "position": "Events Core",
+    "portfolio": "Events",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-amaan@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 38,
+    "name": "Huda fathima",
+    "position": "Events Core",
+    "portfolio": "Events",
+    "linkedinUrl": "https://www.linkedin.com/in/huda-fathima-700422326",
+    "githubUrl": "#",
+    "email": "hudafathima1414@gmail.com",
+    "imageUrl": null
+  },
+  {
+    "id": 39,
+    "name": "Mohammed Zain Shareef",
+    "position": "Events Core",
+    "portfolio": "Events",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-zain@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 40,
+    "name": "Safia Saif",
+    "position": "Events Core",
+    "portfolio": "Events",
+    "linkedinUrl": "https://www.linkedin.com/in/safia-saif-55b2b5391",
+    "githubUrl": "https://github.com/saifsafia082-cyber",
+    "email": "saifsafia082@gmail.com",
+    "imageUrl": "https://drive.google.com/thumbnail?id=15_SA_IV9v81PzDoYsWzkJhBTVJOLfksy"
+  },
+  {
+    "id": 41,
+    "name": "Mohammed Jawad Khan",
+    "position": "Events Core",
+    "portfolio": "Events",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-jawad@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 42,
+    "name": "Syed Rizwan Ahmed",
+    "position": "Events Core",
+    "portfolio": "Events",
+    "linkedinUrl": "#",
+    "githubUrl": "https://github.com/Syedrizwan78823-rn",
+    "email": "Syedrizwan78823@gmail.com",
+    "imageUrl": null
+  },
+  {
+    "id": 43,
+    "name": "Syeda Hafsa Saherun",
+    "position": "Design Core",
+    "portfolio": "Design",
+    "linkedinUrl": "https://www.linkedin.com/in/syeda-hafsa-saherun-880547388",
+    "githubUrl": "https://github.com/syedasaherun-byte",
+    "email": "syedasaherun@gmail.com",
+    "imageUrl": null
+  },
+  {
+    "id": 44,
+    "name": "Mohammed Saad",
+    "position": "Design Core",
+    "portfolio": "Design",
+    "linkedinUrl": "https://www.linkedin.com/in/mohammed-saad-794493382?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+    "githubUrl": "https://github.com/OGBrowny",
+    "email": "mohammedsaad159op@gmail.com",
+    "imageUrl": "https://drive.google.com/thumbnail?id=17rdRUpvXIN6lF0hwUgN6CRiIDKkhNgFg"
+  },
+  {
+    "id": 45,
+    "name": "Syed Mohammed Rayan",
+    "position": "Design Core",
+    "portfolio": "Design",
+    "linkedinUrl": "#",
+    "githubUrl": "https://github.com/syedmohammedrayan",
+    "email": "syedmohammedrayan2007@gmail.com",
+    "imageUrl": "https://drive.google.com/thumbnail?id=1APnpcwztFKZnJ6t2QIt0991nefAyWmkK"
+  },
+  {
+    "id": 46,
+    "name": "Mariyam Fatima",
+    "position": "Design Core",
+    "portfolio": "Design",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-mariyam@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 47,
+    "name": "Bibi Almas",
+    "position": "Design Core",
+    "portfolio": "Design",
+    "linkedinUrl": "https://www.linkedin.com/in/bibialmas7777",
+    "githubUrl": "https://github.com/Almas1910",
+    "email": "almasbibi888@gmail.com",
+    "imageUrl": "https://drive.google.com/thumbnail?id=1AQhujDEj-MOSTbDGHRWgibqWhP7Ad8z5"
+  },
+  {
+    "id": 48,
+    "name": "Manaal Fatima",
+    "position": "Design Core",
+    "portfolio": "Design",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-manaal@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 49,
+    "name": "Mohammed Anzar Siddiqui",
+    "position": "Design Core",
+    "portfolio": "Design",
+    "linkedinUrl": "#",
+    "githubUrl": "https://github.com/anzar2629",
+    "email": "anzar6673@gmail.com",
+    "imageUrl": "https://drive.google.com/thumbnail?id=1ybr2lITzyzSJCZbcBjvgtiRP5mo8JmHY"
+  },
+  {
+    "id": 50,
+    "name": "Nuha Naser",
+    "position": "Design Core",
+    "portfolio": "Design",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-nuha@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 51,
+    "name": "Nabiha Fatima",
+    "position": "Editorial Core",
+    "portfolio": "Editorial",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-nabiha@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 52,
+    "name": "Mohammed Umar Ali Azam",
+    "position": "Editorial Core",
+    "portfolio": "Editorial",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-umar@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 53,
+    "name": "Gazala Jabeen Hafsa",
+    "position": "Editorial Core",
+    "portfolio": "Editorial",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-gazala@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 54,
+    "name": "Sofia Fatima",
+    "position": "Editorial Core",
+    "portfolio": "Editorial",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-sofia@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 55,
+    "name": "Syed Rozan Ali",
+    "position": "Editorial Core",
+    "portfolio": "Editorial",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-rozan@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 56,
+    "name": "Mohammed Sujathullah Amaan",
+    "position": "Media Core",
+    "portfolio": "Media",
+    "linkedinUrl": "https://www.linkedin.com/in/mohammed-sujathullah-amaan-0b926a307?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+    "githubUrl": "https://github.com/Amaan-says",
+    "email": "sujathullahsajji@gmail.com",
+    "imageUrl": "https://drive.google.com/thumbnail?id=12OV8gh6leDhG8YvnzUPXyPAZeZU7cGD2"
+  },
+  {
+    "id": 57,
+    "name": "Asma Fatima Khan",
+    "position": "Media Core",
+    "portfolio": "Media",
+    "linkedinUrl": "#",
+    "githubUrl": "https://github.com/AsmaFatimaKhan",
+    "email": "160424733427@mjcollege.ac.in",
+    "imageUrl": "https://drive.google.com/thumbnail?id=1QTLx5_OYg4tx7VnN4SuDnvBEDJgoO8De"
+  },
+  {
+    "id": 58,
+    "name": "Mohammed Shayaan Baig",
+    "position": "Media Core",
+    "portfolio": "Media",
+    "linkedinUrl": "#",
+    "githubUrl": "https://github.com/160424733055-design",
+    "email": "160424733055@mjcollege.ac.in",
+    "imageUrl": "https://drive.google.com/thumbnail?id=1QLDrxn-9zoxp6-itKRC8QaTqq8Wb3qxX"
+  },
+  {
+    "id": 59,
+    "name": "Mohammed Zayan",
+    "position": "Media Core",
+    "portfolio": "Media",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-zayan@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 60,
+    "name": "Mohammed Khan(Muqeem)",
+    "position": "Media Core",
+    "portfolio": "Media",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-muqeem@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 61,
+    "name": "Hafsa Batool",
+    "position": "Media Core",
+    "portfolio": "Media",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-hafsa@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 62,
+    "name": "Jazlain Uddin",
+    "position": "Marketing Core",
+    "portfolio": "Marketing",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-jazlain@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 63,
+    "name": "Sheeza Ahmed",
+    "position": "Marketing Core",
+    "portfolio": "Marketing",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-sheeza@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 64,
+    "name": "Ashaz Sulaiman Khan",
+    "position": "Marketing Core",
+    "portfolio": "Marketing",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-ashaz@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 65,
+    "name": "Mohammed Ibrahim",
+    "position": "Marketing Core",
+    "portfolio": "Marketing",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-ibrahim@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 66,
+    "name": "Mahreen Fatima",
+    "position": "Marketing Core",
+    "portfolio": "Marketing",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-mahreen@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 67,
+    "name": "Shezan Ali",
+    "position": "Marketing Core",
+    "portfolio": "Marketing",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-shezan@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 68,
+    "name": "Mohammed Saeed Ali",
+    "position": "Marketing Core",
+    "portfolio": "Marketing",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-saeed@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 69,
+    "name": "Zaid Mohiuddin",
+    "position": "Operations Core",
+    "portfolio": "Operations",
+    "linkedinUrl": "https://www.linkedin.com/in/zaid-mohiuddin-4364b9376",
+    "githubUrl": "https://github.com/zaidmohiuddin1533-bit",
+    "email": "zaidmohiuddin1533@gmail.com",
+    "imageUrl": "https://drive.google.com/thumbnail?id=1xAJPQW7aZV-ZMCZv1PesX8HmqH1PqR_F"
+  },
+  {
+    "id": 70,
+    "name": "Mohammed Omer Khan",
+    "position": "Operations Core",
+    "portfolio": "Operations",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "mdomerkhan752@gmail.com",
+    "imageUrl": null
+  },
+  {
+    "id": 71,
+    "name": "Mohammed Hamzah Kamar",
+    "position": "Operations Core",
+    "portfolio": "Operations",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-hamzah@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 72,
+    "name": "Shaik Abdus Salam",
+    "position": "Operations Core",
+    "portfolio": "Operations",
+    "linkedinUrl": "https://www.linkedin.com/in/abdus-salam-069a41313",
+    "githubUrl": "https://github.com/abdus-code",
+    "email": "as2000.fire@gmail.com",
+    "imageUrl": "https://drive.google.com/thumbnail?id=1qBqh8aOZgKU4mJsVOq-yS6k8vr7XSH-2"
+  },
+  {
+    "id": 73,
+    "name": "Syed Ahmed Mujhtaba",
+    "position": "Operations Core",
+    "portfolio": "Operations",
+    "linkedinUrl": "https://www.linkedin.com/in/ahmed-mujhtaba/",
+    "githubUrl": "https://github.com/Mujtabaa187",
+    "email": "syedahmedmujtaba06@gmail.com",
+    "imageUrl": "https://drive.google.com/thumbnail?id=1Q2DNAW1NGuQ4WjsF0GDEO_iRwnKOKZG7"
+  },
+  {
+    "id": 74,
+    "name": "Abdul Haq Hamdan",
+    "position": "Operations Core",
+    "portfolio": "Operations",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "placeholder-hamdan@example.com",
+    "imageUrl": null
+  },
+  {
+    "id": 75,
+    "name": "Mohammed Farhan Uddin",
+    "position": "Operations Core",
+    "portfolio": "Operations",
+    "linkedinUrl": "#",
+    "githubUrl": "#",
+    "email": "farhanuddin7530@gmail.com",
+    "imageUrl": "https://drive.google.com/thumbnail?id=1GEEt9BLZP8ry5aY_EYV8nUwzzzQpbW8V"
+  }
+]

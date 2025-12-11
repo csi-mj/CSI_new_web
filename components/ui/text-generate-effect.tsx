@@ -1,0 +1,66 @@
+"use client";
+import { useEffect } from "react";
+import { motion, stagger, useAnimate } from "motion/react";
+import { cn } from "@/lib/utils";
+
+export const TextGenerateEffect = ({
+  words,
+  className,
+  filter = true,
+  duration = 1,
+  delay = 0.04,
+}: {
+  words: string;
+  className?: string;
+  filter?: boolean;
+  duration?: number;
+  delay?: number;
+}) => {
+  const [scope, animate] = useAnimate();
+  const wordsArray = words.split(" ");
+  useEffect(() => {
+    animate(
+      "span",
+      {
+        opacity: 1,
+        filter: filter ? "blur(0px)" : "none",
+      },
+      {
+        duration: duration ? duration : 1,
+        delay: stagger(delay),
+      }
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [scope.current]);
+
+  const renderWords = () => {
+    return (
+      <motion.div ref={scope}>
+        {wordsArray.map((word, idx) => {
+          return (
+            <motion.span
+              key={word + idx}
+              className="opacity-0 inline-block mr-2 cursor-target"
+              data-gen-word="1"
+              style={{
+                filter: filter ? "blur(10px)" : "none",
+              }}
+            >
+              {word}
+            </motion.span>
+          );
+        })}
+      </motion.div>
+    );
+  };
+
+  return (
+    <div className={cn(className)}>
+      <div className="mt-4" >
+        <div id="generate-text">
+          {renderWords()}
+        </div>
+      </div>
+    </div>
+  );
+};
