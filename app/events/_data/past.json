@@ -300,6 +300,36 @@
     "days_since_completed": 47
   },
   {
+    "id": "4",
+    "title": "WEBVERSE",
+    "subtitle": "The Official Pre-Hackathon Workshop Series Of Hackrevolution",
+    "description": "CSI and E-Cell MJCET proudly bring you WEBVERSE 🌐– The Web Development Workshop, the first pre-hackathon session of Hack Revolution. Before the hackathon begins, step into the world of web technologies and learn how to turn your ideas into dynamic, creative, and functional web solutions.",
+    "poster_url": "/events/past/webverse.jpg",
+    "status": "completed",
+    "event_date": "2024-11-16T10:00:00.000Z",
+    "event_end_date": "2024-11-16T14:00:00.000Z",
+    "venue": "Lab 301, MJCET",
+    "category": "Workshop",
+    "current_participants": 80,
+    "max_participants": 100,
+    "organizers": [
+      "CSI MJCET",
+      "E-Cell MJCET"
+    ],
+    "highlights": [
+      "Get Ready to Build the Web of Tomorrow!",
+      "Learn React, Next.js, and TypeScript",
+      "Turn ideas into dynamic web solutions"
+    ],
+    "tags": [
+      "Web Development",
+      "React",
+      "Workshop"
+    ],
+    "completed_at": "2024-11-16T14:00:00.000Z",
+    "days_since_completed": 60
+  },
+  {
     "id": "sih-decoded",
     "title": "SIH Decoded – Hear it from the Winners!",
     "subtitle": "Guidance for Smart India Hackathon",
@@ -337,36 +367,5 @@
     ],
     "completed_at": "2025-09-19T13:00:00.000Z",
     "days_since_completed": 83
-  },
-  {
-    "id": "4",
-    "title": "WEBVERSE",
-    "subtitle": "The Official Pre-Hackathon Workshop Series Of Hackrevolution",
-    "description": "CSI and E-Cell MJCET proudly bring you WEBVERSE 🌐– The Web Development Workshop, the first pre-hackathon session of Hack Revolution. Before the hackathon begins, step into the world of web technologies and learn how to turn your ideas into dynamic, creative, and functional web solutions.",
-    "poster_url": "/events/past/webverse.jpg",
-    "status": "completed",
-    "event_date": "2024-11-16T10:00:00.000Z",
-    "event_end_date": "2024-11-16T14:00:00.000Z",
-    "venue": "Lab 301, MJCET",
-    "category": "Workshop",
-    "current_participants": 80,
-    "max_participants": 100,
-    "organizers": [
-      "CSI MJCET",
-      "E-Cell MJCET"
-    ],
-    "highlights": [
-      "Get Ready to Build the Web of Tomorrow!",
-      "Learn React, Next.js, and TypeScript",
-      "Turn ideas into dynamic web solutions"
-    ],
-    "tags": [
-      "Web Development",
-      "React",
-      "Workshop"
-    ],
-    "completed_at": "2024-11-16T14:00:00.000Z",
-    "days_since_completed": 60
   }
-
 ]

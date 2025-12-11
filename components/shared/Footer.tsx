@@ -184,10 +184,10 @@ function Footer() {
                 <div className="flex-1">
                   <p className="text-white text-sm mb-2">Email Us At</p>
                   <a
-                    href="mailto:hackrevolution@mjcollege.ac.in"
-                    className="text-primary hover:text-primary/80 transition-colors font-mono text-lg"
+                    href="mailto:csi@mjcollege.ac.in"
+                    className="text-primary hover:text-primary/80 transition-colors font-mono text-base md:text-lg"
                   >
-                    hackrevolution@mjcollege.ac.in
+                    csi@mjcollege.ac.in
                   </a>
                 </div>
               </div>
