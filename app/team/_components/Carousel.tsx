@@ -65,9 +65,9 @@ export const Carousel: React.FC<CarouselProps> = ({
   // Desktop positioning (4 cards visible)
   const desktopPositions = [
     { x: 0, y: 0, scale: 1, opacity: 1, blur: 0, rotation: 0 },
-    { x: 120, y: -8, scale: 0.93, opacity: 0.88, blur: 0.5, rotation: 2 },
-    { x: 200, y: -12, scale: 0.88, opacity: 0.72, blur: 1, rotation: 3 },
-    { x: 260, y: -16, scale: 0.82, opacity: 0.55, blur: 1.5, rotation: 4 },
+    { x: 120, y: -8, scale: 0.93, opacity: 0.90, blur: 0.5, rotation: 2 },
+    { x: 200, y: -12, scale: 0.88, opacity: 0.80, blur: 1, rotation: 3 },
+    { x: 260, y: -16, scale: 0.82, opacity: 0.90, blur: 1.5, rotation: 4 },
   ];
 
   const positions = isMobile ? mobilePositions : desktopPositions;

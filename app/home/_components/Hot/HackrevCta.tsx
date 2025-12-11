@@ -34,7 +34,7 @@ const HackrevCta = () => {
                         className='text-sky-200 z-50 font-orbitron text-2xl md:text-4xl lg:text-4xl font-medium'
                     >Our Flagship Event</h1>
                 </div>
-                <LinkPreview url="https://hackrevolution.in" id='hot'>
+                <LinkPreview url="https://www.linkedin.com/company/csi-mjcet" id='hot'>
                     <div className="hidden sm:block">
                         <PixelImage
                             src="/logos/hackrevLogo.png"
@@ -58,7 +58,7 @@ const HackrevCta = () => {
                 viewport={{ amount: 0.2 }}
                 transition={{ duration: 0.5, ease: 'easeOut', delay: 0.05 }}
             >
-                <LinkPreview url="https://hackrevolution.in" id="cursor-big">
+                <LinkPreview url="https://www.linkedin.com/company/csi-mjcet" id="cursor-big">
 
                     <button className="relative cursor-target hover:border-sky-600 duration-500 group cursor-pointer text-sky-50  overflow-hidden h-12 w-36 rounded-2xl bg-sky-800 p-2 flex justify-center items-center font-extrabold">
                         <div className="absolute z-10 w-44 h-44 rounded-full group-hover:scale-150 transition-all  duration-500 ease-in-out bg-sky-900 delay-150 group-hover:delay-75"></div>

@@ -51,7 +51,7 @@ const ExpandedView: React.FC<ExpandedViewProps> = ({ expandedMember, onClose }) 
 
   return createPortal(
     <motion.div
-      className="fixed inset-0 z-40 bg-white/5 backdrop-blur-lg flex items-center md:items-end justify-center p-4 md:px-8"
+      className="fixed inset-0 z-40 bg-white/5 backdrop-blur-lg flex items-center justify-center p-4 md:px-8"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -59,7 +59,7 @@ const ExpandedView: React.FC<ExpandedViewProps> = ({ expandedMember, onClose }) 
       onClick={onClose}
     >
       <motion.div
-        className="relative h-[70vh] md:h-[80vh]  max-h-[80vh] mx-auto w-full max-w-4xl px-4"
+        className="relative h-[70vh] md:h-[80vh] max-h-[80vh] mx-auto w-full max-w-4xl px-4"
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"

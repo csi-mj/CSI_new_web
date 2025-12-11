@@ -190,12 +190,12 @@ const TeamCard3D: React.FC<TeamCard3DProps> = React.memo(({
                     transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
                   >
                     <motion.div 
-                      className="space-y-2"
+                      className="space-y-1"
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.8, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
                     >
-                      <h3 className="text-white text-xl break-words w-[70%] font-medium">{member.name}</h3>
+                      <h3 className="text-white text-lg md:text-xl break-words w-[70%] font-medium">{member.name}</h3>
                       <p className="text-white/80 text-md break-words w-[70%] font-medium">{member.title}</p>
                     </motion.div>
                     

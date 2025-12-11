@@ -1,7 +1,7 @@
 'use client'
 import React, { useRef, useState } from 'react'
 import { Developer } from './Developer'
-import { ArrowUp, Mail, MapPin, Phone, Github, Linkedin, Twitter, Instagram, Calendar, Users, BookOpen, Award } from 'lucide-react'
+import { ArrowUp, Github, Linkedin, Instagram, Calendar, Users, BookOpen, Award, Phone, Mail, User2 } from 'lucide-react'
 import Link from 'next/link'
 import { AnimatePresence, motion } from 'framer-motion'
 import { FaMedium } from 'react-icons/fa'
@@ -25,12 +25,10 @@ function Footer() {
     { name: 'Membership', href: '/membership', icon: Users },
   ]
 
-  const contactInfo = [
-    { icon: Mail, text: 'csi@mjcollege.ac.in', href: 'mailto:csi@mjcollege.ac.in' },
-  ]
-
   const [showDev, setShowDev] = useState(false)
   const devRef = useRef<HTMLDivElement | null>(null)
+
+
 
   return (
     <footer className="relative w-full border-t bg-black border-zinc-800/40">
@@ -75,6 +73,10 @@ function Footer() {
                 </a>
               ))}
             </div>
+
+           
+
+
             {/* Developer Credit moved below main grid */}
 
           </div>
@@ -105,47 +107,91 @@ function Footer() {
             </ul>
           </div>
 
-          {/* Column 3: Contact & Newsletter */}
-          <div className="lg:col-span-5 space-y-8">
-            {/* Contact Info */}
-            <div>
-              <h3 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
-                <div className="w-1 h-6 bg-primary rounded-full"></div>
-                Get in Touch
-              </h3>
-              <ul className="space-y-4">
-                {contactInfo.map((contact, idx) => (
-                  <li key={idx}>
-                    <a
-                      id="cursor"
-                      href={contact.href}
-                      className="group flex items-start gap-4 p-4 bg-zinc-900/50 cursor-target hover:bg-zinc-900 border border-zinc-800 hover:border-zinc-700 rounded-xl transition-all duration-300"
-                    >
-                      <div className="p-2 bg-primary/10 border border-primary/20 rounded-lg">
-                        <contact.icon className="w-5 h-5 text-primary" />
-                      </div>
-                      <span className="text-zinc-400 group-hover:text-white transition-colors">
-                        {contact.text}
-                      </span>
-                    </a>
-                  </li>
-                ))}
-              </ul>
-              <div className="mt-4 rounded-xl overflow-hidden cursor-target border border-zinc-800 bg-zinc-900/50 pointer-events-auto">
-                <iframe
-                  className="[filter:invert(100%)_hue-rotate(180deg)]"
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3806.6563289934675!2d78.44032770923653!3d17.428272983396894!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb90cd7708dfd7%3A0x77482b7aa8b696f3!2sMuffakham%20Jah%20College%20of%20Engineering%20%26%20Technology%20(MJCET)!5e0!3m2!1sen!2sin!4v1762498137572!5m2!1sen!2sin"
-                  width="100%"
-                  height="180"
-                  style={{ border: 0 }}
-                  loading="lazy"
-                  allowFullScreen
-                  referrerPolicy="no-referrer-when-downgrade"
-                />
+          {/* Column 3: Map */}
+          <div className="lg:col-span-5">
+            <div className="rounded-xl overflow-hidden cursor-target border border-zinc-800 bg-zinc-900/50 pointer-events-auto">
+              <iframe
+                className="[filter:invert(100%)_hue-rotate(180deg)]"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3806.6563289934675!2d78.44032770923653!3d17.428272983396894!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb90cd7708dfd7%3A0x77482b7aa8b696f3!2sMuffakham%20Jah%20College%20of%20Engineering%20%26%20Technology%20(MJCET)!5e0!3m2!1sen!2sin!4v1762498137572!5m2!1sen!2sin"
+                width="100%"
+                height="400"
+                style={{ border: 0 }}
+                loading="lazy"
+                allowFullScreen
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Get In Touch Section */}
+        <div className="mt-24 mb-16">
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <Phone className="w-6 h-6 text-primary" />
+            <h2 className="text-3xl md:text-4xl font-bold text-primary">Get In Touch</h2>
+          </div>
+          <p className="text-zinc-400 text-lg mb-8 text-center">Have questions? We&apos;re here to help.</p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 max-w-4xl mx-auto">
+            {/* Affan Card */}
+            <div className="group relative p-6 rounded-2xl border border-zinc-800/50 bg-zinc-900/30 backdrop-blur-sm hover:bg-zinc-900/50 hover:border-zinc-700/50 transition-all duration-300 cursor-target">
+              <div className="flex flex-col items-center text-center space-y-4">
+                <div className="p-4 bg-primary/10 border border-primary/20 rounded-xl">
+                  <User2 className="w-8 h-8 text-primary" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-white mb-1">Affan</h3>
+                  <p className="text-zinc-400 text-sm mb-4">CSI Chief Coordinator</p>
+                  <a
+                    href="tel:+919121795950"
+                    className="flex items-center justify-center gap-2 text-primary hover:text-primary/80 transition-colors"
+                  >
+                    <Phone className="w-4 h-4" />
+                    <span className="font-mono text-sm">+91 9121795950</span>
+                  </a>
+                </div>
               </div>
             </div>
 
+            {/* Rayyan Card */}
+            <div className="group relative p-6 rounded-2xl border border-zinc-800/50 bg-zinc-900/30 backdrop-blur-sm hover:bg-zinc-900/50 hover:border-zinc-700/50 transition-all duration-300 cursor-target">
+              <div className="flex flex-col items-center text-center space-y-4">
+                <div className="p-4 bg-primary/10 border border-primary/20 rounded-xl">
+                  <User2 className="w-8 h-8 text-primary" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-white mb-1">Touseef</h3>
+                  <p className="text-zinc-400 text-sm mb-4">CSI Chief Coordinator</p>
+                  <a
+                    href="tel:+9199895 98636"
+                    className="flex items-center justify-center gap-2 text-primary hover:text-primary/80 transition-colors"
+                  >
+                    <Phone className="w-4 h-4" />
+                    <span className="font-mono text-sm">+91 9908784538</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
 
+          {/* Email Card */}
+          <div className="max-w-2xl mx-auto">
+            <div className="group relative p-6 rounded-2xl border border-zinc-800/50 bg-zinc-900/30 backdrop-blur-sm hover:bg-zinc-900/50 hover:border-zinc-700/50 transition-all duration-300 cursor-target">
+              <div className="flex items-center gap-6">
+                <div className="p-4 bg-primary/10 border border-primary/20 rounded-xl flex-shrink-0">
+                  <Mail className="w-8 h-8 text-primary" />
+                </div>
+                <div className="flex-1">
+                  <p className="text-white text-sm mb-2">Email Us At</p>
+                  <a
+                    href="mailto:hackrevolution@mjcollege.ac.in"
+                    className="text-primary hover:text-primary/80 transition-colors font-mono text-lg"
+                  >
+                    hackrevolution@mjcollege.ac.in
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -180,6 +226,8 @@ function Footer() {
             <span className="hidden md:inline">•</span>
             <span>All Rights Reserved.</span>
           </div>
+
+
 
           <div className="flex items-center gap-6 text-sm">
 

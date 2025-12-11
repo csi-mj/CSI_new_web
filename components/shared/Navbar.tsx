@@ -1,5 +1,6 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+
 import PillNav from '../PillNav';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
@@ -19,7 +20,46 @@ const items = [
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [showNav, setShowNav] = useState(true);
   const pathname = usePathname();
+  const lastScrollYRef = useRef(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY || window.pageYOffset;
+      const lastScrollY = lastScrollYRef.current;
+
+      // Do not hide navbar when near top of page
+      if (currentScrollY < 80) {
+        setShowNav(true);
+        lastScrollYRef.current = currentScrollY;
+        return;
+      }
+
+      // Keep navbar visible while mobile menu is open
+      if (menuOpen) {
+        setShowNav(true);
+        lastScrollYRef.current = currentScrollY;
+        return;
+      }
+
+      if (currentScrollY > lastScrollY) {
+        // Scrolling down
+        setShowNav(false);
+      } else if (currentScrollY < lastScrollY) {
+        // Scrolling up
+        setShowNav(true);
+      }
+
+      lastScrollYRef.current = currentScrollY;
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [menuOpen]);
 
   const isActive = (href: string) => {
     if (href === '/') return pathname === '/';
@@ -28,7 +68,9 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between  px-6 md:px-8 py-6 bg-black/60 max-lg:backdrop-blur-lg lg:bg-transparent">
+      <nav
+        className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-8 py-6 bg-black/60 max-lg:backdrop-blur-lg lg:bg-transparent transform transition-transform duration-500 ${showNav ? 'translate-y-0' : '-translate-y-full'}`}
+      >
         {/* Left: Logo */}
         <Link href="/home" className="flex items-center lg:hidden">
           <img

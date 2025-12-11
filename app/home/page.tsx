@@ -21,8 +21,13 @@ import { BackgroundBeams } from '@/components/ui/background-beams';
 export default function HomePage() {
   return (
     <div className="pt-0">
-      <section>
-        <Hero />
+      <section className='relative'>
+        <div className="absolute h-[600px] inset-0 z-0 pointer-events-none">
+          <BackgroundBeams />
+        </div>
+        <div className="flex w-full flex-col items-center">
+          <Hero />
+        </div>
         {/* <Landing /> */}
       </section>
 
@@ -31,12 +36,12 @@ export default function HomePage() {
       </section>
 
       <section className="relative mb-24" id="about">
-         <div className="absolute h-[600px] inset-0 z-0 pointer-events-none">
-              <BackgroundBeams />
+        <div className="absolute h-[600px] inset-0 z-0 pointer-events-none">
+          <BackgroundBeams />
         </div>
         <div className="flex w-full flex-col items-center">
-                <About />
-                <Bento />
+          <About />
+          <Bento />
         </div>
       </section>
 
@@ -52,20 +57,20 @@ export default function HomePage() {
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ duration: 1, ease: 'easeOut' }}
             >
-            <Shuffle
-              text="GOVERNING BODY"
-              tag="h1"
-              className="!text-3xl mt-24 mb-12 md:!text-6xl !text-primary !normal-case !font-bold"
-              style={{ fontFamily: 'var(--font-orbitron)' }}
-              loop={false}
-              loopDelay={2}
-              duration={0.4}
-              stagger={0.04}
-              shuffleTimes={2}
-              animationMode="evenodd"
-              triggerOnce={true}
-              triggerOnHover={true}
-            />
+              <Shuffle
+                text="GOVERNING BODY"
+                tag="h1"
+                className="!text-3xl mt-24 mb-12 md:!text-6xl !text-primary !normal-case !font-bold"
+                style={{ fontFamily: 'var(--font-orbitron)' }}
+                loop={false}
+                loopDelay={2}
+                duration={0.4}
+                stagger={0.04}
+                shuffleTimes={2}
+                animationMode="evenodd"
+                triggerOnce={true}
+                triggerOnHover={true}
+              />
             </motion.div>
 
             <MarqueeScroll />

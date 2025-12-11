@@ -38,7 +38,7 @@ const Hero = () => {
         opacity: 0,
         y: 20
       });
-      
+
 
       gsap.to('.hero-logo', {
         y: 0,
@@ -93,8 +93,8 @@ const Hero = () => {
       aria-label="Hero section"
     >
       <BackgroundLines className="flex w-full flex-col items-center justify-center gap-3 px-2">
-        <ShootingStars />
-        <StarsBackground />
+        {/* <ShootingStars />
+        <StarsBackground /> */}
         <div className="hero-logo mb-5">
           <Image
             src={logo}
@@ -116,34 +116,34 @@ const Hero = () => {
           </div>
 
           <div className="hero-greeting mt-8 flex min-h-[2.5rem] w-full items-center justify-center sm:mt-3">
-           <h1 id='cursor' className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-center">
-          <div className="flex">
-            <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">C</span>
-            <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">o</span>
-            <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">d</span>
-            <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">e </span>
-            <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary pl-3"> . </span>
-          </div>
-          <div className="flex">
-            <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">C</span>
-            <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">r</span>
-            <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">e</span>
-            <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">a</span>
-            <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">t</span>
-            <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">e </span>
-            <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary pl-3"> . </span>
-          </div>
-          <div className="flex">
-            <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">I</span>
-            <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">n</span>
-            <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">n</span>
-            <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">o</span>
-            <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">v</span>
-            <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">a</span>
-            <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">t</span>
-            <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">e</span>
-          </div>
-        </h1>
+            <h1 id='cursor' className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-center">
+              <div className="flex">
+                <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">C</span>
+                <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">o</span>
+                <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">d</span>
+                <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">e </span>
+                <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary pl-3"> . </span>
+              </div>
+              <div className="flex">
+                <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">C</span>
+                <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">r</span>
+                <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">e</span>
+                <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">a</span>
+                <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">t</span>
+                <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">e </span>
+                <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary pl-3"> . </span>
+              </div>
+              <div className="flex">
+                <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">I</span>
+                <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">n</span>
+                <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">n</span>
+                <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">o</span>
+                <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">v</span>
+                <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">a</span>
+                <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">t</span>
+                <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">e</span>
+              </div>
+            </h1>
           </div>
         </div>
 

@@ -6,8 +6,8 @@ import { BentoGrid, BentoGridItem } from '../../../../components/ui/bento-grid';
 export function Bento() {
   return (
     <motion.section
-      initial={{ opacity: 1, y: -40, scale: 1 }}
-      whileInView={{ opacity: 1, y: 50, scale: .9 }}
+      initial={{ opacity: 1, y: 0, scale: 1 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
       viewport={{ amount: 0.2 }}
       transition={{ duration: 1, ease: 'easeOut' }}
       className="bent-wrapper flex h-max w-screen items-center justify-center bg-black mt-16"

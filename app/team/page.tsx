@@ -171,60 +171,60 @@ export default function TeamPage() {
     ScrollTrigger.refresh();
   }, [execVisible, coreVisible]);
 
-  useGSAP(
-    () => {
-      if (gbRef.current) {
-        gsap.fromTo(
-          gbRef.current,
-          { y: 100, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 1,
-            ease: 'power3.out',
-            scrollTrigger: {
-              trigger: gbRef.current,
-              start: 'top 80%',
-              toggleActions: 'play none none none'
-            }
-          }
-        );
-      }
+  // useGSAP(
+  //   () => {
+  //     if (gbRef.current) {
+  //       gsap.fromTo(
+  //         gbRef.current,
+  //         { y: 0, opacity: 0 },
+  //         {
+  //           y: 0,
+  //           opacity: 1,
+  //           duration: 1,
+  //           ease: 'power3.out',
+  //           scrollTrigger: {
+  //             trigger: gbRef.current,
+  //             start: 'top 80%',
+  //             toggleActions: 'play none none none'
+  //           }
+  //         }
+  //       );
+  //     }
 
-      if (execRef.current) {
-        gsap.to(execRef.current, {
-          scale: 0.95,
-          y: 90,
-          ease: 'none',
-          immediateRender: false,
-          scrollTrigger: {
-            trigger: execRef.current,
-            start: 'top 30%',
-            end: 'top 70%',
-            scrub: 2.5,
-            invalidateOnRefresh: true,
-          }
-        });
-      }
+  //     if (execRef.current) {
+  //       gsap.to(execRef.current, {
+  //         scale: 0.93,
+  //         y: 90,
+  //         ease: 'none',
+  //         immediateRender: false,
+  //         scrollTrigger: {
+  //           trigger: execRef.current,
+  //           start: 'top 30%',
+  //           end: 'top 70%',
+  //           scrub: 2.5,
+  //           invalidateOnRefresh: true,
+  //         }
+  //       });
+  //     }
 
-      if (coreRef.current) {
-        gsap.to(coreRef.current, {
-          scale: 0.95,
-          y: 60,
-          ease: 'none',
-          immediateRender: false,
-          scrollTrigger: {
-            trigger: coreRef.current,
-            start: 'top 50%',
-            end: 'top 70%',
-            scrub: 2.5,
-            invalidateOnRefresh: true,
-          }
-        });
-      }
-    },
-    { dependencies: [], revertOnUpdate: false }
-  );
+  //     if (coreRef.current) {
+  //       gsap.to(coreRef.current, {
+  //         scale: 0.95,
+  //         y: 60,
+  //         ease: 'none',
+  //         immediateRender: false,
+  //         scrollTrigger: {
+  //           trigger: coreRef.current,
+  //           start: 'top 50%',
+  //           end: 'top 70%',
+  //           scrub: 2.5,
+  //           invalidateOnRefresh: true,
+  //         }
+  //       });
+  //     }
+  //   },
+  //   { dependencies: [], revertOnUpdate: false }
+  // );
 
   return (
     <div className="w-screen mt-20">
