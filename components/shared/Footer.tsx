@@ -167,7 +167,7 @@ function Footer() {
                     className="flex items-center justify-center gap-2 text-primary hover:text-primary/80 transition-colors"
                   >
                     <Phone className="w-4 h-4" />
-                    <span className="font-mono text-sm">+91 9908784538</span>
+                    <span className="font-mono text-sm">+91 9989598636</span>
                   </a>
                 </div>
               </div>
