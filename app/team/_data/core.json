@@ -351,13 +351,13 @@
   },
   {
     "id": 36,
-    "name": "Mohammed Abdul Waheed",
+    "name": "Mohammed Abdul Aashir",
     "position": "Events Core",
     "portfolio": "Events",
     "linkedinUrl": "#",
     "githubUrl": "#",
     "email": "placeholder-waheed@example.com",
-    "imageUrl": null
+    "imageUrl": "/team/core/aashir-event.png"
   },
   {
     "id": 37,
@@ -467,7 +467,7 @@
     "linkedinUrl": "https://www.linkedin.com/in/bibialmas7777",
     "githubUrl": "https://github.com/Almas1910",
     "email": "almasbibi888@gmail.com",
-    "imageUrl": "https://drive.google.com/thumbnail?id=1AQhujDEj-MOSTbDGHRWgibqWhP7Ad8z5"
+    "imageUrl": null
   },
   {
     "id": 48,
@@ -567,7 +567,7 @@
     "linkedinUrl": "#",
     "githubUrl": "https://github.com/AsmaFatimaKhan",
     "email": "160424733427@mjcollege.ac.in",
-    "imageUrl": "https://drive.google.com/thumbnail?id=1QTLx5_OYg4tx7VnN4SuDnvBEDJgoO8De"
+    "imageUrl": "/team/core/asma-media.jpg"
   },
   {
     "id": 58,
@@ -591,7 +591,7 @@
   },
   {
     "id": 60,
-    "name": "Mohammed Khan(Muqeem)",
+    "name": "Mohammed Khan( Muqeem)",
     "position": "Media Core",
     "portfolio": "Media",
     "linkedinUrl": "#",
