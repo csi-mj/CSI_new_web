@@ -43,17 +43,17 @@ const items = [
       "/about/events.jpg",
   },
   {
-    title: "Team Hack Revolution 2024-25",
+    title: "Team Hack Revolution 2025-26",
     description:
-      "The driving force behind MJCET’s flagship hackathon — Hack Revolution, organized in collaboration with E-Cell MJCET. A celebration of innovation, technology, and collaboration, the team brings together creative minds to build impactful solutions. With passion and precision, they continue to make Hack Revolution a benchmark for student-led innovation and excellence.",
+      "The driving force behind MJCET's flagship hackathon — Hack Revolution, organized in collaboration with E-Cell MJCET. A celebration of innovation, technology, and collaboration, the team brings together creative minds to build impactful solutions. With passion and precision, they continue to make Hack Revolution a benchmark for student-led innovation and excellence.",
     header: <Skeleton />,
     imageSrc:
-      "/about/hackrev.jpg",
+      "/about/hackrev3.jpg",
   },
   {
     title: "Meet the Team",
     description:
-      "A team driven by purpose. A community built on passion. The strength of CSI lies in the dedication of its Core Team and ExCom, who work tirelessly behind the scenes to plan, coordinate, and execute initiatives with purpose and precision. United by a mission to empower students, they foster innovation, create opportunities, and build a culture where leadership and creativity thrive — turning vision into impact and ambition into achievement.",
+      "A team driven by purpose. A community built on passion. The strength of CSI lies in the dedication of its Core Team and ExCom, who work tirelessly behind the scenes to plan, coordinate, and execute initiatives with purpose and precision. United by a mission to empower students, they foster innovation, create opportunities, and build a culture where leadership and creativity thrive, turning vision into impact and ambition into achievement.",
     header: <Skeleton />,
     imageSrc:
       "/about/team.jpg",
@@ -77,7 +77,7 @@ const items = [
   {
     title: "Our Governing Body",
     description:
-      "Steering CSI like a future tech powerhouse. Our Governing Body leads with vision, empowers with trust, and champions innovation at every step. From guiding initiatives to nurturing student leadership, they ensure CSI remains dynamic, impactful, and full of growth opportunities. Their dedication shapes a culture of learning, collaboration, and ambition — they lead, inspire, and elevate CSI.",
+      "Steering CSI like a future tech powerhouse. Our Governing Body leads with vision, empowers with trust, and champions innovation at every step. From guiding initiatives to nurturing student leadership, they ensure CSI remains dynamic, impactful, and full of growth opportunities. Their dedication shapes a culture of learning, collaboration, and ambition they lead, inspire, and elevate CSI.",
     header: <Skeleton />,
     imageSrc:
       "/about/gbs.png",

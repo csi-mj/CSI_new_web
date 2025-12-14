@@ -1,5 +1,38 @@
 [
   {
+    "id": "volunteer-appreciation",
+    "title": "Volunteer Appreciation Ceremony",
+    "subtitle": "Celebrating Our Heroes",
+    "description": "As you all know, CSI and E-Cell successfully organized a Hack Revolution 2025 this November, and it wouldn't have been possible without the incredible effort and dedication from our volunteers! Join us for a short and sweet ceremony filled with appreciation, gratitude, and of course, good vibes!",
+    "poster_url": "/events/past/hackrev.jpg",
+    "status": "completed",
+    "event_date": "2025-12-12T14:30:00.000Z",
+    "venue": "Seminar Hall",
+    "category": "Ceremony",
+    "organizers": [
+      "Team CSI"
+    ],
+    "highlights": [
+      "Appreciation & Gratitude",
+      "Good Vibes",
+      "Celebration of contribution"
+    ],
+    "contacts": [
+      {
+        "name": "Team CSI",
+        "phone": "csi@mjcollege.ac.in"
+      }
+    ],
+    "time_range": "Afternoon",
+    "tags": [
+      "Volunteer",
+      "Appreciation",
+      "CSI"
+    ],
+    "completed_at": "2025-12-12T16:00:00.000Z",
+    "days_since_completed": 0
+  },
+  {
     "id": "dev-showdown",
     "title": "Dev Showdown",
     "subtitle": "Execom Project Showcase",

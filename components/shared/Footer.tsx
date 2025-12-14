@@ -132,7 +132,7 @@ function Footer() {
           </div>
           <p className="text-zinc-400 text-lg mb-8 text-center">Have questions? We&apos;re here to help.</p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6 max-w-5xl mx-auto">
             {/* Affan Card */}
             <div className="group relative p-6 rounded-2xl border border-zinc-800/50 bg-zinc-900/30 backdrop-blur-sm hover:bg-zinc-900/50 hover:border-zinc-700/50 transition-all duration-300 cursor-target">
               <div className="flex flex-col items-center text-center space-y-4">
@@ -153,7 +153,7 @@ function Footer() {
               </div>
             </div>
 
-            {/* Rayyan Card */}
+            {/* Touseef Card */}
             <div className="group relative p-6 rounded-2xl border border-zinc-800/50 bg-zinc-900/30 backdrop-blur-sm hover:bg-zinc-900/50 hover:border-zinc-700/50 transition-all duration-300 cursor-target">
               <div className="flex flex-col items-center text-center space-y-4">
                 <div className="p-4 bg-primary/10 border border-primary/20 rounded-xl">
@@ -163,11 +163,31 @@ function Footer() {
                   <h3 className="text-xl font-bold text-white mb-1">Touseef</h3>
                   <p className="text-zinc-400 text-sm mb-4">CSI Chief Coordinator</p>
                   <a
-                    href="tel:+9199895 98636"
+                    href="tel:+919989598636"
                     className="flex items-center justify-center gap-2 text-primary hover:text-primary/80 transition-colors"
                   >
                     <Phone className="w-4 h-4" />
-                    <span className="font-mono text-sm">+91 9908784538</span>
+                    <span className="font-mono text-sm">+91 9989598636</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            {/* Abdullah Card */}
+            <div className="group relative p-6 rounded-2xl border border-zinc-800/50 bg-zinc-900/30 backdrop-blur-sm hover:bg-zinc-900/50 hover:border-zinc-700/50 transition-all duration-300 cursor-target">
+              <div className="flex flex-col items-center text-center space-y-4">
+                <div className="p-4 bg-primary/10 border border-primary/20 rounded-xl">
+                  <User2 className="w-8 h-8 text-primary" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-white mb-1">Abdullah</h3>
+                  <p className="text-zinc-400 text-sm mb-4">CSI Chief Coordinator</p>
+                  <a
+                    href="tel:+917780227803"
+                    className="flex items-center justify-center gap-2 text-primary hover:text-primary/80 transition-colors"
+                  >
+                    <Phone className="w-4 h-4" />
+                    <span className="font-mono text-sm">+91 7780227803</span>
                   </a>
                 </div>
               </div>
