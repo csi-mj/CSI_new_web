@@ -10,8 +10,11 @@ import {
   FaDiscord,
   FaFacebook,
   FaEnvelope,
-  FaWhatsapp
+  FaWhatsapp,
+  FaForumbee,
+  FaRegFileAlt
 } from 'react-icons/fa';
+import { SiGoogleforms } from 'react-icons/si';
 import logo from '@/public/logos/csi_logo.png'
 import { OrbitingCircles } from '@/components/ui/orbiting-circles';
 import Image from 'next/image';
@@ -69,7 +72,7 @@ const Orbit = () => {
       url: 'https://docs.google.com/forms/d/e/1FAIpQLSfBZMC6SowK8ct5MinC6IOsMyW9zn6ZwPK-V5T0tDbP-2bSvw/viewform',
       label: 'YouTube',
       hoverBorder: 'hover:border-[#FF0000]/50',
-      icon: <FaYoutube className="h-7 w-7 text-[#FF0000]" />,
+      icon: <SiGoogleforms className="h-5 w-5 text-purple-600" />,
     },
 
     {
