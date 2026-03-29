@@ -5,8 +5,12 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import AdsophosAbout from "./components/AdsophosAbout";
 import HackrevCta from "../home/_components/Hot/HackrevCta";
+import { ExternalLink } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const PINK = "#ec4899";
+const YELLOW = "#ffba00";
+const CYAN = "#00f5ff";
 
 const FONT_URL =
   "https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&display=swap";
@@ -101,11 +105,21 @@ const AdsophosPortalPage = () => {
           }}
         >
           <a
-            className="cursor-target"
+            className=" inline-flex items-center gap-4"
             href="https://adsophos.com"
             target="_blank"
           >
-            Click To Visit
+           <span className="cursor-target">Click To Visit</span>
+            <Button 
+              variant="outline" 
+              className="bg-transparent rounded-none p-2 transition-all hover:bg-arcade-yellow border-2 curpose-pointer cursor-target cursor-pointer"
+              style={{
+                borderColor: PINK,
+                boxShadow: `4px 4px 0px 0px ${CYAN}`,
+              }}
+            >
+              <ExternalLink size={20} />
+            </Button>
           </a>
         </div>
         <HackrevCta />
