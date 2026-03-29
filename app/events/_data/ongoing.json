@@ -1,1 +1,37 @@
-[]
+[
+  {
+    "id": "adsophos-2026",
+    "title": "ADSOPHOS 2026",
+    "subtitle": "Unleash the Future",
+    "description": "ADSOPHOS 2026 is a vibrant two-day fest where fun, creativity, and culinary delights come together. It's a space to explore, compete, and enjoy a variety of exciting activities with your friends.\n\nFrom thrilling challenges, a highly insightful Tech expo, to engaging quizzes, watch teams climb their way to the top and leave their mark. Play, compete, and make your place among the best.",
+    "poster_url": "/events/ongoing/adsophos.jpeg",
+    "status": "ongoing",
+    "event_date": "2026-04-09T09:00:00.000Z",
+    "event_end_date": "2026-04-10T18:00:00.000Z",
+    "venue": "MJCET Campus",
+    "category": "Technical Fest",
+    "organizers": [
+      "CSI MJCET",
+      "MJCET"
+    ],
+    "highlights": [
+      "Two-day Vibrant Fest",
+      "Thrilling Challenges & Quizzes",
+      "Insightful Tech Expo",
+      "Culinary Delights & Fun Activities"
+    ],
+    "contacts": [
+      {
+        "name": "Team CSI",
+        "phone": "csi@mjcollege.ac.in"
+      }
+    ],
+    "time_range": "9:00 AM – Onwards",
+    "tags": [
+      "AdSophos",
+      "Tech Fest",
+      "Innovation",
+      "MJCET"
+    ]
+  }
+]
