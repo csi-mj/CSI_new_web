@@ -94,16 +94,22 @@ const AdsophosPortalPage = () => {
       </div>
 
       {/* Live Iframe Preview */}
-          <div className="">
-              <div
-                className="text-center text-xl md:text-2xl uppercase tracking-widest text-white py-8 mb-4"
-                style={{
-                  fontFamily: "'Press Start 2P', cursive",
-                  textShadow: `3px 3px 0px ${PINK}, 6px 6px 0px rgba(0,0,0,1)`,
-                }}
-              >
-                <a href="https://adsophos.com" target="_blank">Click To Visit</a>
-              </div>
+      <div className="">
+        <div
+          className="mb-4 py-8 text-center text-xl tracking-widest text-white uppercase md:text-2xl"
+          style={{
+            fontFamily: "'Press Start 2P', cursive",
+            textShadow: `3px 3px 0px ${PINK}, 6px 6px 0px rgba(0,0,0,1)`
+          }}
+        >
+          <a
+            className="cursor-target"
+            href="https://adsophos.com"
+            target="_blank"
+          >
+            Click To Visit
+          </a>
+        </div>
         <HackrevCta />
       </div>
 
