@@ -4,8 +4,6 @@ import React, { useEffect } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import AdsophosAbout from "./components/AdsophosAbout";
-import LivePreview from "./components/LivePreview";
-import RedirectButton from "./components/RedirectButton";
 import HackrevCta from "../home/_components/Hot/HackrevCta";
 
 const PINK = "#ec4899";

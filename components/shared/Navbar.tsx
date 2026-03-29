@@ -1,5 +1,6 @@
 'use client';
 import React, { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
 
 import PillNav from '../PillNav';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -74,7 +75,7 @@ const Navbar = () => {
       >
         {/* Left: Logo */}
         <Link href="/home" className="flex items-center lg:hidden">
-          <img
+          <Image
             src="/logos/csi_logo.png"
             alt="CSI"
             width={70}
@@ -98,9 +99,11 @@ const Navbar = () => {
             <span
               className="inline-flex h-[62px] w-[62px] items-center justify-center rounded-full border border-white/15 bg-white/5 backdrop-blur-md overflow-hidden"
             >
-              <img
+              <Image
                 src="/logos/csi_logo.png"
                 alt="CSI"
+                width={48}
+                height={48}
                 className="w-12 object-contain"
               />
             </span>
