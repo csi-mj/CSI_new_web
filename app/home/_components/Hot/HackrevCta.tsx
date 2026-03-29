@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 const HackrevCta = () => {
     return (
-        <div className="relative w-full py-20">
+        <div className="relative w-full pb-20">
              {/* Background Glow */}
              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[600px]" />
              
@@ -15,7 +15,7 @@ const HackrevCta = () => {
                 className="relative z-10 block cursor-pointer group"
             >
                 <motion.div 
-                    className="w-full h-[350px] md:h-[450px]"
+                    className="w-full h-[800px] md:h-[550px]"
                     initial={{ opacity: 0, scale: 0.95 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     whileHover={{ scale: 1.005 }}
