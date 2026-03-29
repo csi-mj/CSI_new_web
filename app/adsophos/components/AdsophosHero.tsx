@@ -8,8 +8,6 @@ const PINK = "#ec4899";
 const YELLOW = "#ffba00";     // arcade-yellow
 const CYAN = "#00f5ff";       // arcade-cyan
 
-const BORDER = `4px solid ${PINK}`;
-const SHADOW = `3px 3px 0px ${CYAN}`;
 const TEXT_3D = `3px 3px 0px ${PINK}, 6px 6px 0px rgba(0,0,0,1)`;
 const TEXT_3D_YELLOW = `3px 3px 0px rgba(0,0,0,1)`;
 
