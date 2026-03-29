@@ -110,7 +110,7 @@ const AdsophosPortalPage = () => {
             target="_blank"
           >
            <span className="cursor-target">Click To Visit</span>
-            <Button 
+            {/* <Button 
               variant="outline" 
               className="bg-transparent rounded-none p-2 transition-all hover:bg-arcade-yellow border-2 curpose-pointer cursor-target cursor-pointer"
               style={{
@@ -119,7 +119,7 @@ const AdsophosPortalPage = () => {
               }}
             >
               <ExternalLink size={20} />
-            </Button>
+            </Button> */}
           </a>
         </div>
         <HackrevCta />
