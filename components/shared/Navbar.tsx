@@ -15,6 +15,7 @@ const items = [
   { label: 'Magazine', href: '/magazine' },
   { label: 'Events', href: '/events' },
   { label: 'Resources', href: '/resources' },
+  { label: 'ADSOPHOS', href: 'https://www.adsophos.com/' },
   // { label: 'Become a Member', href: '/membership' },
 ];
 

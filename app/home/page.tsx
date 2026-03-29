@@ -22,16 +22,13 @@ export default function HomePage() {
   return (
     <div className="pt-0">
       <section className='relative'>
-        <div className="absolute h-[600px] inset-0 z-0 pointer-events-none">
-          <BackgroundBeams />
-        </div>
         <div className="flex w-full flex-col items-center">
           <Hero />
         </div>
         {/* <Landing /> */}
       </section>
 
-      <section className="">
+      <section className="mb-48">
         <HackrevCta />
       </section>
 
