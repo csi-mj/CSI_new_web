@@ -6,7 +6,6 @@ import { FileText, ImageIcon, Brain, PartyPopper, Lightbulb } from "lucide-react
 
 /* ── Hardcoded Adsophos tokens ── */
 const PINK = "#ec4899";
-const YELLOW = "#ffba00";
 const CYAN = "#00f5ff";
 
 const features = [
