@@ -9,9 +9,9 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const items = [
-  { label: 'Home', href: '/home' },
-  { label: 'About', href: '/home#about' },
-  { label: 'Connect', href: '/home#connect' },
+  { label: 'Home', href: '/' },
+  { label: 'About', href: '/#about' },
+  { label: 'Connect', href: '/#connect' },
   { label: 'Team', href: '/team' },
   { label: 'Magazine', href: '/magazine' },
   { label: 'Events', href: '/events' },
@@ -63,6 +63,9 @@ const Navbar = () => {
     };
   }, [menuOpen]);
 
+  // Hide the public site navbar inside the admin portal
+  if (pathname?.startsWith('/admin')) return null;
+
   const isActive = (href: string) => {
     if (href === '/') return pathname === '/';
     return pathname?.startsWith(href);
@@ -74,7 +77,7 @@ const Navbar = () => {
         className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-8 py-6 bg-black/60 max-lg:backdrop-blur-lg lg:bg-transparent transform transition-transform duration-500 ${showNav ? 'translate-y-0' : '-translate-y-full'}`}
       >
         {/* Left: Logo */}
-        <Link href="/home" className="flex items-center lg:hidden">
+        <Link href="/" className="flex items-center lg:hidden">
           <Image
             src="/logos/csi_logo.png"
             alt="CSI"
@@ -91,7 +94,7 @@ const Navbar = () => {
         <div className="hidden lg:flex justify-center flex-1">
            <div>
           <Link
-            href="/home"
+            href="/"
             aria-label="CSI"
             className="relative inline-flex items-center justify-center h-full mr-1 hover:rotate-[360deg] transition-all duration-500 cursor-target"
             id='cursor-mid'

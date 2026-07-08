@@ -3,12 +3,16 @@ import React, { useRef, useState } from 'react'
 import { Developer } from './Developer'
 import { ArrowUp, Github, Linkedin, Instagram, Calendar, Users, BookOpen, Award, Phone, Mail, User2 } from 'lucide-react'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { AnimatePresence, motion } from 'framer-motion'
 import { FaMedium } from 'react-icons/fa'
 
 
 
 function Footer() {
+  const pathname = usePathname();
+  if (pathname?.startsWith('/admin')) return null;
+
   const socialLinks = [
     { icon: Github, href: 'https://github.com/orgs/csi-mj', label: 'GitHub' },
     { icon: Linkedin, href: 'https://www.linkedin.com/company/csi-mjcet', label: 'LinkedIn' },

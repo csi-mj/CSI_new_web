@@ -4,7 +4,6 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useGSAP } from '@gsap/react';
 import { Carousel, TeamMember } from './_components/Carousel';
 import GB from './_components/TeamCard';
 import NavTabs from './_components/NavTabs';
@@ -16,7 +15,7 @@ import coreData from './_data/core.json';
 gsap.registerPlugin(ScrollTrigger);
 
 type ExecRaw = {
-  id: number;
+  id: number | string;
   name: string;
   position: string;
   portfolio: string;
@@ -26,8 +25,40 @@ type ExecRaw = {
   imageUrl?: string | null;
 };
 
-const execRawData: ExecRaw[] = execData as ExecRaw[];
+type RawGbMember = {
+  id: number | string;
+  Name: string;
+  Position: string;
+  Portfolio: string;
+  'Linkedin Id'?: string;
+  'Email Id'?: string;
+  'Github Id'?: string;
+  'Formal Picture'?: string;
+  'Governing Body Position': string;
+};
 
+type CardItem = {
+  name?: string;
+  profession?: string;
+  image?: string;
+  githubUrl?: string;
+  linkedinUrl?: string;
+};
+
+// Shape returned by /api/team/* (Supabase csi_team rows)
+type DbMember = {
+  id: string;
+  sno: number | null;
+  name: string;
+  position: string | null;
+  role: 'gb' | 'core' | 'execom';
+  image_url: string | null;
+  linkedin: string | null;
+  github: string | null;
+  mail: string | null;
+  portfolio: string | null;
+  gb_position: string | null;
+};
 
 // URL normalizers used by GB and Core cards
 const toUrl = (val?: string): string | undefined => {
@@ -46,67 +77,6 @@ const toGithubUrl = (val?: string): string | undefined => {
   return `https://github.com/${v}`;
 };
 
-const groupedExec: Record<string, TeamMember[]> = execRawData.reduce((acc, m) => {
-  const key = (m.portfolio || 'Misc').toUpperCase();
-  const member: TeamMember = {
-    id: String(m.id),
-    name: m.name,
-    title: m.position,
-    image: m.imageUrl || '',
-    specialties: [],
-    social: {
-      github: m.githubUrl ? toGithubUrl(m.githubUrl || undefined) : undefined,
-      linkedin: m.linkedinUrl ? toUrl(m.linkedinUrl || undefined) : undefined,
-    },
-  };
-  if (!acc[key]) acc[key] = [];
-  acc[key].push(member);
-  return acc;
-}, {} as Record<string, TeamMember[]>);
-
-const teams = Object.keys(groupedExec).map((name) => ({
-  name,
-  teamMembers: groupedExec[name],
-}));
-
-// Core team uses the same shape as ExecRaw; adapt to GB CardItem for grid display
-const coreRawData: ExecRaw[] = coreData as ExecRaw[];
-const groupedCoreCards: Record<string, CardItem[]> = coreRawData.reduce((acc, m) => {
-  const key = (m.portfolio || 'Misc').toUpperCase();
-  const item: CardItem = {
-    name: m.name,
-    profession: m.position,
-    image: m.imageUrl || undefined,
-    githubUrl: toGithubUrl(m.githubUrl || undefined),
-    linkedinUrl: toUrl(m.linkedinUrl || undefined),
-  };
-  if (!acc[key]) acc[key] = [];
-  acc[key].push(item);
-  return acc;
-}, {} as Record<string, CardItem[]>);
-
-type RawGbMember = {
-  id: number;
-  Name: string;
-  Position: string;
-  Portfolio: string;
-  'Linkedin Id'?: string;
-  'Email Id'?: string;
-  'Github Id'?: string;
-  'Formal Picture'?: string;
-  'Governing Body Position': string;
-};
-
-type CardItem = {
-  name?: string;
-  profession?: string; 
-  image?: string;
-  githubUrl?: string;
-  linkedinUrl?: string;
-};
-
-const rawGbData: RawGbMember[] = gbData as RawGbMember[];
-
 const mapGbGroup = (pos: string): string => {
   const p = pos.trim();
   if (p === 'Chief Coordinator' || p === 'Associate CC') return 'Chief Coordinator';
@@ -114,33 +84,146 @@ const mapGbGroup = (pos: string): string => {
   return p;
 };
 
-const gbByPosition: Record<string, CardItem[]> = rawGbData.reduce((acc, m) => {
-  const original = m['Governing Body Position'].trim();
-  const key = mapGbGroup(original);
-  const item: CardItem = {
-    name: m.Name,
-    profession: original,
-    image: m["Formal Picture"] || undefined,
-    githubUrl: toGithubUrl(m['Github Id'] || undefined),
-    linkedinUrl: toUrl(m['Linkedin Id'] || undefined),
-  };
-  if (!acc[key]) acc[key] = [];
-  acc[key].push(item);
-  return acc;
-}, {} as Record<string, CardItem[]>);
+// ---------- builders (work for both JSON fallback and DB rows) ----------
+
+const buildExecTeams = (execRawData: ExecRaw[]) => {
+  const groupedExec = execRawData.reduce((acc, m) => {
+    const key = (m.portfolio || 'Misc').toUpperCase();
+    const member: TeamMember = {
+      id: String(m.id),
+      name: m.name,
+      title: m.position,
+      image: m.imageUrl || '',
+      specialties: [],
+      social: {
+        github: m.githubUrl ? toGithubUrl(m.githubUrl || undefined) : undefined,
+        linkedin: m.linkedinUrl ? toUrl(m.linkedinUrl || undefined) : undefined,
+      },
+    };
+    if (!acc[key]) acc[key] = [];
+    acc[key].push(member);
+    return acc;
+  }, {} as Record<string, TeamMember[]>);
+
+  return Object.keys(groupedExec).map((name) => ({
+    name,
+    teamMembers: groupedExec[name],
+  }));
+};
+
+const buildCoreCards = (coreRawData: ExecRaw[]) =>
+  coreRawData.reduce((acc, m) => {
+    const key = (m.portfolio || 'Misc').toUpperCase();
+    const item: CardItem = {
+      name: m.name,
+      profession: m.position,
+      image: m.imageUrl || undefined,
+      githubUrl: toGithubUrl(m.githubUrl || undefined),
+      linkedinUrl: toUrl(m.linkedinUrl || undefined),
+    };
+    if (!acc[key]) acc[key] = [];
+    acc[key].push(item);
+    return acc;
+  }, {} as Record<string, CardItem[]>);
+
+const buildGbByPosition = (rawGbData: RawGbMember[]) =>
+  rawGbData.reduce((acc, m) => {
+    const original = m['Governing Body Position'].trim();
+    const key = mapGbGroup(original);
+    const item: CardItem = {
+      name: m.Name,
+      profession: original,
+      image: m['Formal Picture'] || undefined,
+      githubUrl: toGithubUrl(m['Github Id'] || undefined),
+      linkedinUrl: toUrl(m['Linkedin Id'] || undefined),
+    };
+    if (!acc[key]) acc[key] = [];
+    acc[key].push(item);
+    return acc;
+  }, {} as Record<string, CardItem[]>);
+
+// DB row -> raw shapes used by the builders
+const dbToExecRaw = (rows: DbMember[]): ExecRaw[] =>
+  rows.map((r) => ({
+    id: r.id,
+    name: r.name,
+    position: r.position || '',
+    portfolio: r.portfolio || 'Misc',
+    linkedinUrl: r.linkedin,
+    githubUrl: r.github,
+    email: r.mail,
+    imageUrl: r.image_url,
+  }));
+
+const dbToGbRaw = (rows: DbMember[]): RawGbMember[] =>
+  rows.map((r) => ({
+    id: r.id,
+    Name: r.name,
+    Position: r.position || '',
+    Portfolio: r.portfolio || 'N/A',
+    'Linkedin Id': r.linkedin || undefined,
+    'Email Id': r.mail || undefined,
+    'Github Id': r.github || undefined,
+    'Formal Picture': r.image_url || undefined,
+    'Governing Body Position': r.gb_position || r.position || 'Member',
+  }));
 
 export default function TeamPage() {
+  // Start with bundled JSON, then replace with live DB data when it loads
+  const [gbRaw, setGbRaw] = useState<RawGbMember[]>(gbData as RawGbMember[]);
+  const [execRaw, setExecRaw] = useState<ExecRaw[]>(execData as ExecRaw[]);
+  const [coreRaw, setCoreRaw] = useState<ExecRaw[]>(coreData as ExecRaw[]);
+
+  useEffect(() => {
+    const grab = async (url: string): Promise<DbMember[] | null> => {
+      try {
+        const res = await fetch(url);
+        if (!res.ok) return null;
+        const json = await res.json();
+        return Array.isArray(json) && json.length > 0 ? json : null;
+      } catch {
+        return null;
+      }
+    };
+    (async () => {
+      const [gb, core, exec] = await Promise.all([
+        grab('/api/team/gb'),
+        grab('/api/team/core'),
+        grab('/api/team/execom'),
+      ]);
+      if (gb) setGbRaw(dbToGbRaw(gb));
+      if (core) setCoreRaw(dbToExecRaw(core));
+      if (exec) setExecRaw(dbToExecRaw(exec));
+    })();
+  }, []);
+
+  const teams = useMemo(() => buildExecTeams(execRaw), [execRaw]);
+  const groupedCoreCards = useMemo(() => buildCoreCards(coreRaw), [coreRaw]);
+  const gbByPosition = useMemo(() => buildGbByPosition(gbRaw), [gbRaw]);
+
   const [activeIdx, setActiveIdx] = useState(0);
-  const teamTabs = useMemo(() => teams.map((t) => t.name), []);
-  const activeTeam = useMemo(() => teams[activeIdx], [activeIdx]);
+  const teamTabs = useMemo(() => teams.map((t) => t.name), [teams]);
+  const activeTeam = useMemo(
+    () => teams[Math.min(activeIdx, Math.max(teams.length - 1, 0))],
+    [teams, activeIdx]
+  );
 
   const [activeGbIdx, setActiveGbIdx] = useState(0);
-  const gbTabs = useMemo(() => Object.keys(gbByPosition), []);
-  const gbItems = useMemo(() => (gbTabs.length ? gbByPosition[gbTabs[activeGbIdx]] : []), [gbTabs, activeGbIdx]);
+  const gbTabs = useMemo(() => Object.keys(gbByPosition), [gbByPosition]);
+  const gbItems = useMemo(
+    () => (gbTabs.length ? gbByPosition[gbTabs[Math.min(activeGbIdx, gbTabs.length - 1)]] : []),
+    [gbByPosition, gbTabs, activeGbIdx]
+  );
 
   const [activeCoreIdx, setActiveCoreIdx] = useState(0);
-  const coreTeamTabs = useMemo(() => Object.keys(groupedCoreCards), []);
-  const coreItems = useMemo(() => (coreTeamTabs.length ? groupedCoreCards[coreTeamTabs[activeCoreIdx]] : []), [coreTeamTabs, activeCoreIdx]);
+  const coreTeamTabs = useMemo(() => Object.keys(groupedCoreCards), [groupedCoreCards]);
+  const coreItems = useMemo(
+    () =>
+      coreTeamTabs.length
+        ? groupedCoreCards[coreTeamTabs[Math.min(activeCoreIdx, coreTeamTabs.length - 1)]]
+        : [],
+    [groupedCoreCards, coreTeamTabs, activeCoreIdx]
+  );
 
   const gbRef = useRef<HTMLElement | null>(null);
   const execRef = useRef<HTMLElement | null>(null);
@@ -170,61 +253,6 @@ export default function TeamPage() {
   useEffect(() => {
     ScrollTrigger.refresh();
   }, [execVisible, coreVisible]);
-
-  // useGSAP(
-  //   () => {
-  //     if (gbRef.current) {
-  //       gsap.fromTo(
-  //         gbRef.current,
-  //         { y: 0, opacity: 0 },
-  //         {
-  //           y: 0,
-  //           opacity: 1,
-  //           duration: 1,
-  //           ease: 'power3.out',
-  //           scrollTrigger: {
-  //             trigger: gbRef.current,
-  //             start: 'top 80%',
-  //             toggleActions: 'play none none none'
-  //           }
-  //         }
-  //       );
-  //     }
-
-  //     if (execRef.current) {
-  //       gsap.to(execRef.current, {
-  //         scale: 0.93,
-  //         y: 90,
-  //         ease: 'none',
-  //         immediateRender: false,
-  //         scrollTrigger: {
-  //           trigger: execRef.current,
-  //           start: 'top 30%',
-  //           end: 'top 70%',
-  //           scrub: 2.5,
-  //           invalidateOnRefresh: true,
-  //         }
-  //       });
-  //     }
-
-  //     if (coreRef.current) {
-  //       gsap.to(coreRef.current, {
-  //         scale: 0.95,
-  //         y: 60,
-  //         ease: 'none',
-  //         immediateRender: false,
-  //         scrollTrigger: {
-  //           trigger: coreRef.current,
-  //           start: 'top 50%',
-  //           end: 'top 70%',
-  //           scrub: 2.5,
-  //           invalidateOnRefresh: true,
-  //         }
-  //       });
-  //     }
-  //   },
-  //   { dependencies: [], revertOnUpdate: false }
-  // );
 
   return (
     <div className="w-screen mt-20">
@@ -283,7 +311,7 @@ export default function TeamPage() {
         </div>
       </div>
 
-      {execVisible && (
+      {execVisible && activeTeam && (
         <div className="w-full">
           <Carousel teamMembers={activeTeam.teamMembers} teamName={activeTeam.name} />
         </div>

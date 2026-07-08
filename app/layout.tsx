@@ -61,7 +61,38 @@ export const metadata: Metadata = {
     locale: 'en_IN',
     type: 'website'
   },
-  robots: { index: true, follow: true }
+  robots: { index: true, follow: true },
+  alternates: { canonical: '/' }
+};
+
+const organizationJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Computer Society of India, MJCET Student Chapter',
+  alternateName: 'CSI MJCET',
+  url: 'https://csi-mjcet.in',
+  logo: 'https://csi-mjcet.in/logos/csi_logo.png',
+  email: 'csi@mjcollege.ac.in',
+  foundingDate: '2014',
+  parentOrganization: {
+    '@type': 'Organization',
+    name: 'Computer Society of India',
+    url: 'https://www.csi-india.org'
+  },
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Muffakham Jah College of Engineering & Technology, Mount Pleasant, Road No. 3, Banjara Hills',
+    addressLocality: 'Hyderabad',
+    addressRegion: 'Telangana',
+    postalCode: '500034',
+    addressCountry: 'IN'
+  },
+  sameAs: [
+    'https://www.instagram.com/csi_mjcet',
+    'https://www.linkedin.com/company/csi-mjcet',
+    'https://github.com/orgs/csi-mj',
+    'https://medium.com/@csi_mjcet'
+  ]
 };
 
 export default function RootLayout({
@@ -74,6 +105,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${silkscreen.variable} ${orbitron.variable} ${inter.variable} ${spaceGrotesk.variable} ${poppins.variable} min-h-screen bg-black text-white antialiased m-0 p-0`}
       >
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
         {/* <ReduxProvider> */}
           <CursorWrapper />
           <Navbar />

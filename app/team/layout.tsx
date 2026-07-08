@@ -1,4 +1,12 @@
+import type { Metadata } from 'next';
 import Waves from "@/components/Waves";
+
+export const metadata: Metadata = {
+  title: 'Team',
+  description:
+    'Meet the team behind CSI MJCET — the Governing Body, Core Team, and Executive Committee of the Computer Society of India student chapter at MJCET, Hyderabad.',
+  alternates: { canonical: '/team' }
+};
 
 export default function RootLayout({
   children

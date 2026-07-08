@@ -1,4 +1,12 @@
+import type { Metadata } from 'next';
 import { StripedPattern } from "@/components/magicui/striped-pattern";
+
+export const metadata: Metadata = {
+  title: 'Events',
+  description:
+    'Hackathons, workshops, and tech events by CSI MJCET — including Hack Revolution, the flagship hackathon of the Computer Society of India chapter at MJCET, Hyderabad.',
+  alternates: { canonical: '/events' }
+};
 
 export default function EventsLayout({
     children,

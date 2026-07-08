@@ -8,5 +8,5 @@ export default async function NotFoundCatchAll({ params }: { params: Promise<{ n
   console.log(`[404 LOG] User attempted to access non-existent page: /${path}`);
   
   // Redirect to home
-  redirect('/home');
+  redirect('/');
 }

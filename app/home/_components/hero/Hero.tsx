@@ -109,14 +109,19 @@ const Hero = () => {
 
         <div className="mx-auto w-full px-1">
           <div className="hero-title flex w-full items-center justify-center">
-            <MorphingText
-              texts={['CSI MJCET', 'COMPUTER SOCIETY OF INDIA']}
-              className="font-orbitron w-full text-center text-3xl leading-tight sm:text-3xl md:text-4xl lg:text-5xl"
-            />
+            <h1 className="w-full">
+              <span className="sr-only">
+                Computer Society of India (CSI) — MJCET Student Chapter, Hyderabad
+              </span>
+              <MorphingText
+                texts={['CSI MJCET', 'COMPUTER SOCIETY OF INDIA']}
+                className="font-orbitron w-full text-center text-3xl leading-tight sm:text-3xl md:text-4xl lg:text-5xl"
+              />
+            </h1>
           </div>
 
           <div className="hero-greeting mt-8 flex min-h-[2.5rem] w-full items-center justify-center sm:mt-3">
-            <h1 id='cursor' className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-center">
+            <p id='cursor' className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-center">
               <div className="flex">
                 <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">C</span>
                 <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">o</span>
@@ -143,7 +148,7 @@ const Hero = () => {
                 <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">t</span>
                 <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">e</span>
               </div>
-            </h1>
+            </p>
           </div>
         </div>
 

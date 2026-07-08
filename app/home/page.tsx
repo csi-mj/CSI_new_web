@@ -57,7 +57,7 @@ export default function HomePage() {
             >
               <Shuffle
                 text="GOVERNING BODY"
-                tag="h1"
+                tag="h2"
                 className="!text-3xl mt-24 mb-12 md:!text-6xl !text-primary !normal-case !font-bold"
                 style={{ fontFamily: 'var(--font-orbitron)' }}
                 loop={false}

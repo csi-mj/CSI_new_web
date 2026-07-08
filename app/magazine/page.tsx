@@ -1,11 +1,11 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import GridCards, { Card } from "./_components/gridCards";
 import PdfPreviewModal from "../../components/ui/PdfPreviewModal";
 import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
 import { motion, AnimatePresence } from "framer-motion"; 
 
-const cards: Card[] = [
+const fallbackCards: Card[] = [
   { id: 1, bulletin_img: "/pdfs/edition11.png", pdf: "/pdfs/edition-11.pdf", title: "Edition 11", description: "Tech Insights Student Voices Future Vision,Where Innovation Meets Imagination", pages: 1 },
   { id: 2, bulletin_img: "/pdfs/edition10.png", pdf: "/pdfs/edition-10.pdf", title: "Edition 10", description: "Tech Insights Student Voices Future Vision,Where Innovation Meets Imagination", pages: 1 },
   { id: 3, bulletin_img: "/pdfs/edition9.png", pdf: "/pdfs/edition-9.pdf", title: "Edition 9", description: "file", pages: 2 },
@@ -19,8 +19,38 @@ const cards: Card[] = [
   { id: 11, bulletin_img: "/pdfs/edition1.png", pdf: "/pdfs/edition-1.pdf", title: "Edition 1", description: " file", pages: 1 },
 ];
 
+interface MagazineRow {
+  id: string;
+  title: string;
+  description: string | null;
+  cover_url: string | null;
+  pdf_url: string;
+  pages: number | null;
+}
+
 export default function Page() {
   const [selectedFile, setSelectedFile] = useState<Card | null>(null);
+  const [cards, setCards] = useState<Card[]>(fallbackCards);
+
+  useEffect(() => {
+    fetch("/api/magazines")
+      .then((res) => (res.ok ? res.json() : Promise.reject()))
+      .then((rows: MagazineRow[]) => {
+        if (Array.isArray(rows) && rows.length > 0) {
+          setCards(
+            rows.map((r, i) => ({
+              id: i + 1,
+              bulletin_img: r.cover_url || "",
+              pdf: r.pdf_url,
+              title: r.title,
+              description: r.description || "",
+              pages: r.pages || 1,
+            }))
+          );
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   return (
     <div className="w-full mb-6 flex flex-col items-center">

@@ -5,8 +5,30 @@ import ResourceCard from "./components/resourcecard";
 import PdfPreviewModal from "../../components/ui/PdfPreviewModal";
 import { StripedPattern } from "@/components/magicui/striped-pattern";
 
+const fallbackResources = [
+  { id: "f1", title: "Tech Foundations", pdf_url: "/pdfs/basic-tech.pdf", image_url: "/images/basic-img.jpg", description: "Get started with essential tools and workflows — learn VS Code, Git, GitHub, and how to kickstart your own projects from scratch." },
+  { id: "f2", title: "Web Development", pdf_url: "/pdfs/web-dev.pdf", image_url: "/images/web-dev-img.jpeg", description: "Build stunning websites and apps with HTML, CSS, JS, and modern frameworks." },
+  { id: "f3", title: "App Development", pdf_url: "/pdfs/app-dev.pdf", image_url: "/images/app-dev-img.jpeg", description: "Create mobile experiences for Android, iOS, and cross-platform apps." },
+  { id: "f4", title: "AI/ML", pdf_url: "/pdfs/aiml.pdf", image_url: "/images/aiml-img.jpeg", description: "Explore machine learning, neural networks, and smart data solutions." },
+  { id: "f5", title: "IoT", pdf_url: "/pdfs/iot.pdf", image_url: "/images/iot-img.jpeg", description: "Connect devices, sensors, and the world around you with IoT technologies." },
+  { id: "f6", title: "Blockchain", pdf_url: "/pdfs/blockchain.pdf", image_url: "/images/block-chain-img.jpeg", description: "Dive into decentralized tech, cryptocurrencies, and smart contracts." },
+  { id: "f7", title: "Cloud Computing", pdf_url: "/pdfs/cloud.pdf", image_url: "/images/cloud-img.jpeg", description: "Master cloud platforms, deployment, and scalable infrastructure." },
+  { id: "f8", title: "Robotics", pdf_url: "/pdfs/robotics.pdf", image_url: "/images/robotics-img.jpeg", description: "Build and program machines that sense, think, and act." },
+  { id: "f9", title: "Cybersecurity", pdf_url: "/pdfs/cybersec.pdf", image_url: "/images/cyber-sec-img.jpeg", description: "Learn to protect systems, networks, and data from digital attacks." },
+];
+
 const ResourcesPage = () => {
   const [selectedPdf, setSelectedPdf] = useState(null); // { pdf, title }
+  const [resources, setResources] = useState(fallbackResources);
+
+  useEffect(() => {
+    fetch("/api/resources")
+      .then((res) => (res.ok ? res.json() : Promise.reject()))
+      .then((rows) => {
+        if (Array.isArray(rows) && rows.length > 0) setResources(rows);
+      })
+      .catch(() => {});
+  }, []);
 
  
 
@@ -57,69 +79,16 @@ const ResourcesPage = () => {
             viewport={{ once: true, amount: 0.2 }}
             transition={{ staggerChildren: 0.2 }}
           >
-            <ResourceCard
-              title="Tech Foundations"
-              pdfUrl="/pdfs/basic-tech.pdf"
-              imageUrl="/images/basic-img.jpg"
-              description="Get started with essential tools and workflows — learn VS Code, Git, GitHub, and how to kickstart your own projects from scratch."
-              onClick={setSelectedPdf}
-            />
-            <ResourceCard
-              title="Web Development"
-              pdfUrl="/pdfs/web-dev.pdf"
-              imageUrl="/images/web-dev-img.jpeg"
-              description="Build stunning websites and apps with HTML, CSS, JS, and modern frameworks."
-              onClick={setSelectedPdf}
-            />
-            <ResourceCard
-              title="App Development"
-              pdfUrl="/pdfs/app-dev.pdf"
-              imageUrl="/images/app-dev-img.jpeg"
-              description="Create mobile experiences for Android, iOS, and cross-platform apps."
-              onClick={setSelectedPdf}
-            />
-            <ResourceCard
-              title="AI/ML"
-              pdfUrl="/pdfs/aiml.pdf"
-              imageUrl="/images/aiml-img.jpeg"
-              description="Explore machine learning, neural networks, and smart data solutions."
-              onClick={setSelectedPdf}
-            />
-            <ResourceCard
-              title="IoT"
-              pdfUrl="/pdfs/iot.pdf"
-              imageUrl="/images/iot-img.jpeg"
-              description="Connect devices, sensors, and the world around you with IoT technologies."
-              onClick={setSelectedPdf}
-            />
-            <ResourceCard
-              title="Blockchain"
-              pdfUrl="/pdfs/blockchain.pdf"
-              imageUrl="/images/block-chain-img.jpeg"
-              description="Dive into decentralized tech, cryptocurrencies, and smart contracts."
-              onClick={setSelectedPdf}
-            />
-            <ResourceCard
-              title="Cloud Computing"
-              pdfUrl="/pdfs/cloud.pdf"
-              imageUrl="/images/cloud-img.jpeg"
-              description="Dive into decentralized tech, cryptocurrencies, and smart contracts."
-              onClick={setSelectedPdf}
-            />
-            <ResourceCard
-              title="Robotics"
-              pdfUrl="/pdfs/robotics.pdf"
-              imageUrl="/images/robotics-img.jpeg"
-              description="Dive into decentralized tech, cryptocurrencies, and smart contracts."
-              onClick={setSelectedPdf}
-            />
-            <ResourceCard
-              title="Cybersecurity"
-              pdfUrl="/pdfs/cybersec.pdf"
-              imageUrl="/images/cyber-sec-img.jpeg"
-              description="Dive into decentralized tech, cryptocurrencies, and smart contracts."
-              onClick={setSelectedPdf}
-            />
+            {resources.map((r) => (
+              <ResourceCard
+                key={r.id}
+                title={r.title}
+                pdfUrl={r.pdf_url || r.link_url}
+                imageUrl={r.image_url}
+                description={r.description}
+                onClick={setSelectedPdf}
+              />
+            ))}
           </motion.div>
       </section>
 
