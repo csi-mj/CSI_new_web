@@ -62,7 +62,10 @@ export const metadata: Metadata = {
     type: 'website'
   },
   robots: { index: true, follow: true },
-  alternates: { canonical: '/' }
+  alternates: { canonical: '/' },
+  verification: {
+    google: 'pdD89cAr0bl-Gj_8qS9y57KoK5ZN0o-suyC7CX4fbfY'
+  }
 };
 
 const organizationJsonLd = {
