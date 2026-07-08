@@ -43,8 +43,25 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: 'CSI',
-  description: 'CSI'
+  metadataBase: new URL('https://csi-mjcet.in'),
+  title: {
+    default: 'Computer Society of India | MJCET',
+    template: '%s | CSI MJCET'
+  },
+  description:
+    'CSI MJCET is the Computer Society of India student chapter at Muffakham Jah College of Engineering & Technology, Hyderabad. Empowering students through hackathons, workshops, and tech events since 2014.',
+  keywords: ['CSI MJCET', 'Computer Society of India', 'MJCET', 'Hack Revolution', 'Hyderabad', 'student chapter'],
+  openGraph: {
+    title: 'Computer Society of India | MJCET',
+    description:
+      'Official CSI student chapter at MJCET, Hyderabad — hackathons, workshops, and a community of future tech leaders.',
+    url: 'https://csi-mjcet.in',
+    siteName: 'CSI MJCET',
+    images: ['/logos/csi_logo.png'],
+    locale: 'en_IN',
+    type: 'website'
+  },
+  robots: { index: true, follow: true }
 };
 
 export default function RootLayout({
