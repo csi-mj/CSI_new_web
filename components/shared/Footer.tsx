@@ -11,7 +11,6 @@ import { FaMedium } from 'react-icons/fa'
 
 function Footer() {
   const pathname = usePathname();
-  if (pathname?.startsWith('/admin')) return null;
 
   const socialLinks = [
     { icon: Github, href: 'https://github.com/orgs/csi-mj', label: 'GitHub' },
@@ -31,6 +30,9 @@ function Footer() {
 
   const [showDev, setShowDev] = useState(false)
   const devRef = useRef<HTMLDivElement | null>(null)
+
+  // Hide the public site footer inside the admin portal (after all hooks!)
+  if (pathname?.startsWith('/admin')) return null;
 
 
 
