@@ -1,7 +1,8 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import { Button, api, useConfirm } from '../_components/ui';
+import { Button, Field, FileUpload, Modal, api, inputCls, useConfirm } from '../_components/ui';
+import type { SihSettings } from '@/lib/sihSettings';
 
 interface Reg {
   id: string;
@@ -19,6 +20,25 @@ export default function SihAdmin() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
   const { confirmDlg, dialog } = useConfirm();
+  const [settings, setSettings] = useState<SihSettings | null>(null);
+  const [editingSettings, setEditingSettings] = useState(false);
+  const [savingSettings, setSavingSettings] = useState(false);
+
+  useEffect(() => {
+    api('/api/admin/sih-settings', 'GET').then(setSettings).catch(() => {});
+  }, []);
+
+  const saveSettings = async () => {
+    if (!settings) return;
+    setSavingSettings(true);
+    try {
+      await api('/api/admin/sih-settings', 'PUT', settings);
+      setEditingSettings(false);
+    } catch (e) {
+      setError((e as Error).message);
+    }
+    setSavingSettings(false);
+  };
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -63,7 +83,10 @@ export default function SihAdmin() {
     <div>
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <h1 className="font-orbitron text-2xl font-bold text-white">SIH Registrations ({rows.length})</h1>
-        <Button variant="ghost" onClick={exportCsv} disabled={rows.length === 0}>Export CSV</Button>
+        <div className="flex gap-2">
+          <Button variant="ghost" onClick={() => setEditingSettings(true)} disabled={!settings}>Edit page content</Button>
+          <Button variant="ghost" onClick={exportCsv} disabled={rows.length === 0}>Export CSV</Button>
+        </div>
       </div>
 
       {error && <p className="mb-4 text-sm text-red-400">{error}</p>}
@@ -134,6 +157,43 @@ export default function SihAdmin() {
             </table>
           </div>
         </>
+      )}
+      {editingSettings && settings && (
+        <Modal title="Edit SIH page content" onClose={() => setEditingSettings(false)}>
+          <div className="space-y-4">
+            <label className="flex items-center gap-2 text-sm font-semibold text-white">
+              <input
+                type="checkbox"
+                checked={settings.is_open}
+                onChange={(e) => setSettings({ ...settings, is_open: e.target.checked })}
+              />
+              Registrations open
+            </label>
+            <Field label="Page title">
+              <input className={inputCls} value={settings.title} onChange={(e) => setSettings({ ...settings, title: e.target.value })} />
+            </Field>
+            <Field label="Intro paragraph">
+              <textarea className={inputCls} rows={4} value={settings.intro} onChange={(e) => setSettings({ ...settings, intro: e.target.value })} />
+            </Field>
+            <Field label="Details paragraph">
+              <textarea className={inputCls} rows={4} value={settings.details} onChange={(e) => setSettings({ ...settings, details: e.target.value })} />
+            </Field>
+            <Field label="Contact line">
+              <input className={inputCls} value={settings.contact} onChange={(e) => setSettings({ ...settings, contact: e.target.value })} />
+            </Field>
+            <FileUpload
+              folder="sih"
+              accept=".doc,.docx,.pdf"
+              label="Team details template (replaces the download)"
+              currentUrl={settings.template_url}
+              onUploaded={(url) => setSettings({ ...settings, template_url: url })}
+            />
+            <div className="flex justify-end gap-2 pt-2">
+              <Button variant="ghost" onClick={() => setEditingSettings(false)}>Cancel</Button>
+              <Button onClick={saveSettings} disabled={savingSettings}>{savingSettings ? 'Saving…' : 'Save'}</Button>
+            </div>
+          </div>
+        </Modal>
       )}
       {dialog}
     </div>

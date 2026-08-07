@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/browser';
+import { SIH_DEFAULTS, type SihSettings } from '@/lib/sihSettings';
 
 const inputCls =
   'w-full rounded-lg border border-white/10 bg-neutral-900 px-4 py-3 text-sm text-white placeholder-neutral-500 focus:border-red-500 focus:outline-none';
@@ -24,6 +25,14 @@ export default function SihRegistrationPage() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   const [done, setDone] = useState(false);
+  const [settings, setSettings] = useState<SihSettings>(SIH_DEFAULTS);
+
+  useEffect(() => {
+    fetch('/api/sih/settings')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((j) => j && setSettings(j))
+      .catch(() => {});
+  }, []);
 
   const isCollege = email?.toLowerCase().endsWith('@mjcollege.ac.in') ?? false;
 
@@ -83,33 +92,28 @@ export default function SihRegistrationPage() {
   return (
     <div className="mx-auto max-w-2xl px-4 pb-24">
       <div className="mb-8 rounded-2xl border-t-4 border-red-600 bg-neutral-900/60 p-6 md:p-8">
-        <h1 className="font-orbitron text-2xl font-bold text-white md:text-3xl">
-          Smart India Hackathon — Registration
-        </h1>
-        <p className="mt-4 text-sm leading-relaxed text-neutral-300">
-          Students interested in participating in the national-level <strong>Smart India Hackathon</strong> can
-          form a team of <strong>six students, including at least one female student</strong>, and register below.
-          Only the <strong>team leader</strong> should fill this form, using their{' '}
-          <strong>college email ID</strong> (…@mjcollege.ac.in).
-        </p>
-        <p className="mt-3 text-sm leading-relaxed text-neutral-300">
-          Once the problem statements are uploaded on the SIH website, prepare your abstract and a 15-minute
-          presentation. Winning teams from Hack Revolution (conducted by CSI &amp; E-Cell on 08-11-25) receive
-          direct entry — they can update their teams to a total of six students and submit before the deadline.
-        </p>
+        <h1 className="font-orbitron text-2xl font-bold text-white md:text-3xl">{settings.title}</h1>
+        <p className="mt-4 whitespace-pre-line text-sm leading-relaxed text-neutral-300">{settings.intro}</p>
+        {settings.details && (
+          <p className="mt-3 whitespace-pre-line text-sm leading-relaxed text-neutral-300">{settings.details}</p>
+        )}
         <a
-          href="/forms/Team-Details.docx"
+          href={settings.template_url}
           download
           className="mt-4 inline-block rounded-lg bg-white/10 px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/20"
         >
           ⬇ Download team details template
         </a>
-        <p className="mt-4 text-xs text-neutral-500">
-          Md Zainuddin Naveed · Assistant Professor, CSED · +91 80191 77889
-        </p>
+        {settings.contact && <p className="mt-4 text-xs text-neutral-500">{settings.contact}</p>}
       </div>
 
-      {checking ? (
+      {!settings.is_open ? (
+        <div className="rounded-2xl border border-white/10 bg-neutral-900/60 p-8 text-center">
+          <p className="text-sm text-neutral-300">
+            Registrations are currently <strong className="text-white">closed</strong>. Follow CSI MJCET for updates.
+          </p>
+        </div>
+      ) : checking ? (
         <p className="text-center text-neutral-500">Checking sign-in…</p>
       ) : !email ? (
         <div className="rounded-2xl border border-white/10 bg-neutral-900/60 p-8 text-center">

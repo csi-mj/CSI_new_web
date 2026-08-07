@@ -1,7 +1,7 @@
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { requireAdmin, adminError } from '@/lib/adminAuth';
 
-const ALLOWED_FOLDERS = ['team', 'events', 'magazines', 'resources'];
+const ALLOWED_FOLDERS = ['team', 'events', 'magazines', 'resources', 'sih'];
 const MAX_SIZE = 25 * 1024 * 1024; // 25 MB
 
 export async function POST(request: Request) {
