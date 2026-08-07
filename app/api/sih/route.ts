@@ -19,7 +19,9 @@ async function getCollegeUser() {
 
 export async function GET() {
   const { error, status, email } = await getCollegeUser();
-  if (error) return Response.json({ error }, { status });
+  if (error || !email) {
+    return Response.json({ error: error ?? 'Not signed in' }, { status });
+  }
 
   const { data } = await supabaseAdmin
     .from('sih_registrations')
@@ -32,7 +34,9 @@ export async function GET() {
 
 export async function POST(request: Request) {
   const { error, status, email } = await getCollegeUser();
-  if (error) return Response.json({ error }, { status });
+  if (error || !email) {
+    return Response.json({ error: error ?? 'Not signed in' }, { status });
+  }
 
   const { data: existing } = await supabaseAdmin
     .from('sih_registrations')
