@@ -3,7 +3,7 @@ import React, { useMemo } from "react";
 import { motion } from "framer-motion";
 import { Marquee } from "@/components/ui/marquee"
 import CardsDemo from "@/components/cards-demo-1"
-import gbData from "@/app/team/_data/gb.json";
+import gbData from "@/app/team/_data/2026-2027/gb.json";
 
 type GbItem = {
   id: number;
@@ -69,11 +69,7 @@ function MarqueeScrollComponent() {
 
   return (
     <div className="relative flex w-full flex-col items-center justify-center gap-20">
-      <motion.div
-        initial={{ opacity: 1, y: 120 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ amount: 0, once: true }}
-        transition={{ duration: .5, ease: "easeOut" }}
+      <div
       >
         <Marquee className="[--duration:40s]">
           {topRow.map((member, i) => (
@@ -87,12 +83,9 @@ function MarqueeScrollComponent() {
             />
           ))}
         </Marquee>
-      </motion.div>
-      <motion.div
-        initial={{ opacity: 1, y: 120 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ amount: 0, once: true }}
-        transition={{ duration: .5, ease: "easeOut", delay: 0.12 }}
+      </div>
+      <div
+        
       >
         <Marquee reverse className="[--duration:40s]">
           {bottomRow.map((member, i) => (
@@ -106,7 +99,7 @@ function MarqueeScrollComponent() {
             />
           ))}
         </Marquee>
-      </motion.div>
+      </div>
     </div>
   );
 }

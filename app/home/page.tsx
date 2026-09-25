@@ -28,13 +28,13 @@ export default function HomePage() {
         {/* <Landing /> */}
       </section>
 
-      <section className="mb-48">
+      {/* <section className="mb-48">
         <HackrevCta />
-      </section>
+      </section> */}
 
       <section className="relative mb-24" id="about">
         <div className="absolute h-[600px] inset-0 z-0 pointer-events-none">
-          <BackgroundBeams />
+          {/* <BackgroundBeams /> */}
         </div>
         <div className="flex w-full flex-col items-center">
           <About />
@@ -48,12 +48,8 @@ export default function HomePage() {
         <div className="relative z-20 text-neutral-100">
           <div className="relative z-10 w-full flex flex-col items-center pt-12">
             <Faculty />
-            <motion.div
+            <div
               className="text-center"
-              initial={{ opacity: 0, y: 80, scale: 0.9 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 1, ease: 'easeOut' }}
-              viewport={{ once: true }}
             >
               <Shuffle
                 text="GOVERNING BODY"
@@ -69,7 +65,7 @@ export default function HomePage() {
                 triggerOnce={true}
                 triggerOnHover={true}
               />
-            </motion.div>
+            </div>
 
             <MarqueeScroll />
           </div>

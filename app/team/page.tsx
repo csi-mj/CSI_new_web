@@ -8,9 +8,12 @@ import { Carousel, TeamMember } from './_components/Carousel';
 import GB from './_components/TeamCard';
 import NavTabs from './_components/NavTabs';
 import Shuffle from '@/components/Shuffle';
-import gbData from './_data/gb.json';
-import execData from './_data/exec.json';
-import coreData from './_data/core.json';
+import gbData25 from './_data/2025-2026/gb.json';
+import execData25 from './_data/2025-2026/exec.json';
+import coreData25 from './_data/2025-2026/core.json';
+import gbData26 from './_data/2026-2027/gb.json';
+import execData26 from './_data/2026-2027/exec.json';
+import coreData26 from './_data/2026-2027/core.json';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -81,6 +84,7 @@ const mapGbGroup = (pos: string): string => {
   const p = pos.trim();
   if (p === 'Chief Coordinator' || p === 'Associate CC') return 'Chief Coordinator';
   if (p === 'Deputy GS' || p === 'General Secretary') return 'General Secretary';
+  if (p === 'Treasurer' || p === 'Deputy Treasurer') return 'Treasurer';
   return p;
 };
 
@@ -169,10 +173,10 @@ const dbToGbRaw = (rows: DbMember[]): RawGbMember[] =>
   }));
 
 export default function TeamPage() {
-  // Start with bundled JSON, then replace with live DB data when it loads
-  const [gbRaw, setGbRaw] = useState<RawGbMember[]>(gbData as RawGbMember[]);
-  const [execRaw, setExecRaw] = useState<ExecRaw[]>(execData as ExecRaw[]);
-  const [coreRaw, setCoreRaw] = useState<ExecRaw[]>(coreData as ExecRaw[]);
+  const [dbGbRaw, setDbGbRaw] = useState<RawGbMember[] | null>(null);
+  const [dbExecRaw, setDbExecRaw] = useState<ExecRaw[] | null>(null);
+  const [dbCoreRaw, setDbCoreRaw] = useState<ExecRaw[] | null>(null);
+  const [activeYear, setActiveYear] = useState('2026-2027');
 
   useEffect(() => {
     const grab = async (url: string): Promise<DbMember[] | null> => {
@@ -191,11 +195,15 @@ export default function TeamPage() {
         grab('/api/team/core'),
         grab('/api/team/execom'),
       ]);
-      if (gb) setGbRaw(dbToGbRaw(gb));
-      if (core) setCoreRaw(dbToExecRaw(core));
-      if (exec) setExecRaw(dbToExecRaw(exec));
+      if (gb) setDbGbRaw(dbToGbRaw(gb));
+      if (core) setDbCoreRaw(dbToExecRaw(core));
+      if (exec) setDbExecRaw(dbToExecRaw(exec));
     })();
   }, []);
+
+  const gbRaw = activeYear === '2026-2027' ? (dbGbRaw || (gbData26 as RawGbMember[])) : (gbData25 as RawGbMember[]);
+  const execRaw = activeYear === '2026-2027' ? (dbExecRaw || (execData26 as ExecRaw[])) : (execData25 as ExecRaw[]);
+  const coreRaw = activeYear === '2026-2027' ? (dbCoreRaw || (coreData26 as ExecRaw[])) : (coreData25 as ExecRaw[]);
 
   const teams = useMemo(() => buildExecTeams(execRaw), [execRaw]);
   const groupedCoreCards = useMemo(() => buildCoreCards(coreRaw), [coreRaw]);
@@ -255,98 +263,107 @@ export default function TeamPage() {
   }, [execVisible, coreVisible]);
 
   return (
-    <div className="w-screen mt-20">
-      <section
-        ref={gbRef}
-        className="gb-section will-change-transform transform-gpu"
-        style={{ willChange: 'transform', transform: 'translateZ(0)', backfaceVisibility: 'hidden' as const, contain: 'paint' as const }}
-      >
-        <div className='w-full flex justify-center relative z-10'>
-          <Shuffle 
-              text="GOVERNING BODY" 
-              tag="h1"
-              className="font-orbitron !text-5xl mt-16 mb-8 md:!text-6xl !text-primary !normal-case !font-bold"
-              immediate={true}
-              loop={true}
-              loopDelay={2}
-              duration={0.4}
-              stagger={0.04}
-              shuffleTimes={4}
-              animationMode="evenodd"
-              triggerOnce={false}
-              triggerOnHover={true}
-            />
-        </div>
-         <div className="relative w-full md:px-6">
-        <div className="flex flex-wrap gap-2 justify-center mb-6">
-          <NavTabs tabs={gbTabs} activeIdx={activeGbIdx} onChange={setActiveGbIdx} />
-        </div>
+    <div className="w-screen mt-32">
+      <div className="w-full flex justify-center gap-4 relative z-20">
+         <NavTabs tabs={['2026-2027', '2025-2026']} activeIdx={activeYear === '2026-2027' ? 0 : 1} onChange={(idx) => setActiveYear(idx === 0 ? '2026-2027' : '2025-2026')} />
       </div>
-      <GB items={gbItems} />
-      </section>
-      <section
-        ref={execRef}
-        className="exec-section will-change-transform transform-gpu"
-        style={{ willChange: 'transform', transform: 'translateZ(0)', backfaceVisibility: 'hidden' as const, contain: 'paint' as const }}
-      >
-        <div className='w-full flex justify-center relative z-10'>
-          <Shuffle 
-              text="EXECUTIVE COMMITTEE" 
-              tag="h1"
-              className="font-orbitron !text-3xl mt-16 mb-8 md:!text-6xl !text-primary !normal-case !font-bold"
-              immediate={true}
-              loop={true}
-              loopDelay={2}
-              duration={0.4}
-              stagger={0.04}
-              shuffleTimes={2}
-              animationMode="evenodd"
-              triggerOnce={false}
-              triggerOnHover={true}
-            />
-        </div>
-      <div className="relative w-full px-2">
-        <div className="flex flex-wrap gap-2 justify-center">
-          <NavTabs tabs={teamTabs} activeIdx={activeIdx} onChange={setActiveIdx} />
-        </div>
-      </div>
-
-      {execVisible && activeTeam && (
-        <div className="w-full">
-          <Carousel teamMembers={activeTeam.teamMembers} teamName={activeTeam.name} />
-        </div>
-      )}
-      </section>
-       <section
-        ref={coreRef}
-        className="core-section will-change-transform transform-gpu"
-        style={{ willChange: 'transform', transform: 'translateZ(0)', backfaceVisibility: 'hidden' as const, contain: 'paint' as const }}
-      >
-        <div className='w-full flex justify-center relative z-10'>
-          <Shuffle 
-              text="CORE TEAM" 
-              tag="h1"
-              className="font-orbitron !text-5xl mt-16 mb-8 md:!text-6xl !text-primary !normal-case !font-bold"
-              immediate={true}
-              loop={true}
-              loopDelay={2}
-              duration={0.4}
-              stagger={0.04}
-              shuffleTimes={4}
-              animationMode="evenodd"
-              triggerOnce={false}
-              triggerOnHover={true}
-            />
-        </div>
-         <div className="relative w-full px-2">
-        {coreVisible && (
-          <div className="flex flex-wrap gap-2 justify-center mb-6">
-            <NavTabs tabs={coreTeamTabs} activeIdx={activeCoreIdx} onChange={setActiveCoreIdx} />
+      {gbTabs.length > 0 && (
+        <section
+          ref={gbRef}
+          className="gb-section will-change-transform transform-gpu"
+          style={{ willChange: 'transform', transform: 'translateZ(0)', backfaceVisibility: 'hidden' as const, contain: 'paint' as const }}
+        >
+          <div className='w-full flex justify-center relative z-10'>
+            <Shuffle 
+                text="GOVERNING BODY" 
+                tag="h1"
+                className="font-orbitron !text-5xl mt-16 mb-8 md:!text-6xl !text-primary !normal-case !font-bold"
+                immediate={true}
+                loop={true}
+                loopDelay={2}
+                duration={0.4}
+                stagger={0.04}
+                shuffleTimes={4}
+                animationMode="evenodd"
+                triggerOnce={false}
+                triggerOnHover={true}
+              />
           </div>
-        )}
-      </div>
-      {coreVisible && <GB items={coreItems} />}
-      </section>
+          <div className="relative w-full md:px-6">
+            <div className="flex flex-wrap gap-2 justify-center mb-6">
+              <NavTabs tabs={gbTabs} activeIdx={activeGbIdx} onChange={setActiveGbIdx} />
+            </div>
+          </div>
+          <GB items={gbItems} />
+        </section>
+      )}
+      {teamTabs.length > 0 && (
+        <section
+          ref={execRef}
+          className="exec-section will-change-transform transform-gpu"
+          style={{ willChange: 'transform', transform: 'translateZ(0)', backfaceVisibility: 'hidden' as const, contain: 'paint' as const }}
+        >
+          <div className='w-full flex justify-center relative z-10'>
+            <Shuffle 
+                text="EXECUTIVE COMMITTEE" 
+                tag="h1"
+                className="font-orbitron !text-3xl mt-16 mb-8 md:!text-6xl !text-primary !normal-case !font-bold"
+                immediate={true}
+                loop={true}
+                loopDelay={2}
+                duration={0.4}
+                stagger={0.04}
+                shuffleTimes={2}
+                animationMode="evenodd"
+                triggerOnce={false}
+                triggerOnHover={true}
+              />
+          </div>
+          <div className="relative w-full px-2">
+            <div className="flex flex-wrap gap-2 justify-center">
+              <NavTabs tabs={teamTabs} activeIdx={activeIdx} onChange={setActiveIdx} />
+            </div>
+          </div>
+
+          {execVisible && activeTeam && (
+            <div className="w-full">
+              <Carousel teamMembers={activeTeam.teamMembers} teamName={activeTeam.name} />
+            </div>
+          )}
+        </section>
+      )}
+      {coreTeamTabs.length > 0 && (
+        <section
+          ref={coreRef}
+          className="core-section will-change-transform transform-gpu"
+          style={{ willChange: 'transform', transform: 'translateZ(0)', backfaceVisibility: 'hidden' as const, contain: 'paint' as const }}
+        >
+          <div className='w-full flex justify-center relative z-10'>
+            <Shuffle 
+                text="CORE TEAM" 
+                tag="h1"
+                className="font-orbitron !text-5xl mt-16 mb-8 md:!text-6xl !text-primary !normal-case !font-bold"
+                immediate={true}
+                loop={true}
+                loopDelay={2}
+                duration={0.4}
+                stagger={0.04}
+                shuffleTimes={4}
+                animationMode="evenodd"
+                triggerOnce={false}
+                triggerOnHover={true}
+              />
+          </div>
+          <div className="relative w-full px-2">
+            {coreVisible && (
+              <div className="flex flex-wrap gap-2 justify-center mb-6">
+                <NavTabs tabs={coreTeamTabs} activeIdx={activeCoreIdx} onChange={setActiveCoreIdx} />
+              </div>
+            )}
+          </div>
+          {coreVisible && <GB items={coreItems} />}
+        </section>
+      )}
     </div>
   );
 }
