@@ -13,7 +13,7 @@ type GbItem = {
   "Linkedin Id"?: string;
   "Email Id"?: string;
   "Github Id"?: string;
-  "Formal Picture"?: string;
+  "Formal Picture"?: string | null;
   "Governing Body Position": string;
 };
 
