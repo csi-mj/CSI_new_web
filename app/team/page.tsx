@@ -7,6 +7,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Carousel, TeamMember } from './_components/Carousel';
 import GB from './_components/TeamCard';
 import NavTabs from './_components/NavTabs';
+import GbCollage, { GbMember } from './_components/GbCollage';
 import Shuffle from '@/components/Shuffle';
 import gbData25 from './_data/2025-2026/gb.json';
 import execData25 from './_data/2025-2026/exec.json';
@@ -130,21 +131,19 @@ const buildCoreCards = (coreRawData: ExecRaw[]) =>
     return acc;
   }, {} as Record<string, CardItem[]>);
 
-const buildGbByPosition = (rawGbData: RawGbMember[]) =>
-  rawGbData.reduce((acc, m) => {
-    const original = m['Governing Body Position'].trim();
-    const key = mapGbGroup(original);
-    const item: CardItem = {
+const buildGbMembers = (rawGbData: RawGbMember[]): GbMember[] =>
+  rawGbData.map((m) => {
+    const role = m['Governing Body Position'].trim();
+    return {
+      id: String(m.id),
       name: m.Name,
-      profession: original,
+      role,
+      group: mapGbGroup(role),
       image: m['Formal Picture'] || undefined,
       githubUrl: toGithubUrl(m['Github Id'] || undefined),
       linkedinUrl: toUrl(m['Linkedin Id'] || undefined),
     };
-    if (!acc[key]) acc[key] = [];
-    acc[key].push(item);
-    return acc;
-  }, {} as Record<string, CardItem[]>);
+  });
 
 // DB row -> raw shapes used by the builders
 const dbToExecRaw = (rows: DbMember[]): ExecRaw[] =>
@@ -207,20 +206,13 @@ export default function TeamPage() {
 
   const teams = useMemo(() => buildExecTeams(execRaw), [execRaw]);
   const groupedCoreCards = useMemo(() => buildCoreCards(coreRaw), [coreRaw]);
-  const gbByPosition = useMemo(() => buildGbByPosition(gbRaw), [gbRaw]);
+  const gbMembers = useMemo(() => buildGbMembers(gbRaw), [gbRaw]);
 
   const [activeIdx, setActiveIdx] = useState(0);
   const teamTabs = useMemo(() => teams.map((t) => t.name), [teams]);
   const activeTeam = useMemo(
     () => teams[Math.min(activeIdx, Math.max(teams.length - 1, 0))],
     [teams, activeIdx]
-  );
-
-  const [activeGbIdx, setActiveGbIdx] = useState(0);
-  const gbTabs = useMemo(() => Object.keys(gbByPosition), [gbByPosition]);
-  const gbItems = useMemo(
-    () => (gbTabs.length ? gbByPosition[gbTabs[Math.min(activeGbIdx, gbTabs.length - 1)]] : []),
-    [gbByPosition, gbTabs, activeGbIdx]
   );
 
   const [activeCoreIdx, setActiveCoreIdx] = useState(0);
@@ -267,34 +259,13 @@ export default function TeamPage() {
       <div className="w-full flex justify-center gap-4 relative z-20">
          <NavTabs tabs={['2026-2027', '2025-2026']} activeIdx={activeYear === '2026-2027' ? 0 : 1} onChange={(idx) => setActiveYear(idx === 0 ? '2026-2027' : '2025-2026')} />
       </div>
-      {gbTabs.length > 0 && (
+      {gbMembers.length > 0 && (
         <section
           ref={gbRef}
           className="gb-section will-change-transform transform-gpu"
           style={{ willChange: 'transform', transform: 'translateZ(0)', backfaceVisibility: 'hidden' as const, contain: 'paint' as const }}
         >
-          <div className='w-full flex justify-center relative z-10'>
-            <Shuffle 
-                text="GOVERNING BODY" 
-                tag="h1"
-                className="font-orbitron !text-5xl mt-16 mb-8 md:!text-6xl !text-primary !normal-case !font-bold"
-                immediate={true}
-                loop={true}
-                loopDelay={2}
-                duration={0.4}
-                stagger={0.04}
-                shuffleTimes={4}
-                animationMode="evenodd"
-                triggerOnce={false}
-                triggerOnHover={true}
-              />
-          </div>
-          <div className="relative w-full md:px-6">
-            <div className="flex flex-wrap gap-2 justify-center mb-6">
-              <NavTabs tabs={gbTabs} activeIdx={activeGbIdx} onChange={setActiveGbIdx} />
-            </div>
-          </div>
-          <GB items={gbItems} />
+          <GbCollage members={gbMembers} term={activeYear.replace(/-(\d{2})(\d{2})$/, '–$2')} />
         </section>
       )}
       {teamTabs.length > 0 && (

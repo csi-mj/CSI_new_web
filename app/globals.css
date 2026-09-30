@@ -12,6 +12,7 @@
   --font-orbitron: var(--font-orbitron);
   --font-inter: var(--font-inter);
   --font-space-grotesk: var(--font-space-grotesk);
+  --font-instrument-serif: var(--font-instrument-serif);
   --font-poppins: var(--font-poppins);
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
@@ -76,6 +77,12 @@
     transform: translateY(0);}
   to {
     transform: translateY(calc(-100% - var(--gap)));}}}
+
+/* Polaroid marquee loop: track holds two identical copies, so -50% is one full copy */
+@keyframes polaroid-roll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
 
 :root {
   --radius: 0.625rem;

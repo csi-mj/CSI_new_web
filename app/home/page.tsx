@@ -10,7 +10,8 @@ import HackrevCta from './_components/Hot/HackrevCta';
 import About from './_components/about/About';
 import { Bento } from './_components/about/Bento';
 import Faculty from './_components/Mem/Faculty';
-import { MarqueeScroll } from './_components/Mem/MarqueeScroll';
+import { PolaroidMarquee } from './_components/Mem/PolaroidMarquee';
+import CsiMarquee from './_components/CsiMarquee';
 import Title from './_components/connect/Title';
 import Orbit from './_components/connect/Orbit';
 import { motion } from "framer-motion";
@@ -42,7 +43,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="relative pb-24" id="faculty">
+      <section className="relative pb-6" id="faculty">
 
 
         <div className="relative z-20 text-neutral-100">
@@ -67,12 +68,14 @@ export default function HomePage() {
               />
             </div>
 
-            <MarqueeScroll />
+            <PolaroidMarquee />
           </div>
         </div>
       </section>
 
-      <section className="relative pt-24" id="connect">
+      <CsiMarquee />
+
+      <section className="relative pt-6" id="connect">
         <div className="relative z-20 pointer-events-auto">
           <Title />
         </div>

@@ -121,7 +121,7 @@ const Hero = () => {
           </div>
 
           <div className="hero-greeting mt-8 flex min-h-[2.5rem] w-full items-center justify-center sm:mt-3">
-            <p id='cursor' className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-center">
+            <div id='cursor' className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-center">
               <div className="flex">
                 <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">C</span>
                 <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">o</span>
@@ -148,7 +148,7 @@ const Hero = () => {
                 <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">t</span>
                 <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">e</span>
               </div>
-            </p>
+            </div>
           </div>
         </div>
 

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono, Silkscreen, Orbitron, Inter, Space_Grotesk,Poppins } from 'next/font/google';
+import { Geist, Geist_Mono, Silkscreen, Orbitron, Inter, Space_Grotesk, Poppins, Instrument_Serif } from 'next/font/google';
 import './globals.css';
 import Navbar from '@/components/shared/Navbar';
 import { CursorWrapper } from '@/components/shared/CursorWrapper';
@@ -34,6 +34,13 @@ const orbitron = Orbitron({
 
 const inter = Inter({
   variable: '--font-inter',
+  subsets: ['latin']
+});
+
+const instrumentSerif = Instrument_Serif({
+  weight: '400',
+  style: ['normal', 'italic'],
+  variable: '--font-instrument-serif',
   subsets: ['latin']
 });
 
@@ -106,7 +113,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${silkscreen.variable} ${orbitron.variable} ${inter.variable} ${spaceGrotesk.variable} ${poppins.variable} min-h-screen bg-black text-white antialiased m-0 p-0`}
+        className={`${geistSans.variable} ${geistMono.variable} ${silkscreen.variable} ${orbitron.variable} ${inter.variable} ${spaceGrotesk.variable} ${instrumentSerif.variable} ${poppins.variable} min-h-screen bg-black text-white antialiased m-0 p-0`}
       >
         <script
           type="application/ld+json"
