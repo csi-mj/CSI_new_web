@@ -6,6 +6,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { FaGithub, FaLinkedinIn } from 'react-icons/fa';
 import NavTabs from './NavTabs';
+import MemberLightbox from '@/components/shared/MemberLightbox';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -17,6 +18,7 @@ export type GbMember = {
   image?: string;
   linkedinUrl?: string;
   githubUrl?: string;
+  email?: string;
 };
 
 type GbCollageProps = {
@@ -75,6 +77,7 @@ const SocialIcon: React.FC<{ href?: string; label: string; hoverClass: string; c
   href ? (
     <a
       href={href}
+      onClick={(e) => e.stopPropagation()}
       target="_blank"
       rel="noopener noreferrer"
       aria-label={label}
@@ -88,23 +91,38 @@ const SocialIcon: React.FC<{ href?: string; label: string; hoverClass: string; c
     </span>
   );
 
-const PrintCard: React.FC<{ member: GbMember; index: number; large: boolean }> = ({ member, index, large }) => {
+const PrintCard: React.FC<{ member: GbMember; index: number; large: boolean; onOpen: (el: HTMLElement, viaKeyboard: boolean) => void }> = ({
+  member,
+  index,
+  large,
+  onOpen,
+}) => {
   const tilt = tiltFor(index);
   return (
     <div
       data-gb-card
       data-tilt={tilt}
-      className="group relative -mx-1 md:-mx-3 hover:z-30 focus-within:z-30"
+      className="group relative -mx-1 md:-mx-3 hover:z-30 has-[:focus-visible]:z-30"
       style={{ opacity: 0, marginTop: nudgeFor(index), ['--tilt' as string]: tilt }}
     >
       <article
+        role="button"
         tabIndex={0}
+        aria-haspopup="dialog"
         aria-label={`${member.name}, ${member.role}`}
-        className={`bg-[#ecebe6] p-1.5 md:p-2 pb-0 md:pb-0 shadow-[0_18px_40px_-12px_rgba(0,0,0,0.85)] outline-none transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none group-hover:[transform:rotate(calc(var(--tilt)*-1deg))_translateY(-22px)_scale(1.12)] group-focus-within:[transform:rotate(calc(var(--tilt)*-1deg))_translateY(-22px)_scale(1.12)] group-hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.95)] focus-visible:ring-2 focus-visible:ring-white/70 ${
+        data-polaroid-id={member.id}
+        onClick={(e) => onOpen(e.currentTarget, false)}
+        onKeyDown={(e) => {
+          if (e.target === e.currentTarget && (e.key === 'Enter' || e.key === ' ')) {
+            e.preventDefault();
+            onOpen(e.currentTarget, true);
+          }
+        }}
+        className={`cursor-pointer bg-[#ecebe6] p-1.5 md:p-2 pb-0 md:pb-0 shadow-[0_18px_40px_-12px_rgba(0,0,0,0.85)] outline-none transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none group-hover:[transform:rotate(calc(var(--tilt)*-1deg))_translateY(-22px)_scale(1.12)] group-has-[:focus-visible]:[transform:rotate(calc(var(--tilt)*-1deg))_translateY(-22px)_scale(1.12)] group-hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.95)] focus-visible:ring-2 focus-visible:ring-white/70 ${
           large ? 'w-[42vw] max-w-[190px] md:w-[210px] md:max-w-none lg:w-[230px]' : 'w-[40vw] max-w-[170px] md:w-[150px] md:max-w-none lg:w-[172px] xl:w-[188px]'
         }`}
       >
-        <div className="relative aspect-[4/5] overflow-hidden bg-neutral-300 grayscale transition-[filter] duration-500 group-hover:grayscale-0 group-focus-within:grayscale-0">
+        <div className="relative aspect-[4/5] overflow-hidden bg-neutral-300 grayscale transition-[filter] duration-500 group-hover:grayscale-0 group-has-[:focus-visible]:grayscale-0">
           {member.image ? (
             <Image
               src={member.image}
@@ -158,6 +176,7 @@ export default function GbCollage({ members, term }: GbCollageProps) {
   const [isDesktop, setIsDesktop] = useState(true);
   const [activeTab, setActiveTab] = useState(0);
   const [shownTab, setShownTab] = useState(0);
+  const [open, setOpen] = useState<{ id: string; el: HTMLElement; viaKeyboard: boolean } | null>(null);
 
   const tabs = useMemo(() => ['All', ...Array.from(new Set(members.map((m) => m.group)))], [members]);
 
@@ -390,11 +409,19 @@ export default function GbCollage({ members, term }: GbCollageProps) {
             <div
               key={`row-${shownTab}-${r}`}
               data-gb-row
-              className={`relative flex justify-center hover:z-30 focus-within:z-30 ${r === 0 ? '' : '-mt-1 md:-mt-2'}`}
+              className={`relative flex justify-center hover:z-30 has-[:focus-visible]:z-30 ${r === 0 ? '' : '-mt-1 md:-mt-2'}`}
             >
               {row.map((member) => {
                 const index = slot++;
-                return <PrintCard key={member.id} member={member} index={index} large={large} />;
+                return (
+                  <PrintCard
+                    key={member.id}
+                    member={member}
+                    index={index}
+                    large={large}
+                    onOpen={(el, viaKeyboard) => setOpen({ id: member.id, el, viaKeyboard })}
+                  />
+                );
               })}
             </div>
           ))}
@@ -411,6 +438,10 @@ export default function GbCollage({ members, term }: GbCollageProps) {
         <span>The chapter</span>
         <span>Forward</span>
       </div>
+
+      {open && (
+        <MemberLightbox members={visible} openId={open.id} originEl={open.el} restoreFocus={open.viaKeyboard} photoAspect="portrait" onClose={() => setOpen(null)} />
+      )}
     </div>
   );
 }

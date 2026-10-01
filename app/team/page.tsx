@@ -142,6 +142,7 @@ const buildGbMembers = (rawGbData: RawGbMember[]): GbMember[] =>
       image: m['Formal Picture'] || undefined,
       githubUrl: toGithubUrl(m['Github Id'] || undefined),
       linkedinUrl: toUrl(m['Linkedin Id'] || undefined),
+      email: m['Email Id'] && m['Email Id'].includes('@') ? m['Email Id'].trim() : undefined,
     };
   });
 

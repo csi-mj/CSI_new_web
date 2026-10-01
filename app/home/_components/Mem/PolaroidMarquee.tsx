@@ -1,15 +1,17 @@
 'use client';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 import { FaGithub, FaLinkedinIn } from 'react-icons/fa';
 import gbData from '@/app/team/_data/2026-2027/gb.json';
+import MemberLightbox from '@/components/shared/MemberLightbox';
 
 type GbJson = {
   id: number | string;
   Name: string;
   'Linkedin Id'?: string;
   'Github Id'?: string;
+  'Email Id'?: string;
   'Formal Picture'?: string | null;
   'Governing Body Position': string;
 };
@@ -22,6 +24,7 @@ type DbMember = {
   image_url: string | null;
   linkedin: string | null;
   github: string | null;
+  mail: string | null;
   gb_position: string | null;
 };
 
@@ -32,6 +35,7 @@ type Member = {
   image?: string;
   linkedinUrl?: string;
   githubUrl?: string;
+  email?: string;
 };
 
 const isEmpty = (v: string) => !v || v === 'N/A' || v === 'NA' || v === '-' || v === '#';
@@ -50,6 +54,11 @@ const toGithubUrl = (val?: string | null): string | undefined => {
   return `https://github.com/${v}`;
 };
 
+const toEmail = (val?: string | null): string | undefined => {
+  const v = val?.trim() ?? '';
+  return !isEmpty(v) && v.includes('@') ? v : undefined;
+};
+
 const fromJson = (rows: GbJson[]): Member[] =>
   rows.map((m) => ({
     id: String(m.id),
@@ -58,6 +67,7 @@ const fromJson = (rows: GbJson[]): Member[] =>
     image: m['Formal Picture'] || undefined,
     linkedinUrl: toUrl(m['Linkedin Id']),
     githubUrl: toGithubUrl(m['Github Id']),
+    email: toEmail(m['Email Id']),
   }));
 
 const fromDb = (rows: DbMember[]): Member[] =>
@@ -68,6 +78,7 @@ const fromDb = (rows: DbMember[]): Member[] =>
     image: r.image_url || undefined,
     linkedinUrl: toUrl(r.linkedin),
     githubUrl: toGithubUrl(r.github),
+    email: toEmail(r.mail),
   }));
 
 const initials = (name: string) =>
@@ -119,20 +130,21 @@ const Polaroid: React.FC<{
   tilt: number;
   active: boolean;
   interactive: boolean;
-  onToggle: () => void;
-}> = ({ member, tilt, active, interactive, onToggle }) => (
+  onOpen: (el: HTMLElement, viaKeyboard: boolean) => void;
+}> = ({ member, tilt, active, interactive, onOpen }) => (
   <li className="shrink-0 px-2.5 py-6 md:px-4 md:py-8" aria-hidden={!interactive || undefined}>
     <div
       role={interactive ? 'button' : undefined}
       tabIndex={interactive ? 0 : -1}
       aria-label={interactive ? `${member.name}, ${member.role}` : undefined}
-      aria-pressed={interactive ? active : undefined}
+      aria-haspopup={interactive ? 'dialog' : undefined}
       data-active={active}
-      onClick={onToggle}
+      data-polaroid-id={member.id}
+      onClick={(e) => onOpen(e.currentTarget, false)}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
-          onToggle();
+          onOpen(e.currentTarget, true);
         }
       }}
       style={{ ['--tilt' as string]: `${tilt}deg` }}
@@ -151,7 +163,7 @@ const Polaroid: React.FC<{
           )}
         </div>
 
-        <div className="absolute right-1.5 top-1.5 flex gap-1 opacity-0 transition-opacity duration-300 group-hover/frame:opacity-100 group-focus-within/frame:opacity-100 group-data-[active=true]/frame:opacity-100">
+        <div className="absolute right-1.5 top-1.5 flex gap-1 opacity-0 transition-opacity duration-300 group-hover/frame:opacity-100 group-has-[:focus-visible]/frame:opacity-100 group-data-[active=true]/frame:opacity-100">
           <Social href={member.linkedinUrl} label={`${member.name} on LinkedIn`} focusable={interactive}>
             <FaLinkedinIn size={13} aria-hidden />
           </Social>
@@ -178,7 +190,7 @@ const Polaroid: React.FC<{
 
 function PolaroidMarqueeComponent() {
   const [members, setMembers] = useState<Member[]>(() => fromJson(gbData as GbJson[]));
-  const [activeId, setActiveId] = useState<string | null>(null);
+  const [open, setOpen] = useState<{ id: string; el: HTMLElement; viaKeyboard: boolean } | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -202,7 +214,7 @@ function PolaroidMarqueeComponent() {
     [members]
   );
 
-  const toggle = (id: string) => setActiveId((cur) => (cur === id ? null : id));
+  const closeLightbox = useCallback(() => setOpen(null), []);
 
   return (
     <div className="flex w-full flex-col overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]">
@@ -210,13 +222,14 @@ function PolaroidMarqueeComponent() {
         if (list.length === 0) return null;
         const reps = Math.max(1, Math.ceil(MIN_PER_COPY / list.length));
         const copy = Array.from({ length: reps }, () => list).flat();
-        const paused = list.some((m) => m.id === activeId);
+        // Keep the row still while the popup is open so the polaroid can fly back to its spot
+        const paused = open !== null;
         const { reverse } = ROWS[r];
         const duration = `${copy.length * SECONDS_PER_PRINT}s`;
         return (
           <div key={r} className="group/row">
             <div
-              className={`flex w-max animate-[polaroid-roll_var(--roll-duration)_linear_infinite] group-hover/row:[animation-play-state:paused] group-focus-within/row:[animation-play-state:paused] motion-reduce:animate-none ${
+              className={`flex w-max animate-[polaroid-roll_var(--roll-duration)_linear_infinite] group-hover/row:[animation-play-state:paused] group-has-[:focus-visible]/row:[animation-play-state:paused] motion-reduce:animate-none ${
                 reverse ? '[animation-direction:reverse]' : ''
               } ${paused ? '[animation-play-state:paused]' : ''}`}
               style={{ ['--roll-duration' as string]: duration }}
@@ -231,9 +244,9 @@ function PolaroidMarqueeComponent() {
                         key={`${c}-${i}-${m.id}`}
                         member={m}
                         tilt={tiltFor(r * 11 + (i % list.length))}
-                        active={activeId === m.id}
+                        active={open?.id === m.id}
                         interactive={interactive}
-                        onToggle={() => toggle(m.id)}
+                        onOpen={(el, viaKeyboard) => setOpen({ id: m.id, el, viaKeyboard })}
                       />
                     );
                   })}
@@ -243,6 +256,7 @@ function PolaroidMarqueeComponent() {
           </div>
         );
       })}
+      {open && <MemberLightbox members={members} openId={open.id} originEl={open.el} restoreFocus={open.viaKeyboard} onClose={closeLightbox} />}
     </div>
   );
 }
