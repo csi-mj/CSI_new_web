@@ -8,9 +8,10 @@ import Cursor from '@/components/ui/cursor';
 import Hero from './_components/hero/Hero';
 import HackrevCta from './_components/Hot/HackrevCta';
 import About from './_components/about/About';
-import { Bento } from './_components/about/Bento';
 import Faculty from './_components/Mem/Faculty';
 import { PolaroidMarquee } from './_components/Mem/PolaroidMarquee';
+import { Timeline } from './_components/Timeline/timeline';
+import { timelineData } from './_components/Timeline/timelineData';
 import CsiMarquee from './_components/CsiMarquee';
 import Title from './_components/connect/Title';
 import Orbit from './_components/connect/Orbit';
@@ -39,7 +40,6 @@ export default function HomePage() {
         </div>
         <div className="flex w-full flex-col items-center">
           <About />
-          <Bento />
         </div>
       </section>
 
@@ -71,6 +71,10 @@ export default function HomePage() {
             <PolaroidMarquee />
           </div>
         </div>
+      </section>
+      <CsiMarquee />  
+      <section className="relative w-full" id="timeline">
+        <Timeline data={timelineData} />
       </section>
 
       <CsiMarquee />

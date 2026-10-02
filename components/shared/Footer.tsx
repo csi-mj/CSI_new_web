@@ -146,14 +146,14 @@ function Footer() {
                   <User2 className="w-8 h-8 text-primary" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-white mb-1">Affan</h3>
+                  <h3 className="text-xl font-bold text-white mb-1">Meer</h3>
                   <p className="text-zinc-400 text-sm mb-4">CSI Chief Coordinator</p>
                   <a
-                    href="tel:+919121795950"
+                    href="tel:+916304739303"
                     className="flex items-center justify-center gap-2 text-primary hover:text-primary/80 transition-colors"
                   >
                     <Phone className="w-4 h-4" />
-                    <span className="font-mono text-sm">+91 9121795950</span>
+                    <span className="font-mono text-sm">+91 63047 39303</span>
                   </a>
                 </div>
               </div>
@@ -166,14 +166,14 @@ function Footer() {
                   <User2 className="w-8 h-8 text-primary" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-white mb-1">Touseef</h3>
+                  <h3 className="text-xl font-bold text-white mb-1">Nusrah</h3>
                   <p className="text-zinc-400 text-sm mb-4">CSI Chief Coordinator</p>
                   <a
-                    href="tel:+919989598636"
+                    href="tel:+917997098324"
                     className="flex items-center justify-center gap-2 text-primary hover:text-primary/80 transition-colors"
                   >
                     <Phone className="w-4 h-4" />
-                    <span className="font-mono text-sm">+91 9989598636</span>
+                    <span className="font-mono text-sm">+91 79970 98324</span>
                   </a>
                 </div>
               </div>
@@ -186,14 +186,14 @@ function Footer() {
                   <User2 className="w-8 h-8 text-primary" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-white mb-1">Abdullah</h3>
+                  <h3 className="text-xl font-bold text-white mb-1">Danish</h3>
                   <p className="text-zinc-400 text-sm mb-4">CSI Chief Coordinator</p>
                   <a
-                    href="tel:+917780227803"
+                    href="tel:+918106110632"
                     className="flex items-center justify-center gap-2 text-primary hover:text-primary/80 transition-colors"
                   >
                     <Phone className="w-4 h-4" />
-                    <span className="font-mono text-sm">+91 7780227803</span>
+                    <span className="font-mono text-sm">+91 81061 10632</span>
                   </a>
                 </div>
               </div>
