@@ -54,12 +54,12 @@ export default function Faculty() {
     duration: shouldReduceMotion ? 0 : 0.8,
     ease: [0.22, 1, 0.36, 1],
   }}
-  className="relative h-full min-h-[440px] overflow-hidden rounded-2xl border border-red-500/40 sm:min-h-[480px] lg:min-h-0"
+  className="group  relative h-full min-h-[440px] overflow-hidden rounded-2xl border border-red-500/40 sm:min-h-[480px] lg:min-h-0"
 >
   <img
     src={image.src}
     alt="CSI-MJCET Faculty Advisor"
-    className="absolute inset-0 h-full w-full object-cover object-center"
+    className="absolute transition-transform duration-700 ease-in-out group-hover:scale-110 inset-0 h-full w-full object-cover object-center"
   />
 </motion.div>
 
