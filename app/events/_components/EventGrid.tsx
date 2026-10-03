@@ -1,78 +1,38 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import EventCard from "./EventCard";
-import type { Event } from "@/lib/types/events";
+import EventCard from './EventCard';
+import type { Event } from '@/lib/types/events';
+import { useEvents } from '../hooks/useEvents';
+import { DataBoundary } from '@/components/ui/data-boundary';
 
-import { staticEvents } from "../_data/staticEvents";
-
-type Tab = "upcoming" | "ongoing" | "past";
-
-const endpointFor: Record<Tab, string> = {
-  upcoming: "/api/events/upcoming",
-  ongoing: "/api/events/ongoing",
-  past: "/api/events/completed",
-};
+type Tab = 'upcoming' | 'ongoing' | 'past';
 
 export default function EventGrid({ activeTab }: { activeTab: Tab }) {
-  const [events, setEvents] = useState<Event[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    let cancelled = false;
-    setLoading(true);
-
-    const fallback = staticEvents[activeTab];
-
-    fetch(endpointFor[activeTab])
-      .then((res) => (res.ok ? res.json() : Promise.reject()))
-      .then((json) => {
-        if (cancelled) return;
-        const data: Event[] = Array.isArray(json) ? json : json.data || [];
-        setEvents(data);
-        setLoading(false);
-      })
-      .catch(() => {
-        if (cancelled) return;
-        setEvents(fallback);
-        setLoading(false);
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [activeTab]);
-
-  if (loading) {
-    return (
-      <div className="flex justify-center py-24">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-red-500 border-t-transparent" />
-      </div>
-    );
-  }
-
-  // Empty State
-  if (events.length === 0) {
-    return (
-      <div className="flex flex-col items-center justify-center py-16 sm:py-24 px-4">
-        <div className="w-24 h-24 sm:w-32 sm:h-32 mb-6 rounded-full bg-zinc-900 border border-gray-800 flex items-center justify-center">
-          <span className="text-gray-600 text-4xl font-bold">0</span>
-        </div>
-        <h3 className="text-2xl sm:text-3xl font-bold text-white mb-3 text-center">
-          No {activeTab} events
-        </h3>
-        <p className="text-gray-500 text-center max-w-md text-sm sm:text-base px-4">
-          Check back later for new {activeTab} events or explore other categories.
-        </p>
-      </div>
-    );
-  }
+  const {
+    data: events = [],
+    isLoading,
+    isError,
+    error,
+    refetch
+  } = useEvents(activeTab);
 
   return (
-    <div className="grid grid-cols-1 xl:grid-cols-2 gap-10 px-4 md:px-12 ">
-      {events.map((ev, i) => (
-        <EventCard key={ev.id} event={ev} reverse={i % 2 !== 0} />
-      ))}
-    </div>
+    <DataBoundary
+      isLoading={isLoading}
+      isError={isError}
+      error={error}
+      onRetry={refetch}
+      isEmpty={events.length === 0}
+      loadingTitle="Loading events..."
+      loadingDescription={`Fetching ${activeTab} events for you.`}
+      emptyTitle={`No ${activeTab} events`}
+      emptyDescription={`Check back later for new ${activeTab} events or explore other categories.`}
+    >
+      <div className="grid h-full grid-cols-1 gap-10 p-4 md:p-12 xl:grid-cols-2">
+        {events.map((ev, i) => (
+          <EventCard key={ev.id} event={ev} reverse={i % 2 !== 0} />
+        ))}
+      </div>
+    </DataBoundary>
   );
 }

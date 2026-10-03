@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS admin_users (
 
 -- !!! IMPORTANT: add YOURSELF as the first admin !!!
 INSERT INTO admin_users (email, added_by)
-VALUES ('studyonaffan@gmail.com', 'initial-setup')
+VALUES ('mdferozahmed27156@gmail.com', 'initial-setup')
 ON CONFLICT (email) DO NOTHING;
 
 -- 2. Magazines ------------------------------------------

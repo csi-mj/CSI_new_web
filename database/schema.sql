@@ -14,6 +14,10 @@ CREATE TABLE IF NOT EXISTS events (
   event_end_date TIMESTAMPTZ,
   venue TEXT,
   category TEXT,
+  is_paid BOOLEAN DEFAULT FALSE,
+  entry_fee INTEGER,
+  csi_entry_fee INTEGER,
+  payment_qr_url TEXT,
   is_registration_open BOOLEAN DEFAULT FALSE,
   registration_start_date TIMESTAMPTZ,
   registration_end_date TIMESTAMPTZ,
@@ -34,8 +38,14 @@ CREATE TABLE IF NOT EXISTS event_registrations (
   user_phone TEXT,
   user_college TEXT,
   user_year TEXT,
+  is_csi_member BOOLEAN DEFAULT FALSE,
+  payment_screenshot_url TEXT,
+  transaction_id TEXT,
   additional_info JSONB,
   registration_status TEXT DEFAULT 'pending' CHECK (registration_status IN ('pending', 'confirmed', 'rejected', 'waitlisted')),
+  is_attended BOOLEAN DEFAULT FALSE,
+  ticket_sent BOOLEAN DEFAULT FALSE,
+  payment_mode TEXT DEFAULT 'online' CHECK (payment_mode IN ('online', 'cash')),
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW(),
   UNIQUE(event_id, user_email)
@@ -107,3 +117,52 @@ CREATE TRIGGER update_registration_forms_updated_at BEFORE UPDATE ON event_regis
 
 CREATE TRIGGER update_team_updated_at BEFORE UPDATE ON csi_team
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+-- 8. Create platform_settings table (Singleton)
+CREATE TABLE IF NOT EXISTS platform_settings (
+  id INTEGER PRIMARY KEY CHECK (id = 1),
+  platform_name TEXT NOT NULL DEFAULT 'CSI Chapter',
+  logo_url TEXT,
+  default_payment_qr_url TEXT,
+  contact_email TEXT,
+  contact_phone TEXT,
+  instagram_url TEXT,
+  linkedin_url TEXT,
+  website_url TEXT,
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Insert the single default row
+INSERT INTO platform_settings (id, platform_name) 
+VALUES (1, 'CSI Chapter') 
+ON CONFLICT (id) DO NOTHING;
+
+CREATE TRIGGER update_platform_settings_updated_at BEFORE UPDATE ON platform_settings
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+
+-- 9. Create csi_memberships table
+CREATE TABLE IF NOT EXISTS csi_memberships (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  email TEXT NOT NULL UNIQUE,
+  name TEXT NOT NULL,
+  contact TEXT,
+  roll_no TEXT,
+  branch TEXT,
+  year TEXT,
+  about_yourself TEXT,
+  queries TEXT,
+  payment_mode TEXT DEFAULT 'online' CHECK (payment_mode IN ('online', 'cash')),
+  payment_screenshot_url TEXT,
+  status TEXT DEFAULT 'pending' CHECK (status IN ('pending', 'verified', 'rejected')),
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Create indexes for csi_memberships
+CREATE INDEX IF NOT EXISTS idx_csi_memberships_email ON csi_memberships(email);
+CREATE INDEX IF NOT EXISTS idx_csi_memberships_status ON csi_memberships(status);
+
+-- Create trigger for csi_memberships
+CREATE TRIGGER update_csi_memberships_updated_at BEFORE UPDATE ON csi_memberships
+  FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
+

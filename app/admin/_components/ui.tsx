@@ -1,6 +1,16 @@
 'use client';
 
 import React, { useRef, useState } from 'react';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 export function Button({
   children,
@@ -144,7 +154,12 @@ export async function api(path: string, method: string, body?: unknown) {
     body: body ? JSON.stringify(body) : undefined
   });
   const json = await res.json().catch(() => ({}));
-  if (!res.ok) throw new Error(json.error || `Request failed (${res.status})`);
+  if (!res.ok) {
+    const errorMsg = typeof json.error === 'object' && json.error !== null 
+      ? json.error.message 
+      : json.error;
+    throw new Error(errorMsg || `Request failed (${res.status})`);
+  }
   return json;
 }
 
@@ -163,19 +178,18 @@ export function useConfirm() {
   };
 
   const dialog = state ? (
-    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm" onClick={() => close(false)}>
-      <div
-        className="w-full max-w-sm rounded-2xl border border-white/10 bg-neutral-900 p-6 shadow-2xl"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <h3 className="mb-2 text-lg font-bold text-white">Are you sure?</h3>
-        <p className="mb-6 text-sm text-neutral-300">{state.message}</p>
-        <div className="flex justify-end gap-2">
-          <Button variant="ghost" onClick={() => close(false)}>Cancel</Button>
-          <Button onClick={() => close(true)}>Confirm</Button>
-        </div>
-      </div>
-    </div>
+    <AlertDialog open={!!state} onOpenChange={(open) => !open && close(false)}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+          <AlertDialogDescription>{state.message}</AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel onClick={() => close(false)}>Cancel</AlertDialogCancel>
+          <AlertDialogAction onClick={() => close(true)}>Confirm</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   ) : null;
 
   return { confirmDlg, dialog };
