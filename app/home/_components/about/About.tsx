@@ -1,6 +1,6 @@
 'use client';
 import React, { useRef, useEffect, useState, useMemo, useCallback } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useInView, useMotionValue, animate } from 'framer-motion';
 import { TextGenerateEffect } from '@/components/ui/text-generate-effect';
 import Shuffle from '@/components/Shuffle';
 import { Users, Calendar, TrendingUp, Plus } from 'lucide-react';
@@ -79,34 +79,40 @@ The Computer Society of India – MJCET (CSI MJCET) is one of the oldest student
           </motion.div>
 
           <motion.div
-            className="mt-16 grid grid-cols-1 gap-6 md:grid-cols-3"
-            initial={{ opacity: 1, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
-            viewport={{ margin: "-10px", once: true }}
-          >
-            <StatsCard
-              title="Members"
-              value={200}
-              description="Active Members"
-              iconType="users"
-              delay={0}
-            />
-            <StatsCard
-              title="Events"
-              value={130}
-              description="Successfully Organized in 11 Years of CSI"
-              iconType="calendar"
-              delay={0.1}
-            />
-            <StatsCard
-              title="Reach"
-              value={400000}
-              description="Social Media Impact"
-              iconType="trending"
-              delay={0.2}
-            />
-          </motion.div>
+  className="grid grid-cols-1 border-y border-white/10 sm:grid-cols-3"
+  initial={{ opacity: 0, y: 24 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true, amount: 0.2 }}
+  transition={{
+    duration: 0.65,
+    ease: [0.16, 1, 0.3, 1],
+  }}
+>
+  <StatsCard
+    title="Members"
+    value={200}
+    description="Active Members"
+    delay={0}
+  />
+
+  <div className="border-t border-white/10 sm:border-l sm:border-t-0">
+    <StatsCard
+      title="Events"
+      value={130}
+      description="Successfully Organized in 11 Years of CSI"
+      delay={0.12}
+    />
+  </div>
+
+  <div className="border-t border-white/10 sm:border-l sm:border-t-0">
+    <StatsCard
+      title="Reach"
+      value={400000}
+      description="Social Media Impact"
+      delay={0.24}
+    />
+  </div>
+</motion.div>
         </div>
       </div>
     </div>
@@ -119,169 +125,70 @@ const StatsCard = React.memo(({
   title,
   value,
   description,
-  iconType,
-  delay = 0
+  delay = 0,
 }: {
   title: string;
   value: number;
   description: string;
-  iconType: 'users' | 'calendar' | 'trending';
+  iconType?: 'users' | 'calendar' | 'trending';
   delay?: number;
 }) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, {
+    once: true,
+    amount: 0.3,
+  });
+
+  const motionValue = useMotionValue(0);
   const [count, setCount] = useState(0);
-  const [isVisible, setIsVisible] = useState(false);
-  const cardRef = useRef(null);
-
-  // Icon configuration with colors - memoized
-  const iconConfig = useMemo(() => ({
-    users: {
-      icon: <Users className="w-10 h-10" />,
-      color: 'text-blue-400',
-      bgColor: 'bg-blue-500/20',
-      borderColor: 'border-blue-500/40',
-      shadowColor: 'shadow-blue-500/20',
-      accentColor: 'bg-blue-500'
-    },
-    calendar: {
-      icon: <Calendar className="w-10 h-10" />,
-      color: 'text-purple-400',
-      bgColor: 'bg-purple-500/20',
-      borderColor: 'border-purple-500/40',
-      shadowColor: 'shadow-purple-500/20',
-      accentColor: 'bg-purple-500'
-    },
-    trending: {
-      icon: <TrendingUp className="w-10 h-10" />,
-      color: 'text-emerald-400',
-      bgColor: 'bg-emerald-500/20',
-      borderColor: 'border-emerald-500/40',
-      shadowColor: 'shadow-emerald-500/20',
-      accentColor: 'bg-emerald-500'
-    }
-  }), []);
-
-  const config = iconConfig[iconType];
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          setIsVisible(true);
-        }
+    if (!isInView) return;
+
+    const controls = animate(motionValue, value, {
+      duration: 2.2,
+      ease: [0.16, 1, 0.3, 1],
+      onUpdate: (latest) => {
+        setCount(Math.round(latest));
       },
-      { threshold: 0.1 }
-    );
+    });
 
-    if (cardRef.current) {
-      observer.observe(cardRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (!isVisible) return;
-
-    const duration = 2000; // 2 seconds
-    const steps = 60;
-    const stepDuration = duration / steps;
-    const increment = value / steps;
-    let currentStep = 0;
-
-    const timer = setInterval(() => {
-      if (currentStep < steps) {
-        setCount(Math.min(Math.round(increment * (currentStep + 1)), value));
-        currentStep++;
-      } else {
-        clearInterval(timer);
-      }
-    }, stepDuration);
-
-    return () => clearInterval(timer);
-  }, [value, isVisible]);
+    return () => controls.stop();
+  }, [isInView, value, motionValue]);
 
   return (
     <motion.div
-      ref={cardRef}
-      className="group cursor-target relative flex flex-col space-y-6 rounded-2xl border border-white/[0.15] bg-black/50 backdrop-blur-sm p-6 md:p-8 transition-all duration-300 hover:border-white/[0.25] hover:shadow-xl"
-      initial={{ opacity: 0, y: 20, scale: 0.95 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      ref={ref}
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
       transition={{
-        duration: 0.5,
+        duration: 0.65,
         delay,
-        ease: "easeOut"
+        ease: [0.16, 1, 0.3, 1],
       }}
-
+      className="group relative flex min-h-[220px] flex-col justify-center overflow-visible px-6 py-10 transition-colors duration-300 hover:bg-white/[0.02] sm:px-7 md:px-8 lg:min-h-[250px] lg:px-8"
     >
-      {/* Icon Section - Circular with colorful background */}
-      <motion.div
-        className="relative flex items-center justify-center"
-        initial={{ opacity: 0, y: 20 }}
-        animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-        transition={{ duration: 0.6, delay: delay + 0.2, ease: "easeOut" }}
-        viewport={{ once: true }}
-      >
-        <div className={`relative w-20 h-20 rounded-full ${config.bgColor} ${config.borderColor} border-2 flex items-center justify-center ${config.shadowColor} shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-110`}>
-          <div className={config.color}>
-            {config.icon}
-          </div>
-          {/* Decorative ring */}
-          <div className={`absolute inset-0 rounded-full border-2 ${config.borderColor} opacity-30 animate-ping`} style={{ animationDuration: '3s' }} />
-        </div>
-        {/* Corner accent */}
-        <div className={`absolute -top-2 -right-2 w-6 h-6 ${config.accentColor} rounded-full opacity-60 blur-sm`} />
+     <div className="flex items-baseline whitespace-nowrap">
+  <h3 className="bg-gradient-to-tr from-[#ff1a1a] via-[#e60000] to-[#7f0000] bg-clip-text font-mono text-[clamp(2.2rem,4vw,3.5rem)] font-medium tracking-[-0.03em] leading-[1.15] pr-[0.08em] text-transparent">
+    {count.toLocaleString("en-US")}
+  </h3>
+
+  <span className="ml-1 shrink-0 font-mono text-[clamp(2.2rem,4vw,3.5rem)] font-medium leading-tight tracking-normal text-[#e60000]">
+    +
+  </span>
+</div>
+
+      <p className="mt-8 font-mono text-xs font-medium uppercase leading-relaxed tracking-wide text-white/85">
+        {title}
+      </p>
+
+      <p className="mt-2 max-w-[260px] text-sm leading-relaxed text-white/50 transition-colors duration-300 group-hover:text-white/75">
+        {description}
+      </p>
+
+     <div className="absolute bottom-0 left-0 h-px w-0 bg-[#ff1a1a] transition-all duration-500 group-hover:w-full" /> 
       </motion.div>
-
-      {/* Content Section */}
-      <div className="space-y-3 flex-1 flex flex-col justify-between">
-        {/* Value */}
-        <div className="space-y-1">
-          <div className="flex items-center gap-1">
-            <motion.span
-              className={`text-3xl md:text-4xl font-bold tracking-tight ${config.color} cursor-target`}
-              id='cursor-big'
-              initial={{ opacity: 0, y: 10 }}
-              animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-              transition={{ duration: 0.5, delay: delay + 0.3 }}
-              viewport={{ once: true }}
-            >
-              {count.toLocaleString()}
-            </motion.span>
-            <motion.div
-              className="flex items-center mt-1 justify-center"
-              initial={{ opacity: 0 }}
-              animate={isVisible ? { opacity: 1 } : { opacity: 0 }}
-              transition={{ duration: 0.5, delay: delay + 0.5 }}
-            >
-              <Plus className={`${config.color}`} size={24} strokeWidth={3} />
-            </motion.div>
-          </div>
-        </div>
-
-        {/* Title and Description */}
-        <div className="space-y-2 pt-2 border-t border-white/[0.1]">
-          <motion.p
-            className="font-bold text-lg md:text-xl text-white"
-            initial={{ opacity: 0, y: 10 }}
-            animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-            transition={{ duration: 0.5, delay: delay + 0.4 }}
-            viewport={{ once: true }}
-          >
-            {title}
-          </motion.p>
-          <motion.p
-            className="font-sans text-sm md:text-base text-white/60"
-            initial={{ opacity: 0, y: 10 }}
-            animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-            transition={{ duration: 0.5, delay: delay + 0.5 }}
-          >
-            {description}
-          </motion.p>
-        </div>
-      </div>
-
-
-    </motion.div>
   );
 });
 

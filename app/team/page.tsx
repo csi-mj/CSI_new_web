@@ -4,19 +4,22 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useGSAP } from '@gsap/react';
 import { Carousel, TeamMember } from './_components/Carousel';
 import GB from './_components/TeamCard';
 import NavTabs from './_components/NavTabs';
+import GbCollage, { GbMember } from './_components/GbCollage';
 import Shuffle from '@/components/Shuffle';
-import gbData from './_data/gb.json';
-import execData from './_data/exec.json';
-import coreData from './_data/core.json';
+import gbData25 from './_data/2025-2026/gb.json';
+import execData25 from './_data/2025-2026/exec.json';
+import coreData25 from './_data/2025-2026/core.json';
+import gbData26 from './_data/2026-2027/gb.json';
+import execData26 from './_data/2026-2027/exec.json';
+import coreData26 from './_data/2026-2027/core.json';
 
 gsap.registerPlugin(ScrollTrigger);
 
 type ExecRaw = {
-  id: number;
+  id: number | string;
   name: string;
   position: string;
   portfolio: string;
@@ -26,8 +29,40 @@ type ExecRaw = {
   imageUrl?: string | null;
 };
 
-const execRawData: ExecRaw[] = execData as ExecRaw[];
+type RawGbMember = {
+  id: number | string;
+  Name: string;
+  Position: string;
+  Portfolio: string;
+  'Linkedin Id'?: string;
+  'Email Id'?: string;
+  'Github Id'?: string;
+  'Formal Picture'?: string | null;
+  'Governing Body Position': string;
+};
 
+type CardItem = {
+  name?: string;
+  profession?: string;
+  image?: string;
+  githubUrl?: string;
+  linkedinUrl?: string;
+};
+
+// Shape returned by /api/team/* (Supabase csi_team rows)
+type DbMember = {
+  id: string;
+  sno: number | null;
+  name: string;
+  position: string | null;
+  role: 'gb' | 'core' | 'execom';
+  image_url: string | null;
+  linkedin: string | null;
+  github: string | null;
+  mail: string | null;
+  portfolio: string | null;
+  gb_position: string | null;
+};
 
 // URL normalizers used by GB and Core cards
 const toUrl = (val?: string): string | undefined => {
@@ -46,101 +81,150 @@ const toGithubUrl = (val?: string): string | undefined => {
   return `https://github.com/${v}`;
 };
 
-const groupedExec: Record<string, TeamMember[]> = execRawData.reduce((acc, m) => {
-  const key = (m.portfolio || 'Misc').toUpperCase();
-  const member: TeamMember = {
-    id: String(m.id),
-    name: m.name,
-    title: m.position,
-    image: m.imageUrl || '',
-    specialties: [],
-    social: {
-      github: m.githubUrl ? toGithubUrl(m.githubUrl || undefined) : undefined,
-      linkedin: m.linkedinUrl ? toUrl(m.linkedinUrl || undefined) : undefined,
-    },
-  };
-  if (!acc[key]) acc[key] = [];
-  acc[key].push(member);
-  return acc;
-}, {} as Record<string, TeamMember[]>);
-
-const teams = Object.keys(groupedExec).map((name) => ({
-  name,
-  teamMembers: groupedExec[name],
-}));
-
-// Core team uses the same shape as ExecRaw; adapt to GB CardItem for grid display
-const coreRawData: ExecRaw[] = coreData as ExecRaw[];
-const groupedCoreCards: Record<string, CardItem[]> = coreRawData.reduce((acc, m) => {
-  const key = (m.portfolio || 'Misc').toUpperCase();
-  const item: CardItem = {
-    name: m.name,
-    profession: m.position,
-    image: m.imageUrl || undefined,
-    githubUrl: toGithubUrl(m.githubUrl || undefined),
-    linkedinUrl: toUrl(m.linkedinUrl || undefined),
-  };
-  if (!acc[key]) acc[key] = [];
-  acc[key].push(item);
-  return acc;
-}, {} as Record<string, CardItem[]>);
-
-type RawGbMember = {
-  id: number;
-  Name: string;
-  Position: string;
-  Portfolio: string;
-  'Linkedin Id'?: string;
-  'Email Id'?: string;
-  'Github Id'?: string;
-  'Formal Picture'?: string;
-  'Governing Body Position': string;
-};
-
-type CardItem = {
-  name?: string;
-  profession?: string; 
-  image?: string;
-  githubUrl?: string;
-  linkedinUrl?: string;
-};
-
-const rawGbData: RawGbMember[] = gbData as RawGbMember[];
-
 const mapGbGroup = (pos: string): string => {
   const p = pos.trim();
   if (p === 'Chief Coordinator' || p === 'Associate CC') return 'Chief Coordinator';
   if (p === 'Deputy GS' || p === 'General Secretary') return 'General Secretary';
+  if (p === 'Treasurer' || p === 'Deputy Treasurer') return 'Treasurer';
   return p;
 };
 
-const gbByPosition: Record<string, CardItem[]> = rawGbData.reduce((acc, m) => {
-  const original = m['Governing Body Position'].trim();
-  const key = mapGbGroup(original);
-  const item: CardItem = {
-    name: m.Name,
-    profession: original,
-    image: m["Formal Picture"] || undefined,
-    githubUrl: toGithubUrl(m['Github Id'] || undefined),
-    linkedinUrl: toUrl(m['Linkedin Id'] || undefined),
-  };
-  if (!acc[key]) acc[key] = [];
-  acc[key].push(item);
-  return acc;
-}, {} as Record<string, CardItem[]>);
+// ---------- builders (work for both JSON fallback and DB rows) ----------
+
+const buildExecTeams = (execRawData: ExecRaw[]) => {
+  const groupedExec = execRawData.reduce((acc, m) => {
+    const key = (m.portfolio || 'Misc').toUpperCase();
+    const member: TeamMember = {
+      id: String(m.id),
+      name: m.name,
+      title: m.position,
+      image: m.imageUrl || '',
+      specialties: [],
+      social: {
+        github: m.githubUrl ? toGithubUrl(m.githubUrl || undefined) : undefined,
+        linkedin: m.linkedinUrl ? toUrl(m.linkedinUrl || undefined) : undefined,
+      },
+    };
+    if (!acc[key]) acc[key] = [];
+    acc[key].push(member);
+    return acc;
+  }, {} as Record<string, TeamMember[]>);
+
+  return Object.keys(groupedExec).map((name) => ({
+    name,
+    teamMembers: groupedExec[name],
+  }));
+};
+
+const buildCoreCards = (coreRawData: ExecRaw[]) =>
+  coreRawData.reduce((acc, m) => {
+    const key = (m.portfolio || 'Misc').toUpperCase();
+    const item: CardItem = {
+      name: m.name,
+      profession: m.position,
+      image: m.imageUrl || undefined,
+      githubUrl: toGithubUrl(m.githubUrl || undefined),
+      linkedinUrl: toUrl(m.linkedinUrl || undefined),
+    };
+    if (!acc[key]) acc[key] = [];
+    acc[key].push(item);
+    return acc;
+  }, {} as Record<string, CardItem[]>);
+
+const buildGbMembers = (rawGbData: RawGbMember[]): GbMember[] =>
+  rawGbData.map((m) => {
+    const role = m['Governing Body Position'].trim();
+    return {
+      id: String(m.id),
+      name: m.Name,
+      role,
+      group: mapGbGroup(role),
+      image: m['Formal Picture'] || undefined,
+      githubUrl: toGithubUrl(m['Github Id'] || undefined),
+      linkedinUrl: toUrl(m['Linkedin Id'] || undefined),
+      email: m['Email Id'] && m['Email Id'].includes('@') ? m['Email Id'].trim() : undefined,
+    };
+  });
+
+// DB row -> raw shapes used by the builders
+const dbToExecRaw = (rows: DbMember[]): ExecRaw[] =>
+  rows.map((r) => ({
+    id: r.id,
+    name: r.name,
+    position: r.position || '',
+    portfolio: r.portfolio || 'Misc',
+    linkedinUrl: r.linkedin,
+    githubUrl: r.github,
+    email: r.mail,
+    imageUrl: r.image_url,
+  }));
+
+const dbToGbRaw = (rows: DbMember[]): RawGbMember[] =>
+  rows.map((r) => ({
+    id: r.id,
+    Name: r.name,
+    Position: r.position || '',
+    Portfolio: r.portfolio || 'N/A',
+    'Linkedin Id': r.linkedin || undefined,
+    'Email Id': r.mail || undefined,
+    'Github Id': r.github || undefined,
+    'Formal Picture': r.image_url || undefined,
+    'Governing Body Position': r.gb_position || r.position || 'Member',
+  }));
 
 export default function TeamPage() {
-  const [activeIdx, setActiveIdx] = useState(0);
-  const teamTabs = useMemo(() => teams.map((t) => t.name), []);
-  const activeTeam = useMemo(() => teams[activeIdx], [activeIdx]);
+  const [dbGbRaw, setDbGbRaw] = useState<RawGbMember[] | null>(null);
+  const [dbExecRaw, setDbExecRaw] = useState<ExecRaw[] | null>(null);
+  const [dbCoreRaw, setDbCoreRaw] = useState<ExecRaw[] | null>(null);
+  const [activeYear, setActiveYear] = useState('2026-2027');
 
-  const [activeGbIdx, setActiveGbIdx] = useState(0);
-  const gbTabs = useMemo(() => Object.keys(gbByPosition), []);
-  const gbItems = useMemo(() => (gbTabs.length ? gbByPosition[gbTabs[activeGbIdx]] : []), [gbTabs, activeGbIdx]);
+  useEffect(() => {
+    const grab = async (url: string): Promise<DbMember[] | null> => {
+      try {
+        const res = await fetch(url);
+        if (!res.ok) return null;
+        const json = await res.json();
+        return Array.isArray(json) && json.length > 0 ? json : null;
+      } catch {
+        return null;
+      }
+    };
+    (async () => {
+      const [gb, core, exec] = await Promise.all([
+        grab('/api/team/gb'),
+        grab('/api/team/core'),
+        grab('/api/team/execom'),
+      ]);
+      if (gb) setDbGbRaw(dbToGbRaw(gb));
+      if (core) setDbCoreRaw(dbToExecRaw(core));
+      if (exec) setDbExecRaw(dbToExecRaw(exec));
+    })();
+  }, []);
+
+  const gbRaw = activeYear === '2026-2027' ? (dbGbRaw || (gbData26 as RawGbMember[])) : (gbData25 as RawGbMember[]);
+  const execRaw = activeYear === '2026-2027' ? (dbExecRaw || (execData26 as ExecRaw[])) : (execData25 as ExecRaw[]);
+  const coreRaw = activeYear === '2026-2027' ? (dbCoreRaw || (coreData26 as ExecRaw[])) : (coreData25 as ExecRaw[]);
+
+  const teams = useMemo(() => buildExecTeams(execRaw), [execRaw]);
+  const groupedCoreCards = useMemo(() => buildCoreCards(coreRaw), [coreRaw]);
+  const gbMembers = useMemo(() => buildGbMembers(gbRaw), [gbRaw]);
+
+  const [activeIdx, setActiveIdx] = useState(0);
+  const teamTabs = useMemo(() => teams.map((t) => t.name), [teams]);
+  const activeTeam = useMemo(
+    () => teams[Math.min(activeIdx, Math.max(teams.length - 1, 0))],
+    [teams, activeIdx]
+  );
 
   const [activeCoreIdx, setActiveCoreIdx] = useState(0);
-  const coreTeamTabs = useMemo(() => Object.keys(groupedCoreCards), []);
-  const coreItems = useMemo(() => (coreTeamTabs.length ? groupedCoreCards[coreTeamTabs[activeCoreIdx]] : []), [coreTeamTabs, activeCoreIdx]);
+  const coreTeamTabs = useMemo(() => Object.keys(groupedCoreCards), [groupedCoreCards]);
+  const coreItems = useMemo(
+    () =>
+      coreTeamTabs.length
+        ? groupedCoreCards[coreTeamTabs[Math.min(activeCoreIdx, coreTeamTabs.length - 1)]]
+        : [],
+    [groupedCoreCards, coreTeamTabs, activeCoreIdx]
+  );
 
   const gbRef = useRef<HTMLElement | null>(null);
   const execRef = useRef<HTMLElement | null>(null);
@@ -171,154 +255,87 @@ export default function TeamPage() {
     ScrollTrigger.refresh();
   }, [execVisible, coreVisible]);
 
-  // useGSAP(
-  //   () => {
-  //     if (gbRef.current) {
-  //       gsap.fromTo(
-  //         gbRef.current,
-  //         { y: 0, opacity: 0 },
-  //         {
-  //           y: 0,
-  //           opacity: 1,
-  //           duration: 1,
-  //           ease: 'power3.out',
-  //           scrollTrigger: {
-  //             trigger: gbRef.current,
-  //             start: 'top 80%',
-  //             toggleActions: 'play none none none'
-  //           }
-  //         }
-  //       );
-  //     }
-
-  //     if (execRef.current) {
-  //       gsap.to(execRef.current, {
-  //         scale: 0.93,
-  //         y: 90,
-  //         ease: 'none',
-  //         immediateRender: false,
-  //         scrollTrigger: {
-  //           trigger: execRef.current,
-  //           start: 'top 30%',
-  //           end: 'top 70%',
-  //           scrub: 2.5,
-  //           invalidateOnRefresh: true,
-  //         }
-  //       });
-  //     }
-
-  //     if (coreRef.current) {
-  //       gsap.to(coreRef.current, {
-  //         scale: 0.95,
-  //         y: 60,
-  //         ease: 'none',
-  //         immediateRender: false,
-  //         scrollTrigger: {
-  //           trigger: coreRef.current,
-  //           start: 'top 50%',
-  //           end: 'top 70%',
-  //           scrub: 2.5,
-  //           invalidateOnRefresh: true,
-  //         }
-  //       });
-  //     }
-  //   },
-  //   { dependencies: [], revertOnUpdate: false }
-  // );
-
   return (
-    <div className="w-screen mt-20">
-      <section
-        ref={gbRef}
-        className="gb-section will-change-transform transform-gpu"
-        style={{ willChange: 'transform', transform: 'translateZ(0)', backfaceVisibility: 'hidden' as const, contain: 'paint' as const }}
-      >
-        <div className='w-full flex justify-center relative z-10'>
-          <Shuffle 
-              text="GOVERNING BODY" 
-              tag="h1"
-              className="font-orbitron !text-5xl mt-16 mb-8 md:!text-6xl !text-primary !normal-case !font-bold"
-              immediate={true}
-              loop={true}
-              loopDelay={2}
-              duration={0.4}
-              stagger={0.04}
-              shuffleTimes={4}
-              animationMode="evenodd"
-              triggerOnce={false}
-              triggerOnHover={true}
-            />
-        </div>
-         <div className="relative w-full md:px-6">
-        <div className="flex flex-wrap gap-2 justify-center mb-6">
-          <NavTabs tabs={gbTabs} activeIdx={activeGbIdx} onChange={setActiveGbIdx} />
-        </div>
+    <div className="w-screen mt-32">
+      <div className="w-full flex justify-center gap-4 relative z-20">
+         <NavTabs tabs={['2026-2027', '2025-2026']} activeIdx={activeYear === '2026-2027' ? 0 : 1} onChange={(idx) => setActiveYear(idx === 0 ? '2026-2027' : '2025-2026')} />
       </div>
-      <GB items={gbItems} />
-      </section>
-      <section
-        ref={execRef}
-        className="exec-section will-change-transform transform-gpu"
-        style={{ willChange: 'transform', transform: 'translateZ(0)', backfaceVisibility: 'hidden' as const, contain: 'paint' as const }}
-      >
-        <div className='w-full flex justify-center relative z-10'>
-          <Shuffle 
-              text="EXECUTIVE COMMITTEE" 
-              tag="h1"
-              className="font-orbitron !text-3xl mt-16 mb-8 md:!text-6xl !text-primary !normal-case !font-bold"
-              immediate={true}
-              loop={true}
-              loopDelay={2}
-              duration={0.4}
-              stagger={0.04}
-              shuffleTimes={2}
-              animationMode="evenodd"
-              triggerOnce={false}
-              triggerOnHover={true}
-            />
-        </div>
-      <div className="relative w-full px-2">
-        <div className="flex flex-wrap gap-2 justify-center">
-          <NavTabs tabs={teamTabs} activeIdx={activeIdx} onChange={setActiveIdx} />
-        </div>
-      </div>
-
-      {execVisible && (
-        <div className="w-full">
-          <Carousel teamMembers={activeTeam.teamMembers} teamName={activeTeam.name} />
-        </div>
+      {gbMembers.length > 0 && (
+        <section
+          ref={gbRef}
+          className="gb-section will-change-transform transform-gpu"
+          style={{ willChange: 'transform', transform: 'translateZ(0)', backfaceVisibility: 'hidden' as const, contain: 'paint' as const }}
+        >
+          <GbCollage members={gbMembers} term={activeYear.replace(/-(\d{2})(\d{2})$/, '–$2')} />
+        </section>
       )}
-      </section>
-       <section
-        ref={coreRef}
-        className="core-section will-change-transform transform-gpu"
-        style={{ willChange: 'transform', transform: 'translateZ(0)', backfaceVisibility: 'hidden' as const, contain: 'paint' as const }}
-      >
-        <div className='w-full flex justify-center relative z-10'>
-          <Shuffle 
-              text="CORE TEAM" 
-              tag="h1"
-              className="font-orbitron !text-5xl mt-16 mb-8 md:!text-6xl !text-primary !normal-case !font-bold"
-              immediate={true}
-              loop={true}
-              loopDelay={2}
-              duration={0.4}
-              stagger={0.04}
-              shuffleTimes={4}
-              animationMode="evenodd"
-              triggerOnce={false}
-              triggerOnHover={true}
-            />
-        </div>
-         <div className="relative w-full px-2">
-        {coreVisible && (
-          <div className="flex flex-wrap gap-2 justify-center mb-6">
-            <NavTabs tabs={coreTeamTabs} activeIdx={activeCoreIdx} onChange={setActiveCoreIdx} />
+      {teamTabs.length > 0 && (
+        <section
+          ref={execRef}
+          className="exec-section will-change-transform transform-gpu"
+          style={{ willChange: 'transform', transform: 'translateZ(0)', backfaceVisibility: 'hidden' as const, contain: 'paint' as const }}
+        >
+          <div className='w-full flex justify-center relative z-10'>
+            <Shuffle 
+                text="EXECUTIVE COMMITTEE" 
+                tag="h1"
+                className="font-orbitron !text-3xl mt-16 mb-8 md:!text-6xl !text-primary !normal-case !font-bold"
+                immediate={true}
+                loop={true}
+                loopDelay={2}
+                duration={0.4}
+                stagger={0.04}
+                shuffleTimes={2}
+                animationMode="evenodd"
+                triggerOnce={false}
+                triggerOnHover={true}
+              />
           </div>
-        )}
-      </div>
-      {coreVisible && <GB items={coreItems} />}
-      </section>
+          <div className="relative w-full px-2">
+            <div className="flex flex-wrap gap-2 justify-center">
+              <NavTabs tabs={teamTabs} activeIdx={activeIdx} onChange={setActiveIdx} />
+            </div>
+          </div>
+
+          {execVisible && activeTeam && (
+            <div className="w-full">
+              <Carousel teamMembers={activeTeam.teamMembers} teamName={activeTeam.name} />
+            </div>
+          )}
+        </section>
+      )}
+      {coreTeamTabs.length > 0 && (
+        <section
+          ref={coreRef}
+          className="core-section will-change-transform transform-gpu"
+          style={{ willChange: 'transform', transform: 'translateZ(0)', backfaceVisibility: 'hidden' as const, contain: 'paint' as const }}
+        >
+          <div className='w-full flex justify-center relative z-10'>
+            <Shuffle 
+                text="CORE TEAM" 
+                tag="h1"
+                className="font-orbitron !text-5xl mt-16 mb-8 md:!text-6xl !text-primary !normal-case !font-bold"
+                immediate={true}
+                loop={true}
+                loopDelay={2}
+                duration={0.4}
+                stagger={0.04}
+                shuffleTimes={4}
+                animationMode="evenodd"
+                triggerOnce={false}
+                triggerOnHover={true}
+              />
+          </div>
+          <div className="relative w-full px-2">
+            {coreVisible && (
+              <div className="flex flex-wrap gap-2 justify-center mb-6">
+                <NavTabs tabs={coreTeamTabs} activeIdx={activeCoreIdx} onChange={setActiveCoreIdx} />
+              </div>
+            )}
+          </div>
+          {coreVisible && <GB items={coreItems} />}
+        </section>
+      )}
     </div>
   );
 }

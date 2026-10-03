@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono, Silkscreen, Orbitron, Inter, Space_Grotesk,Poppins } from 'next/font/google';
+import { Geist, Geist_Mono, Silkscreen, Orbitron, Inter, Space_Grotesk, Poppins, Instrument_Serif } from 'next/font/google';
 import './globals.css';
 import Navbar from '@/components/shared/Navbar';
 import { CursorWrapper } from '@/components/shared/CursorWrapper';
@@ -37,6 +37,13 @@ const inter = Inter({
   subsets: ['latin']
 });
 
+const instrumentSerif = Instrument_Serif({
+  weight: '400',
+  style: ['normal', 'italic'],
+  variable: '--font-instrument-serif',
+  subsets: ['latin']
+});
+
 const spaceGrotesk = Space_Grotesk({
   variable: '--font-space-grotesk',
   subsets: ['latin']
@@ -61,7 +68,41 @@ export const metadata: Metadata = {
     locale: 'en_IN',
     type: 'website'
   },
-  robots: { index: true, follow: true }
+  robots: { index: true, follow: true },
+  alternates: { canonical: '/' },
+  verification: {
+    google: 'pdD89cAr0bl-Gj_8qS9y57KoK5ZN0o-suyC7CX4fbfY'
+  }
+};
+
+const organizationJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Computer Society of India, MJCET Student Chapter',
+  alternateName: 'CSI MJCET',
+  url: 'https://csi-mjcet.in',
+  logo: 'https://csi-mjcet.in/logos/csi_logo.png',
+  email: 'csi@mjcollege.ac.in',
+  foundingDate: '2014',
+  parentOrganization: {
+    '@type': 'Organization',
+    name: 'Computer Society of India',
+    url: 'https://www.csi-india.org'
+  },
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Muffakham Jah College of Engineering & Technology, Mount Pleasant, Road No. 3, Banjara Hills',
+    addressLocality: 'Hyderabad',
+    addressRegion: 'Telangana',
+    postalCode: '500034',
+    addressCountry: 'IN'
+  },
+  sameAs: [
+    'https://www.instagram.com/csi_mjcet',
+    'https://www.linkedin.com/company/csi-mjcet',
+    'https://github.com/orgs/csi-mj',
+    'https://medium.com/@csi_mjcet'
+  ]
 };
 
 export default function RootLayout({
@@ -72,8 +113,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${silkscreen.variable} ${orbitron.variable} ${inter.variable} ${spaceGrotesk.variable} ${poppins.variable} min-h-screen bg-black text-white antialiased m-0 p-0`}
+        className={`${geistSans.variable} ${geistMono.variable} ${silkscreen.variable} ${orbitron.variable} ${inter.variable} ${spaceGrotesk.variable} ${instrumentSerif.variable} ${poppins.variable} min-h-screen bg-black text-white antialiased m-0 p-0`}
       >
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
         {/* <ReduxProvider> */}
           <CursorWrapper />
           <Navbar />

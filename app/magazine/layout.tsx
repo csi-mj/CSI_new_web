@@ -1,4 +1,12 @@
+import type { Metadata } from 'next';
 import { StripedPattern } from "@/components/magicui/striped-pattern";
+
+export const metadata: Metadata = {
+  title: 'Magazine',
+  description:
+    'Read the CSI MJCET magazine — articles, insights, and stories from the Computer Society of India student chapter at MJCET, Hyderabad.',
+  alternates: { canonical: '/magazine' }
+};
 
 export default function RootLayout({
   children,

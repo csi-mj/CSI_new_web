@@ -1,144 +1,176 @@
 "use client";
-import React from "react";
-import { motion } from "framer-motion";
-import Image from "next/image";
-import { TextGenerateEffect } from "@/components/ui/text-generate-effect";
+
+import { motion, useReducedMotion } from "framer-motion";
 import image from "@/public/about/zainsir.jpg";
+export default function Faculty() {
+  const shouldReduceMotion = useReducedMotion();
 
-type FacultyProps = {
-  image?: string;
-  name?: string;
-  department?: string;
-  quote?: string;
-};
-
-const Faculty = React.memo(function Faculty({
-  name = "Zainuddin Naveed",
-  department = "Department of Computer Science & Engineering",
-  quote = "Inspiring minds to build the future.",
-}: FacultyProps) {
-  const [titleInView, setTitleInView] = React.useState(false);
+  const fadeUp = {
+    hidden: {
+      opacity: 0,
+      y: shouldReduceMotion ? 0 : 24,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: shouldReduceMotion ? 0 : 0.7,
+        ease: [0.22, 1, 0.36, 1] as const,
+      },
+    },
+  };
 
   return (
-    <section className="w-full px-4 md:px-8 lg:px-12 py-4">
-      <div className="mx-auto max-w-5xl rounded-2xl border border-white/15 bg-white/5 p-3 sm:p-4 md:p-6 backdrop-blur-xs shadow-[0_8px_40px_rgba(0,0,0,0.25)] relative overflow-hidden">
-
-        <motion.div
-          className="text-center"
-          initial={{ opacity: 0, y: 0 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          onViewportEnter={() => setTitleInView(true)}
-          onViewportLeave={() => setTitleInView(false)}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          viewport={{ amount: 0.6, once: true }}
+    <section className="relative w-full py-16 md:py-24">
+      <div className="mx-auto w-full max-w-[1600px] px-5 sm:px-8 lg:px-12">
+        {/* Section Heading */}
+        <motion.h2
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.5 }}
+          variants={fadeUp}
+          className="mb-12 text-center font-bold uppercase tracking-[0.12em]"
+          style={{
+            fontFamily: "var(--font-orbitron)",
+            fontSize: "clamp(2rem, 5vw, 4.5rem)",
+            background:
+              "linear-gradient(90deg, #ff8585 0%, #ff263f 45%, #b50920 100%)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            backgroundClip: "text",
+          }}
         >
-          {titleInView ? (
-            <TextGenerateEffect
-              words="Faculty Coordinator"
-              duration={1}
-              delay={0.1}
-              className="text-primary font-orbitron pb-3 text-3xl md:text-5xl font-semibold tracking-tight mb-4"
-            />
-          ) : (
-            <h2 className="text-center text-primary font-orbitron pb-3 text-3xl md:text-5xl font-semibold tracking-tight mb-4">
-              Faculty Coordinator
-            </h2>
-          )}
-        </motion.div>
+          Faculty Advisor
+        </motion.h2>
 
-        {/* subtle corner shine */}
-        {/* <div className="pointer-events-none absolute -top-24 -left-24 h-72 w-72 rounded-full bg-gradient-to-br from-white/10 to-transparent blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-24 -right-24 h-72 w-72 rounded-full bg-gradient-to-tr from-white/5 to-transparent blur-3xl" /> */}
-
-        <div className="grid grid-cols-1 md:grid-cols-[280px_1fr] items-center gap-4 md:gap-6">
-
-          {/* Left Image */}
+        {/* Main Content */}
+        <div className="grid grid-cols-1 items-stretch gap-8 lg:grid-cols-[0.85fr_1.5fr] lg:gap-12">
+          {/* Image Placeholder */}
           <motion.div
-            initial={{ opacity: 0, x: -45 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ amount: 0.3,once: true  }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="relative aspect-[3/4] w-full overflow-hidden rounded-xl border border-white/15 bg-black/20"
-          >
-            <Image
-              src={image}
-              alt={name}
-              width={300}
-              height={400}
-              className="absolute inset-0 h-full w-full object-cover"
-              loading="lazy"
-              decoding="async"
-              fetchPriority="low"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
-          </motion.div>
+  initial={{ opacity: 0, x: shouldReduceMotion ? 0 : -35 }}
+  whileInView={{ opacity: 1, x: 0 }}
+  viewport={{ once: true, amount: 0.2 }}
+  transition={{
+    duration: shouldReduceMotion ? 0 : 0.8,
+    ease: [0.22, 1, 0.36, 1],
+  }}
+  className="group  relative h-full min-h-[440px] overflow-hidden rounded-2xl border border-red-500/40 sm:min-h-[480px] lg:min-h-0"
+>
+  <img
+    src={image.src}
+    alt="CSI-MJCET Faculty Advisor"
+    className="absolute transition-transform duration-700 ease-in-out group-hover:scale-110 inset-0 h-full w-full object-cover object-center"
+  />
+</motion.div>
 
           {/* Right Content */}
-          <motion.div
-            initial={{ opacity: 0, x: 45 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ amount: 0.3, once: true }}
-            transition={{ duration: 0.6, ease: "easeOut", delay: 0.05 }}
-            className="min-w-0 relative"
-          >
-            <div className="absolute -right-8 -top-8 h-40 w-40 rounded-full bg-gradient-to-br from-primary/20 to-transparent blur-2xl opacity-50" />
-            <div className="absolute -left-4 -bottom-4 h-32 w-32 rounded-full bg-gradient-to-tr from-white/10 to-transparent blur-xl opacity-30" />
+          <div className="flex min-w-0 flex-col justify-center">
+            {/* Name and Designation */}
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.3 }}
+              variants={{
+                hidden: {},
+                visible: {
+                  transition: {
+                    staggerChildren: shouldReduceMotion ? 0 : 0.15,
+                  },
+                },
+              }}
+              className="mb-8"
+            >
+              <motion.div
+                variants={fadeUp}
+                className="mb-4 flex items-center gap-3"
+              >
+                <motion.span
+                  className="h-1 w-12 rounded-full bg-gradient-to-r from-red-600 to-rose-400"
+                  initial={{ scaleX: 0 }}
+                  whileInView={{ scaleX: 1 }}
+                  viewport={{ once: true }}
+                  transition={{
+                    duration: shouldReduceMotion ? 0 : 0.6,
+                    ease: "easeOut",
+                  }}
+                  style={{ transformOrigin: "left" }}
+                />
 
-            <div className="relative space-y-4">
+                <span className="text-xs font-medium uppercase tracking-[0.4em] text-neutral-400 sm:text-sm">
+                  CSI-MJCET
+                </span>
+              </motion.div>
 
-              {/* Name */}
-              <div className="space-y-2">
-                <div className="flex items-center gap-3 mb-1">
-                  <div className="h-1 w-8 bg-gradient-to-r from-primary to-primary/50 rounded-full" />
-                  <span className="text-xs md:text-sm font-medium text-white/60 uppercase tracking-wider">
-                    Faculty Member
-                  </span>
-                </div>
-                <h2 className="text-white text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight leading-tight">
-                  {name}
-                </h2>
-              </div>
+              <motion.h3
+                variants={fadeUp}
+                className="text-3xl font-bold leading-tight text-white sm:text-4xl md:text-5xl lg:text-6xl"
+              >
+                Prof.{" "}
+                <span className="bg-gradient-to-r from-rose-400 via-red-500 to-red-700 bg-clip-text text-transparent">
+                  Zainuddin Naveed
+                </span>
+              </motion.h3>
 
-              {/* Department */}
-              <div className="flex items-start gap-3 p-3 rounded-lg border border-white/10 bg-white/5 backdrop-blur-sm hover:bg-white/10 transition-all duration-300">
-                <div className="mt-1">
-                  <svg className="w-5 h-5 text-primary opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                  </svg>
-                </div>
-                <div className="flex-1">
-                  <p className="text-xs md:text-sm font-medium text-white/50 uppercase tracking-wide mb-1">Department</p>
-                  <p className="text-white/90 text-sm md:text-base font-medium leading-relaxed">
-                    {department}
-                  </p>
-                </div>
-              </div>
+              <motion.p
+                variants={fadeUp}
+                className="mt-4 text-sm leading-relaxed tracking-[0.12em] text-neutral-400 sm:text-base"
+              >
+                Assistant Professor · Department of Computer Science and
+                Engineering · MJCET
+              </motion.p>
+            </motion.div>
 
-              {/* Quote */}
-              <div className="relative p-4 md:p-5 rounded-xl border border-primary/30 bg-gradient-to-br from-primary/10 via-primary/5 to-transparent backdrop-blur-sm overflow-hidden">
-                <p className="text-sm md:text-base font-medium text-white/95 leading-relaxed italic">
-                  {quote}
-                </p>
-                <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-primary/20 to-transparent rounded-bl-full opacity-50" />
-              </div>
+            {/* Description Box */}
+            <motion.div
+              initial={{
+                opacity: 0,
+                y: shouldReduceMotion ? 0 : 30,
+              }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{
+                duration: shouldReduceMotion ? 0 : 0.8,
+                delay: shouldReduceMotion ? 0 : 0.2,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              whileHover={
+                shouldReduceMotion
+                  ? {}
+                  : {
+                      borderColor: "rgba(239,68,68,0.6)",
+                    }
+              }
+              className="relative rounded-2xl border border-red-500/30 bg-transparent p-7 transition-colors duration-300 sm:p-10 lg:p-12"
+            >
+              {/* Animated Red Accent */}
+              <motion.div
+                className="absolute bottom-8 left-0 top-8 w-1 origin-top rounded-full bg-gradient-to-b from-rose-400 via-red-500 to-red-800"
+                initial={{ scaleY: 0 }}
+                whileInView={{ scaleY: 1 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{
+                  duration: shouldReduceMotion ? 0 : 0.8,
+                  delay: shouldReduceMotion ? 0 : 0.35,
+                  ease: "easeOut",
+                }}
+              />
 
-              {/* Divider */}
-              <div className="relative pt-2">
-                <div className="flex items-center gap-3">
-                  <div className="flex-1 h-px bg-gradient-to-r from-transparent via-white/20 to-white/30" />
-                  <div className="h-2 w-2 rounded-full bg-primary/60" />
-                  <div className="flex-1 h-px bg-gradient-to-l from-transparent via-white/20 to-white/30" />
-                </div>
-              </div>
-
-            </div>
-          </motion.div>
+              <p className="pl-5 text-base leading-8 tracking-wide text-neutral-300 sm:pl-7 sm:text-lg sm:leading-9 md:text-xl">
+                Guiding CSI-MJCET with unwavering support and vision, our
+                Faculty Advisor has been a constant source of{" "}
+                <span className="text-rose-400">
+                  inspiration, mentorship and encouragement.
+                </span>
+                As an Assistant Professor in the Department of Computer Science and Engineering at Muffakham Jah College of Engineering and Technology, he plays a pivotal role in nurturing innovation, empowering students to turn ideas into impactful initiatives, and fostering a culture of {""}
+                <span className="text-rose-400">
+                  collaboration and continuous learning
+                </span>
+                . His invaluable guidance and commitment to student development continue to strengthen our community, inspire new possibilities, and shape the future of CSI-MJCET.
+              </p>
+            </motion.div>
+          </div>
         </div>
       </div>
     </section>
   );
-});
-
-Faculty.displayName = "Faculty";
-
-export default Faculty;
+}

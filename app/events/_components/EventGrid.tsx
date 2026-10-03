@@ -8,15 +8,48 @@ import { staticEvents } from "../_data/staticEvents";
 
 type Tab = "upcoming" | "ongoing" | "past";
 
+const endpointFor: Record<Tab, string> = {
+  upcoming: "/api/events/upcoming",
+  ongoing: "/api/events/ongoing",
+  past: "/api/events/completed",
+};
+
 export default function EventGrid({ activeTab }: { activeTab: Tab }) {
   const [events, setEvents] = useState<Event[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  // Load static events
   useEffect(() => {
-    const tabKey = activeTab === "past" ? "past" : activeTab;
-    const data = staticEvents[tabKey];
-    setEvents(data);
+    let cancelled = false;
+    setLoading(true);
+
+    const fallback = staticEvents[activeTab];
+
+    fetch(endpointFor[activeTab])
+      .then((res) => (res.ok ? res.json() : Promise.reject()))
+      .then((json) => {
+        if (cancelled) return;
+        const data: Event[] = Array.isArray(json) ? json : json.data || [];
+        setEvents(data);
+        setLoading(false);
+      })
+      .catch(() => {
+        if (cancelled) return;
+        setEvents(fallback);
+        setLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
   }, [activeTab]);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center py-24">
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-red-500 border-t-transparent" />
+      </div>
+    );
+  }
 
   // Empty State
   if (events.length === 0) {

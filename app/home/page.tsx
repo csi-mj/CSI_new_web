@@ -8,9 +8,11 @@ import Cursor from '@/components/ui/cursor';
 import Hero from './_components/hero/Hero';
 import HackrevCta from './_components/Hot/HackrevCta';
 import About from './_components/about/About';
-import { Bento } from './_components/about/Bento';
 import Faculty from './_components/Mem/Faculty';
-import { MarqueeScroll } from './_components/Mem/MarqueeScroll';
+import { PolaroidMarquee } from './_components/Mem/PolaroidMarquee';
+import { Timeline } from './_components/Timeline/timeline';
+import { timelineData } from './_components/Timeline/timelineData';
+import CsiMarquee from './_components/CsiMarquee';
 import Title from './_components/connect/Title';
 import Orbit from './_components/connect/Orbit';
 import { motion } from "framer-motion";
@@ -28,36 +30,31 @@ export default function HomePage() {
         {/* <Landing /> */}
       </section>
 
-      <section className="mb-48">
+      {/* <section className="mb-48">
         <HackrevCta />
-      </section>
+      </section> */}
 
       <section className="relative mb-24" id="about">
         <div className="absolute h-[600px] inset-0 z-0 pointer-events-none">
-          <BackgroundBeams />
+          {/* <BackgroundBeams /> */}
         </div>
         <div className="flex w-full flex-col items-center">
           <About />
-          <Bento />
         </div>
       </section>
 
-      <section className="relative pb-24" id="faculty">
+      <section className="relative pb-6" id="faculty">
 
 
         <div className="relative z-20 text-neutral-100">
           <div className="relative z-10 w-full flex flex-col items-center pt-12">
             <Faculty />
-            <motion.div
+            <div
               className="text-center"
-              initial={{ opacity: 0, y: 80, scale: 0.9 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 1, ease: 'easeOut' }}
-              viewport={{ once: true }}
             >
               <Shuffle
                 text="GOVERNING BODY"
-                tag="h1"
+                tag="h2"
                 className="!text-3xl mt-24 mb-12 md:!text-6xl !text-primary !normal-case !font-bold"
                 style={{ fontFamily: 'var(--font-orbitron)' }}
                 loop={false}
@@ -69,14 +66,20 @@ export default function HomePage() {
                 triggerOnce={true}
                 triggerOnHover={true}
               />
-            </motion.div>
+            </div>
 
-            <MarqueeScroll />
+            <PolaroidMarquee />
           </div>
         </div>
       </section>
+      <CsiMarquee />  
+      <section className="relative w-full" id="timeline">
+        <Timeline data={timelineData} />
+      </section>
 
-      <section className="relative pt-24" id="connect">
+      <CsiMarquee />
+
+      <section className="relative pt-6" id="connect">
         <div className="relative z-20 pointer-events-auto">
           <Title />
         </div>
