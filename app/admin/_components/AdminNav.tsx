@@ -13,7 +13,9 @@ const links = [
   { href: '/admin/magazines', label: 'Magazines' },
   { href: '/admin/resources', label: 'Resources' },
   { href: '/admin/sih', label: 'SIH' },
-  { href: '/admin/admins', label: 'Admins' }
+  { href: '/admin/memberships', label: 'Memberships' },
+  { href: '/admin/admins', label: 'Admins' },
+  { href: '/admin/settings', label: 'Settings' }
 ];
 
 export default function AdminNav({ email }: { email: string }) {
@@ -91,7 +93,7 @@ export default function AdminNav({ email }: { email: string }) {
       )}
 
       {/* ---------- Desktop sidebar ---------- */}
-      <aside className="hidden min-h-screen w-56 flex-col border-r border-white/10 bg-neutral-950 px-4 py-6 md:flex">
+      <aside className="hidden sticky top-0 h-screen w-56 shrink-0 flex-col overflow-y-auto border-r border-white/10 bg-neutral-950 px-4 py-6 md:flex">
         <div className="mb-6 px-2">
           <p className="font-orbitron text-lg font-bold text-white">CSI Admin</p>
           <p className="mt-1 truncate text-xs text-neutral-500" title={email}>{email}</p>

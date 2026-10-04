@@ -1,61 +1,19 @@
 import { NextRequest } from 'next/server';
 import { supabase } from '@/lib/supabase/server';
+import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { successResponse, errorResponse } from '@/lib/utils/response';
-import { registrationRequestSchema } from '@/lib/utils/validation';
-import type { RegistrationResponse } from '@/lib/types/events';
 
-type StandardFields = {
-  user_name: string;
-  user_email: string;
-  user_phone?: string;
-  user_college?: string;
-  user_year?: string;
-};
+const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 
 export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = await params;
-    const eventId = id;
+    const { id: eventId } = await params;
+    const formData = await request.formData();
 
-    // Parse and validate request body
-    const body = await request.json();
-    const validationResult = registrationRequestSchema.safeParse(body);
-
-    if (!validationResult.success) {
-      return errorResponse(
-        'Invalid registration data',
-        'VALIDATION_ERROR',
-        400,
-        {
-          errors: validationResult.error.issues
-        }
-      );
-    }
-
-    const registrationData = validationResult.data;
-
-    // Separate standard fields from extra fields
-    const standardFieldNames = ['user_name', 'user_email', 'user_phone', 'user_college', 'user_year'] as const;
-    const standardFields: StandardFields = {
-      user_name: registrationData.user_name,
-      user_email: registrationData.user_email,
-      user_phone: registrationData.user_phone,
-      user_college: registrationData.user_college,
-      user_year: registrationData.user_year
-    };
-    const extraFields: Record<string, unknown> = {};
-
-    // Extract extra fields only
-    Object.entries(registrationData).forEach(([key, value]) => {
-      if (!(standardFieldNames as readonly string[]).includes(key)) {
-        extraFields[key] = value as unknown;
-      }
-    });
-
-    // Check if event exists and is active
+    // 1. Verify Event exists and is active
     const { data: event, error: eventError } = await supabase
       .from('events')
       .select('id, title, is_registration_open, registration_start_date, registration_end_date, max_participants, current_participants, status')
@@ -69,11 +27,7 @@ export async function POST(
 
     // Check if registration is open
     if (!event.is_registration_open) {
-      return errorResponse(
-        'Registration is not open for this event',
-        'REGISTRATION_CLOSED',
-        400
-      );
+      return errorResponse('Registration is not open for this event', 'REGISTRATION_CLOSED', 400);
     }
 
     // Check registration date window
@@ -81,163 +35,157 @@ export async function POST(
     if (event.registration_start_date) {
       const regStart = new Date(event.registration_start_date);
       if (now < regStart) {
-        return errorResponse(
-          'Registration has not started yet',
-          'REGISTRATION_NOT_STARTED',
-          400
-        );
+        return errorResponse('Registration has not started yet', 'REGISTRATION_NOT_STARTED', 400);
       }
     }
 
     if (event.registration_end_date) {
       const regEnd = new Date(event.registration_end_date);
       if (now > regEnd) {
+        return errorResponse('Registration has ended', 'REGISTRATION_ENDED', 400);
+      }
+    }
+
+    // Check capacity
+    if (event.max_participants && event.max_participants > 0) {
+      if (event.current_participants >= event.max_participants) {
+        return errorResponse('Event has reached maximum capacity', 'EVENT_FULL', 400);
+      }
+    }
+
+    // 2. Validate CSI Membership if claimed
+    const userEmail = formData.get('user_email')?.toString();
+    const isCsiMemberStr = formData.get('is_csi_member')?.toString();
+    const isCsiMember = isCsiMemberStr === 'true' || isCsiMemberStr === 'Yes' || isCsiMemberStr === 'yes';
+
+    if (isCsiMember && userEmail) {
+      const { data: membership, error: membershipError } = await supabaseAdmin
+        .from('csi_memberships')
+        .select('status')
+        .eq('email', userEmail)
+        .single();
+
+      if (membershipError || !membership) {
         return errorResponse(
-          'Registration has ended',
-          'REGISTRATION_ENDED',
+          "We couldn't find a CSI membership for this email. Please use the email you bought the membership with, or proceed without claiming membership.",
+          'MEMBERSHIP_NOT_FOUND',
+          400
+        );
+      }
+
+      if (membership.status === 'pending') {
+        return errorResponse(
+          'Your CSI membership is still pending verification by our team. Please wait for it to be verified before claiming member benefits.',
+          'MEMBERSHIP_PENDING',
+          400
+        );
+      }
+
+      if (membership.status === 'rejected') {
+        return errorResponse(
+          'Your CSI membership application was rejected. Please contact support or purchase a new membership.',
+          'MEMBERSHIP_REJECTED',
           400
         );
       }
     }
 
-    // Check if event is upcoming (can't register for completed events)
-    if (event.status === 'completed') {
-      return errorResponse(
-        'Cannot register for a completed event',
-        'EVENT_COMPLETED',
-        400
-      );
-    }
+    // 3. Handle File Upload (if any)
+    let payment_screenshot_url = null;
+    const file = formData.get('payment_screenshot') as File | null;
 
-    // Check if event is full
-    if (
-      event.max_participants !== null &&
-      event.current_participants !== null &&
-      event.current_participants >= event.max_participants
-    ) {
-      return errorResponse(
-        'Event is full. No spots available',
-        'EVENT_FULL',
-        400
-      );
-    }
-
-    // Check if user is already registered (prevent duplicates)
-    const { data: existingRegistration, error: checkError } = await supabase
-      .from('event_registrations')
-      .select('id')
-      .eq('event_id', eventId)
-      .eq('user_email', standardFields.user_email)
-      .single();
-
-    if (checkError && checkError.code !== 'PGRST116') {
-      // PGRST116 is "not found" which is expected for new registrations
-      console.error('Error checking existing registration:', checkError);
-      return errorResponse(
-        'Failed to check existing registration',
-        'DATABASE_ERROR',
-        500
-      );
-    }
-
-    if (existingRegistration) {
-      return errorResponse(
-        'You are already registered for this event',
-        'ALREADY_REGISTERED',
-        409
-      );
-    }
-
-    // Determine registration status
-    // Only set as waitlisted if event is already FULL
-    // If event has space, register as pending/confirmed
-    let registrationStatus: 'pending' | 'confirmed' | 'waitlisted' = 'pending';
-    const isEventFull =
-      event.max_participants !== null &&
-      event.current_participants !== null &&
-      event.current_participants >= event.max_participants;
-
-    if (isEventFull) {
-      registrationStatus = 'waitlisted';
-    }
-
-    // Insert registration
-    const { data: newRegistration, error: insertError } = await supabase
-      .from('event_registrations')
-      .insert({
-        event_id: eventId,
-        user_name: standardFields.user_name,
-        user_email: standardFields.user_email,
-        user_phone: standardFields.user_phone || null,
-        user_college: standardFields.user_college || null,
-        user_year: standardFields.user_year || null,
-        additional_info: Object.keys(extraFields).length > 0 ? extraFields : null,
-        registration_status: registrationStatus
-      })
-      .select()
-      .single();
-
-    if (insertError) {
-      console.error('Error inserting registration:', insertError);
-      return errorResponse(
-        'Failed to register for event',
-        'DATABASE_ERROR',
-        500
-      );
-    }
-
-    // Update event's current_participants count
-    // Only increment if event is NOT full (waitlisted registrations don't count toward capacity)
-    if (!isEventFull) {
-      const newParticipantCount = (event.current_participants || 0) + 1;
-      const becomesFull =
-        event.max_participants !== null &&
-        newParticipantCount >= event.max_participants;
-
-      // Update participant count and close registration if event becomes full
-      const updateData: { current_participants: number; is_registration_open?: boolean } = {
-        current_participants: newParticipantCount
-      };
-
-      // Auto-close registration when event reaches full capacity
-      if (becomesFull) {
-        updateData.is_registration_open = false;
+    if (file && file.size > 0) {
+      if (file.size > MAX_FILE_SIZE) {
+        return errorResponse('Screenshot is too large (Max 10MB)', 'FILE_TOO_LARGE', 400);
       }
 
-      const { error: updateError } = await supabase
-        .from('events')
-        .update(updateData)
-        .eq('id', eventId);
+      const ext = file.name.split('.').pop()?.toLowerCase() || 'jpg';
+      const safeName = file.name.replace(/\.[^.]+$/, '').replace(/[^a-zA-Z0-9-_]/g, '-').slice(0, 30);
+      const path = `registrations/${eventId}/${Date.now()}-${safeName}.${ext}`;
 
-      if (updateError) {
-        console.error('Error updating participant count:', updateError);
-        // Don't fail the request, just log the error
+      const buffer = Buffer.from(await file.arrayBuffer());
+      
+      const { error: uploadError } = await supabaseAdmin.storage
+        .from('media')
+        .upload(path, buffer, { contentType: file.type, upsert: false });
+
+      if (uploadError) {
+        console.error('File upload failed:', uploadError);
+        return errorResponse('Failed to upload payment screenshot', 'UPLOAD_FAILED', 500);
       }
+
+      const { data: urlData } = supabaseAdmin.storage.from('media').getPublicUrl(path);
+      payment_screenshot_url = urlData.publicUrl;
     }
 
-    // Build response
-    const response: RegistrationResponse = {
-      registration_id: newRegistration.id,
-      status: registrationStatus,
-      message:
-        registrationStatus === 'waitlisted'
-          ? 'You have been added to the waitlist. We will notify you if a spot becomes available.'
-          : 'Registration successful! Confirmation details will be sent to your email.'
+    // 3. Extract and parse fields
+    const baseFields = ['user_name', 'user_email', 'user_phone', 'user_college', 'user_year', 'is_csi_member', 'transaction_id', 'payment_mode'];
+    
+    const dbPayload: any = {
+      event_id: eventId,
+      payment_screenshot_url,
     };
+    
+    const additional_info: Record<string, any> = {};
 
-    return successResponse(response, 201);
-  } catch (error) {
-    // Handle JSON parse errors
-    if (error instanceof SyntaxError) {
-      return errorResponse('Invalid JSON in request body', 'INVALID_JSON', 400);
+    for (const [key, value] of formData.entries()) {
+      if (key === 'payment_screenshot') continue; 
+
+      if (baseFields.includes(key)) {
+        if (key === 'is_csi_member') {
+          dbPayload[key] = value === 'true' || value === 'Yes' || value === 'yes';
+        } else {
+          dbPayload[key] = value.toString();
+        }
+      } else {
+        additional_info[key] = value.toString();
+      }
     }
 
-    console.error('Unexpected error in /api/events/[id]/register:', error);
-    return errorResponse(
-      'An unexpected error occurred while processing registration',
-      'INTERNAL_ERROR',
-      500
-    );
+    dbPayload.additional_info = additional_info;
+
+    // Validate required fields
+    if (!dbPayload.user_name || !dbPayload.user_email) {
+      return errorResponse('Name and Email are required', 'MISSING_FIELDS', 400);
+    }
+
+    // 4. Insert into database using admin client since public might not have insert perms
+    const { data: registration, error: dbError } = await supabaseAdmin
+      .from('event_registrations')
+      .insert(dbPayload)
+      .select('id, registration_status')
+      .single();
+
+    if (dbError) {
+      console.error('Database insertion error:', dbError);
+      if (dbError.code === '23505') { 
+        return errorResponse('You have already registered for this event with this email.', 'ALREADY_REGISTERED', 400);
+      }
+      return errorResponse('Failed to save registration', 'DB_ERROR', 500);
+    }
+
+    // 5. Increment current_participants
+    const { data: currentEvent } = await supabaseAdmin
+      .from('events')
+      .select('current_participants')
+      .eq('id', eventId)
+      .single();
+      
+    if (currentEvent) {
+      await supabaseAdmin
+        .from('events')
+        .update({ current_participants: (currentEvent.current_participants || 0) + 1 })
+        .eq('id', eventId);
+    }
+
+    return successResponse({ 
+      registration_id: registration.id, 
+      status: registration.registration_status,
+      message: 'Registration successful' 
+    });
+    
+  } catch (error: any) {
+    console.error('Unexpected error during registration:', error);
+    return errorResponse(error.message || 'An unexpected error occurred', 'INTERNAL_ERROR', 500);
   }
 }
-

@@ -1,20 +1,10 @@
 'use client';
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import Image from 'next/image';
 import { FaGithub, FaLinkedinIn } from 'react-icons/fa';
-import gbData from '@/app/team/_data/2026-2027/gb.json';
 import MemberLightbox from '@/components/shared/MemberLightbox';
-
-type GbJson = {
-  id: number | string;
-  Name: string;
-  'Linkedin Id'?: string;
-  'Github Id'?: string;
-  'Email Id'?: string;
-  'Formal Picture'?: string | null;
-  'Governing Body Position': string;
-};
+import { useTeam, useTeamYears } from '@/app/team/_hooks/useTeam';
 
 // Shape returned by /api/team/gb (Supabase csi_team rows)
 type DbMember = {
@@ -58,17 +48,6 @@ const toEmail = (val?: string | null): string | undefined => {
   const v = val?.trim() ?? '';
   return !isEmpty(v) && v.includes('@') ? v : undefined;
 };
-
-const fromJson = (rows: GbJson[]): Member[] =>
-  rows.map((m) => ({
-    id: String(m.id),
-    name: m.Name,
-    role: m['Governing Body Position'].trim(),
-    image: m['Formal Picture'] || undefined,
-    linkedinUrl: toUrl(m['Linkedin Id']),
-    githubUrl: toGithubUrl(m['Github Id']),
-    email: toEmail(m['Email Id']),
-  }));
 
 const fromDb = (rows: DbMember[]): Member[] =>
   rows.map((r) => ({
@@ -189,25 +168,16 @@ const Polaroid: React.FC<{
 );
 
 function PolaroidMarqueeComponent() {
-  const [members, setMembers] = useState<Member[]>(() => fromJson(gbData as GbJson[]));
-  const [open, setOpen] = useState<{ id: string; el: HTMLElement; viaKeyboard: boolean } | null>(null);
+  const { data: availableYears = [] } = useTeamYears();
+  const latestYear = availableYears.length > 0 ? availableYears[0] : '';
+  
+  const { gb: dbGbRaw } = useTeam(latestYear);
+  const members = useMemo(() => {
+    if (!dbGbRaw) return [];
+    return fromDb(dbGbRaw as unknown as DbMember[]);
+  }, [dbGbRaw]);
 
-  useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      try {
-        const res = await fetch('/api/team/gb');
-        if (!res.ok) return;
-        const json = await res.json();
-        if (!cancelled && Array.isArray(json) && json.length > 0) setMembers(fromDb(json));
-      } catch {
-        // keep JSON fallback
-      }
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+  const [open, setOpen] = useState<{ id: string; el: HTMLElement; viaKeyboard: boolean } | null>(null);
 
   const rows = useMemo(
     () => ROWS.map((_, r) => members.filter((_, i) => i % ROWS.length === r)),

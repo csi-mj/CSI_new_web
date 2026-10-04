@@ -163,6 +163,11 @@ export interface BaseEvent {
   organizers?: string[] | null;
   contacts?: { name: string; phone: string }[] | null;
   time_range?: string | null;
+  // payment fields
+  is_paid?: boolean | null;
+  entry_fee?: number | null;
+  csi_entry_fee?: number | null;
+  payment_qr_url?: string | null;
 }
 
 export interface UpcomingEvent extends BaseEvent {
@@ -206,7 +211,7 @@ export interface ApiResponse<T> {
 export interface RegistrationFormField {
   name: string;
   label: string;
-  type: 'text' | 'email' | 'tel' | 'select' | 'textarea';
+  type: 'text' | 'email' | 'tel' | 'number' | 'url' | 'select' | 'textarea' | 'radio' | 'checkbox' | 'file';
   required: boolean;
   options?: string[];
   placeholder?: string;

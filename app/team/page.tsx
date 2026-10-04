@@ -9,14 +9,8 @@ import GB from './_components/TeamCard';
 import NavTabs from './_components/NavTabs';
 import GbCollage, { GbMember } from './_components/GbCollage';
 import Shuffle from '@/components/Shuffle';
-import gbData25 from './_data/2025-2026/gb.json';
-import execData25 from './_data/2025-2026/exec.json';
-import coreData25 from './_data/2025-2026/core.json';
-import gbData26 from './_data/2026-2027/gb.json';
-import execData26 from './_data/2026-2027/exec.json';
-import coreData26 from './_data/2026-2027/core.json';
-
-gsap.registerPlugin(ScrollTrigger);
+import { useTeam, useTeamYears } from './_hooks/useTeam';
+import { DataBoundary } from '@/components/ui/data-boundary';
 
 type ExecRaw = {
   id: number | string;
@@ -48,21 +42,9 @@ type CardItem = {
   githubUrl?: string;
   linkedinUrl?: string;
 };
+import { DbMember } from './_hooks/useTeam';
 
-// Shape returned by /api/team/* (Supabase csi_team rows)
-type DbMember = {
-  id: string;
-  sno: number | null;
-  name: string;
-  position: string | null;
-  role: 'gb' | 'core' | 'execom';
-  image_url: string | null;
-  linkedin: string | null;
-  github: string | null;
-  mail: string | null;
-  portfolio: string | null;
-  gb_position: string | null;
-};
+gsap.registerPlugin(ScrollTrigger);
 
 // URL normalizers used by GB and Core cards
 const toUrl = (val?: string): string | undefined => {
@@ -173,37 +155,22 @@ const dbToGbRaw = (rows: DbMember[]): RawGbMember[] =>
   }));
 
 export default function TeamPage() {
-  const [dbGbRaw, setDbGbRaw] = useState<RawGbMember[] | null>(null);
-  const [dbExecRaw, setDbExecRaw] = useState<ExecRaw[] | null>(null);
-  const [dbCoreRaw, setDbCoreRaw] = useState<ExecRaw[] | null>(null);
-  const [activeYear, setActiveYear] = useState('2026-2027');
+  const { data: availableYears = [], isLoading: isYearsLoading } = useTeamYears();
+  const [activeYear, setActiveYear] = useState('');
 
+  // Auto-select the first (most recent) year when years are fetched
   useEffect(() => {
-    const grab = async (url: string): Promise<DbMember[] | null> => {
-      try {
-        const res = await fetch(url);
-        if (!res.ok) return null;
-        const json = await res.json();
-        return Array.isArray(json) && json.length > 0 ? json : null;
-      } catch {
-        return null;
-      }
-    };
-    (async () => {
-      const [gb, core, exec] = await Promise.all([
-        grab('/api/team/gb'),
-        grab('/api/team/core'),
-        grab('/api/team/execom'),
-      ]);
-      if (gb) setDbGbRaw(dbToGbRaw(gb));
-      if (core) setDbCoreRaw(dbToExecRaw(core));
-      if (exec) setDbExecRaw(dbToExecRaw(exec));
-    })();
-  }, []);
+    if (availableYears.length > 0 && !activeYear) {
+      setActiveYear(availableYears[0]);
+    }
+  }, [availableYears, activeYear]);
+  
+  const { gb: dbGbRaw, core: dbCoreRaw, exec: dbExecRaw, isLoading: isTeamLoading, isError } = useTeam(activeYear);
+  const isLoading = isYearsLoading || isTeamLoading || !activeYear;
 
-  const gbRaw = activeYear === '2026-2027' ? (dbGbRaw || (gbData26 as RawGbMember[])) : (gbData25 as RawGbMember[]);
-  const execRaw = activeYear === '2026-2027' ? (dbExecRaw || (execData26 as ExecRaw[])) : (execData25 as ExecRaw[]);
-  const coreRaw = activeYear === '2026-2027' ? (dbCoreRaw || (coreData26 as ExecRaw[])) : (coreData25 as ExecRaw[]);
+  const gbRaw = dbToGbRaw(dbGbRaw);
+  const execRaw = dbToExecRaw(dbExecRaw);
+  const coreRaw = dbToExecRaw(dbCoreRaw);
 
   const teams = useMemo(() => buildExecTeams(execRaw), [execRaw]);
   const groupedCoreCards = useMemo(() => buildCoreCards(coreRaw), [coreRaw]);
@@ -248,7 +215,7 @@ export default function TeamPage() {
     if (execRef.current) observer.observe(execRef.current);
     if (coreRef.current) observer.observe(coreRef.current);
     return () => observer.disconnect();
-  }, []);
+  }, [isLoading]);
 
   // Ensure ScrollTrigger recalculates once content mounts/lazy-mounts
   useEffect(() => {
@@ -256,86 +223,101 @@ export default function TeamPage() {
   }, [execVisible, coreVisible]);
 
   return (
-    <div className="w-screen mt-32">
-      <div className="w-full flex justify-center gap-4 relative z-20">
-         <NavTabs tabs={['2026-2027', '2025-2026']} activeIdx={activeYear === '2026-2027' ? 0 : 1} onChange={(idx) => setActiveYear(idx === 0 ? '2026-2027' : '2025-2026')} />
-      </div>
-      {gbMembers.length > 0 && (
-        <section
-          ref={gbRef}
-          className="gb-section will-change-transform transform-gpu"
-          style={{ willChange: 'transform', transform: 'translateZ(0)', backfaceVisibility: 'hidden' as const, contain: 'paint' as const }}
-        >
-          <GbCollage members={gbMembers} term={activeYear.replace(/-(\d{2})(\d{2})$/, '–$2')} />
-        </section>
+    <div className="w-screen mt-32 relative min-h-screen">
+      {availableYears.length > 0 && (
+        <div className="w-full flex justify-center gap-4 relative z-20">
+           <NavTabs 
+             tabs={availableYears} 
+             activeIdx={availableYears.indexOf(activeYear)} 
+             onChange={(idx) => setActiveYear(availableYears[idx])} 
+           />
+        </div>
       )}
-      {teamTabs.length > 0 && (
-        <section
-          ref={execRef}
-          className="exec-section will-change-transform transform-gpu"
-          style={{ willChange: 'transform', transform: 'translateZ(0)', backfaceVisibility: 'hidden' as const, contain: 'paint' as const }}
-        >
-          <div className='w-full flex justify-center relative z-10'>
-            <Shuffle 
-                text="EXECUTIVE COMMITTEE" 
-                tag="h1"
-                className="font-orbitron !text-3xl mt-16 mb-8 md:!text-6xl !text-primary !normal-case !font-bold"
-                immediate={true}
-                loop={true}
-                loopDelay={2}
-                duration={0.4}
-                stagger={0.04}
-                shuffleTimes={2}
-                animationMode="evenodd"
-                triggerOnce={false}
-                triggerOnHover={true}
-              />
-          </div>
-          <div className="relative w-full px-2">
-            <div className="flex flex-wrap gap-2 justify-center">
-              <NavTabs tabs={teamTabs} activeIdx={activeIdx} onChange={setActiveIdx} />
-            </div>
-          </div>
 
-          {execVisible && activeTeam && (
-            <div className="w-full">
-              <Carousel teamMembers={activeTeam.teamMembers} teamName={activeTeam.name} />
+      <DataBoundary
+        isLoading={isLoading}
+        isError={isError}
+        isEmpty={gbMembers.length === 0 && teamTabs.length === 0 && coreTeamTabs.length === 0}
+        loadingTitle="Loading Team Data"
+        loadingDescription="Fetching the brightest minds..."
+      >
+        {gbMembers.length > 0 && (
+          <section
+            ref={gbRef}
+            className="gb-section will-change-transform transform-gpu"
+            style={{ willChange: 'transform', transform: 'translateZ(0)', backfaceVisibility: 'hidden' as const, contain: 'paint' as const }}
+          >
+            <GbCollage members={gbMembers} term={activeYear} />
+          </section>
+        )}
+        {teamTabs.length > 0 && (
+          <section
+            ref={execRef}
+            className="exec-section will-change-transform transform-gpu"
+            style={{ willChange: 'transform', transform: 'translateZ(0)', backfaceVisibility: 'hidden' as const, contain: 'paint' as const }}
+          >
+            <div className='w-full flex justify-center relative z-10'>
+              <Shuffle 
+                  text="EXECUTIVE COMMITTEE" 
+                  tag="h1"
+                  className="font-orbitron !text-3xl mt-16 mb-8 md:!text-6xl !text-primary !normal-case !font-bold"
+                  immediate={true}
+                  loop={true}
+                  loopDelay={2}
+                  duration={0.4}
+                  stagger={0.04}
+                  shuffleTimes={2}
+                  animationMode="evenodd"
+                  triggerOnce={false}
+                  triggerOnHover={true}
+                />
             </div>
-          )}
-        </section>
-      )}
-      {coreTeamTabs.length > 0 && (
-        <section
-          ref={coreRef}
-          className="core-section will-change-transform transform-gpu"
-          style={{ willChange: 'transform', transform: 'translateZ(0)', backfaceVisibility: 'hidden' as const, contain: 'paint' as const }}
-        >
-          <div className='w-full flex justify-center relative z-10'>
-            <Shuffle 
-                text="CORE TEAM" 
-                tag="h1"
-                className="font-orbitron !text-5xl mt-16 mb-8 md:!text-6xl !text-primary !normal-case !font-bold"
-                immediate={true}
-                loop={true}
-                loopDelay={2}
-                duration={0.4}
-                stagger={0.04}
-                shuffleTimes={4}
-                animationMode="evenodd"
-                triggerOnce={false}
-                triggerOnHover={true}
-              />
-          </div>
-          <div className="relative w-full px-2">
-            {coreVisible && (
-              <div className="flex flex-wrap gap-2 justify-center mb-6">
-                <NavTabs tabs={coreTeamTabs} activeIdx={activeCoreIdx} onChange={setActiveCoreIdx} />
+            <div className="relative w-full px-2">
+              <div className="flex flex-wrap gap-2 justify-center">
+                <NavTabs tabs={teamTabs} activeIdx={activeIdx} onChange={setActiveIdx} />
+              </div>
+            </div>
+
+            {execVisible && activeTeam && (
+              <div className="w-full">
+                <Carousel teamMembers={activeTeam.teamMembers} teamName={activeTeam.name} />
               </div>
             )}
-          </div>
-          {coreVisible && <GB items={coreItems} />}
-        </section>
-      )}
+          </section>
+        )}
+        {coreTeamTabs.length > 0 && (
+          <section
+            ref={coreRef}
+            className="core-section will-change-transform transform-gpu"
+            style={{ willChange: 'transform', transform: 'translateZ(0)', backfaceVisibility: 'hidden' as const, contain: 'paint' as const }}
+          >
+            <div className='w-full flex justify-center relative z-10'>
+              <Shuffle 
+                  text="CORE TEAM" 
+                  tag="h1"
+                  className="font-orbitron !text-5xl mt-16 mb-8 md:!text-6xl !text-primary !normal-case !font-bold"
+                  immediate={true}
+                  loop={true}
+                  loopDelay={2}
+                  duration={0.4}
+                  stagger={0.04}
+                  shuffleTimes={4}
+                  animationMode="evenodd"
+                  triggerOnce={false}
+                  triggerOnHover={true}
+                />
+            </div>
+            <div className="relative w-full px-2">
+              {coreVisible && (
+                <div className="flex flex-wrap gap-2 justify-center mb-6">
+                  <NavTabs tabs={coreTeamTabs} activeIdx={activeCoreIdx} onChange={setActiveCoreIdx} />
+                </div>
+              )}
+            </div>
+            {coreVisible && <GB items={coreItems} />}
+          </section>
+        )}
+      </DataBoundary>
     </div>
   );
 }

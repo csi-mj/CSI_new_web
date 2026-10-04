@@ -1,12 +1,23 @@
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
-export async function GET() {
-  const { data, error } = await supabaseAdmin
+import { NextRequest } from "next/server";
+
+export async function GET(req: NextRequest) {
+  const { searchParams } = new URL(req.url);
+  const year = searchParams.get("year");
+
+  let query = supabaseAdmin
     .from("csi_team")
     .select("*")
     .eq("role", "core")
     .eq("is_active", true)
     .order("sno", { ascending: true });
+
+  if (year) {
+    query = query.eq("team_year", year);
+  }
+
+  const { data, error } = await query;
 
   if (error) return Response.json({ error: error.message }, { status: 500 });
 

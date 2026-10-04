@@ -4,6 +4,8 @@ import './globals.css';
 import Navbar from '@/components/shared/Navbar';
 import { CursorWrapper } from '@/components/shared/CursorWrapper';
 import Footer from '@/components/shared/Footer';
+import { ReactQueryProvider } from '@/components/providers/ReactQueryProvider';
+import { Toaster } from '@/components/ui/sonner';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -120,10 +122,13 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
         />
         {/* <ReduxProvider> */}
+        <ReactQueryProvider>
           <CursorWrapper />
           <Navbar />
           <main className="m-0 p-0 w-screen overflow-x-hidden" style={{ margin: 0, padding: 0 }}>{children}</main>
           <Footer />
+        </ReactQueryProvider>
+        <Toaster position='top-right' richColors />
         {/* </ReduxProvider> */}
       </body>
     </html>

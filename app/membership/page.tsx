@@ -1,12 +1,12 @@
 import React from 'react';
-import Hero from '../home/_components/hero/Hero';
+import MembershipForm from './_components/MembershipForm';
 
-const page = () => {
+const MembershipPage = () => {
   return (
-    <>
-      <Hero />
-    </>
+    <div className="bg-background min-h-screen py-28 px-4 sm:px-6">
+      <MembershipForm />
+    </div>
   );
 };
 
-export default page;
+export default MembershipPage;
