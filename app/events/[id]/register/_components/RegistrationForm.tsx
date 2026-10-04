@@ -150,7 +150,7 @@ export default function RegistrationForm({
         toast.error(errorMsg);
         setIsSubmitting(false);
         // Scroll to the error alert slightly above the form
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        document.getElementById('registration-form-start')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
         return;
       }
 
@@ -161,7 +161,7 @@ export default function RegistrationForm({
       setServerError(errorMsg);
       toast.error(errorMsg);
       console.error('Submission error:', error);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      document.getElementById('registration-form-start')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     } finally {
       setIsSubmitting(false);
     }
@@ -185,7 +185,7 @@ export default function RegistrationForm({
   }
 
   return (
-    <div className="flex w-full flex-col items-center">
+    <div id="registration-form-start" className="flex w-full flex-col items-center scroll-mt-24">
       <div className="border-border/50 mb-10 w-full border-b pb-6 text-center">
         <h2 className="text-primary text-3xl font-black md:text-5xl">
           Complete Registration
