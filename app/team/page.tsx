@@ -65,9 +65,14 @@ const toGithubUrl = (val?: string): string | undefined => {
 
 const mapGbGroup = (pos: string): string => {
   const p = pos.trim();
-  if (p === 'Chief Coordinator' || p === 'Associate CC') return 'Chief Coordinator';
-  if (p === 'Deputy GS' || p === 'General Secretary') return 'General Secretary';
-  if (p === 'Treasurer' || p === 'Deputy Treasurer') return 'Treasurer';
+  const lower = p.toLowerCase();
+  
+  if (lower.includes('chief coordinator') || lower === 'associate cc' || lower === 'cc') return 'Chief Coordinator';
+  if (lower.includes('general secretary') || lower.includes('deputy gs')) return 'General Secretary';
+  if (lower.includes('treasurer')) return 'Treasurer';
+  if (lower.startsWith('secretary')) return 'Secretary';
+  if (lower.startsWith('advisor')) return 'Advisor';
+  
   return p;
 };
 
