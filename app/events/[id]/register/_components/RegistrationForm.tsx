@@ -86,20 +86,12 @@ export default function RegistrationForm({
       baseSchema = z.object({
         ...shape,
         payment_mode: z.enum(['online', 'cash']).default('online'),
-        transaction_id: z.string().optional(),
         payment_screenshot: z.any().optional()
       }).superRefine((data: any, ctx) => {
         const isCsi = data.is_csi_member === true || data.is_csi_member === 'Yes' || data.is_csi_member === 'yes';
         const fee = (isCsi && event.csi_entry_fee != null) ? event.csi_entry_fee : (event.entry_fee || 0);
 
         if (fee > 0 && data.payment_mode === 'online') {
-          if (!data.transaction_id || data.transaction_id.trim() === '') {
-            ctx.addIssue({
-              code: z.ZodIssueCode.custom,
-              message: 'Transaction ID is required for online payments',
-              path: ['transaction_id']
-            });
-          }
           if (!data.payment_screenshot) {
             ctx.addIssue({
               code: z.ZodIssueCode.custom,
