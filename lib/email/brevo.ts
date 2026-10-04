@@ -25,7 +25,7 @@ export async function sendEmail({ to, subject, htmlContent }: SendEmailOptions) 
     body: JSON.stringify({
       sender: {
         name: 'CSI Chapter',
-        email: 'mdferozahmed27156@gmail.com' // Can be updated to your actual verified sender email
+        email: 'csi@mjcollege.ac.in' // Can be updated to your actual verified sender email
       },
       to,
       subject,
