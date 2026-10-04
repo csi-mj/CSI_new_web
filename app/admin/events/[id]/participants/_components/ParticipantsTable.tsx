@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo } from 'react';
 import { Participant } from '../hooks/useParticipants';
 import { ParticipantDetailsModal } from './ParticipantDetailsModal';
 import {
@@ -21,7 +21,7 @@ import {
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { Button } from '@/components/ui/button';
-import { CheckCircle2, Clock, Hourglass, XCircle, Mail, Loader2, Banknote } from 'lucide-react';
+import { CheckCircle2, Clock, Hourglass, XCircle, Mail, Loader2, Banknote, Users, ScanLine } from 'lucide-react';
 import { iconColors, translucentBgColors, borderColors } from '@/config/colors';
 
 export const STATUS_CONFIG = {
@@ -40,8 +40,34 @@ interface ParticipantsTableProps {
 }
 
 export function ParticipantsTable({ participants, onStatusChange, onAttendanceChange, onSendTicket, sendingTicketId }: ParticipantsTableProps) {
+  const stats = useMemo(() => ({
+    total:     participants.length,
+    confirmed: participants.filter(p => p.registration_status === 'confirmed').length,
+    cash:      participants.filter(p => p.payment_mode === 'cash').length,
+    attended:  participants.filter(p => p.is_attended).length,
+  }), [participants]);
+
+  const statItems = [
+    { label: 'Total',     value: stats.total,      icon: Users,       color: iconColors.blue,   border: borderColors.blue   },
+    { label: 'Confirmed', value: stats.confirmed,  icon: CheckCircle2,color: iconColors.green,  border: borderColors.green  },
+    { label: 'Cash',      value: stats.cash,       icon: Banknote,    color: iconColors.yellow, border: borderColors.yellow },
+    { label: 'Attended',  value: stats.attended,   icon: ScanLine,    color: iconColors.green,  border: borderColors.green  },
+  ];
+
   return (
-    <div className="rounded-md border bg-card/50 p-4">
+    <div className="space-y-4">
+      {/* Analytics Strip */}
+      <div className="flex flex-wrap gap-2">
+        {statItems.map(({ label, value, icon: Icon, color, border }) => (
+          <div key={label} className={`flex items-center gap-2.5 rounded-lg border px-4 py-2.5 ${border}`}>
+            <Icon className={`h-4 w-4 shrink-0 ${color}`} />
+            <span className={`text-lg font-bold leading-none ${color}`}>{value}</span>
+            <span className="text-xs uppercase tracking-wider text-muted-foreground">{label}</span>
+          </div>
+        ))}
+      </div>
+
+      <div className="rounded-md border bg-card/50 p-4">
       <Table>
         <TableHeader>
           <TableRow>
@@ -156,6 +182,7 @@ export function ParticipantsTable({ participants, onStatusChange, onAttendanceCh
           })}
         </TableBody>
       </Table>
+    </div>
     </div>
   );
 }

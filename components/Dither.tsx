@@ -149,6 +149,7 @@ class RetroEffectImpl extends Effect {
 const RetroEffect = forwardRef<RetroEffectImpl, { colorNum: number; pixelSize: number }>((props, ref) => {
   const { colorNum, pixelSize } = props;
   const WrappedRetroEffect = wrapEffect(RetroEffectImpl);
+  // @ts-expect-error - wrapEffect typing doesn't infer custom effect props
   return <WrappedRetroEffect ref={ref} colorNum={colorNum} pixelSize={pixelSize} />;
 });
 

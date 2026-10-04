@@ -67,7 +67,6 @@ export default function HomePage() {
                 triggerOnHover={true}
               />
             </div>
-
             <PolaroidMarquee />
           </div>
         </div>

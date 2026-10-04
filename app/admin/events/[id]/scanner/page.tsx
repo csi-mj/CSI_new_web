@@ -1,13 +1,14 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Scanner } from '@yudiel/react-qr-scanner';
 import { useParams, useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, CheckCircle2, XCircle, Loader2 } from 'lucide-react';
-import { iconColors } from '@/config/colors';
+import { ArrowLeft, CheckCircle2, XCircle, Loader2, Users, ScanLine, Hourglass } from 'lucide-react';
+import { iconColors, borderColors } from '@/config/colors';
 
 import { useScanner } from './hooks/useScanner';
+import { useParticipants } from '../participants/hooks/useParticipants';
 
 export default function ScannerPage() {
   const params = useParams();
@@ -29,6 +30,24 @@ export default function ScannerPage() {
       setMessage(errorMsg);
     }
   );
+
+  const { participants } = useParticipants(eventId);
+
+  const stats = useMemo(() => {
+    const confirmed = participants.filter(p => p.registration_status === 'confirmed');
+    const attended  = confirmed.filter(p => p.is_attended).length;
+    return {
+      total:    confirmed.length,
+      attended,
+      left:     confirmed.length - attended,
+    };
+  }, [participants]);
+
+  const statItems = [
+    { label: 'Total',    value: stats.total,    icon: Users,       color: iconColors.blue,   border: borderColors.blue   },
+    { label: 'Attended', value: stats.attended, icon: ScanLine,    color: iconColors.green,  border: borderColors.green  },
+    { label: 'Left',     value: stats.left,     icon: Hourglass,   color: iconColors.yellow, border: borderColors.yellow },
+  ];
 
   const handleScan = (result: string) => {
     if (status === 'success' || status === 'error' || scannedId === result || isScanning) return;
@@ -59,6 +78,17 @@ export default function ScannerPage() {
         </Button>
         <h1 className="text-2xl font-bold tracking-tight">QR Check-in</h1>
         <div className="w-10"></div> {/* Spacer for centering */}
+      </div>
+
+      {/* Analytics Strip */}
+      <div className="flex items-center justify-center gap-2 w-full">
+        {statItems.map(({ label, value, icon: Icon, color, border }) => (
+          <div key={label} className={`flex items-center gap-2 rounded-lg border px-4 py-2 ${border} flex-1 justify-center`}>
+            <Icon className={`h-4 w-4 shrink-0 ${color}`} />
+            <span className={`text-lg font-bold leading-none ${color}`}>{value}</span>
+            <span className="text-xs uppercase tracking-wider text-muted-foreground">{label}</span>
+          </div>
+        ))}
       </div>
 
       <div className="w-full aspect-square bg-card rounded-xl overflow-hidden border-2 border-primary/20 shadow-xl relative">
