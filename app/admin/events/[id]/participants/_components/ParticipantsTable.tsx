@@ -21,7 +21,7 @@ import {
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { Button } from '@/components/ui/button';
-import { CheckCircle2, Clock, Hourglass, XCircle, Mail, Loader2, Banknote, Users, ScanLine } from 'lucide-react';
+import { CheckCircle2, Clock, Hourglass, XCircle, Mail, Loader2, Banknote, Users, ScanLine, Award } from 'lucide-react';
 import { iconColors, translucentBgColors, borderColors } from '@/config/colors';
 
 export const STATUS_CONFIG = {
@@ -45,13 +45,15 @@ export function ParticipantsTable({ participants, onStatusChange, onAttendanceCh
     confirmed: participants.filter(p => p.registration_status === 'confirmed').length,
     cash:      participants.filter(p => p.payment_mode === 'cash').length,
     attended:  participants.filter(p => p.is_attended).length,
+    csi:       participants.filter(p => p.is_csi_member).length,
   }), [participants]);
 
   const statItems = [
     { label: 'Total',     value: stats.total,      icon: Users,       color: iconColors.blue,   border: borderColors.blue   },
-    { label: 'Confirmed', value: stats.confirmed,  icon: CheckCircle2,color: iconColors.green,  border: borderColors.green  },
-    { label: 'Cash',      value: stats.cash,       icon: Banknote,    color: iconColors.yellow, border: borderColors.yellow },
     { label: 'Attended',  value: stats.attended,   icon: ScanLine,    color: iconColors.green,  border: borderColors.green  },
+    { label: 'Confirmed', value: stats.confirmed,  icon: CheckCircle2,color: iconColors.green,  border: borderColors.green  },
+    { label: 'CSI Members', value: stats.csi,      icon: Award,       color: iconColors.purple, border: borderColors.purple },
+    { label: 'Cash',      value: stats.cash,       icon: Banknote,    color: iconColors.yellow, border: borderColors.yellow },
   ];
 
   return (
