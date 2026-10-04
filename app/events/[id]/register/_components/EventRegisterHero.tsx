@@ -1,10 +1,14 @@
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
 import { Calendar, MapPin, Ticket, Clock } from 'lucide-react';
 import { iconColors } from '@/config/colors';
 import type { Event } from '@/lib/types/events';
 import { Badge } from '@/components/ui/badge';
 
 export default function EventRegisterHero({ event }: { event: Event }) {
+  const [isExpanded, setIsExpanded] = useState(false);
+
   return (
     <div className="relative flex min-h-[40vh] w-full flex-col justify-end md:min-h-[50vh] -mt-24">
       {/* Background Poster */}
@@ -25,14 +29,24 @@ export default function EventRegisterHero({ event }: { event: Event }) {
           
           {/* Left Side: Title & Description (8 columns) */}
           <div className="lg:col-span-7 xl:col-span-8 flex flex-col gap-4">
-            <h1 className="text-primary text-4xl leading-tight font-black md:text-5xl lg:text-6xl">
+            <h1 className="text-primary text-4xl leading-tight font-black md:text-5xl">
               {event.title}
             </h1>
             
             {event.description && (
-              <p className="text-muted-foreground max-w-3xl line-clamp-3 leading-relaxed md:line-clamp-none md:text-lg">
-                {event.description}
-              </p>
+              <div className="flex flex-col items-start gap-1">
+                <p className={`text-muted-foreground max-w-3xl leading-relaxed md:text-lg whitespace-pre-wrap ${!isExpanded ? 'line-clamp-8' : ''}`}>
+                  {event.description}
+                </p>
+                {event.description.length > 250 && (
+                  <button 
+                    onClick={() => setIsExpanded(!isExpanded)}
+                    className="text-md underline font-bold text-primary hover:underline mt-1"
+                  >
+                    {isExpanded ? 'Read less' : 'Read more'}
+                  </button>
+                )}
+              </div>
             )}
           </div>
 

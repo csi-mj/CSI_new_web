@@ -50,7 +50,8 @@ gsap.registerPlugin(ScrollTrigger);
 const toUrl = (val?: string): string | undefined => {
   if (!val) return undefined;
   const v = val.trim();
-  if (!v || v === 'N/A' || v === 'NA' || v === '-' || v === '#') return undefined;
+  if (!v || v === 'N/A' || v === 'NA' || v === '-' || v === '#')
+    return undefined;
   if (v.startsWith('http://') || v.startsWith('https://')) return v;
   return `https://www.linkedin.com/in/${v}`;
 };
@@ -58,7 +59,8 @@ const toUrl = (val?: string): string | undefined => {
 const toGithubUrl = (val?: string): string | undefined => {
   if (!val) return undefined;
   const v = val.trim();
-  if (!v || v === 'N/A' || v === 'NA' || v === '-' || v === '#') return undefined;
+  if (!v || v === 'N/A' || v === 'NA' || v === '-' || v === '#')
+    return undefined;
   if (v.startsWith('http://') || v.startsWith('https://')) return v;
   return `https://github.com/${v}`;
 };
@@ -66,57 +68,73 @@ const toGithubUrl = (val?: string): string | undefined => {
 const mapGbGroup = (pos: string): string => {
   const p = pos.trim();
   const lower = p.toLowerCase();
-  
-  if (lower.includes('chief coordinator') || lower === 'associate cc' || lower === 'cc') return 'Chief Coordinator';
-  if (lower.includes('general secretary') || lower.includes('deputy gs')) return 'General Secretary';
+
+  if (
+    lower.includes('chief coordinator') ||
+    lower === 'associate cc' ||
+    lower === 'cc'
+  )
+    return 'Chief Coordinator';
+  if (lower.includes('general secretary') || lower.includes('deputy gs'))
+    return 'General Secretary';
   if (lower.includes('treasurer')) return 'Treasurer';
   if (lower.startsWith('secretary')) return 'Secretary';
   if (lower.startsWith('advisor')) return 'Advisor';
-  
+
   return p;
 };
 
 // ---------- builders (work for both JSON fallback and DB rows) ----------
 
 const buildExecTeams = (execRawData: ExecRaw[]) => {
-  const groupedExec = execRawData.reduce((acc, m) => {
-    const key = (m.portfolio || 'Misc').toUpperCase();
-    const member: TeamMember = {
-      id: String(m.id),
-      name: m.name,
-      title: m.position,
-      image: m.imageUrl || '',
-      specialties: [],
-      social: {
-        github: m.githubUrl ? toGithubUrl(m.githubUrl || undefined) : undefined,
-        linkedin: m.linkedinUrl ? toUrl(m.linkedinUrl || undefined) : undefined,
-      },
-    };
-    if (!acc[key]) acc[key] = [];
-    acc[key].push(member);
-    return acc;
-  }, {} as Record<string, TeamMember[]>);
+  const groupedExec = execRawData.reduce(
+    (acc, m) => {
+      const key = (m.portfolio || 'Misc').toUpperCase();
+      const member: TeamMember = {
+        id: String(m.id),
+        name: m.name,
+        title: m.position,
+        image: m.imageUrl || '',
+        specialties: [],
+        social: {
+          github: m.githubUrl
+            ? toGithubUrl(m.githubUrl || undefined)
+            : undefined,
+          linkedin: m.linkedinUrl
+            ? toUrl(m.linkedinUrl || undefined)
+            : undefined
+        }
+      };
+      if (!acc[key]) acc[key] = [];
+      acc[key].push(member);
+      return acc;
+    },
+    {} as Record<string, TeamMember[]>
+  );
 
   return Object.keys(groupedExec).map((name) => ({
     name,
-    teamMembers: groupedExec[name],
+    teamMembers: groupedExec[name]
   }));
 };
 
 const buildCoreCards = (coreRawData: ExecRaw[]) =>
-  coreRawData.reduce((acc, m) => {
-    const key = (m.portfolio || 'Misc').toUpperCase();
-    const item: CardItem = {
-      name: m.name,
-      profession: m.position,
-      image: m.imageUrl || undefined,
-      githubUrl: toGithubUrl(m.githubUrl || undefined),
-      linkedinUrl: toUrl(m.linkedinUrl || undefined),
-    };
-    if (!acc[key]) acc[key] = [];
-    acc[key].push(item);
-    return acc;
-  }, {} as Record<string, CardItem[]>);
+  coreRawData.reduce(
+    (acc, m) => {
+      const key = (m.portfolio || 'Misc').toUpperCase();
+      const item: CardItem = {
+        name: m.name,
+        profession: m.position,
+        image: m.imageUrl || undefined,
+        githubUrl: toGithubUrl(m.githubUrl || undefined),
+        linkedinUrl: toUrl(m.linkedinUrl || undefined)
+      };
+      if (!acc[key]) acc[key] = [];
+      acc[key].push(item);
+      return acc;
+    },
+    {} as Record<string, CardItem[]>
+  );
 
 const buildGbMembers = (rawGbData: RawGbMember[]): GbMember[] =>
   rawGbData.map((m) => {
@@ -129,7 +147,10 @@ const buildGbMembers = (rawGbData: RawGbMember[]): GbMember[] =>
       image: m['Formal Picture'] || undefined,
       githubUrl: toGithubUrl(m['Github Id'] || undefined),
       linkedinUrl: toUrl(m['Linkedin Id'] || undefined),
-      email: m['Email Id'] && m['Email Id'].includes('@') ? m['Email Id'].trim() : undefined,
+      email:
+        m['Email Id'] && m['Email Id'].includes('@')
+          ? m['Email Id'].trim()
+          : undefined
     };
   });
 
@@ -143,7 +164,7 @@ const dbToExecRaw = (rows: DbMember[]): ExecRaw[] =>
     linkedinUrl: r.linkedin,
     githubUrl: r.github,
     email: r.mail,
-    imageUrl: r.image_url,
+    imageUrl: r.image_url
   }));
 
 const dbToGbRaw = (rows: DbMember[]): RawGbMember[] =>
@@ -156,11 +177,12 @@ const dbToGbRaw = (rows: DbMember[]): RawGbMember[] =>
     'Email Id': r.mail || undefined,
     'Github Id': r.github || undefined,
     'Formal Picture': r.image_url || undefined,
-    'Governing Body Position': r.gb_position || r.position || 'Member',
+    'Governing Body Position': r.gb_position || r.position || 'Member'
   }));
 
 export default function TeamPage() {
-  const { data: availableYears = [], isLoading: isYearsLoading } = useTeamYears();
+  const { data: availableYears = [], isLoading: isYearsLoading } =
+    useTeamYears();
   const [activeYear, setActiveYear] = useState('');
 
   // Auto-select the first (most recent) year when years are fetched
@@ -169,8 +191,14 @@ export default function TeamPage() {
       setActiveYear(availableYears[0]);
     }
   }, [availableYears, activeYear]);
-  
-  const { gb: dbGbRaw, core: dbCoreRaw, exec: dbExecRaw, isLoading: isTeamLoading, isError } = useTeam(activeYear);
+
+  const {
+    gb: dbGbRaw,
+    core: dbCoreRaw,
+    exec: dbExecRaw,
+    isLoading: isTeamLoading,
+    isError
+  } = useTeam(activeYear);
   const isLoading = isYearsLoading || isTeamLoading || !activeYear;
 
   const gbRaw = dbToGbRaw(dbGbRaw);
@@ -189,11 +217,16 @@ export default function TeamPage() {
   );
 
   const [activeCoreIdx, setActiveCoreIdx] = useState(0);
-  const coreTeamTabs = useMemo(() => Object.keys(groupedCoreCards), [groupedCoreCards]);
+  const coreTeamTabs = useMemo(
+    () => Object.keys(groupedCoreCards),
+    [groupedCoreCards]
+  );
   const coreItems = useMemo(
     () =>
       coreTeamTabs.length
-        ? groupedCoreCards[coreTeamTabs[Math.min(activeCoreIdx, coreTeamTabs.length - 1)]]
+        ? groupedCoreCards[
+            coreTeamTabs[Math.min(activeCoreIdx, coreTeamTabs.length - 1)]
+          ]
         : [],
     [groupedCoreCards, coreTeamTabs, activeCoreIdx]
   );
@@ -228,29 +261,38 @@ export default function TeamPage() {
   }, [execVisible, coreVisible]);
 
   return (
-    <div className="w-screen mt-32 relative min-h-screen">
+    <div className="relative mt-32 min-h-screen w-screen">
       {availableYears.length > 0 && (
-        <div className="w-full flex justify-center gap-4 relative z-20">
-           <NavTabs 
-             tabs={availableYears} 
-             activeIdx={availableYears.indexOf(activeYear)} 
-             onChange={(idx) => setActiveYear(availableYears[idx])} 
-           />
+        <div className="relative z-20 flex w-full justify-center gap-4">
+          <NavTabs
+            tabs={availableYears}
+            activeIdx={availableYears.indexOf(activeYear)}
+            onChange={(idx) => setActiveYear(availableYears[idx])}
+          />
         </div>
       )}
 
       <DataBoundary
         isLoading={isLoading}
         isError={isError}
-        isEmpty={gbMembers.length === 0 && teamTabs.length === 0 && coreTeamTabs.length === 0}
+        isEmpty={
+          gbMembers.length === 0 &&
+          teamTabs.length === 0 &&
+          coreTeamTabs.length === 0
+        }
         loadingTitle="Loading Team Data"
         loadingDescription="Fetching the brightest minds..."
       >
         {gbMembers.length > 0 && (
           <section
             ref={gbRef}
-            className="gb-section will-change-transform transform-gpu"
-            style={{ willChange: 'transform', transform: 'translateZ(0)', backfaceVisibility: 'hidden' as const, contain: 'paint' as const }}
+            className="gb-section transform-gpu will-change-transform"
+            style={{
+              willChange: 'transform',
+              transform: 'translateZ(0)',
+              backfaceVisibility: 'hidden' as const,
+              contain: 'paint' as const
+            }}
           >
             <GbCollage members={gbMembers} term={activeYear} />
           </section>
@@ -258,34 +300,46 @@ export default function TeamPage() {
         {teamTabs.length > 0 && (
           <section
             ref={execRef}
-            className="exec-section will-change-transform transform-gpu"
-            style={{ willChange: 'transform', transform: 'translateZ(0)', backfaceVisibility: 'hidden' as const, contain: 'paint' as const }}
+            className="exec-section transform-gpu will-change-transform"
+            style={{
+              willChange: 'transform',
+              transform: 'translateZ(0)',
+              backfaceVisibility: 'hidden' as const,
+              contain: 'paint' as const
+            }}
           >
-            <div className='w-full flex justify-center relative z-10'>
-              <Shuffle 
-                  text="EXECUTIVE COMMITTEE" 
-                  tag="h1"
-                  className="font-orbitron !text-3xl mt-16 mb-8 md:!text-6xl !text-primary !normal-case !font-bold"
-                  immediate={true}
-                  loop={true}
-                  loopDelay={2}
-                  duration={0.4}
-                  stagger={0.04}
-                  shuffleTimes={2}
-                  animationMode="evenodd"
-                  triggerOnce={false}
-                  triggerOnHover={true}
-                />
+            <div className="relative z-10 flex w-full justify-center">
+              <Shuffle
+                text="EXECUTIVE COMMITTEE"
+                tag="h1"
+                className="font-orbitron !text-primary mt-16 mb-8 !text-3xl !font-bold !normal-case md:!text-6xl"
+                immediate={true}
+                loop={true}
+                loopDelay={2}
+                duration={0.4}
+                stagger={0.04}
+                shuffleTimes={2}
+                animationMode="evenodd"
+                triggerOnce={false}
+                triggerOnHover={true}
+              />
             </div>
             <div className="relative w-full px-2">
-              <div className="flex flex-wrap gap-2 justify-center">
-                <NavTabs tabs={teamTabs} activeIdx={activeIdx} onChange={setActiveIdx} />
+              <div className="flex flex-wrap justify-center gap-2">
+                <NavTabs
+                  tabs={teamTabs}
+                  activeIdx={activeIdx}
+                  onChange={setActiveIdx}
+                />
               </div>
             </div>
 
             {execVisible && activeTeam && (
               <div className="w-full">
-                <Carousel teamMembers={activeTeam.teamMembers} teamName={activeTeam.name} />
+                <Carousel
+                  teamMembers={activeTeam.teamMembers}
+                  teamName={activeTeam.name}
+                />
               </div>
             )}
           </section>
@@ -293,29 +347,38 @@ export default function TeamPage() {
         {coreTeamTabs.length > 0 && (
           <section
             ref={coreRef}
-            className="core-section will-change-transform transform-gpu"
-            style={{ willChange: 'transform', transform: 'translateZ(0)', backfaceVisibility: 'hidden' as const, contain: 'paint' as const }}
+            className="core-section transform-gpu will-change-transform"
+            style={{
+              willChange: 'transform',
+              transform: 'translateZ(0)',
+              backfaceVisibility: 'hidden' as const,
+              contain: 'paint' as const
+            }}
           >
-            <div className='w-full flex justify-center relative z-10'>
-              <Shuffle 
-                  text="CORE TEAM" 
-                  tag="h1"
-                  className="font-orbitron !text-5xl mt-16 mb-8 md:!text-6xl !text-primary !normal-case !font-bold"
-                  immediate={true}
-                  loop={true}
-                  loopDelay={2}
-                  duration={0.4}
-                  stagger={0.04}
-                  shuffleTimes={4}
-                  animationMode="evenodd"
-                  triggerOnce={false}
-                  triggerOnHover={true}
-                />
+            <div className="relative z-10 flex w-full justify-center">
+              <Shuffle
+                text="CORE TEAM"
+                tag="h1"
+                className="font-orbitron !text-primary mt-16 mb-8 !text-5xl !font-bold !normal-case md:!text-6xl"
+                immediate={true}
+                loop={true}
+                loopDelay={2}
+                duration={0.4}
+                stagger={0.04}
+                shuffleTimes={4}
+                animationMode="evenodd"
+                triggerOnce={false}
+                triggerOnHover={true}
+              />
             </div>
             <div className="relative w-full px-2">
               {coreVisible && (
-                <div className="flex flex-wrap gap-2 justify-center mb-6">
-                  <NavTabs tabs={coreTeamTabs} activeIdx={activeCoreIdx} onChange={setActiveCoreIdx} />
+                <div className="mb-6 flex flex-wrap justify-center gap-2">
+                  <NavTabs
+                    tabs={coreTeamTabs}
+                    activeIdx={activeCoreIdx}
+                    onChange={setActiveCoreIdx}
+                  />
                 </div>
               )}
             </div>

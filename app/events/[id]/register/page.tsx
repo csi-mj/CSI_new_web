@@ -50,7 +50,7 @@ export default function EventRegistrationPage() {
               <EventRegisterHero event={data.event} />
 
               {/* Form Section (Below the hero) */}
-              <div className="relative z-20 container mx-auto px-4 pb-20 mt-6 ">
+              <div className="relative z-20 container mx-auto px-4 pb-20">
                 <RegistrationForm fields={data.formSchema.form_fields} eventId={id} event={data.event} />
               </div>
             </div>
