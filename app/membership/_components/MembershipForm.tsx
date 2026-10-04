@@ -307,12 +307,12 @@ export default function MembershipForm() {
                       <h4 className="text-lg font-semibold mb-2">Pay Membership Fee: ₹350</h4>
                       <p className="text-muted-foreground text-sm mb-4">Scan the QR code below to complete your payment.</p>
                       {settings?.default_payment_qr_url ? (
-                        <div className="bg-white p-4 rounded-xl shadow-sm mb-2">
+                        <div className="relative w-full max-w-[280px] aspect-square mb-2 overflow-hidden rounded-xl border border-border/50 shadow-sm group">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img 
                             src={settings.default_payment_qr_url} 
                             alt="Payment QR Code" 
-                            className="w-48 h-48 object-contain"
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                           />
                         </div>
                       ) : (

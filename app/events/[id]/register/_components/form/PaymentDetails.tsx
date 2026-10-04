@@ -61,8 +61,12 @@ export function PaymentDetails({ event, form, activeFee }: PaymentDetailsProps) 
             <h4 className="text-lg font-semibold mb-2">Pay Entry Fee: ₹{activeFee}</h4>
             <p className="text-muted-foreground text-sm mb-4">Scan the QR code below to complete your payment.</p>
           {event.payment_qr_url ? (
-            <div className="bg-white p-4 rounded-xl shadow-sm mb-2">
-              <img src={event.payment_qr_url} alt="Payment QR Code" className="w-48 h-48 object-contain" />
+            <div className="relative w-full max-w-[280px] aspect-square mb-2 overflow-hidden rounded-xl border border-border/50 shadow-sm group">
+              <img 
+                src={event.payment_qr_url} 
+                alt="Payment QR Code" 
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+              />
             </div>
           ) : (
             <div className="w-48 h-48 bg-muted flex items-center justify-center rounded-xl mb-2 text-muted-foreground text-sm">
