@@ -1109,7 +1109,7 @@ export const timelineData: TimelineEntry[] = [
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
         <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
           <Image
-            src="/timeline images/School Visit 1.jpg"
+            src="/timeline images/School Visit 1.JPG"
             alt="CSI MJCET School Visit at Safdariya School"
             fill
             className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -1185,7 +1185,7 @@ export const timelineData: TimelineEntry[] = [
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
         <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
           <Image
-            src="/timeline images/THUB 1.JPg"
+            src="/timeline images/THUB 1.jpg"
             alt="CSI-MJCET Governing Body visit to T-Hub Hyderabad"
             fill
             className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -1196,7 +1196,7 @@ export const timelineData: TimelineEntry[] = [
 
         <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
           <Image
-            src="/timeline images/THUB 2.JPg"
+            src="/timeline images/THUB 2.jpg"
             alt="Students interacting with startup professionals at T-Hub"
             fill
             className="object-cover transition-transform duration-500 group-hover:scale-105"

@@ -20,6 +20,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import MembershipHeader from './MembershipHeader';
 import { SuccessState } from '@/components/ui/success-state';
+import { useAdminSettings } from '@/app/admin/settings/hooks/useAdminSettings';
 
 const formSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -47,6 +48,8 @@ type FormValues = z.infer<typeof formSchema>;
 export default function MembershipForm() {
   const [success, setSuccess] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  
+  const { settings } = useAdminSettings();
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -298,19 +301,44 @@ export default function MembershipForm() {
 
               {paymentMode === 'online' && (
                 <div className="pt-4 animate-in fade-in slide-in-from-top-4 duration-500">
-                  <FormField control={form.control} name="payment_screenshot" render={({ field: { value, onChange, ...fieldProps } }) => (
-                    <FormItem>
-                      <PremiumLabel required>Payment Screenshot</PremiumLabel>
-                      <FormControl>
-                        <PremiumFileInput 
-                          onChange={(file) => onChange(file)} 
-                          colorTheme="blue"
-                        />
-                      </FormControl>
-                      <p className="text-xs text-muted-foreground mt-2 px-1">Please upload a clear screenshot of your transaction (Max 5MB).</p>
-                      <FormMessage />
-                    </FormItem>
-                  )} />
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                    {/* QR Code Section */}
+                    <div className="bg-muted/30 p-6 rounded-xl border border-border/50 flex flex-col items-center text-center">
+                      <h4 className="text-lg font-semibold mb-2">Pay Membership Fee: ₹350</h4>
+                      <p className="text-muted-foreground text-sm mb-4">Scan the QR code below to complete your payment.</p>
+                      {settings?.default_payment_qr_url ? (
+                        <div className="bg-white p-4 rounded-xl shadow-sm mb-2">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img 
+                            src={settings.default_payment_qr_url} 
+                            alt="Payment QR Code" 
+                            className="w-48 h-48 object-contain"
+                          />
+                        </div>
+                      ) : (
+                        <div className="w-48 h-48 bg-muted flex items-center justify-center rounded-xl mb-2 text-muted-foreground text-sm">
+                          QR not available
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Payment Fields */}
+                    <div className="space-y-6">
+                      <FormField control={form.control} name="payment_screenshot" render={({ field: { value, onChange, ...fieldProps } }) => (
+                        <FormItem>
+                          <PremiumLabel required>Payment Screenshot</PremiumLabel>
+                          <FormControl>
+                            <PremiumFileInput 
+                              onChange={(file) => onChange(file)} 
+                              colorTheme="blue"
+                            />
+                          </FormControl>
+                          <p className="text-xs text-muted-foreground mt-2 px-1">Please upload a clear screenshot of your transaction (Max 5MB).</p>
+                          <FormMessage />
+                        </FormItem>
+                      )} />
+                    </div>
+                  </div>
                 </div>
               )}
               </CardContent>
