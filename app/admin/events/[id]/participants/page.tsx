@@ -37,7 +37,7 @@ export default function ParticipantsPage() {
     enabled: !!eventId
   });
 
-  const { participants, isLoading, error, updateStatus, updateAttendance, sendTicket, sendingTicketId } =
+  const { participants, isLoading, error, updateStatus, updateAttendance, sendTicket, sendingTicketId, deleteParticipant, isDeletingId } =
     useParticipants(eventId);
 
   const eventTitle = eventData?.data?.title || 'Loading Event...';
@@ -148,6 +148,8 @@ export default function ParticipantsPage() {
             onAttendanceChange={updateAttendance}
             onSendTicket={sendTicket}
             sendingTicketId={sendingTicketId}
+            onDelete={deleteParticipant}
+            isDeletingId={isDeletingId}
           />
         </DataBoundary>
       </div>

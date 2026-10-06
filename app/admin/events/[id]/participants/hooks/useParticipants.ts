@@ -60,6 +60,18 @@ export function useParticipants(eventId: string) {
     },
   });
 
+  const deleteMutation = useMutation({
+    mutationFn: (participantId: string) =>
+      api(`/api/admin/events/${eventId}/participants/${participantId}`, 'DELETE'),
+    onSuccess: () => {
+      toast.success('Participant deleted successfully!');
+      queryClient.invalidateQueries({ queryKey: ['admin-participants', eventId] });
+    },
+    onError: (error: any) => {
+      toast.error(error.message || 'Failed to delete participant');
+    },
+  });
+
   return {
     participants: query.data?.data?.participants || [],
     isLoading: query.isLoading,
@@ -72,5 +84,7 @@ export function useParticipants(eventId: string) {
     sendTicket: (participantId: string) =>
       sendTicketMutation.mutate(participantId),
     sendingTicketId: sendTicketMutation.isPending ? sendTicketMutation.variables : null,
+    deleteParticipant: (participantId: string) => deleteMutation.mutate(participantId),
+    isDeletingId: deleteMutation.isPending ? deleteMutation.variables : null,
   };
 }

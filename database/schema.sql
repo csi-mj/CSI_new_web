@@ -170,3 +170,56 @@ CREATE INDEX IF NOT EXISTS idx_csi_memberships_status ON csi_memberships(status)
 CREATE TRIGGER update_csi_memberships_updated_at BEFORE UPDATE ON csi_memberships
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
+-- ==========================================
+-- RECRUITMENTS TABLE
+-- ==========================================
+CREATE TABLE IF NOT EXISTS recruitments (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  name TEXT NOT NULL,
+  email TEXT NOT NULL,
+  phone TEXT NOT NULL,
+  roll_no TEXT NOT NULL,
+  branch TEXT NOT NULL,
+  year TEXT NOT NULL,
+  
+  -- Application Details
+  team TEXT NOT NULL, -- 'Execom' or 'Core'
+  portfolio_1 TEXT NOT NULL,
+  portfolio_2 TEXT, -- Optional second choice
+  resume_url TEXT,
+  
+  -- Additional Info
+  is_csi_member BOOLEAN DEFAULT false,
+  other_clubs TEXT,
+  
+  -- Admin Tracking
+  status TEXT DEFAULT 'pending' NOT NULL, -- pending, shortlisted, rejected, interviewed, selected
+  is_email_sent BOOLEAN DEFAULT false NOT NULL,
+  interview_time TIMESTAMPTZ,
+  interview_venue TEXT,
+  
+  -- Timestamps
+  created_at TIMESTAMPTZ DEFAULT now() NOT NULL,
+  updated_at TIMESTAMPTZ DEFAULT now() NOT NULL
+);
+
+-- Create a trigger to automatically update the 'updated_at' column
+CREATE TRIGGER update_recruitments_updated_at
+  BEFORE UPDATE ON recruitments
+  FOR EACH ROW
+  EXECUTE FUNCTION update_updated_at_column();
+
+-- Setup Row Level Security (RLS)
+ALTER TABLE recruitments ENABLE ROW LEVEL SECURITY;
+
+-- Allow anyone to submit an application (Insert)
+CREATE POLICY "Allow public insert on recruitments"
+  ON recruitments FOR INSERT
+  TO public
+  WITH CHECK (true);
+
+-- Allow admins (authenticated users) to view and update applications
+CREATE POLICY "Allow authenticated full access on recruitments"
+  ON recruitments FOR ALL
+  TO authenticated
+  USING (true);
