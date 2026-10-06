@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { SuccessState } from "@/components/ui/success-state";
 import { iconColors, translucentBgColors, bgColors } from "@/config/colors";
+import { toast } from "sonner";
 
 const branches = [
   "CSE",
@@ -236,8 +237,13 @@ export default function MembershipForm() {
         )}
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="rounded-[27px] border border-primary/30 bg-card/50 backdrop-blur-md sm:px-8 sm:py-9 lg:px-10"
+            onSubmit={form.handleSubmit(onSubmit, (errors) => {
+              console.error("Form validation errors:", errors);
+              const firstErrorField = Object.keys(errors)[0];
+              const errorMessage = errors[firstErrorField as keyof typeof errors]?.message;
+              toast.error(`Validation Failed: ${errorMessage}`);
+            })}
+            className="rounded-[27px] border border-primary/30 bg-card/50 backdrop-blur-md px-5 py-7 sm:px-8 sm:py-9 lg:px-10"
           >
             {/* Header */}
             <div className="mb-8 flex flex-col justify-between gap-6 lg:flex-row lg:items-start">
