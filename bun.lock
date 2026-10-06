@@ -222,7 +222,7 @@
 
     "@maptiler/client": ["@maptiler/client@3.1.0", "", { "dependencies": { "quick-lru": "^7.0.0" } }, "sha512-/dJp8p7pnkUNloMW1UCXIqCFWpWQvFx/HoWi36dsgabdOQPem81oi+5DFlroywezSWqlMyWY+/1azBJXmYW8yQ=="],
 
-    "@maptiler/sdk": ["@maptiler/sdk@github:maptiler/sdk#f140140", { "dependencies": { "@maplibre/maplibre-gl-style-spec": "^24.7.0", "@maptiler/client": "^3.1.0", "eslint-plugin-compat": "^6.1.0", "events": "^3.3.0", "gl-matrix": "^3.4.4", "js-base64": "^3.7.7", "maplibre-gl": "5.24", "uuid": "^14.0.0" } }, "maptiler-maptiler-sdk-js-f140140"],
+    "@maptiler/sdk": ["@maptiler/sdk@github:maptiler/sdk#f140140", { "dependencies": { "@maplibre/maplibre-gl-style-spec": "^24.7.0", "@maptiler/client": "^3.1.0", "eslint-plugin-compat": "^6.1.0", "events": "^3.3.0", "gl-matrix": "^3.4.4", "js-base64": "^3.7.7", "maplibre-gl": "5.24", "uuid": "^14.0.0" } }, "maptiler-maptiler-sdk-js-f140140", "sha512-x5DVBJIKgS3I88jmi9YOVenB4WGPquRbVdLhprwMKn1q2zd49Tr5nFn6zcd06MMXyWSWOgWjbjpPDaaNdg8MrQ=="],
 
     "@mdn/browser-compat-data": ["@mdn/browser-compat-data@6.1.5", "", {}, "sha512-PzdZZzRhcXvKB0begee28n5lvwAcinGKYuLZOVxHAZm+n7y01ddEGfdS1ZXRuVcV+ndG6mSEAE8vgudom5UjYg=="],
 

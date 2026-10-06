@@ -18,6 +18,7 @@ const items = [
   { label: 'Resources', href: '/resources' },
   { label: 'ADSOPHOS', href: '/adsophos' },
   { label: 'Become a Member', href: '/membership' },
+  { label: 'Recruitments', href: '/recruitments' },
 ];
 
 const Navbar = () => {
