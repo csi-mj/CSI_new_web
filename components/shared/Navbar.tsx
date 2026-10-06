@@ -168,28 +168,21 @@ const Navbar = () => {
               stiffness: 200,
               duration: 0.4
             }}
-            className="fixed top-0 right-0 bottom-0 w-[300px] bg-[#0B0B0D]/28 backdrop-blur-xl border-l border-white/10 z-50 lg:hidden overflow-y-auto"
+            className="fixed top-0 right-0 bottom-0 w-[300px] bg-[#0B0B0D]/28 backdrop-blur-xl border-l border-white/10 z-50 lg:hidden flex flex-col"
           >
             {/* Menu Header */}
-            <div className="px-6 py-8 border-b border-white/10 flex items-center justify-end">
-              {/* <img
-                src="/logos/csi_logo.png"
-                alt="CSI"
-                width={60}
-                height={60}
-                className="object-contain"
-              /> */}
+            <div className="px-6 py-2 border-b border-white/10 flex items-center justify-end shrink-0">
               <button
                 onClick={() => setMenuOpen(false)}
                 className="p-2 text-white bg-white/10 hover:bg-white/20 rounded-lg transition"
                 aria-label="Close Menu"
               >
-                <X size={22} />
+                <X size={14} />
               </button>
             </div>
 
             {/* Menu Items */}
-            <ul className="flex flex-col gap-3 py-6 px-4">
+            <ul className="flex flex-col gap-3 p-4 flex-1 overflow-y-auto">
               {items.map((item, index) => {
                 const active = isActive(item.href);
                 return (
@@ -211,15 +204,14 @@ const Navbar = () => {
                         }`}
                     >
                       <span>{item.label}</span>
-
                     </Link>
                   </motion.li>
                 );
               })}
             </ul>
 
-            {/* Menu Footer (Optional) */}
-            <div className="absolute bottom-0 left-0 right-0 p-6 border-t border-white/10">
+            {/* Menu Footer */}
+            <div className="p-3 border-t border-white/10 shrink-0">
               <p className="text-white/50 text-xs text-center">
                 &copy; {new Date().getFullYear()} CSI MJCET. All rights reserved.
               </p>
