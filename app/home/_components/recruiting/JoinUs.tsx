@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
+import RecruitmentHero from "@/app/recruitments/recruitmentHero"; 
 
 export default function JoinUs() {
   return (

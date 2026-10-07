@@ -87,7 +87,7 @@ function SectionHeader({
         <Icon className="h-8 w-8 text-[#ff1e35]" strokeWidth={1.8} />
       </div>
       <div>
-        <h2 className="text-[30px] font-bold tracking-[-0.02em] text-white">
+        <h2 className="text-[30px] font-orbitron tracking-wide font-bold tracking-[-0.02em] text-white">
           {title} <span className="text-[#ff1e35]">{accent}</span>
         </h2>
         <p className="mt-1 text-[16px] text-[#92929b]">{subtitle}</p>

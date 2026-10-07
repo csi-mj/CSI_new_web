@@ -428,7 +428,7 @@ export default function PortfolioCarousel({
         >
           {selected && (
             <motion.span
-              className="absolute inset-0 rounded-xl border border-[#ff1e35]"
+              className="absolute inset-0 rounded-xl border border-[#fb430b]"
               initial={{ opacity: 0, scale: 0.96 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{
@@ -445,10 +445,7 @@ export default function PortfolioCarousel({
           <Icon
             size={20}
             strokeWidth={1.5}
-            className="relative shrink-0"
-            style={{
-              color: selected ? ACCENT : "#fff",
-            }}
+            className={`relative shrink-0 ${selected ? "text-yellow-500" : "text-white"}`}
           />
 
           <span className="relative min-w-0 leading-tight">

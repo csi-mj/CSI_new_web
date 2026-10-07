@@ -218,7 +218,7 @@ export default function RecruitmentRoles() {
                         <ItemIcon
                           size={20}
                           strokeWidth={1.7}
-                          className="shrink-0 text-[#ff1e35]"
+                          className="shrink-0 text-yellow-500"
                         />
 
                         <div className="min-w-0">
