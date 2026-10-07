@@ -235,6 +235,16 @@ export default function MembershipForm() {
             </div>
           </div>
         )}
+        <div className="mb-8 flex items-center justify-center gap-4">
+  <span className="h-px w-16 bg-[#ff1e35]" />
+
+  <span className="font-[Orbitron] text-[11px] font-medium tracking-[0.45em] text-white/80 sm:text-sm">
+    APPLY NOW
+  </span>
+
+  <span className="h-px w-16 bg-[#ff1e35]" />
+</div>
+
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit, (errors) => {
@@ -249,7 +259,7 @@ export default function MembershipForm() {
             <div className="mb-8 flex flex-col justify-between gap-6 lg:flex-row lg:items-start">
               <div>
 
-                <h1 className="text-[38px] font-extrabold leading-none tracking-[-0.035em] sm:text-[42px]">
+                <h1 className="text-[38px] font-[Orbitron] font-extrabold  leading-none tracking-wider sm:text-[42px]">
                   Recruitment <span className="text-[#ff263d]">Form</span>
                 </h1>
 

@@ -6,6 +6,7 @@ import Cursor from '@/components/ui/cursor';
 
 // Component Imports
 import Hero from './_components/hero/Hero';
+import Recruiting from './_components/recruiting/JoinUs';
 import HackrevCta from './_components/Hot/HackrevCta';
 import About from './_components/about/About';
 import Faculty from './_components/Mem/Faculty';
@@ -43,8 +44,11 @@ export default function HomePage() {
         </div>
       </section>
 
+        <section>
+          <Recruiting/>
+        </section>
+      
       <section className="relative pb-6" id="faculty">
-
 
         <div className="relative z-20 text-neutral-100">
           <div className="relative z-10 w-full flex flex-col items-center pt-12">

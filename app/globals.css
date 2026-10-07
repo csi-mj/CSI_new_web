@@ -145,6 +145,15 @@
   --tracking-normal: 0.01em;
   --spacing: 0.25rem;
 }
+@keyframes polaroid-roll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
 
 @layer base {
   * {

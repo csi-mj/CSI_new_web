@@ -84,19 +84,19 @@ export default function MembershipHeader() {
               strokeWidth={1.8}
             />
 
-            <span className="text-sm font-medium tracking-wide text-white/75 sm:text-base">
+            <span className="text-sm  font-[Orbitron] font-medium tracking-wide text-white/75 sm:text-base">
               Don’t Just Join a Club. Build Your Tech Journey.
             </span>
           </div>
 
-          <h1 className="text-4xl font-black tracking-tight sm:text-5xl lg:text-6xl xl:text-7xl">
+          <h1 className="text-4xl font-[Orbitron] font-black tracking-tight sm:text-5xl lg:text-6xl xl:text-7xl">
             <span className="text-white">CSI-MJCET </span>
             <span
               className="bg-gradient-to-r from-[#ff3047] via-[#ff5365] to-[#d9152c] bg-clip-text text-transparent"
             >
               Membership
             </span>{' '}
-            <span className="text-2xl font-bold text-white/70 sm:text-3xl lg:text-4xl">
+            <span className="text-2xl font-[Orbitron] font-bold text-white/70 sm:text-3xl lg:text-4xl">
               (2026–27)
             </span>
           </h1>
@@ -173,12 +173,12 @@ export default function MembershipHeader() {
   <span className="relative h-2.5 w-2.5 rounded-full bg-[#ff1e35] shadow-[0_0_12px_4px_rgba(255,30,53,0.75)]" />
 </motion.span>
 
-                  <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#ff3148]">
+                  <span className="text-[11px] font-[Orbitron] font-bold uppercase tracking-[0.3em] text-[#ff3148]">
                     Membership Benefits
                   </span>
                 </div>
 
-                <h2 className="text-3xl font-black tracking-tight sm:text-4xl lg:text-5xl">
+                <h2 className="text-3xl font-[Orbitron] font-black tracking-tight sm:text-4xl lg:text-5xl">
                   What Do You{' '}
                   <span className="text-[#ff263e]">Get?</span>
                 </h2>
@@ -298,12 +298,12 @@ export default function MembershipHeader() {
   <span className="relative h-2.5 w-2.5 rounded-full bg-[#ff1e35] shadow-[0_0_12px_4px_rgba(255,30,53,0.75)]" />
 </motion.span>
 
-                  <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#ff3148]">
+                  <span className="text-[11px] font-[Orbitron] font-bold uppercase tracking-[0.3em] text-[#ff3148]">
                     Why Join CSI-MJCET?
                   </span>
                 </div>
 
-                <h2 className="max-w-lg text-3xl font-black leading-[1.1] tracking-tight sm:text-4xl">
+                <h2 className="max-w-lg text-3xl font-[Orbitron] font-black leading-[1.1] tracking-tight sm:text-4xl">
                   More Than Just
                   <br />
                   a <span className="text-[#ff263e]">Club</span>
@@ -406,7 +406,7 @@ export default function MembershipHeader() {
                 </div>
 
                 <div>
-                  <h2 className="text-2xl font-black sm:text-3xl">
+                  <h2 className="text-2xl font-[Orbitron] font-black sm:text-3xl">
                     Contact <span className="text-[#ff263e]">Us</span>
                   </h2>
 
@@ -539,7 +539,7 @@ export default function MembershipHeader() {
                 </div>
 
                 <div>
-                  <h2 className="text-2xl font-black sm:text-3xl">
+                  <h2 className="text-2xl font-[Orbitron] font-black sm:text-3xl">
                     Cash <span className="text-[#ff263e]">Payment</span>
                   </h2>
 
