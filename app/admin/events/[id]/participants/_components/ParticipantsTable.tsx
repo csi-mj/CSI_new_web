@@ -21,13 +21,15 @@ import {
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { Button } from '@/components/ui/button';
-import { CheckCircle2, Clock, Hourglass, XCircle, Mail, Loader2, Banknote, Users, ScanLine, Award, Building2, CalendarDays, ChevronDown, Trash2 } from 'lucide-react';
+import { CheckCircle2, Clock, Hourglass, XCircle, Mail, Loader2, Banknote, Users, ScanLine, Award, Building2, CalendarDays, ChevronDown, Trash2, Check, RotateCcw } from 'lucide-react';
 import { iconColors, translucentBgColors, borderColors } from '@/config/colors';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSeparator,
+  DropdownMenuLabel,
 } from "@/components/ui/dropdown-menu";
 import {
   AlertDialog,
@@ -50,42 +52,85 @@ export const STATUS_CONFIG = {
 
 interface ParticipantsTableProps {
   participants: Participant[];
+  rawParticipants?: Participant[];
   onStatusChange: (registrationId: string, newStatus: Participant['registration_status']) => void;
   onAttendanceChange: (registrationId: string, isAttended: boolean) => void;
   onSendTicket: (participantId: string) => void;
   sendingTicketId: string | null;
   onDelete?: (registrationId: string) => void;
   isDeletingId?: string | null;
+  // Interactive Filter Props
+  statFilter?: 'attended' | 'confirmed' | 'csi' | 'cash' | null;
+  collegeFilter?: string | null;
+  branchFilter?: string | null;
+  yearFilter?: string | null;
+  onToggleStatFilter?: (key: 'attended' | 'confirmed' | 'csi' | 'cash') => void;
+  onToggleCollegeFilter?: (college: string) => void;
+  onToggleBranchFilter?: (branch: string) => void;
+  onToggleYearFilter?: (year: string) => void;
+  onResetFilters?: () => void;
+  hasActiveFilters?: boolean;
+  activeFilterCount?: number;
 }
 
-export function ParticipantsTable({ participants, onStatusChange, onAttendanceChange, onSendTicket, sendingTicketId, onDelete, isDeletingId }: ParticipantsTableProps) {
-  const stats = useMemo(() => ({
-    total:     participants.length,
-    confirmed: participants.filter(p => p.registration_status === 'confirmed').length,
-    cash:      participants.filter(p => p.payment_mode === 'cash').length,
-    attended:  participants.filter(p => p.is_attended).length,
-    csi:       participants.filter(p => p.is_csi_member).length,
-  }), [participants]);
+export function ParticipantsTable({
+  participants,
+  rawParticipants,
+  onStatusChange,
+  onAttendanceChange,
+  onSendTicket,
+  sendingTicketId,
+  onDelete,
+  isDeletingId,
+  statFilter,
+  collegeFilter,
+  branchFilter,
+  yearFilter,
+  onToggleStatFilter,
+  onToggleCollegeFilter,
+  onToggleBranchFilter,
+  onToggleYearFilter,
+  onResetFilters,
+  hasActiveFilters,
+  activeFilterCount,
+}: ParticipantsTableProps) {
+  // Use raw (total) participants to compute overall metrics
+  const totalBase = rawParticipants || participants;
 
-  const statItems = [
-    { label: 'Total',     value: stats.total,      icon: Users,       color: iconColors.blue,   border: borderColors.blue   },
-    { label: 'Attended',  value: stats.attended,   icon: ScanLine,    color: iconColors.green,  border: borderColors.green  },
-    { label: 'Confirmed', value: stats.confirmed,  icon: CheckCircle2,color: iconColors.green,  border: borderColors.green  },
-    { label: 'CSI Members', value: stats.csi,      icon: Award,       color: iconColors.purple, border: borderColors.purple },
-    { label: 'Cash',      value: stats.cash,       icon: Banknote,    color: iconColors.yellow, border: borderColors.yellow },
+  const stats = useMemo(() => ({
+    total:     totalBase.length,
+    confirmed: totalBase.filter(p => p.registration_status === 'confirmed').length,
+    cash:      totalBase.filter(p => p.payment_mode === 'cash').length,
+    attended:  totalBase.filter(p => p.is_attended).length,
+    csi:       totalBase.filter(p => p.is_csi_member).length,
+  }), [totalBase]);
+
+  const statItems: Array<{
+    key: 'total' | 'attended' | 'confirmed' | 'csi' | 'cash';
+    label: string;
+    value: number;
+    icon: any;
+    color: string;
+    border: string;
+  }> = [
+    { key: 'total',     label: 'Total',     value: stats.total,      icon: Users,       color: iconColors.blue,   border: borderColors.blue   },
+    { key: 'attended',  label: 'Attended',  value: stats.attended,   icon: ScanLine,    color: iconColors.green,  border: borderColors.green  },
+    { key: 'confirmed', label: 'Confirmed', value: stats.confirmed,  icon: CheckCircle2,color: iconColors.green,  border: borderColors.green  },
+    { key: 'csi',       label: 'CSI Members', value: stats.csi,      icon: Award,       color: iconColors.purple, border: borderColors.purple },
+    { key: 'cash',      label: 'Cash',      value: stats.cash,       icon: Banknote,    color: iconColors.yellow, border: borderColors.yellow },
   ];
 
   const collegeStats = useMemo(() => {
     const counts: Record<string, number> = {};
-    participants.forEach(p => {
+    totalBase.forEach(p => {
       if (p.user_college) counts[p.user_college] = (counts[p.user_college] || 0) + 1;
     });
     return Object.entries(counts).sort((a, b) => b[1] - a[1]);
-  }, [participants]);
+  }, [totalBase]);
 
   const branchStats = useMemo(() => {
     const counts: Record<string, number> = {};
-    participants.forEach(p => {
+    totalBase.forEach(p => {
       if (p.additional_info && typeof p.additional_info === 'object') {
         const branchKey = Object.keys(p.additional_info).find(key => key.toLowerCase().includes('branch'));
         if (branchKey) {
@@ -97,86 +142,240 @@ export function ParticipantsTable({ participants, onStatusChange, onAttendanceCh
       }
     });
     return Object.entries(counts).sort((a, b) => b[1] - a[1]);
-  }, [participants]);
+  }, [totalBase]);
 
   const yearStats = useMemo(() => {
     const counts: Record<string, number> = {};
-    participants.forEach(p => {
+    totalBase.forEach(p => {
       if (p.user_year) counts[p.user_year] = (counts[p.user_year] || 0) + 1;
     });
     return Object.entries(counts).sort((a, b) => b[1] - a[1]);
-  }, [participants]);
+  }, [totalBase]);
 
   return (
     <div className="space-y-4">
       {/* Analytics Strip */}
-      <div className="flex flex-wrap gap-2">
-        {statItems.map(({ label, value, icon: Icon, color, border }) => (
-          <div key={label} className={`flex items-center gap-2.5 rounded-lg border px-4 py-2.5 ${border}`}>
-            <Icon className={`h-4 w-4 shrink-0 ${color}`} />
-            <span className={`text-lg font-bold leading-none ${color}`}>{value}</span>
-            <span className="text-xs uppercase tracking-wider text-muted-foreground">{label}</span>
-          </div>
-        ))}
+      <div className="flex flex-wrap items-center gap-2">
+        {statItems.map(({ key, label, value, icon: Icon, color, border }) => {
+          const isClickable = key !== 'total';
+          const isActive = statFilter === key;
 
+          return (
+            <button
+              key={label}
+              type="button"
+              disabled={!isClickable}
+              onClick={() => {
+                if (isClickable && onToggleStatFilter) {
+                  onToggleStatFilter(key as 'attended' | 'confirmed' | 'csi' | 'cash');
+                }
+              }}
+              className={`group flex items-center gap-2.5 rounded-lg border px-4 py-2.5 transition-all text-left ${
+                isClickable ? 'cursor-pointer hover:bg-muted/50 select-none' : 'cursor-default'
+              } ${
+                isActive
+                  ? `bg-muted/80 ring-2 ring-primary/60 shadow-md ${border}`
+                  : border
+              }`}
+            >
+              <Icon className={`h-4 w-4 shrink-0 ${color}`} />
+              <span className={`text-lg font-bold leading-none ${color}`}>{value}</span>
+              <span className="text-xs uppercase tracking-wider text-muted-foreground flex items-center gap-1">
+                {label}
+                {isActive && <Check className="h-3.5 w-3.5 text-primary animate-in fade-in zoom-in-75" />}
+              </span>
+            </button>
+          );
+        })}
+
+        {/* Colleges Dropdown Filter */}
         {collegeStats.length > 0 && (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <div className={`flex items-center gap-2.5 rounded-lg border px-4 py-2.5 cursor-pointer hover:bg-muted/50 transition-colors ${borderColors.indigo}`}>
+              <button
+                type="button"
+                className={`flex items-center gap-2.5 rounded-lg border px-4 py-2.5 cursor-pointer hover:bg-muted/50 transition-all select-none ${
+                  collegeFilter
+                    ? `bg-muted/80 ring-2 ring-primary/60 shadow-md ${borderColors.indigo}`
+                    : borderColors.indigo
+                }`}
+              >
                 <Building2 className={`h-4 w-4 shrink-0 ${iconColors.indigo}`} />
-                <span className={`text-lg font-bold leading-none ${iconColors.indigo}`}>{collegeStats.length}</span>
-                <span className="text-xs uppercase tracking-wider text-muted-foreground flex items-center gap-1">Colleges <ChevronDown className="h-3 w-3" /></span>
-              </div>
+                <span className={`text-lg font-bold leading-none ${iconColors.indigo}`}>
+                  {collegeFilter ? 1 : collegeStats.length}
+                </span>
+                <span className="text-xs uppercase tracking-wider text-muted-foreground flex items-center gap-1">
+                  {collegeFilter ? `College: ${collegeFilter}` : 'Colleges'}
+                  <ChevronDown className="h-3 w-3" />
+                </span>
+              </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="min-w-[12rem] max-w-sm">
-              {collegeStats.map(([college, count]) => (
-                <DropdownMenuItem key={college} className="flex justify-between py-3 px-4 border-b border-border/50 last:border-0 rounded-none cursor-default gap-4">
-                  <span className="text-sm font-medium whitespace-normal break-words leading-tight">{college}</span>
-                  <span className="font-bold text-muted-foreground">{count}</span>
-                </DropdownMenuItem>
-              ))}
+            <DropdownMenuContent align="end" className="min-w-[14rem] max-w-xs max-h-72 overflow-y-auto">
+              <DropdownMenuLabel className="text-xs font-semibold text-muted-foreground">
+                Filter by College
+              </DropdownMenuLabel>
+              {collegeFilter && (
+                <>
+                  <DropdownMenuItem
+                    onClick={() => onToggleCollegeFilter?.(collegeFilter)}
+                    className="text-xs font-medium text-destructive cursor-pointer"
+                  >
+                    Clear College Filter
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                </>
+              )}
+              {collegeStats.map(([college, count]) => {
+                const isSelected = collegeFilter === college;
+                return (
+                  <DropdownMenuItem
+                    key={college}
+                    onClick={() => onToggleCollegeFilter?.(college)}
+                    className={`flex justify-between py-2.5 px-3 border-b border-border/40 last:border-0 cursor-pointer gap-4 transition-colors ${
+                      isSelected ? 'bg-primary/10 font-semibold' : ''
+                    }`}
+                  >
+                    <span className="text-sm flex items-center gap-2 whitespace-normal break-words leading-tight">
+                      {isSelected && <Check className="h-3.5 w-3.5 text-primary shrink-0" />}
+                      {college}
+                    </span>
+                    <span className="font-bold text-muted-foreground text-xs shrink-0">{count}</span>
+                  </DropdownMenuItem>
+                );
+              })}
             </DropdownMenuContent>
           </DropdownMenu>
         )}
 
+        {/* Branches Dropdown Filter */}
         {branchStats.length > 0 && (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <div className={`flex items-center gap-2.5 rounded-lg border px-4 py-2.5 cursor-pointer hover:bg-muted/50 transition-colors ${borderColors.cyan}`}>
+              <button
+                type="button"
+                className={`flex items-center gap-2.5 rounded-lg border px-4 py-2.5 cursor-pointer hover:bg-muted/50 transition-all select-none ${
+                  branchFilter
+                    ? `bg-muted/80 ring-2 ring-primary/60 shadow-md ${borderColors.cyan}`
+                    : borderColors.cyan
+                }`}
+              >
                 <Building2 className={`h-4 w-4 shrink-0 ${iconColors.cyan}`} />
-                <span className={`text-lg font-bold leading-none ${iconColors.cyan}`}>{branchStats.length}</span>
-                <span className="text-xs uppercase tracking-wider text-muted-foreground flex items-center gap-1">Branches <ChevronDown className="h-3 w-3" /></span>
-              </div>
+                <span className={`text-lg font-bold leading-none ${iconColors.cyan}`}>
+                  {branchFilter ? 1 : branchStats.length}
+                </span>
+                <span className="text-xs uppercase tracking-wider text-muted-foreground flex items-center gap-1">
+                  {branchFilter ? `Branch: ${branchFilter}` : 'Branches'}
+                  <ChevronDown className="h-3 w-3" />
+                </span>
+              </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="min-w-[12rem] max-w-sm">
-              {branchStats.map(([branch, count]) => (
-                <DropdownMenuItem key={branch} className="flex justify-between py-3 px-4 border-b border-border/50 last:border-0 rounded-none cursor-default gap-4">
-                  <span className="text-sm font-medium whitespace-normal break-words leading-tight">{branch}</span>
-                  <span className="font-bold text-muted-foreground">{count}</span>
-                </DropdownMenuItem>
-              ))}
+            <DropdownMenuContent align="end" className="min-w-[14rem] max-w-xs max-h-72 overflow-y-auto">
+              <DropdownMenuLabel className="text-xs font-semibold text-muted-foreground">
+                Filter by Branch
+              </DropdownMenuLabel>
+              {branchFilter && (
+                <>
+                  <DropdownMenuItem
+                    onClick={() => onToggleBranchFilter?.(branchFilter)}
+                    className="text-xs font-medium text-destructive cursor-pointer"
+                  >
+                    Clear Branch Filter
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                </>
+              )}
+              {branchStats.map(([branch, count]) => {
+                const isSelected = branchFilter === branch;
+                return (
+                  <DropdownMenuItem
+                    key={branch}
+                    onClick={() => onToggleBranchFilter?.(branch)}
+                    className={`flex justify-between py-2.5 px-3 border-b border-border/40 last:border-0 cursor-pointer gap-4 transition-colors ${
+                      isSelected ? 'bg-primary/10 font-semibold' : ''
+                    }`}
+                  >
+                    <span className="text-sm flex items-center gap-2 whitespace-normal break-words leading-tight">
+                      {isSelected && <Check className="h-3.5 w-3.5 text-primary shrink-0" />}
+                      {branch}
+                    </span>
+                    <span className="font-bold text-muted-foreground text-xs shrink-0">{count}</span>
+                  </DropdownMenuItem>
+                );
+              })}
             </DropdownMenuContent>
           </DropdownMenu>
         )}
 
+        {/* Years Dropdown Filter */}
         {yearStats.length > 0 && (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <div className={`flex items-center gap-2.5 rounded-lg border px-4 py-2.5 cursor-pointer hover:bg-muted/50 transition-colors ${borderColors.pink}`}>
+              <button
+                type="button"
+                className={`flex items-center gap-2.5 rounded-lg border px-4 py-2.5 cursor-pointer hover:bg-muted/50 transition-all select-none ${
+                  yearFilter
+                    ? `bg-muted/80 ring-2 ring-primary/60 shadow-md ${borderColors.pink}`
+                    : borderColors.pink
+                }`}
+              >
                 <CalendarDays className={`h-4 w-4 shrink-0 ${iconColors.pink}`} />
-                <span className={`text-lg font-bold leading-none ${iconColors.pink}`}>{yearStats.length}</span>
-                <span className="text-xs uppercase tracking-wider text-muted-foreground flex items-center gap-1">Years <ChevronDown className="h-3 w-3" /></span>
-              </div>
+                <span className={`text-lg font-bold leading-none ${iconColors.pink}`}>
+                  {yearFilter ? 1 : yearStats.length}
+                </span>
+                <span className="text-xs uppercase tracking-wider text-muted-foreground flex items-center gap-1">
+                  {yearFilter ? `Year: ${yearFilter}` : 'Years'}
+                  <ChevronDown className="h-3 w-3" />
+                </span>
+              </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="min-w-[10rem] max-w-sm">
-              {yearStats.map(([year, count]) => (
-                <DropdownMenuItem key={year} className="flex justify-between py-3 px-4 border-b border-border/50 last:border-0 rounded-none cursor-default gap-4">
-                  <span className="text-sm font-medium whitespace-normal break-words leading-tight">{year}</span>
-                  <span className="font-bold text-muted-foreground">{count}</span>
-                </DropdownMenuItem>
-              ))}
+            <DropdownMenuContent align="end" className="min-w-[12rem] max-w-xs max-h-72 overflow-y-auto">
+              <DropdownMenuLabel className="text-xs font-semibold text-muted-foreground">
+                Filter by Year
+              </DropdownMenuLabel>
+              {yearFilter && (
+                <>
+                  <DropdownMenuItem
+                    onClick={() => onToggleYearFilter?.(yearFilter)}
+                    className="text-xs font-medium text-destructive cursor-pointer"
+                  >
+                    Clear Year Filter
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                </>
+              )}
+              {yearStats.map(([year, count]) => {
+                const isSelected = yearFilter === year;
+                return (
+                  <DropdownMenuItem
+                    key={year}
+                    onClick={() => onToggleYearFilter?.(year)}
+                    className={`flex justify-between py-2.5 px-3 border-b border-border/40 last:border-0 cursor-pointer gap-4 transition-colors ${
+                      isSelected ? 'bg-primary/10 font-semibold' : ''
+                    }`}
+                  >
+                    <span className="text-sm flex items-center gap-2 whitespace-normal break-words leading-tight">
+                      {isSelected && <Check className="h-3.5 w-3.5 text-primary shrink-0" />}
+                      {year}
+                    </span>
+                    <span className="font-bold text-muted-foreground text-xs shrink-0">{count}</span>
+                  </DropdownMenuItem>
+                );
+              })}
             </DropdownMenuContent>
           </DropdownMenu>
+        )}
+
+        {/* Reset All Filters Button */}
+        {hasActiveFilters && (
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={onResetFilters}
+            className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-destructive transition-colors ml-auto"
+          >
+            <RotateCcw className="h-3.5 w-3.5" />
+            <span>Reset Filters ({activeFilterCount})</span>
+          </Button>
         )}
       </div>
 

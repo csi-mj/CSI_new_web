@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { useParticipants } from './hooks/useParticipants';
+import { useParticipantFilters } from './hooks/useParticipantFilters';
 import {
   ParticipantsTable,
   STATUS_CONFIG
@@ -27,8 +27,6 @@ export default function ParticipantsPage() {
   const params = useParams();
   const router = useRouter();
   const eventId = params.id as string;
-  const [searchQuery, setSearchQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState<string>('all');
 
   // Fetch event details to show the title
   const { data: eventData } = useQuery({
@@ -40,22 +38,9 @@ export default function ParticipantsPage() {
   const { participants, isLoading, error, updateStatus, updateAttendance, sendTicket, sendingTicketId, deleteParticipant, isDeletingId } =
     useParticipants(eventId);
 
+  const filterControls = useParticipantFilters(participants);
+
   const eventTitle = eventData?.data?.title || 'Loading Event...';
-
-  const filteredParticipants = participants.filter((p) => {
-    // 1. Filter by status
-    if (statusFilter !== 'all' && p.registration_status !== statusFilter)
-      return false;
-
-    // 2. Filter by search query
-    if (!searchQuery) return true;
-    const q = searchQuery.toLowerCase();
-    return (
-      p.user_name.toLowerCase().includes(q) ||
-      p.user_email.toLowerCase().includes(q) ||
-      (p.user_phone && p.user_phone.includes(q))
-    );
-  });
 
   return (
     <div className="flex flex-col space-y-6">
@@ -88,23 +73,23 @@ export default function ParticipantsPage() {
               type="search"
               placeholder="Search by name, email, phone..."
               className="bg-card pl-8"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              value={filterControls.searchQuery}
+              onChange={(e) => filterControls.setSearchQuery(e.target.value)}
             />
           </div>
 
           <div className="w-full sm:w-[200px]">
             <Select
-              value={statusFilter}
-              onValueChange={(val) => setStatusFilter(val || 'all')}
+              value={filterControls.statusFilter}
+              onValueChange={(val) => filterControls.setStatusFilter(val || 'all')}
             >
               <SelectTrigger className="bg-card h-10! w-full">
                 <div className="flex items-center gap-2">
-                  {statusFilter === 'all' ? (
+                  {filterControls.statusFilter === 'all' ? (
                     <Filter className={cn("size-4",iconColors.rose)} />
                   ) : (
                     (() => {
-                      const config = STATUS_CONFIG[statusFilter as keyof typeof STATUS_CONFIG];
+                      const config = STATUS_CONFIG[filterControls.statusFilter as keyof typeof STATUS_CONFIG];
                       if (!config) return null;
                       const Icon = config.icon;
                       return <Icon className={`h-4 w-4 ${config.color}`} />;
@@ -143,13 +128,25 @@ export default function ParticipantsPage() {
           emptyDescription="When people register for this event, they will appear here."
         >
           <ParticipantsTable
-            participants={filteredParticipants}
+            participants={filterControls.filteredParticipants}
+            rawParticipants={participants}
             onStatusChange={updateStatus}
             onAttendanceChange={updateAttendance}
             onSendTicket={sendTicket}
             sendingTicketId={sendingTicketId}
             onDelete={deleteParticipant}
             isDeletingId={isDeletingId}
+            statFilter={filterControls.statFilter}
+            collegeFilter={filterControls.collegeFilter}
+            branchFilter={filterControls.branchFilter}
+            yearFilter={filterControls.yearFilter}
+            onToggleStatFilter={filterControls.toggleStatFilter}
+            onToggleCollegeFilter={filterControls.toggleCollegeFilter}
+            onToggleBranchFilter={filterControls.toggleBranchFilter}
+            onToggleYearFilter={filterControls.toggleYearFilter}
+            onResetFilters={filterControls.resetFilters}
+            hasActiveFilters={filterControls.hasActiveFilters}
+            activeFilterCount={filterControls.activeFilterCount}
           />
         </DataBoundary>
       </div>
