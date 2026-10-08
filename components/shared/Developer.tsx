@@ -35,20 +35,22 @@ export function Developer() {
   const div5Ref = useRef<HTMLDivElement>(null);
   const div6Ref = useRef<HTMLDivElement>(null);
   const div7Ref = useRef<HTMLDivElement>(null);
+  const div8Ref = useRef<HTMLDivElement>(null);
+  const div9Ref = useRef<HTMLDivElement>(null);
 
   return (
     <div
-      className="relative flex items-center justify-center overflow-hidden px-16 py-16"
+      className="relative flex items-center justify-center overflow-hidden px-4 py-16"
       ref={containerRef}
     >
-      <div className="flex w-full max-w-md flex-col items-stretch justify-center gap-1">
+      <div className="flex w-full max-w-lg flex-col items-stretch justify-center gap-8 sm:gap-10">
         <div className="flex flex-row items-center justify-between">
           <div className="tt-wrap relative inline-flex items-center justify-center">
             <span className="tt">Shaik Ismail</span>
             <Circle ref={div2Ref}>
               <a
                 href="https://github.com/shaik-ismail-27"
-                aria-label="Iqra Fatima"
+                aria-label="Shaik Ismail"
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
@@ -62,9 +64,9 @@ export function Developer() {
               </a>
             </Circle>
           </div>
-          <div className="tt-wrap relative mb-8 inline-flex items-center justify-center">
+          <div className="tt-wrap relative inline-flex items-center justify-center">
             <span className="tt">Md Feroz Ahmed</span>
-            <Circle ref={div1Ref} className="h-14 w-14">
+            <Circle ref={div1Ref} className="h-14 w-14 border-white/40 shadow-[0_0_15px_rgba(255,255,255,0.15)]">
               <a
                 href="https://github.com/phero20"
                 id="cursor-big"
@@ -102,14 +104,62 @@ export function Developer() {
             </Circle>
           </div>
         </div>
-        <div className="flex flex-row items-center justify-center">
+
+        <div className="flex flex-row items-center justify-between px-2 sm:px-4">
+          <div className="tt-wrap relative inline-flex items-center justify-center">
+            <span className="tt">Mohammed Nouman</span>
+            <Circle ref={div8Ref}>
+              <a
+                href="https://github.com/MOHAMMED-NOUMAN"
+                aria-label="Zaina-B06"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="block h-full w-full overflow-hidden rounded-full"
+              >
+                <img
+                  src="https://avatars.githubusercontent.com/MOHAMMED-NOUMAN?s=96"
+                  alt="MOHAMMED-NOUMAN"
+                  className="h-full w-full object-cover"
+                />
+              </a>
+            </Circle>
+          </div>
           <div className="tt-wrap relative inline-flex items-center justify-center">
             <span className="tt">GitHub</span>
-            <Circle ref={div4Ref} className="size-12 overflow-hidden bg-white">
-              <FaGithub size={32} color="#000000" aria-hidden="true" />
+            <Circle ref={div4Ref} className="size-14 overflow-hidden bg-white">
+              <a
+                href="https://github.com/orgs/csi-mj"
+                aria-label="GitHub"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="flex h-full w-full items-center justify-center overflow-hidden rounded-full"
+              >
+                <FaGithub size={36} color="#000000" aria-hidden="true" />
+              </a>
+            </Circle>
+          </div>
+          <div className="tt-wrap relative inline-flex items-center justify-center">
+            <span className="tt">Zaina Bilquis</span>
+            <Circle ref={div9Ref}>
+              <a
+                 href="https://github.com/Zaina-B06"
+                aria-label="Zaina-B06"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="block h-full w-full overflow-hidden rounded-full"
+              >
+                <img
+                  src="https://avatars.githubusercontent.com/Zaina-B06?s=96"
+                  alt="Zaina-B06"
+                />
+              </a>
             </Circle>
           </div>
         </div>
+
         <div className="flex flex-row items-center justify-between">
           <div className="tt-wrap relative inline-flex items-center justify-center">
             <span className="tt">Mohammed Osman</span>
@@ -129,7 +179,7 @@ export function Developer() {
               </a>
             </Circle>
           </div>
-          <div className="tt-wrap relative mt-7 inline-flex items-center justify-center">
+          <div className="tt-wrap relative inline-flex items-center justify-center">
             <span className="tt">Muhammad Affan Asif</span>
             <Circle ref={div6Ref}>
               <a
@@ -269,7 +319,19 @@ export function Developer() {
         toRef={div4Ref}
         curvature={75}
         endYOffset={10}
-
+        reverse
+      />
+      <AnimatedBeam
+        containerRef={containerRef}
+        fromRef={div8Ref}
+        toRef={div4Ref}
+        curvature={0}
+      />
+      <AnimatedBeam
+        containerRef={containerRef}
+        fromRef={div9Ref}
+        toRef={div4Ref}
+        curvature={0}
         reverse
       />
     </div>

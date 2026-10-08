@@ -10,12 +10,14 @@ import {
   Lightbulb,
   Target,
 } from "lucide-react";
+import { iconColors, bgColors, borderColors, translucentBgColors } from "@/config/colors";
 
 const roles = [
   {
     number: "01",
     title: "EXECOM",
     icon: Crown,
+    color: "orange",
     description:
       "The Executive Committee (ExeCom) is the core decision-making body of CSI-MJCET. They lead the club, set the vision, plan major initiatives and oversee all portfolios and events.",
     highlights: [
@@ -40,6 +42,7 @@ const roles = [
     number: "02",
     title: "CORE",
     icon: Users,
+    color: "blue",
     description:
       "Core members are the backbone of CSI-MJCET. They work in different portfolios, ideate, execute events and contribute to the smooth functioning of the club.",
     highlights: [
@@ -66,12 +69,12 @@ export default function RecruitmentRoles() {
   return (
     <section
       id="about-recruitment"
-      className="relative overflow-hidden bg-black px-6 py-24 text-white"
+      className=" relative overflow-hidden bg-black px-6 py-24 text-white"
     >
       {/* Subtle static glow */}
-      <div className="pointer-events-none absolute -left-60 top-20 h-[450px] w-[450px] rounded-full bg-[#ff1e35]/10 blur-[130px]" />
+      <div className={`pointer-events-none absolute -left-60 top-20 h-[450px] w-[450px] rounded-full ${translucentBgColors.red} blur-[130px] opacity-10`} />
 
-      <div className="pointer-events-none absolute -right-60 bottom-0 h-[450px] w-[450px] rounded-full bg-[#ff1e35]/10 blur-[130px]" />
+      <div className={`pointer-events-none absolute -right-60 bottom-0 h-[450px] w-[450px] rounded-full ${translucentBgColors.red} blur-[130px] opacity-10`} />
 
       <div className="relative z-10 mx-auto max-w-7xl">
 
@@ -80,13 +83,13 @@ export default function RecruitmentRoles() {
         <div className="mx-auto mb-14 max-w-3xl text-center">
 
           <div className="mb-5 flex items-center justify-center gap-4">
-            <span className="h-px w-8 bg-[#ff1e35]" />
+            <span className={`h-px w-8 ${bgColors.red}`} />
 
             <span className="font-[Orbitron] text-[10px] font-medium tracking-[0.45em] text-white/70">
               KNOW MORE
             </span>
 
-            <span className="h-px w-8 bg-[#ff1e35]" />
+            <span className={`h-px w-8 ${bgColors.red}`} />
           </div>
 
           <motion.h2
@@ -97,7 +100,7 @@ export default function RecruitmentRoles() {
             className="font-[Orbitron] text-4xl font-bold uppercase tracking-tight sm:text-5xl"
           >
             <span className="text-white">Roles at </span>
-            <span className="text-[#ff1e35]">CSI</span>
+            <span className={iconColors.red}>CSI</span>
           </motion.h2>
 
           <motion.p
@@ -118,6 +121,7 @@ export default function RecruitmentRoles() {
         <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
           {roles.map((role, index) => {
             const RoleIcon = role.icon;
+            const colorKey = role.color as keyof typeof iconColors;
 
             return (
               <motion.article
@@ -129,47 +133,43 @@ export default function RecruitmentRoles() {
                   duration: 0.5,
                   delay: index * 0.12,
                 }}
-                className="
+                className={`
                   group relative overflow-hidden
-                  rounded-xl
-                  border border-[#ff1e35]/60
+                  rounded-xl cursor-target
+                  border ${borderColors[colorKey]}
                   bg-[#080808]
                   p-6
-                  transition-all duration-300
-                  hover:border-[#ff1e35]
-                  hover:shadow-[0_0_35px_rgba(255,30,53,0.10)]
                   sm:p-7
-                "
+                `}
               >
                 {/* Card glow */}
                 <div
-                  className="
+                  className={`
                     pointer-events-none absolute
                     -bottom-24 -right-24
                     h-56 w-56
                     rounded-full
-                    bg-[#ff1e35]/10
+                    ${translucentBgColors[colorKey]}
                     blur-[80px]
-                    transition-opacity duration-300
-                    group-hover:bg-[#ff1e35]/20
-                  "
+                    opacity-10
+                  `}
                 />
 
                 {/* Top row */}
                 <div className="relative flex items-start justify-between">
 
                   <div
-                    className="
+                    className={`
                       flex h-12 w-12 items-center justify-center
                       rounded-lg
-                      border border-[#ff1e35]/60
-                      bg-[#ff1e35]/5
-                    "
+                      border ${borderColors[colorKey]}
+                      ${translucentBgColors[colorKey]} opacity-80
+                    `}
                   >
                     <RoleIcon
                       size={24}
                       strokeWidth={1.7}
-                      className="text-[#ff1e35]"
+                      className={iconColors[colorKey]}
                     />
                   </div>
 
@@ -184,7 +184,7 @@ export default function RecruitmentRoles() {
                     {role.title.slice(0, 3)}
                   </span>
 
-                  <span className="text-[#ff1e35]">
+                  <span className={iconColors[colorKey]}>
                     {role.title.slice(3)}
                   </span>
                 </h3>
@@ -194,8 +194,8 @@ export default function RecruitmentRoles() {
                   {role.description}
                 </p>
 
-                {/* Red divider */}
-                <div className="relative group-hover:w-12 duration-150 ease-in mt-5 h-[2px] w-8 bg-[#ff1e35]" />
+                {/* Divider */}
+                <div className={`relative mt-5 h-[2px] w-8 ${bgColors[colorKey]}`} />
 
                 {/* Highlights */}
                 <div className="relative mt-5 grid grid-cols-1 gap-2 sm:grid-cols-3">
@@ -211,8 +211,6 @@ export default function RecruitmentRoles() {
                           border border-white/10
                           bg-white/[0.025]
                           px-2.5
-                          transition-colors duration-300
-                          group-hover:border-white/15
                         "
                       >
                         <ItemIcon
