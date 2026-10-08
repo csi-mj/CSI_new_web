@@ -18,6 +18,7 @@ import {
   ArrowRight,
   Check,
   AlertCircle,
+  Download,
 } from "lucide-react";
 import { SuccessState } from "@/components/ui/success-state";
 import { iconColors, translucentBgColors, bgColors } from "@/config/colors";
@@ -268,7 +269,7 @@ export default function MembershipForm() {
                 </p>
               </div>
 
-              <div className="flex min-w-[290px] items-center gap-4">
+              <div className="flex min-w-0 items-center gap-4 sm:min-w-[290px]">
                 <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#ff1e35]/10">
                   <Users size={27} strokeWidth={1.7} className="text-[#ff3047]" />
                 </div>
@@ -425,7 +426,7 @@ export default function MembershipForm() {
                     <PremiumLabel required className="ml-0 text-[#f1f1f2]">Select Portfolio (Choose exactly 2)</PremiumLabel>
                   </div>
                   
-                  <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+                  <div className="grid grid-cols-1 gap-3 min-[420px]:grid-cols-2 sm:grid-cols-3 [&_label]:flex [&_label]:h-full [&_label]:w-full [&_label]:px-3 [&_label_span]:min-w-0 [&_label_span]:[overflow-wrap:break-word]">
                     {portfolios.map((portfolio) => {
                       const checked = field.value.includes(portfolio);
                       const disabled = !checked && field.value.length >= 2;
@@ -458,12 +459,35 @@ export default function MembershipForm() {
               )}
             />
 
+            {/* Resume template, for applicants who don't have a resume yet */}
+            <div className="mt-7 flex flex-col gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
+              <div className="flex min-w-0 items-start gap-3">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#ff1e35]/10">
+                  <FileText size={20} strokeWidth={1.8} className="text-[#ff3047]" aria-hidden />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-[14px] font-semibold text-white">Don&apos;t have a resume yet?</p>
+                  <p className="mt-0.5 text-[13px] leading-snug text-[#8d8d95]">
+                    Download our template, fill in your details, and upload it below as a PDF.
+                  </p>
+                </div>
+              </div>
+              <a
+                href="/pdfs/resume-template.pdf"
+                download="CSI-Resume-Template.pdf"
+                className="inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-xl border border-[#ff1e35]/60 px-4 text-[14px] font-semibold text-white transition-colors hover:bg-[#ff1e35]/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ff1e35]"
+              >
+                <Download size={17} strokeWidth={2} aria-hidden />
+                Download template
+              </a>
+            </div>
+
             {/* Resume */}
             <FormField
               control={form.control}
               name="resume"
               render={({ field }) => (
-                <FormItem className="mt-7 space-y-3">
+                <FormItem className="mt-5 space-y-3">
                   <PremiumLabel required>Upload Your Resume</PremiumLabel>
                   <FormControl>
                     <PremiumFileInput

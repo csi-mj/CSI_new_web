@@ -138,11 +138,30 @@ function SelectField({
 }) {
   const Icon = icon;
   const [open, setOpen] = React.useState(false);
+  const wrapperRef = React.useRef<HTMLDivElement | null>(null);
+
+  // Close when tapping/clicking anywhere outside (including another dropdown), or on Escape,
+  // so only one dropdown is ever open
+  React.useEffect(() => {
+    if (!open) return;
+    const onPointerDown = (e: PointerEvent) => {
+      if (!wrapperRef.current?.contains(e.target as Node)) setOpen(false);
+    };
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpen(false);
+    };
+    document.addEventListener('pointerdown', onPointerDown);
+    document.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.removeEventListener('pointerdown', onPointerDown);
+      document.removeEventListener('keydown', onKeyDown);
+    };
+  }, [open]);
 
   const selectedOption = options.find((option) => option === value);
 
   return (
-    <div className="relative">
+    <div ref={wrapperRef} className="relative" data-select-open={open}>
       {/* Trigger */}
       <button
         type="button"
@@ -269,9 +288,12 @@ function SelectField({
 function FormCard({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   return (
     <section
-      className={`relative  rounded-[28px] border border-[#ff1e35]/65 bg-[linear-gradient(135deg,rgba(15,15,17,0.98),rgba(7,7,8,0.98))] px-10 py-10 shadow-[0_0_40px_rgba(255,20,45,0.035)] md:px-12 ${className}`}
+      className={`relative rounded-[28px] border border-[#ff1e35]/65 has-[[data-select-open=true]]:z-30 bg-[linear-gradient(135deg,rgba(15,15,17,0.98),rgba(7,7,8,0.98))] px-5 py-7 shadow-[0_0_40px_rgba(255,20,45,0.035)] sm:px-8 sm:py-9 md:px-12 md:py-10 ${className}`}
     >
-      <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-[#ff1e35]/[0.025] blur-3xl" />
+      {/* Glow is clipped to the card on its own, so dropdowns inside the card can still open past its edge */}
+      <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[28px]">
+        <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-[#ff1e35]/[0.025] blur-3xl" />
+      </div>
       <div className="relative z-10">{children}</div>
     </section>
   );
@@ -638,7 +660,7 @@ export default function MembershipForm() {
               />
 
               {paymentMode === 'cash' ? (
-                <div className="mt-7 rounded-[22px] border border-white/10 bg-[#101012] p-7">
+                <div className="mt-7 rounded-[22px] border border-white/10 bg-[#101012] p-5 sm:p-7">
                   <div className="flex items-center gap-3">
                     <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#1b0d10]">
                       <Banknote className="h-6 w-6 text-[#ff1e35]" />
@@ -662,7 +684,7 @@ export default function MembershipForm() {
               ) : (
                 <div className="mt-7 grid grid-cols-1 gap-7 lg:grid-cols-2">
                   {/* QR */}
-                  <div className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[#101012] p-7">
+                  <div className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[#101012] p-5 sm:p-7">
                     <div className="pointer-events-none absolute -bottom-28 -left-28 h-64 w-64 rounded-full border border-[#ff1e35]/15 bg-[#ff1e35]/[0.035]" />
                     <div className="relative z-10 flex flex-col items-center text-center">
                       <div className="mb-6 flex w-full items-start gap-4 text-left">
@@ -684,10 +706,10 @@ export default function MembershipForm() {
                           <img
                             src={settings.default_payment_qr_url}
                             alt="Payment QR Code"
-                            className="h-[250px] w-[250px] rounded-md object-cover"
+                            className="aspect-square h-auto w-full max-w-[250px] rounded-md object-cover"
                           />
                         ) : (
-                          <div className="flex h-[250px] w-[250px] items-center justify-center rounded-md bg-white text-sm text-black">
+                          <div className="flex aspect-square w-full max-w-[250px] items-center justify-center rounded-md bg-white text-sm text-black">
                             QR not available
                           </div>
                         )}
@@ -701,7 +723,7 @@ export default function MembershipForm() {
                     control={form.control}
                     name="payment_screenshot"
                     render={({ field: { value, onChange, ...fieldProps } }) => (
-                      <FormItem className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[#101012] p-7">
+                      <FormItem className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[#101012] p-5 sm:p-7">
                         <div className="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full border border-[#ff1e35]/20 bg-[#ff1e35]/[0.04]" />
                         <div className="relative z-10">
                           <div className="mb-6 flex items-start gap-4">

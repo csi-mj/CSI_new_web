@@ -190,7 +190,7 @@ export default function RecruitmentRoles() {
                 </h3>
 
                 {/* Description */}
-                <p className="relative mt-2 max-w-xl --font-poppins text-[20px] leading-5 text-white/60 sm:text-xs sm:leading-6">
+                <p className="relative mt-2 max-w-xl --font-poppins text-base leading-relaxed text-white/60 sm:text-xs sm:leading-6">
                   {role.description}
                 </p>
 
@@ -198,7 +198,7 @@ export default function RecruitmentRoles() {
                 <div className="relative group-hover:w-12 duration-150 ease-in mt-5 h-[2px] w-8 bg-[#ff1e35]" />
 
                 {/* Highlights */}
-                <div className="relative mt-5 grid grid-cols-3 gap-2">
+                <div className="relative mt-5 grid grid-cols-1 gap-2 sm:grid-cols-3">
                   {role.highlights.map((item) => {
                     const ItemIcon = item.icon;
 
@@ -222,11 +222,11 @@ export default function RecruitmentRoles() {
                         />
 
                         <div className="min-w-0">
-                          <p className="--font-poppins text-[16px] leading-3 text-white/80">
+                          <p className="--font-poppins text-[16px] leading-tight text-white/80">
                             {item.title}
                           </p>
 
-                          <p className="--font-poppins mt-1.5 text-[12px] leading-3 text-white/45">
+                          <p className="--font-poppins mt-1 text-[12px] leading-tight text-white/45">
                             {item.subtitle}
                           </p>
                         </div>

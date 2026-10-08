@@ -417,7 +417,7 @@ export default function MembershipHeader() {
               </div>
 
               <div className="grid grid-cols-1 gap-7 sm:grid-cols-2">
-                <div className="space-y-7">
+                <div className="min-w-0 space-y-7">
                   <div className="flex items-start gap-4">
                     <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-[17px] border border-[#ff1e35]/40 bg-[#ff1e35]/[0.05]">
                       <Phone
@@ -457,7 +457,7 @@ export default function MembershipHeader() {
                   </div>
                 </div>
 
-                <div className="border-white/[0.08] sm:border-l sm:pl-8">
+                <div className="min-w-0 border-white/[0.08] sm:border-l sm:pl-8 [&_span]:min-w-0 [&_span]:[overflow-wrap:anywhere]">
                   <div className="space-y-6">
                     <a
                       href="mailto:csi@mjcollege.ac.in"
@@ -470,7 +470,7 @@ export default function MembershipHeader() {
                         />
                       </div>
 
-                      <span className="font-bold text-white transition-colors group-hover:text-[#ff2942]">
+                      <span className="min-w-0 font-bold text-white transition-colors [overflow-wrap:anywhere] group-hover:text-[#ff2942]">
                         csi@mjcollege.ac.in
                       </span>
                     </a>

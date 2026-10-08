@@ -9,7 +9,11 @@ export function useSubmitRecruitment() {
         body: formData,
       });
 
-      const result = await response.json();
+      // The server can answer with an HTML error page (e.g. a crash), which isn't JSON
+      const result = await response.json().catch(() => null);
+      if (!result) {
+        throw new Error('Something went wrong on our side. Please try again in a few minutes.');
+      }
 
       if (!response.ok) {
         throw new Error(result.error?.message || 'Failed to submit application');

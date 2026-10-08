@@ -186,20 +186,27 @@ export default function PortfolioCarousel({
     return () => ro.disconnect();
   }, []);
 
-  // Keep the selected button visible in the scrollable mobile selector.
+  // Keep the selected button visible if the selector strip scrolls sideways.
+  // Only that strip moves: scrollIntoView also scrolled the page, dragging it down on every card change.
   useEffect(() => {
     if (!mounted.current) {
       mounted.current = true;
       return;
     }
-    buttonRefs.current[active]?.scrollIntoView({
+    const btn = buttonRefs.current[active];
+    const strip = btn?.parentElement;
+    if (!btn || !strip || strip.scrollWidth <= strip.clientWidth) return;
+    strip.scrollTo({
+      left: btn.offsetLeft - (strip.clientWidth - btn.offsetWidth) / 2,
       behavior: "smooth",
-      block: "nearest",
-      inline: "center",
     });
   }, [active]);
 
   const cardW = Math.min(320, Math.max(220, stageW * 0.58));
+  // One title size for every card, small enough that the longest single word (e.g. DEVELOPMENT)
+  // fits on one line inside the card's padding; capped at the original 26px on wide cards.
+  const longestWord = Math.max(...portfolios.flatMap((p) => p.name.split(/\s+/)).map((w) => w.length), 1);
+  const titleSize = Math.min(26, (cardW - 48) / (longestWord * 0.92));
 
   return (
     <section
@@ -230,7 +237,7 @@ export default function PortfolioCarousel({
       {/* Carousel */}
       <div ref={stageRef} className="relative mx-auto mt-10 max-w-5xl">
         <motion.div
-          className="relative h-100 cursor-grab touch-pan-y select-none active:cursor-grabbing"
+          className="relative h-[428px] cursor-grab sm:h-100 touch-pan-y select-none active:cursor-grabbing"
           style={{ perspective: 1200 }}
           drag="x"
           dragSnapToOrigin
@@ -267,6 +274,7 @@ export default function PortfolioCarousel({
   h-[400px]
   w-[calc(100vw-48px)]
   max-w-[350px]
+  overflow-hidden
   rounded-2xl
   border border-[#ff1e35]/70
   bg-[#0a0a0b]/95
@@ -319,10 +327,13 @@ export default function PortfolioCarousel({
                   </span>
                 </div>
 
-                <h3 className={`${ORBITRON} mt-5 text-[26px] font-extrabold uppercase leading-tight`}>
+                <h3
+                  className={`${ORBITRON} mt-5 font-extrabold uppercase leading-tight [overflow-wrap:anywhere]`}
+                  style={{ fontSize: titleSize }}
+                >
                   {p.name}
                 </h3>
-                <p className="mt-3 line-clamp-5 text-[13px] font-light leading-relaxed text-white/85">
+                <p className="mt-3 line-clamp-4 text-[13px] sm:line-clamp-5 font-light leading-relaxed text-white/85">
                   {p.description}
                 </p>
 
@@ -364,8 +375,8 @@ export default function PortfolioCarousel({
             type="button"
             aria-label={dir === "prev" ? "Previous portfolio" : "Next portfolio"}
             onClick={dir === "prev" ? prev : next}
-            className={`absolute top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white bg-black text-white transition-colors hover:border-[#ff1e35] hover:text-[#ff1e35] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#ff1e35] ${
-              dir === "prev" ? "left-0" : "right-0"
+            className={`absolute top-[calc(100%+44px)] z-20 flex h-11 w-11 items-center sm:top-1/2 sm:h-10 sm:w-10 sm:-translate-y-1/2 justify-center rounded-full border border-white bg-black text-white transition-colors hover:border-[#ff1e35] hover:text-[#ff1e35] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#ff1e35] ${
+              dir === "prev" ? "left-[calc(50%-56px)] sm:left-0" : "right-[calc(50%-56px)] sm:right-0"
             }`}
           >
             {dir === "prev" ? <ChevronLeft size={20} /> : <ChevronRight size={20} />}
@@ -396,8 +407,8 @@ export default function PortfolioCarousel({
       </div>
 
       {/* Bottom selector: 5-col grid on md+, horizontally scrollable 2-row strip on mobile */}
-      <div className="mx-auto mt-10 w-full max-w-5xl px-1">
-  <div className="grid grid-cols-2 gap-3 md:grid-cols-5">
+      <div className="mx-auto mt-24 w-full max-w-5xl px-1 sm:mt-10">
+  <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-5">
     {portfolios.map((p, i) => {
       const Icon = p.icon;
       const selected = i === active;

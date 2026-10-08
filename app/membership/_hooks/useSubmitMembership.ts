@@ -13,7 +13,11 @@ export function useSubmitMembership(options?: SubmitMembershipOptions) {
         body: formData,
       });
 
-      const data = await response.json();
+      // The server can answer with an HTML error page (e.g. a crash), which isn't JSON
+      const data = await response.json().catch(() => null);
+      if (!data) {
+        throw new Error('Something went wrong on our side. Please try again in a few minutes.');
+      }
 
       if (!response.ok) {
         throw new Error(data.error?.message || 'Failed to submit membership registration');
