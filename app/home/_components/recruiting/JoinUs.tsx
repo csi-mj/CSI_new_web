@@ -14,7 +14,7 @@ export default function JoinUs() {
         <div className="mb-10 flex items-center gap-8">
           <span className="h-px w-20 bg-[#ff1e35]" />
 
-          <span className="font-[Orbitron] text-sm font-medium tracking-[0.55em] text-[#ff1e35]">
+          <span className="font-inter text-sm font-medium tracking-[0.55em] text-[#ff1e35]">
             JOIN US
           </span>
 
@@ -22,7 +22,7 @@ export default function JoinUs() {
         </div>
 
         {/* Main Heading */}
-        <h2 className="font-[Orbitron] text-5xl font-bold uppercase leading-[1.05] tracking-tight sm:text-6xl md:text-7xl lg:text-8xl">
+        <h2 className="font-inter text-5xl font-bold uppercase leading-[1.05] tracking-tight sm:text-6xl md:text-7xl lg:text-8xl">
           <span className="block text-white">
             Be a Part of
           </span>
@@ -33,7 +33,7 @@ export default function JoinUs() {
         </h2>
 
         {/* Description */}
-        <p className="mt-8 max-w-3xl font-[Orbitron] text-xs uppercase leading-8 tracking-[0.22em] text-neutral-400 sm:text-sm">
+        <p className="mt-8 max-w-3xl font-inter text-xs uppercase leading-8 tracking-[0.22em] text-neutral-400 sm:text-sm">
           A community of curious minds, creators, and doers.
           <br className="hidden sm:block" />
           Learn. Build. Collaborate. Make an Impact.
@@ -62,7 +62,7 @@ export default function JoinUs() {
       border border-[#ff1e35]
       bg-[#ff1e35]
       px-8 py-4
-      font-[Orbitron] text-sm font-bold uppercase tracking-wider
+      font-inter text-sm font-bold uppercase tracking-wider
       text-white
       clip-cta
     "
@@ -110,7 +110,7 @@ export default function JoinUs() {
       border border-[#ff1e35]
       bg-transparent
       px-8 py-4
-      font-[Orbitron] text-sm font-bold uppercase tracking-wider
+      font-inter text-sm font-bold uppercase tracking-wider
       text-white
       clip-cta
       transition-shadow duration-300
@@ -143,7 +143,7 @@ export default function JoinUs() {
 </div>
 
         {/* Bottom Tagline */}
-        <p className="mt-10 font-[Orbitron] text-[10px] uppercase tracking-[0.35em] text-neutral-600">
+        <p className="mt-10 font-inter text-[10px] uppercase tracking-[0.35em] text-neutral-600">
           Learn · Build · Collaborate · Lead
         </p>
 

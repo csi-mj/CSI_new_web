@@ -36,6 +36,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { useSubmitMembership } from '../_hooks/useSubmitMembership';
 import MembershipHeader from './MembershipHeader';
+import HalftoneBackground from '@/components/shared/HalftoneBackground';
 import { SuccessState } from '@/components/ui/success-state';
 import { useAdminSettings } from '@/app/admin/settings/hooks/useAdminSettings';
 
@@ -65,10 +66,10 @@ const formSchema = z
 type FormValues = z.infer<typeof formSchema>;
 
 const inputBase =
-  'h-[58px] w-full rounded-[18px] border border-white/10 bg-[#111113] px-4 text-[15px] text-white outline-none transition-all placeholder:text-[#66666f] focus:border-[#ff1e35] focus:ring-1 focus:ring-[#ff1e35]/40';
+  'h-[58px] w-full rounded-[16px] border border-white/10 bg-black/30 px-4 text-[15px] text-white outline-none transition-all placeholder:text-[#66666f] focus:border-[#ff1e35] focus:ring-1 focus:ring-[#ff1e35]/40';
 
 const textareaBase =
-  'min-h-[132px] w-full resize-y rounded-[18px] border border-white/10 bg-[#111113] px-4 py-4 text-[15px] text-white outline-none transition-all placeholder:text-[#66666f] focus:border-[#ff1e35] focus:ring-1 focus:ring-[#ff1e35]/40';
+  'min-h-[132px] w-full resize-y rounded-[16px] border border-white/10 bg-black/30 px-4 py-4 text-[15px] text-white outline-none transition-all placeholder:text-[#66666f] focus:border-[#ff1e35] focus:ring-1 focus:ring-[#ff1e35]/40';
 
 function SectionHeader({
   icon: Icon,
@@ -82,15 +83,13 @@ function SectionHeader({
   subtitle: string;
 }) {
   return (
-    <div className="mb-9 flex items-center gap-5">
-      <div className="flex h-[70px] w-[70px] shrink-0 items-center justify-center rounded-[17px] border border-[#ff1e35]/25 bg-[#170d10] shadow-[0_0_25px_rgba(255,30,53,0.08)]">
-        <Icon className="h-8 w-8 text-[#ff1e35]" strokeWidth={1.8} />
-      </div>
-      <div>
-        <h2 className="text-[30px] font-orbitron tracking-wide font-bold tracking-[-0.02em] text-white">
-          {title} <span className="text-[#ff1e35]">{accent}</span>
+    <div className="mb-9 flex items-start gap-4">
+      <Icon className="mt-2 h-5 w-5 shrink-0 text-white/60" strokeWidth={1.6} aria-hidden />
+      <div className="min-w-0">
+        <h2 className="text-[clamp(24px,3vw,30px)] font-semibold tracking-[-0.02em] text-white">
+          {title} <span className="serif-accent text-[1.2em] text-[#ff2a3d]">{accent}</span>
         </h2>
-        <p className="mt-1 text-[16px] text-[#92929b]">{subtitle}</p>
+        <p className="mt-1 text-[15px] text-white/65">{subtitle}</p>
       </div>
     </div>
   );
@@ -105,7 +104,7 @@ function FieldLabel({ children, required = false }: { children: React.ReactNode;
 }
 
 function InputIcon({ icon: Icon }: { icon: LucideIcon }) {
-  return <Icon className="h-[21px] w-[21px] shrink-0 text-[#ff1e35]" strokeWidth={2} />;
+  return <Icon className="h-[20px] w-[20px] shrink-0 text-white/50" strokeWidth={1.8} />;
 }
 
 function TextInput({
@@ -175,8 +174,8 @@ function SelectField({
         {/* Icon */}
         <span className="pointer-events-none absolute inset-y-0 left-0 flex w-[54px] items-center justify-center">
           <Icon
-            className="h-[21px] w-[21px] text-[#ff1e35]"
-            strokeWidth={2}
+            className="h-[20px] w-[20px] text-white/50"
+            strokeWidth={1.8}
           />
         </span>
 
@@ -288,12 +287,8 @@ function SelectField({
 function FormCard({ children, className = '' }: { children: React.ReactNode; className?: string }) {
   return (
     <section
-      className={`relative rounded-[28px] border border-[#ff1e35]/65 has-[[data-select-open=true]]:z-30 bg-[linear-gradient(135deg,rgba(15,15,17,0.98),rgba(7,7,8,0.98))] px-5 py-7 shadow-[0_0_40px_rgba(255,20,45,0.035)] sm:px-8 sm:py-9 md:px-12 md:py-10 ${className}`}
+      className={`glass-panel relative has-[[data-select-open=true]]:z-30 px-5 py-7 sm:px-8 sm:py-9 md:px-12 md:py-10 ${className}`}
     >
-      {/* Glow is clipped to the card on its own, so dropdowns inside the card can still open past its edge */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden rounded-[28px]">
-        <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-[#ff1e35]/[0.025] blur-3xl" />
-      </div>
       <div className="relative z-10">{children}</div>
     </section>
   );
@@ -398,14 +393,11 @@ export default function MembershipForm() {
   }
 
   return (
-    <div className="min-h-screen w-full overflow-hidden bg-[#060607] text-white">
+    <div className="relative min-h-screen w-full overflow-hidden text-white">
       <MembershipHeader />
 
-      {/* Background glow / curved accents */}
-      <div className="pointer-events-none fixed inset-0 -z-0 overflow-hidden">
-        <div className="absolute -left-48 top-56 h-[430px] w-[430px] rounded-full bg-[#ff1e35]/10 blur-[110px]" />
-        <div className="absolute -right-48 top-24 h-[420px] w-[420px] rounded-full bg-[#ff1e35]/10 blur-[110px]" />
-      </div>
+      {/* Background: halftone dot field, gathered subtly behind the hero heading */}
+      <HalftoneBackground focus={{ x: 0.5, y: 270 }} />
 
       <div id="membership-form-start" className="relative z-10 mx-auto flex w-full max-w-[1500px] flex-col gap-7 px-4 pb-16 pt-8 sm:px-6 lg:px-10">
         {errorMsg && (
@@ -547,7 +539,7 @@ export default function MembershipForm() {
                       <FormControl>
                         <div className="relative">
                           <div className="pointer-events-none absolute left-5 top-5">
-                            <FileText className="h-5 w-5 text-[#ff1e35]" />
+                            <FileText className="h-5 w-5 text-white/50" />
                           </div>
                           <textarea
                             {...field}
@@ -574,7 +566,7 @@ export default function MembershipForm() {
                       <FormControl>
                         <div className="relative">
                           <div className="pointer-events-none absolute left-5 top-5">
-                            <MessageSquare className="h-5 w-5 text-[#ff1e35]" />
+                            <MessageSquare className="h-5 w-5 text-white/50" />
                           </div>
                           <textarea
                             {...field}
@@ -623,8 +615,8 @@ export default function MembershipForm() {
                           <span className={`flex h-6 w-6 items-center justify-center rounded-full border-2 ${field.value === 'online' ? 'border-[#ff1e35]' : 'border-[#66666e]'}`}>
                             {field.value === 'online' && <span className="h-3 w-3 rounded-full bg-[#ff1e35]" />}
                           </span>
-                          <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#191013]">
-                            <QrCode className="h-6 w-6 text-[#ff1e35]" />
+                          <span className="flex h-11 w-11 items-center justify-center">
+                            <QrCode className="h-6 w-6 text-white/70" />
                           </span>
                           <span>
                             <span className="block text-[16px] font-semibold text-white">Online (UPI / QR Code)</span>
@@ -644,7 +636,7 @@ export default function MembershipForm() {
                           <span className={`flex h-6 w-6 items-center justify-center rounded-full border-2 ${field.value === 'cash' ? 'border-[#ff1e35]' : 'border-[#66666e]'}`}>
                             {field.value === 'cash' && <span className="h-3 w-3 rounded-full bg-[#ff1e35]" />}
                           </span>
-                          <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#15161a]">
+                          <span className="flex h-11 w-11 items-center justify-center">
                             <Banknote className="h-6 w-6 text-[#aeb0b9]" />
                           </span>
                           <span>
@@ -660,10 +652,10 @@ export default function MembershipForm() {
               />
 
               {paymentMode === 'cash' ? (
-                <div className="mt-7 rounded-[22px] border border-white/10 bg-[#101012] p-5 sm:p-7">
+                <div className="mt-7 rounded-[16px] border border-white/10 bg-white/[0.02] p-5 sm:p-7">
                   <div className="flex items-center gap-3">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#1b0d10]">
-                      <Banknote className="h-6 w-6 text-[#ff1e35]" />
+                    <div className="flex h-12 w-12 items-center justify-center">
+                      <Banknote className="h-6 w-6 text-white/70" />
                     </div>
                     <h3 className="text-xl font-bold text-white">Cash Payment Selected</h3>
                   </div>
@@ -684,12 +676,11 @@ export default function MembershipForm() {
               ) : (
                 <div className="mt-7 grid grid-cols-1 gap-7 lg:grid-cols-2">
                   {/* QR */}
-                  <div className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[#101012] p-5 sm:p-7">
-                    <div className="pointer-events-none absolute -bottom-28 -left-28 h-64 w-64 rounded-full border border-[#ff1e35]/15 bg-[#ff1e35]/[0.035]" />
+                  <div className="relative overflow-hidden rounded-[16px] border border-white/10 bg-white/[0.02] p-5 sm:p-7">
                     <div className="relative z-10 flex flex-col items-center text-center">
                       <div className="mb-6 flex w-full items-start gap-4 text-left">
-                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[#ff1e35]/20 bg-[#1a0c10]">
-                          <QrCode className="h-6 w-6 text-[#ff1e35]" />
+                        <div className="flex h-12 w-12 shrink-0 items-center justify-center">
+                          <QrCode className="h-6 w-6 text-white/70" />
                         </div>
                         <div>
                           <h3 className="text-xl font-bold text-white">
@@ -699,7 +690,7 @@ export default function MembershipForm() {
                         </div>
                       </div>
 
-                      <div className="rounded-[24px] border border-[#ff1e35] bg-[#070708] p-5 shadow-[0_0_28px_rgba(255,30,53,0.08)]">
+                      <div className="rounded-[16px] border border-white/15 bg-black/40 p-5">
                         <p className="mb-4 text-sm font-medium text-white">Scan using any UPI App</p>
                         {settings?.default_payment_qr_url ? (
                           // eslint-disable-next-line @next/next/no-img-element
@@ -723,12 +714,11 @@ export default function MembershipForm() {
                     control={form.control}
                     name="payment_screenshot"
                     render={({ field: { value, onChange, ...fieldProps } }) => (
-                      <FormItem className="relative overflow-hidden rounded-[24px] border border-white/10 bg-[#101012] p-5 sm:p-7">
-                        <div className="pointer-events-none absolute -right-24 -top-24 h-64 w-64 rounded-full border border-[#ff1e35]/20 bg-[#ff1e35]/[0.04]" />
+                      <FormItem className="relative overflow-hidden rounded-[16px] border border-white/10 bg-white/[0.02] p-5 sm:p-7">
                         <div className="relative z-10">
                           <div className="mb-6 flex items-start gap-4">
-                            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-[#ff1e35]/20 bg-[#1a0c10]">
-                              <Upload className="h-6 w-6 text-[#ff1e35]" />
+                            <div className="flex h-12 w-12 shrink-0 items-center justify-center">
+                              <Upload className="h-6 w-6 text-white/70" />
                             </div>
                             <div>
                               <FieldLabel required>Payment Screenshot</FieldLabel>
@@ -774,8 +764,8 @@ export default function MembershipForm() {
                                 : 'border-[#ff1e35]/75 bg-[#0b0b0d] hover:bg-[#ff1e35]/[0.035]'
                             }`}
                           >
-                            <span className="flex h-16 w-16 items-center justify-center rounded-full border border-[#ff1e35]/25 bg-[#1a0c10] shadow-[0_0_25px_rgba(255,30,53,0.08)]">
-                              {fileName ? <CheckCircle2 className="h-8 w-8 text-[#ff1e35]" /> : <Upload className="h-8 w-8 text-[#ff1e35]" />}
+                            <span className="flex h-16 w-16 items-center justify-center rounded-full border border-white/15">
+                              {fileName ? <CheckCircle2 className="h-8 w-8 text-[#ff1e35]" /> : <Upload className="h-8 w-8 text-white/60" />}
                             </span>
                             <span className="mt-5 text-base text-[#c9c9d0]">
                               {fileName ? (
@@ -811,7 +801,7 @@ export default function MembershipForm() {
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="mt-1 h-[72px] w-full rounded-full border-0 bg-[#ff1e35] text-[20px] font-bold text-white shadow-[0_0_35px_rgba(255,30,53,0.22)] transition-all hover:bg-[#ff3046] hover:shadow-[0_0_45px_rgba(255,30,53,0.32)]"
+              className="mt-1 h-[60px] w-full rounded-full border-0 bg-[#ff2a3d] text-[17px] font-semibold text-white shadow-none transition-all hover:bg-[#ff4152] hover:shadow-[0_0_0_0_rgba(255,30,53,0.32)]"
             >
               {isSubmitting ? 'Submitting Application...' : 'Apply for Membership'}
               {!isSubmitting && <span className="ml-3 text-[27px] font-normal">→</span>}

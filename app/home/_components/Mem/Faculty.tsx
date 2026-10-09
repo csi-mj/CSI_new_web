@@ -21,30 +21,22 @@ export default function Faculty() {
   };
 
   return (
-    <section className="relative w-full py-16 md:py-24">
-      <div className="mx-auto w-full max-w-[1600px] px-5 sm:px-8 lg:px-12">
+    <section className="relative w-full py-14 md:py-20">
+      <div className="mx-auto w-full max-w-6xl px-5 sm:px-8 lg:px-12">
         {/* Section Heading */}
         <motion.h2
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, amount: 0.5 }}
           variants={fadeUp}
-          className="mb-12 text-center font-bold uppercase tracking-[0.12em]"
-          style={{
-            fontFamily: "var(--font-orbitron)",
-            fontSize: "clamp(2rem, 5vw, 4.5rem)",
-            background:
-              "linear-gradient(90deg, #ff8585 0%, #ff263f 45%, #b50920 100%)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
-          }}
+          className="mb-10 text-center font-semibold tracking-[-0.03em] text-white"
+          style={{ fontSize: "clamp(1.75rem, 3.6vw, 2.75rem)" }}
         >
-          Faculty Advisor
+          Faculty <span className="serif-accent text-[1.2em] text-[#ff2a3d]">advisor</span>
         </motion.h2>
 
         {/* Main Content */}
-        <div className="grid grid-cols-1 items-stretch gap-8 lg:grid-cols-[0.85fr_1.5fr] lg:gap-12">
+        <div className="grid grid-cols-1 items-stretch gap-8 lg:grid-cols-[0.8fr_1.4fr] lg:gap-10">
           {/* Image Placeholder */}
           <motion.div
   initial={{ opacity: 0, x: shouldReduceMotion ? 0 : -35 }}
@@ -54,7 +46,7 @@ export default function Faculty() {
     duration: shouldReduceMotion ? 0 : 0.8,
     ease: [0.22, 1, 0.36, 1],
   }}
-  className="group  relative h-full min-h-[440px] overflow-hidden rounded-2xl border border-red-500/40 sm:min-h-[480px] lg:min-h-0"
+  className="group relative h-full min-h-[340px] overflow-hidden rounded-2xl border border-white/10 sm:min-h-[380px] lg:min-h-0"
 >
   <img
     src={image.src}
@@ -103,17 +95,17 @@ export default function Faculty() {
 
               <motion.h3
                 variants={fadeUp}
-                className="text-3xl font-bold leading-tight text-white sm:text-4xl md:text-5xl lg:text-6xl"
+                className="text-[clamp(26px,3.2vw,40px)] font-semibold leading-tight tracking-[-0.02em] text-white"
               >
                 Prof.{" "}
-                <span className="bg-gradient-to-r from-rose-400 via-red-500 to-red-700 bg-clip-text text-transparent">
+                <span>
                   Zainuddin Naveed
                 </span>
               </motion.h3>
 
               <motion.p
                 variants={fadeUp}
-                className="mt-4 text-sm leading-relaxed tracking-[0.12em] text-neutral-400 sm:text-base"
+                className="mt-3 text-sm leading-relaxed text-white/60"
               >
                 Assistant Professor · Department of Computer Science and
                 Engineering · MJCET
@@ -133,18 +125,11 @@ export default function Faculty() {
                 delay: shouldReduceMotion ? 0 : 0.2,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              whileHover={
-                shouldReduceMotion
-                  ? {}
-                  : {
-                      borderColor: "rgba(239,68,68,0.6)",
-                    }
-              }
-              className="relative rounded-2xl border border-red-500/30 bg-transparent p-7 transition-colors duration-300 sm:p-10 lg:p-12"
+              className="glass-panel relative p-6 sm:p-8"
             >
               {/* Animated Red Accent */}
               <motion.div
-                className="absolute bottom-8 left-0 top-8 w-1 origin-top rounded-full bg-gradient-to-b from-rose-400 via-red-500 to-red-800"
+                className="absolute bottom-8 left-0 top-8 w-[2px] origin-top rounded-full bg-[#ff2a3d]/70"
                 initial={{ scaleY: 0 }}
                 whileInView={{ scaleY: 1 }}
                 viewport={{ once: true, amount: 0.3 }}
@@ -155,14 +140,14 @@ export default function Faculty() {
                 }}
               />
 
-              <p className="pl-5 text-base leading-8 tracking-wide text-neutral-300 sm:pl-7 sm:text-lg sm:leading-9 md:text-xl">
+              <p className="pl-5 text-[15px] leading-7 text-white/70 sm:pl-6 sm:text-base sm:leading-8">
                 Guiding CSI-MJCET with unwavering support and vision, our
                 Faculty Advisor has been a constant source of{" "}
-                <span className="text-rose-400">
+                <span className="font-medium text-white">
                   inspiration, mentorship and encouragement.
                 </span>
                 As an Assistant Professor in the Department of Computer Science and Engineering at Muffakham Jah College of Engineering and Technology, he plays a pivotal role in nurturing innovation, empowering students to turn ideas into impactful initiatives, and fostering a culture of {""}
-                <span className="text-rose-400">
+                <span className="font-medium text-white">
                   collaboration and continuous learning
                 </span>
                 . His invaluable guidance and commitment to student development continue to strengthen our community, inspire new possibilities, and shape the future of CSI-MJCET.

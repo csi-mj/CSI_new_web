@@ -8,6 +8,7 @@ import Recruitments from "./recruitform";
 import RecruitmentHero from "./recruitmentHero";
 import RecruitmentPositions from "./recruitmentPositions";
 import PortfolioCarousel from "./portfolioCarousel";
+import GlowBackground from "@/components/shared/GlowBackground";
 
 export default function RecruitmentsPage() {
   useEffect(() => {
@@ -15,7 +16,9 @@ export default function RecruitmentsPage() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-black">
+    <main className="relative min-h-screen bg-black">
+      {/* Background: faint blurred glows in opposite corners */}
+      <GlowBackground />
       <RecruitmentHero />
       <RecruitmentPositions />
       <PortfolioCarousel />

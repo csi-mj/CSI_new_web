@@ -115,7 +115,7 @@ const Hero = () => {
               </span>
               <MorphingText
                 texts={['CSI MJCET', 'COMPUTER SOCIETY OF INDIA']}
-                className="font-orbitron w-full text-center text-3xl leading-tight sm:text-3xl md:text-4xl lg:text-5xl"
+                className="w-full text-center font-inter text-[clamp(28px,5vw,56px)] font-extrabold uppercase leading-tight tracking-[-0.03em]"
               />
             </h1>
           </div>
@@ -123,30 +123,30 @@ const Hero = () => {
           <div className="hero-greeting mt-8 flex min-h-[2.5rem] w-full items-center justify-center sm:mt-3">
             <div id='cursor' className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 text-center">
               <div className="flex">
-                <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">C</span>
-                <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">o</span>
-                <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">d</span>
-                <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">e </span>
-                <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary pl-3"> . </span>
+                <span className="serif-accent text-2xl sm:text-3xl lg:text-4xl text-primary">C</span>
+                <span className="serif-accent text-2xl sm:text-3xl lg:text-4xl text-primary">o</span>
+                <span className="serif-accent text-2xl sm:text-3xl lg:text-4xl text-primary">d</span>
+                <span className="serif-accent text-2xl sm:text-3xl lg:text-4xl text-primary">e </span>
+                <span className="serif-accent text-2xl sm:text-3xl lg:text-4xl text-primary pl-3"> . </span>
               </div>
               <div className="flex">
-                <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">C</span>
-                <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">r</span>
-                <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">e</span>
-                <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">a</span>
-                <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">t</span>
-                <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">e </span>
-                <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary pl-3"> . </span>
+                <span className="serif-accent text-2xl sm:text-3xl lg:text-4xl text-primary">C</span>
+                <span className="serif-accent text-2xl sm:text-3xl lg:text-4xl text-primary">r</span>
+                <span className="serif-accent text-2xl sm:text-3xl lg:text-4xl text-primary">e</span>
+                <span className="serif-accent text-2xl sm:text-3xl lg:text-4xl text-primary">a</span>
+                <span className="serif-accent text-2xl sm:text-3xl lg:text-4xl text-primary">t</span>
+                <span className="serif-accent text-2xl sm:text-3xl lg:text-4xl text-primary">e </span>
+                <span className="serif-accent text-2xl sm:text-3xl lg:text-4xl text-primary pl-3"> . </span>
               </div>
               <div className="flex">
-                <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">I</span>
-                <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">n</span>
-                <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">n</span>
-                <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">o</span>
-                <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">v</span>
-                <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">a</span>
-                <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">t</span>
-                <span className="font-orbitron text-lg sm:text-2xl lg:text-3xl font-extrabold text-primary">e</span>
+                <span className="serif-accent text-2xl sm:text-3xl lg:text-4xl text-primary">I</span>
+                <span className="serif-accent text-2xl sm:text-3xl lg:text-4xl text-primary">n</span>
+                <span className="serif-accent text-2xl sm:text-3xl lg:text-4xl text-primary">n</span>
+                <span className="serif-accent text-2xl sm:text-3xl lg:text-4xl text-primary">o</span>
+                <span className="serif-accent text-2xl sm:text-3xl lg:text-4xl text-primary">v</span>
+                <span className="serif-accent text-2xl sm:text-3xl lg:text-4xl text-primary">a</span>
+                <span className="serif-accent text-2xl sm:text-3xl lg:text-4xl text-primary">t</span>
+                <span className="serif-accent text-2xl sm:text-3xl lg:text-4xl text-primary">e</span>
               </div>
             </div>
           </div>

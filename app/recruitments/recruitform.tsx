@@ -199,15 +199,6 @@ export default function MembershipForm() {
 
   return (
     <main id="recruitment-form-start" className="relative min-h-screen overflow-hidden px-4 pt-40 py-7 text-white sm:px-6 lg:px-8">
-      {/* Background glow */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -left-[180px] top-[90px] h-[300px] w-[500px] rotate-[28deg] rounded-[50%] border border-primary/20 shadow-[0_0_45px_rgba(255,30,53,0.18)]" />
-        <div className="absolute -right-[180px] top-[0px] h-[300px] w-[500px] rotate-[-28deg] rounded-[50%] border border-primary/20 shadow-[0_0_45px_rgba(255,30,53,0.16)]" />
-        <div className="absolute -left-[180px] bottom-[20px] h-[300px] w-[500px] rotate-[-28deg] rounded-[50%] border border-primary/20 shadow-[0_0_45px_rgba(255,30,53,0.13)]" />
-        <div className="absolute -right-[180px] bottom-[80px] h-[300px] w-[500px] rotate-[28deg] rounded-[50%] border border-primary/20 shadow-[0_0_45px_rgba(255,30,53,0.16)]" />
-        <div className="absolute left-1/2 top-1/2 h-[600px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full" />
-      </div>
-
       <div className="relative z-10 mx-auto w-full max-w-[1070px]">
         {errorMsg && (
           <div className="mb-6 w-full max-w-[1070px] border border-border/50 bg-card/50 rounded-lg px-6 py-4 shadow-sm">
@@ -239,7 +230,7 @@ export default function MembershipForm() {
         <div className="mb-8 flex items-center justify-center gap-4">
   <span className="h-px w-16 bg-[#ff1e35]" />
 
-  <span className="font-[Orbitron] text-[11px] font-medium tracking-[0.45em] text-white/80 sm:text-sm">
+  <span className="font-inter text-[11px] font-medium tracking-[0.45em] text-white/80 sm:text-sm">
     APPLY NOW
   </span>
 
@@ -254,14 +245,14 @@ export default function MembershipForm() {
               const errorMessage = errors[firstErrorField as keyof typeof errors]?.message;
               toast.error(`Validation Failed: ${errorMessage}`);
             })}
-            className="rounded-[27px] border border-primary/30 bg-card/50 backdrop-blur-md px-5 py-7 sm:px-8 sm:py-9 lg:px-10"
+            className="glass-panel px-5 py-7 sm:px-8 sm:py-9 lg:px-10"
           >
             {/* Header */}
             <div className="mb-8 flex flex-col justify-between gap-6 lg:flex-row lg:items-start">
               <div>
 
-                <h1 className="text-[38px] font-[Orbitron] font-extrabold  leading-none tracking-wider sm:text-[42px]">
-                  Recruitment <span className="text-[#ff263d]">Form</span>
+                <h1 className="text-[clamp(32px,4vw,42px)] font-inter font-semibold leading-none tracking-[-0.03em]">
+                  Recruitment <span className="serif-accent text-[1.2em] text-[#ff2a3d]">form</span>
                 </h1>
 
                 <p className="mt-2 text-[15px] text-[#9b9ba3]">
@@ -270,8 +261,8 @@ export default function MembershipForm() {
               </div>
 
               <div className="flex min-w-0 items-center gap-4 sm:min-w-[290px]">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#ff1e35]/10">
-                  <Users size={27} strokeWidth={1.7} className="text-[#ff3047]" />
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center">
+                  <Users size={22} strokeWidth={1.6} className="text-white/60" />
                 </div>
                 <div>
                   <p className="text-[14px] font-semibold text-white">Learn. Build. Collaborate. Lead.</p>
@@ -462,8 +453,8 @@ export default function MembershipForm() {
             {/* Resume template, for applicants who don't have a resume yet */}
             <div className="mt-7 flex flex-col gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
               <div className="flex min-w-0 items-start gap-3">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#ff1e35]/10">
-                  <FileText size={20} strokeWidth={1.8} className="text-[#ff3047]" aria-hidden />
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center">
+                  <FileText size={20} strokeWidth={1.6} className="text-white/60" aria-hidden />
                 </div>
                 <div className="min-w-0">
                   <p className="text-[14px] font-semibold text-white">Don&apos;t have a resume yet?</p>

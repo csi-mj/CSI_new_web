@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { Orbitron, Poppins } from "next/font/google";
 import {
   Megaphone,
   PenTool,
@@ -23,18 +22,8 @@ import {
 /* Fonts — delete this block if Orbitron/Poppins are already set up    */
 /* in your layout, and point the two class strings below at them.      */
 /* ------------------------------------------------------------------ */
-const orbitronFont = Orbitron({
-  subsets: ["latin"],
-  weight: ["500", "700", "800", "900"],
-  variable: "--font-orbitron",
-});
-const poppinsFont = Poppins({
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-  variable: "--font-poppins",
-});
-const ORBITRON = "font-[family-name:var(--font-orbitron)]";
-const POPPINS = "font-[family-name:var(--font-poppins)]";
+const ORBITRON = "font-inter";
+const POPPINS = "font-inter";
 
 const ACCENT = "#ff1e35";
 
@@ -210,25 +199,23 @@ export default function PortfolioCarousel({
 
   return (
     <section
-      className={`${orbitronFont.variable} ${poppinsFont.variable} ${POPPINS}  w-full overflow-x-clip bg-black px-4 py-12 text-white sm:px-6 ${className}`}
+      className={`${POPPINS} relative z-10 w-full overflow-x-clip px-4 py-12 text-white sm:px-6 ${className}`}
       onKeyDown={(e) => {
         if (e.key === "ArrowRight") next();
         if (e.key === "ArrowLeft") prev();
       }}
     >
       {/* Header */}
-      <header className="mx-auto max-w-2xl text-center">
-        <div className="flex items-center justify-center gap-4">
-          <span className="h-px w-10 sm:w-14" style={{ background: ACCENT }} />
-          <span className={`${ORBITRON} text-[11px] tracking-[0.35em] text-white/90 sm:text-xs`}>
-            EXPLORE OUR
+      <header className="mx-auto max-w-4xl text-center">
+        {/* Team-page style: two caps words with a serif pill between them */}
+        <h2 className={`${ORBITRON} flex flex-wrap items-center justify-center gap-x-[0.3em] gap-y-2 text-[clamp(30px,6vw,64px)] font-normal uppercase leading-[0.95] tracking-[-0.03em]`}>
+          <span>Explore</span>
+          <span className="serif-accent whitespace-nowrap rounded-[50%] border border-white/70 px-[0.9em] py-[0.3em] text-[0.38em] leading-none">
+            <span style={{ color: ACCENT }}>our</span> {n} portfolios
           </span>
-          <span className="h-px w-10 sm:w-14" style={{ background: ACCENT }} />
-        </div>
-        <h2 className={`${ORBITRON} mt-4 text-4xl font-black tracking-wide sm:text-6xl`}>
-          PORT<span style={{ color: ACCENT }}>FOLIOS</span>
+          <span>Portfolios</span>
         </h2>
-        <p className="mt-5 text-sm font-light leading-relaxed text-white/70 sm:text-base">
+        <p className="mx-auto mt-5 max-w-2xl text-[15px] leading-7 text-white/70">
           Find a team that matches your interests and skills. Each portfolio offers unique
           opportunities to learn, contribute and make an impact.
         </p>
@@ -237,7 +224,7 @@ export default function PortfolioCarousel({
       {/* Carousel */}
       <div ref={stageRef} className="relative mx-auto mt-10 max-w-5xl">
         <motion.div
-          className="relative h-[428px] cursor-grab sm:h-100 touch-pan-y select-none active:cursor-grabbing"
+          className="relative h-[496px] cursor-grab sm:h-[432px] touch-pan-y select-none active:cursor-grabbing"
           style={{ perspective: 1200 }}
           drag="x"
           dragSnapToOrigin
@@ -271,7 +258,7 @@ export default function PortfolioCarousel({
                 onKeyDown={(e) => e.key === "Enter" && select(i)}
                 className="
   absolute top-4
-  h-[400px]
+  h-[468px]
   w-[calc(100vw-48px)]
   max-w-[350px]
   overflow-hidden
@@ -283,7 +270,7 @@ export default function PortfolioCarousel({
   backdrop-blur-sm
   will-change-transform
   sm:top-6
-  sm:h-[350px]
+  sm:h-[400px]
   sm:w-[340px]
   sm:p-6
 "
@@ -313,7 +300,7 @@ export default function PortfolioCarousel({
                 {/* Icon + index */}
                 <div className="flex items-start justify-between">
                   <div
-                    className="flex h-14 w-14 items-center justify-center rounded-xl border"
+                    className="flex h-11 w-11 items-center justify-center rounded-xl border sm:h-14 sm:w-14"
                     style={{
                       borderColor: ACCENT,
                       color: ACCENT,
@@ -333,7 +320,7 @@ export default function PortfolioCarousel({
                 >
                   {p.name}
                 </h3>
-                <p className="mt-3 line-clamp-4 text-[13px] sm:line-clamp-5 font-light leading-relaxed text-white/85">
+                <p className="mt-3 text-[13px] font-light leading-relaxed text-white/85">
                   {p.description}
                 </p>
 

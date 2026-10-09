@@ -32,7 +32,7 @@ const features = [
 
 export default function RecruitmentHero() {
   return (
-    <section className="relative min-h-[calc(100vh-80px)] overflow-hidden bg-black mt-16 px-6 py-20 text-white">
+    <section className="relative min-h-[calc(100vh-80px)] overflow-hidden mt-16 px-6 py-20 text-white">
       
       {/* Background red glow - static */}
       <div className="pointer-events-none absolute -right-40 -top-0 h-[500px] w-[500px] rounded-full bg-[#ff1e35]/15 blur-[100px]" />
@@ -56,37 +56,27 @@ export default function RecruitmentHero() {
         >
           <span className="h-px w-16 bg-[#ff1e35]" />
 
-          <span className="font-[Orbitron] text-[11px] font-medium tracking-[0.45em] text-white/80 sm:text-sm">
+          <span className="font-inter text-[11px] font-medium tracking-[0.45em] text-white/80 sm:text-sm">
             COMPUTER SOCIETY OF INDIA
           </span>
 
           <span className="h-px w-16 bg-[#ff1e35]" />
         </motion.div>
 
-        {/* CSI MJCET */}
-        <motion.p
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="mb-8 font-[Orbitron] text-xs tracking-[0.5em] text-white/70 sm:text-sm"
-        >
-          CSI-MJCET
-        </motion.p>
-
         {/* Main Heading */}
         <motion.h1
           initial={{ opacity: 0, y: 25 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.15 }}
-          className="font-[Orbitron] text-5xl font-medium uppercase leading-[1.05] tracking-tight sm:text-6xl md:text-7xl"
+          className="font-inter text-[clamp(44px,8vw,96px)] font-extrabold uppercase leading-[0.9] tracking-[-0.04em]"
         >
           <span className="block text-white">
             Be a Part of
           </span>
 
-          <span className="mt-2 block font-extrabold">
-            <span className="text-white">Our </span>
-            <span className="text-[#ff1e35]">Team</span>
+          <span className="block text-white">
+            Our{' '}
+            <span className="serif-accent relative top-[0.05em] -ml-[0.04em] text-[1.3em] leading-[0.6] text-[#ff2a3d]">team</span>
           </span>
         </motion.h1>
 
@@ -112,7 +102,7 @@ export default function RecruitmentHero() {
               border border-[#ff1e35]
               bg-[#ff1e35]
               px-8 py-4
-              font-[Orbitron] text-sm font-bold uppercase tracking-wider
+              font-inter text-sm font-bold uppercase tracking-wider
               text-white
               transition-colors duration-300
               hover:bg-black
@@ -133,7 +123,7 @@ export default function RecruitmentHero() {
               border border-white/80
               bg-transparent
               px-8 py-4
-              font-[Orbitron] text-sm font-bold uppercase tracking-wider
+              font-inter text-sm font-bold uppercase tracking-wider
               text-white
               transition-colors duration-300
               hover:border-[#ff1e35]
@@ -192,7 +182,7 @@ export default function RecruitmentHero() {
           duration: 0.5,
           delay: 0.45 + index * 0.1,
         }}
-        className="mt-4 font-[Orbitron] text-xs font-medium tracking-[0.3em] text-white"
+        className="mt-4 font-inter text-xs font-medium tracking-[0.3em] text-white"
       >
         {feature.title}
       </motion.span>
