@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
 import { useRecruitments } from './hooks/useRecruitments';
+import { useRecruitmentFilters } from './hooks/useRecruitmentFilters';
 import { RecruitmentsTable, RECRUITMENT_STATUS_CONFIG } from './_components/RecruitmentsTable';
 import { DataBoundary } from '@/components/ui/data-boundary';
 import { Search, Users, Filter } from 'lucide-react';
@@ -18,29 +18,7 @@ import { cn } from '@/lib/utils';
 
 export default function RecruitmentsPage() {
   const { recruitments, isLoading, isError, error, refetch, updateRecruitment, isUpdating, scheduleInterview, isScheduling, deleteRecruitment, isDeletingId } = useRecruitments();
-  const [searchQuery, setSearchQuery] = useState('');
-  const [statusFilter, setStatusFilter] = useState<string>('all');
-  const [teamFilter, setTeamFilter] = useState<string>('all');
-
-  // Client-side filtering
-  const filteredRecruitments = recruitments.filter((r) => {
-    // 1. Filter by status
-    if (statusFilter !== 'all' && r.status !== statusFilter) return false;
-
-    // 2. Filter by team (Execom/Core)
-    if (teamFilter !== 'all' && r.team !== teamFilter) return false;
-
-    // 3. Filter by search query
-    if (!searchQuery) return true;
-    const q = searchQuery.toLowerCase();
-    return (
-      r.name.toLowerCase().includes(q) ||
-      r.email.toLowerCase().includes(q) ||
-      (r.phone && r.phone.toLowerCase().includes(q)) ||
-      (r.roll_no && r.roll_no.toLowerCase().includes(q)) ||
-      (r.portfolio_1 && r.portfolio_1.toLowerCase().includes(q))
-    );
-  });
+  const filterControls = useRecruitmentFilters(recruitments);
 
   return (
     <div className="flex flex-col space-y-6">
@@ -59,36 +37,36 @@ export default function RecruitmentsPage() {
               type="search"
               placeholder="Search by name, email, roll no, or domain..."
               className="bg-card pl-8"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              value={filterControls.searchQuery}
+              onChange={(e) => filterControls.setSearchQuery(e.target.value)}
             />
           </div>
 
           <div className="w-full sm:w-[150px]">
-            <Select value={teamFilter} onValueChange={(val) => setTeamFilter(val || 'all')}>
+            <Select value={filterControls.teamFilter} onValueChange={(val) => filterControls.setTeamFilter(val || 'all')}>
               <SelectTrigger className="bg-card h-10 w-full">
                 <SelectValue placeholder="Team" />
               </SelectTrigger>
               <SelectContent alignItemWithTrigger={false}>
                 <SelectItem value="all">All Teams</SelectItem>
-                <SelectItem value="Core">Core</SelectItem>
-                <SelectItem value="Execom">Execom</SelectItem>
+                <SelectItem value="core">Core</SelectItem>
+                <SelectItem value="execom">Execom</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           <div className="w-full sm:w-[200px]">
             <Select
-              value={statusFilter}
-              onValueChange={(val) => setStatusFilter(val || 'all')}
+              value={filterControls.statusFilter}
+              onValueChange={(val) => filterControls.setStatusFilter(val || 'all')}
             >
               <SelectTrigger className="bg-card h-10 w-full">
                 <div className="flex items-center gap-2">
-                  {statusFilter === 'all' ? (
+                  {filterControls.statusFilter === 'all' ? (
                     <Filter className={cn("size-4", iconColors.rose)} />
                   ) : (
                     (() => {
-                      const config = RECRUITMENT_STATUS_CONFIG[statusFilter as keyof typeof RECRUITMENT_STATUS_CONFIG];
+                      const config = RECRUITMENT_STATUS_CONFIG[filterControls.statusFilter as keyof typeof RECRUITMENT_STATUS_CONFIG];
                       if (!config) return null;
                       const Icon = config.icon;
                       return <Icon className={`h-4 w-4 ${config.color}`} />;
@@ -128,13 +106,25 @@ export default function RecruitmentsPage() {
           emptyDescription="When students apply for Core or Execom, they will appear here."
         >
           <RecruitmentsTable 
-            recruitments={filteredRecruitments} 
+            recruitments={filterControls.filteredRecruitments} 
+            rawRecruitments={recruitments}
             onUpdate={updateRecruitment}
             isUpdating={isUpdating}
             onSchedule={scheduleInterview}
             isScheduling={isScheduling}
             onDelete={deleteRecruitment}
             isDeletingId={isDeletingId}
+            statFilter={filterControls.statFilter}
+            branchFilter={filterControls.branchFilter}
+            yearFilter={filterControls.yearFilter}
+            domainFilter={filterControls.domainFilter}
+            onToggleStatFilter={filterControls.toggleStatFilter}
+            onToggleBranchFilter={filterControls.toggleBranchFilter}
+            onToggleYearFilter={filterControls.toggleYearFilter}
+            onToggleDomainFilter={filterControls.toggleDomainFilter}
+            onResetFilters={filterControls.resetFilters}
+            hasActiveFilters={filterControls.hasActiveFilters}
+            activeFilterCount={filterControls.activeFilterCount}
           />
         </DataBoundary>
       </div>

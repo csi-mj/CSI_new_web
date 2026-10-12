@@ -10,56 +10,78 @@ import {
   Lightbulb,
   Target,
 } from "lucide-react";
-import { iconColors, bgColors, borderColors, translucentBgColors } from "@/config/colors";
+import { iconColors, IconColor } from "@/config/colors";
 
-const roles = [
+interface RoleHighlight {
+  icon: any;
+  title: string;
+  subtitle: string;
+  color: IconColor;
+}
+
+interface Role {
+  number: string;
+  title: string;
+  icon: any;
+  color: IconColor;
+  description: string;
+  highlights: RoleHighlight[];
+}
+
+const roles: Role[] = [
   {
     number: "01",
     title: "EXECOM",
     icon: Crown,
-    color: "orange",
+    color: "yellow",
     description:
-      "The Executive Committee (ExeCom) is the core decision-making body of CSI-MJCET. They lead the club, set the vision, plan major initiatives and oversee all portfolios and events.",
+      "Executive Committee (Execom) members lead specific portfolios of the organization. They are responsible for planning, coordinating, and overseeing the work of their respective portfolios and guiding the Core team working under them.",
     highlights: [
       {
         icon: UserRound,
         title: "Strategic",
         subtitle: "Planning",
+        color: "blue",
       },
       {
         icon: Settings,
         title: "Overall",
         subtitle: "Management",
+        color: "indigo",
       },
       {
         icon: ChartNoAxesCombined,
         title: "Guides",
         subtitle: "All Portfolios",
+        color: "teal",
       },
     ],
   },
   {
     number: "02",
-    title: "CORE",
+    title: "CORE MEMBERS",
     icon: Users,
-    color: "blue",
+    color: "purple",
     description:
-      "Core members are the backbone of CSI-MJCET. They work in different portfolios, ideate, execute events and contribute to the smooth functioning of the club.",
+      "Core Members work under the Execom leads in their respective portfolios. They learn the required technologies and skills, contribute to the portfolio’s core work, and execute assigned tasks under the guidance of the Execom lead.",
     highlights: [
       {
         icon: Lightbulb,
         title: "Hands-on",
         subtitle: "Execution",
+        color: "yellow",
       },
       {
         icon: Users,
         title: "Learn &",
         subtitle: "Grow",
+        color: "green",
       },
       {
         icon: Target,
         title: "Create",
         subtitle: "Real Impact",
+        color: "rose",
       },
     ],
   },
@@ -67,40 +89,20 @@ const roles = [
 
 export default function RecruitmentRoles() {
   return (
-    <section
-      id="about-recruitment"
-      className=" relative overflow-hidden bg-black px-6 py-24 text-white"
-    >
-      {/* Subtle static glow */}
-      <div className={`pointer-events-none absolute -left-60 top-20 h-[450px] w-[450px] rounded-full ${translucentBgColors.red} blur-[130px] opacity-10`} />
-
-      <div className={`pointer-events-none absolute -right-60 bottom-0 h-[450px] w-[450px] rounded-full ${translucentBgColors.red} blur-[130px] opacity-10`} />
-
+    <section id="about-recruitment" className="relative px-3 py-10 text-white ">
       <div className="relative z-10 mx-auto max-w-7xl">
-
         {/* ================= HEADER ================= */}
-
-        <div className="mx-auto mb-14 max-w-3xl text-center">
-
-          <div className="mb-5 flex items-center justify-center gap-4">
-            <span className={`h-px w-8 ${bgColors.red}`} />
-
-            <span className="font-[Orbitron] text-[10px] font-medium tracking-[0.45em] text-white/70">
-              KNOW MORE
-            </span>
-
-            <span className={`h-px w-8 ${bgColors.red}`} />
-          </div>
+        <div className="mx-auto mb-12 max-w-3xl text-center">
+          <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-white/55">Know more</p>
 
           <motion.h2
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="font-[Orbitron] text-4xl font-bold uppercase tracking-tight sm:text-5xl"
+            className="mt-3 font-inter text-[clamp(32px,5vw,52px)] font-semibold leading-[1.05] tracking-[-0.03em]"
           >
-            <span className="text-white">Roles at </span>
-            <span className={iconColors.red}>CSI</span>
+            Roles at <span className="serif-accent text-[1.2em] text-[#ff2a3d]">CSI</span>
           </motion.h2>
 
           <motion.p
@@ -108,134 +110,65 @@ export default function RecruitmentRoles() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="mt-4 --font-poppins text-xs leading-6 text-white/55 sm:text-sm"
+            className="mx-auto mt-4 max-w-xl text-[15px] leading-7 text-white/70"
           >
-            Get to know how CSI functions and the different opportunities
-            <br className="hidden sm:block" />
-            to grow, contribute and make an impact.
+            Get to know how CSI functions and the different opportunities to grow, contribute and make an
+            impact.
           </motion.p>
         </div>
 
-        {/* ================= ROLE CARDS ================= */}
-
-        <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
+        {/* ================= ROLES: one panel, two columns ================= */}
+        <motion.div
+          initial={{ opacity: 0, y: 25 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="glass-panel grid grid-cols-1 p-6 sm:p-10 lg:grid-cols-2 cursor-target"
+        >
           {roles.map((role, index) => {
             const RoleIcon = role.icon;
-            const colorKey = role.color as keyof typeof iconColors;
 
             return (
-              <motion.article
+              <article
                 key={role.title}
-                initial={{ opacity: 0, y: 25 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{
-                  duration: 0.5,
-                  delay: index * 0.12,
-                }}
-                className={`
-                  group relative overflow-hidden
-                  rounded-xl cursor-target
-                  border ${borderColors[colorKey]}
-                  bg-[#080808]
-                  p-6
-                  sm:p-7
-                `}
+                className={`min-w-0 ${
+                  index === 0
+                    ? 'pb-10 lg:pb-0 lg:pr-12'
+                    : 'border-t border-white/[0.09] pt-10 lg:border-l lg:border-t-0 lg:pl-12 lg:pt-0'
+                }`}
               >
-                {/* Card glow */}
-                <div
-                  className={`
-                    pointer-events-none absolute
-                    -bottom-24 -right-24
-                    h-56 w-56
-                    rounded-full
-                    ${translucentBgColors[colorKey]}
-                    blur-[80px]
-                    opacity-10
-                  `}
-                />
-
-                {/* Top row */}
-                <div className="relative flex items-start justify-between">
-
-                  <div
-                    className={`
-                      flex h-12 w-12 items-center justify-center
-                      rounded-lg
-                      border ${borderColors[colorKey]}
-                      ${translucentBgColors[colorKey]} opacity-80
-                    `}
-                  >
-                    <RoleIcon
-                      size={24}
-                      strokeWidth={1.7}
-                      className={iconColors[colorKey]}
-                    />
-                  </div>
-
-                  <span className="font-[Orbitron] text-xs text-white/40">
+                <div className="flex items-center gap-3">
+                  <RoleIcon size={18} strokeWidth={1.6} className={iconColors[role.color]} aria-hidden />
+                  <span className="text-[11px] font-medium uppercase tracking-[0.18em] text-white/55">
                     {role.number}
                   </span>
                 </div>
 
-                {/* Title */}
-                <h3 className="relative mt-5 font-[Orbitron] text-3xl font-bold uppercase tracking-tight">
-                  <span className="text-white">
-                    {role.title.slice(0, 3)}
-                  </span>
-
-                  <span className={iconColors[colorKey]}>
-                    {role.title.slice(3)}
-                  </span>
+                <h3 className="mt-4 font-inter text-[clamp(26px,3vw,32px)] font-semibold uppercase tracking-[-0.02em] text-white">
+                  {role.title}
                 </h3>
 
-                {/* Description */}
-                <p className="relative mt-2 max-w-xl --font-poppins text-base leading-relaxed text-white/60 sm:text-xs sm:leading-6">
-                  {role.description}
-                </p>
+                <p className="mt-3 max-w-xl text-[15px] leading-7 text-white/70">{role.description}</p>
 
-                {/* Divider */}
-                <div className={`relative mt-5 h-[2px] w-8 ${bgColors[colorKey]}`} />
-
-                {/* Highlights */}
-                <div className="relative mt-5 grid grid-cols-1 gap-2 sm:grid-cols-3">
+                <ul className="mt-6 grid grid-cols-1 sm:grid-cols-3 sm:gap-x-6">
                   {role.highlights.map((item) => {
                     const ItemIcon = item.icon;
 
                     return (
-                      <div
-                        key={item.title}
-                        className="
-                          flex min-h-[58px] items-center gap-2
-                          rounded-lg
-                          border border-white/10
-                          bg-white/[0.025]
-                          px-2.5
-                        "
-                      >
-                        <ItemIcon
-                          size={20}
-                          strokeWidth={1.7}
-                          className="shrink-0 text-yellow-500"
-                        />
-
+                      <li key={item.title} className="flex min-w-0 gap-3 border-t border-white/[0.09] py-4">
+                        <ItemIcon size={18} strokeWidth={1.6} className={`mt-0.5 shrink-0 ${iconColors[item.color]}`} aria-hidden />
                         <div className="min-w-0">
-                          <p className="--font-poppins text-[16px] leading-tight text-white/80">
-                            {item.title}
-                          </p>
-
-                          <p className="--font-poppins mt-1 text-[12px] leading-tight text-white/45">
-                            {item.subtitle}
-                          </p>
+                          <p className="text-[15px] font-medium leading-tight text-white">{item.title}</p>
+                          <p className="mt-1 text-[13px] leading-tight text-white/60">{item.subtitle}</p>
                         </div>
-                      </div>
+                      </li>
                     );
                   })}
-                </div>
-              </motion.article>
+                </ul>
+              </article>
             );
           })}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

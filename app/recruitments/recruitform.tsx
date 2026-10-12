@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import type { LucideIcon } from 'lucide-react';
 import {
@@ -70,7 +70,6 @@ import { PremiumSelect } from '@/components/shared/fields/PremiumSelect';
 import { PremiumRadioGroup } from '@/components/shared/fields/PremiumRadioGroup';
 import { PremiumCheckbox } from '@/components/shared/fields/PremiumCheckbox';
 import { PremiumFileInput } from '@/components/shared/fields/PremiumFileInput';
-import { cn } from '@/lib/utils';
 
 const formSchema = z.object({
   name: z.string().min(1, 'Full name is required'),
@@ -183,9 +182,7 @@ export default function MembershipForm() {
         setSuccess(true);
         setErrorMsg(null);
         form.reset();
-        document
-          .getElementById('recruitment-form-start')
-          ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       },
       onError: (err) => {
         setErrorMsg(err.message || 'Something went wrong.');
@@ -197,9 +194,21 @@ export default function MembershipForm() {
     });
   };
 
+  useEffect(() => {
+    if (success) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      document
+        .getElementById('recruitment-success-top')
+        ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [success]);
+
   if (success) {
     return (
-      <main className="relative min-h-screen overflow-hidden px-4 py-7 pt-40 text-white sm:px-6 lg:px-8">
+      <main
+        id="recruitment-success-top"
+        className="relative min-h-screen overflow-hidden px-4 py-7 pt-40 text-white sm:px-6 lg:px-8"
+      >
         <SuccessState
           title="Application Successful!"
           description="Thank you for applying to the CSI-MJCET team! We have received your application and will send you an email regarding your interview soon."
@@ -208,8 +217,9 @@ export default function MembershipForm() {
               onClick={() => {
                 form.reset();
                 setSuccess(false);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
-              className="flex items-center gap-2"
+              className="cursor-target cursor-pointer flex items-center gap-2"
               variant="outline"
             >
               Fill Again
@@ -223,17 +233,8 @@ export default function MembershipForm() {
   return (
     <main
       id="recruitment-form-start"
-      className="relative min-h-screen overflow-hidden px-4 py-7 pt-40 text-white sm:px-6 lg:px-8 "
+      className="relative min-h-screen overflow-hidden px-4 py-7 pt-20 text-white sm:px-6 lg:px-8"
     >
-      {/* Background glow */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="border-primary/15 absolute top-[90px] -left-[180px] h-[300px] w-[500px] rotate-[28deg] rounded-[50%] border shadow-[0_0_45px_rgba(255,30,53,0.12)]" />
-        <div className="border-primary/15 absolute top-[0px] -right-[180px] h-[300px] w-[500px] rotate-[-28deg] rounded-[50%] border shadow-[0_0_45px_rgba(255,30,53,0.11)]" />
-        <div className="border-primary/15 absolute bottom-[20px] -left-[180px] h-[300px] w-[500px] rotate-[-28deg] rounded-[50%] border shadow-[0_0_45px_rgba(255,30,53,0.09)]" />
-        <div className="border-primary/15 absolute -right-[180px] bottom-[80px] h-[300px] w-[500px] rotate-[28deg] rounded-[50%] border shadow-[0_0_45px_rgba(255,30,53,0.11)]" />
-        <div className="absolute top-1/2 left-1/2 h-[600px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full" />
-      </div>
-
       <div className="relative z-10 mx-auto w-full max-w-[1070px]">
         {errorMsg && (
           <div className="border-border/50 bg-card/50 mb-6 w-full max-w-[1070px] rounded-lg border px-6 py-4 shadow-sm">
@@ -268,7 +269,7 @@ export default function MembershipForm() {
         <div className="mb-8 flex items-center justify-center gap-4">
           <span className="h-px w-16 bg-[#ff1e35]" />
 
-          <span className="font-[Orbitron] text-[11px] font-medium tracking-[0.45em] text-white/80 sm:text-sm">
+          <span className="font-inter text-[11px] font-medium tracking-[0.45em] text-white/80 sm:text-sm">
             APPLY NOW
           </span>
 
@@ -284,13 +285,16 @@ export default function MembershipForm() {
                 errors[firstErrorField as keyof typeof errors]?.message;
               toast.error(`Validation Failed: ${errorMessage}`);
             })}
-            className="border-primary/30 bg-card/50 rounded-[27px] border px-5 py-7 backdrop-blur-md sm:px-8 sm:py-9 lg:px-10 cursor-target"
+            className="glass-panel px-5 py-7 sm:px-8 sm:py-9 lg:px-10 cursor-target"
           >
             {/* Header */}
             <div className="mb-8 flex flex-col justify-between gap-6 lg:flex-row lg:items-start">
               <div>
-                <h1 className="font-[Orbitron] text-[38px] leading-none font-extrabold tracking-wider sm:text-[42px]">
-                  Recruitment <span className="text-[#ff263d]">Form</span>
+                <h1 className="font-inter text-[clamp(32px,4vw,42px)] leading-none font-semibold tracking-[-0.03em]">
+                  Recruitment{' '}
+                  <span className="serif-accent text-[1.2em] text-[#ff2a3d]">
+                    form
+                  </span>
                 </h1>
 
                 <p className="mt-2 text-[15px] text-[#9b9ba3]">
@@ -300,11 +304,11 @@ export default function MembershipForm() {
               </div>
 
               <div className="flex min-w-0 items-center gap-4 sm:min-w-[290px]">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-[#ff1e35]/10">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center">
                   <Users
-                    size={27}
-                    strokeWidth={1.7}
-                    className={cn(iconColors.pink)}
+                    size={22}
+                    strokeWidth={1.6}
+                    className="text-white/60"
                   />
                 </div>
                 <div>
@@ -410,7 +414,7 @@ export default function MembershipForm() {
                     <FormControl>
                       <PremiumInput
                         icon={Hash}
-                        placeholder="1604 - XX - XXX - ZZZZ"
+                        placeholder="1604-23-733-311"
                         colorTheme="cyan"
                         {...field}
                         onChange={(e) => handleRollNumber(e.target.value)}
@@ -550,11 +554,11 @@ export default function MembershipForm() {
             {/* Resume template, for applicants who don't have a resume yet */}
             <div className="mt-7 flex flex-col gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
               <div className="flex min-w-0 items-start gap-3">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#ff1e35]/10">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center">
                   <FileText
                     size={20}
-                    strokeWidth={1.8}
-                    className="text-[#ff3047]"
+                    strokeWidth={1.6}
+                    className="text-white/60"
                     aria-hidden
                   />
                 </div>
@@ -571,7 +575,7 @@ export default function MembershipForm() {
               <a
                 href="/pdfs/resume-template.pdf"
                 download="CSI-Resume-Template.pdf"
-                className="inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-xl border border-[#ff1e35]/60 px-4 text-[14px] font-semibold text-white transition-colors hover:bg-[#ff1e35]/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ff1e35]"
+                className="cursor-target cursor-pointer inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-xl border border-[#ff1e35]/60 px-4 text-[14px] font-semibold text-white"
               >
                 <Download size={17} strokeWidth={2} aria-hidden />
                 Download template
@@ -608,7 +612,7 @@ export default function MembershipForm() {
             {/* Submit */}
             <Button
               type="submit"
-              className="mt-5 h-12 w-full"
+              className="cursor-target cursor-pointer mt-5 h-12 w-full"
               disabled={isPending}
             >
               {isPending ? (

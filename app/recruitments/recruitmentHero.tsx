@@ -10,14 +10,13 @@ import {
   Target,
   Sparkles
 } from 'lucide-react';
-import {
-  iconColors,
-  bgColors,
-  borderColors,
-  translucentBgColors
-} from '@/config/colors';
+import { iconColors, IconColor } from '@/config/colors';
 
-const features = [
+const features: Array<{
+  icon: any;
+  title: string;
+  color: IconColor;
+}> = [
   {
     icon: Users,
     title: 'PEOPLE',
@@ -36,42 +35,20 @@ const features = [
   {
     icon: Target,
     title: 'IMPACT',
-    color: 'purple'
+    color: 'rose'
   }
-] as const;
+];
 
 export default function RecruitmentHero() {
   return (
-    <section className="relative mt-16 min-h-[calc(100vh-80px)] overflow-hidden bg-black px-6 py-20 text-white">
+    <section className="relative mt-16 min-h-[calc(100vh-80px)] overflow-hidden px-6 py-20 text-white">
       {/* Background red glow - static */}
-      <div
-        className={`pointer-events-none absolute top-0 -right-40 h-[500px] w-[500px] rounded-full ${translucentBgColors.red} opacity-1 blur-[100px]`}
-      />
+      <div className="pointer-events-none absolute -top-0 -right-40 h-[500px] w-[500px] rounded-full bg-[#ff1e35]/15 blur-[100px]" />
 
       {/* Decorative curves */}
-      <div
-        className={`pointer-events-none absolute -top-48 -right-48 h-[600px] w-[600px] rounded-full border ${borderColors.red}`}
-      />
+      <div className="pointer-events-none absolute -top-48 -right-48 h-[600px] w-[600px] rounded-full border border-[#ff1e35]/50" />
 
-      <div
-        className={`pointer-events-none absolute -bottom-80 -left-80 h-[750px] w-[750px] rounded-full border ${borderColors.red}`}
-      />
-
-      <div className="pointer-events-none absolute -bottom-72 -left-72 h-[680px] w-[680px] rounded-full border border-white/15" />
-
-      {/* Background red glow - static */}
-      <div
-        className={`pointer-events-none absolute -top-0 -right-40 h-[500px] w-[500px] rounded-full ${translucentBgColors.red} opacity-40 blur-[100px]`}
-      />
-
-      {/* Decorative curves */}
-      <div
-        className={`pointer-events-none absolute -top-48 -right-48 h-[600px] w-[600px] rounded-full border ${borderColors.red}`}
-      />
-
-      <div
-        className={`pointer-events-none absolute -bottom-80 -left-80 h-[750px] w-[750px] rounded-full border ${borderColors.red}`}
-      />
+      <div className="pointer-events-none absolute -bottom-80 -left-80 h-[750px] w-[750px] rounded-full border border-[#ff1e35]/50" />
 
       <div className="pointer-events-none absolute -bottom-72 -left-72 h-[680px] w-[680px] rounded-full border border-white/15" />
 
@@ -84,37 +61,29 @@ export default function RecruitmentHero() {
           transition={{ duration: 0.6 }}
           className="mb-8 flex items-center gap-5"
         >
-          <span className={`h-px w-16 ${bgColors.red}`} />
+          <span className="h-px w-16 bg-[#ff1e35]" />
 
-          <span className="font-[Orbitron] text-[11px] font-medium tracking-[0.45em] text-white/80 sm:text-sm">
+          <span className="font-inter text-[11px] font-medium tracking-[0.45em] text-white/80 sm:text-sm">
             COMPUTER SOCIETY OF INDIA
           </span>
 
-          <span className={`h-px w-16 ${bgColors.red}`} />
+          <span className="h-px w-16 bg-[#ff1e35]" />
         </motion.div>
-
-        {/* CSI MJCET */}
-        <motion.p
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="mb-8 font-[Orbitron] text-xs tracking-[0.5em] text-white/70 sm:text-sm"
-        >
-          CSI-MJCET
-        </motion.p>
 
         {/* Main Heading */}
         <motion.h1
           initial={{ opacity: 0, y: 25 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.15 }}
-          className="font-[Orbitron] text-5xl leading-[1.05] font-medium tracking-tight uppercase sm:text-6xl md:text-7xl"
+          className="font-inter text-[clamp(44px,8vw,96px)] leading-[0.9] font-extrabold tracking-[-0.04em] uppercase"
         >
           <span className="block text-white">Be a Part of</span>
 
-          <span className="mt-2 block font-extrabold">
-            <span className="text-white">Our </span>
-            <span className={iconColors.red}>Team</span>
+          <span className="block text-white">
+            Our{' '}
+            <span className="serif-accent relative top-[0.05em] -ml-[0.04em] text-[1.3em] leading-[0.6] text-[#ff2a3d]">
+              team
+            </span>
           </span>
         </motion.h1>
 
@@ -135,7 +104,7 @@ export default function RecruitmentHero() {
         <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row">
           <Link
             href="#recruitment-form-start"
-            className={`flex min-w-[230px] items-center justify-center gap-4 border ${borderColors.red} ${bgColors.red} cursor-target px-8 py-4 font-[Orbitron] text-sm font-bold tracking-wider text-white uppercase transition-colors duration-300 hover:bg-black`}
+            className="font-inter flex min-w-[230px] items-center justify-center gap-4 border border-[#ff1e35] bg-[#ff1e35] px-8 py-4 text-sm font-bold tracking-wider text-white uppercase transition-colors duration-300 hover:bg-black cursor-target"
           >
             Apply Now
             <ArrowRight size={19} strokeWidth={2} />
@@ -143,7 +112,7 @@ export default function RecruitmentHero() {
 
           <Link
             href="#about-recruitment"
-            className={`cursor-target flex min-w-[230px] items-center justify-center gap-4 border border-white/80 bg-transparent px-8 py-4 font-[Orbitron] text-sm font-bold tracking-wider text-white uppercase transition-colors duration-300 hover:${borderColors.red} hover:${iconColors.red} `}
+            className="font-inter flex min-w-[230px] items-center justify-center gap-4 border border-white/80 bg-transparent px-8 py-4 text-sm font-bold tracking-wider text-white uppercase transition-colors duration-300 hover:border-[#ff1e35] hover:text-[#ff1e35] cursor-target"
           >
             Know More
             <ArrowRight size={19} strokeWidth={2} />
@@ -154,12 +123,11 @@ export default function RecruitmentHero() {
         <div className="mt-16 flex w-full max-w-3xl flex-row items-center justify-center sm:flex-row ">
           {features.map((feature, index) => {
             const Icon = feature.icon;
-            const colorKey = feature.color;
 
             return (
               <div
                 key={feature.title}
-                className="cursor-target flex w-full items-center justify-center"
+                className="flex w-full items-center justify-center "
               >
                 <motion.div
                   className="flex flex-1 flex-col items-center justify-center py-5 sm:py-0"
@@ -177,11 +145,7 @@ export default function RecruitmentHero() {
                       ease: 'easeOut'
                     }}
                   >
-                    <Icon
-                      size={42}
-                      strokeWidth={1.5}
-                      className={iconColors[colorKey]}
-                    />
+                    <Icon size={42} strokeWidth={1.5} className={iconColors[feature.color]} />
                   </motion.div>
 
                   {/* Text */}
@@ -192,12 +156,12 @@ export default function RecruitmentHero() {
                       duration: 0.5,
                       delay: 0.45 + index * 0.1
                     }}
-                    className="mt-4 font-[Orbitron] text-xs font-medium tracking-[0.3em] text-white"
+                    className="font-inter mt-4 text-xs font-medium tracking-[0.3em] text-white"
                   >
                     {feature.title}
                   </motion.span>
 
-                  {/* Line */}
+                  {/* Red line */}
                   <motion.span
                     variants={{
                       initial: { width: 40 },
@@ -207,7 +171,7 @@ export default function RecruitmentHero() {
                       duration: 0.3,
                       ease: 'easeOut'
                     }}
-                    className={`mt-3 h-[3px] ${bgColors[colorKey]}`}
+                    className="mt-3 h-[3px] bg-[#ff1e35]"
                   />
                 </motion.div>
 

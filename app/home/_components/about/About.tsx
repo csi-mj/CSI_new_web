@@ -3,10 +3,15 @@ import React, { useRef, useEffect, useState, useMemo, useCallback } from 'react'
 import { motion, useInView, useMotionValue, animate } from 'framer-motion';
 import { TextGenerateEffect } from '@/components/ui/text-generate-effect';
 import Shuffle from '@/components/Shuffle';
-import { Users, Calendar, TrendingUp, Plus } from 'lucide-react';
-
-
-// import FollowCursorHideCursor from "../ui/simpleCursor";
+import { Users, Calendar, TrendingUp } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
+import {
+  iconColors,
+  bgColors,
+  borderColors,
+  translucentBgColors,
+  IconColor
+} from '@/config/colors';
 
 const About = React.memo(() => {
   const aboutText = useMemo(() => `
@@ -34,7 +39,7 @@ The Computer Society of India – MJCET (CSI MJCET) is one of the oldest student
   return (
     <div className="">
 
-      <div className="relative pt-20 flex w-full flex-col items-center justify-center">
+      <div className="relative flex w-full flex-col items-center justify-center">
 
 
         <div className="relative z-10 w-full max-w-4xl px-4">
@@ -45,7 +50,7 @@ The Computer Society of India – MJCET (CSI MJCET) is one of the oldest student
             viewport={{ margin: "-100px", once: true }}
             className="mb-16 text-center"
           >
-            <div className="mb-12">
+            <div className="cursor-target cursor-pointer mb-12">
               <Shuffle
                 text="About CSI MJCET"
                 tag="h1"
@@ -89,6 +94,8 @@ The Computer Society of India – MJCET (CSI MJCET) is one of the oldest student
   }}
 >
   <StatsCard
+    icon={Users}
+    color="blue"
     title="Members"
     value={200}
     description="Active Members"
@@ -97,6 +104,8 @@ The Computer Society of India – MJCET (CSI MJCET) is one of the oldest student
 
   <div className="border-t border-white/10 sm:border-l sm:border-t-0">
     <StatsCard
+      icon={Calendar}
+      color="purple"
       title="Events"
       value={130}
       description="Successfully Organized in 11 Years of CSI"
@@ -106,6 +115,8 @@ The Computer Society of India – MJCET (CSI MJCET) is one of the oldest student
 
   <div className="border-t border-white/10 sm:border-l sm:border-t-0">
     <StatsCard
+      icon={TrendingUp}
+      color="green"
       title="Reach"
       value={400000}
       description="Social Media Impact"
@@ -125,12 +136,15 @@ const StatsCard = React.memo(({
   title,
   value,
   description,
+  icon: Icon,
+  color = 'blue',
   delay = 0,
 }: {
   title: string;
   value: number;
   description: string;
-  iconType?: 'users' | 'calendar' | 'trending';
+  icon: LucideIcon;
+  color?: IconColor;
   delay?: number;
 }) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -167,17 +181,25 @@ const StatsCard = React.memo(({
         delay,
         ease: [0.16, 1, 0.3, 1],
       }}
-      className="group relative flex min-h-[220px] flex-col justify-center overflow-visible px-6 py-10 transition-colors duration-300 hover:bg-white/[0.02] sm:px-7 md:px-8 lg:min-h-[250px] lg:px-8"
+      className="cursor-target cursor-pointer group relative flex min-h-[220px] flex-col justify-center overflow-visible px-6 py-10 transition-colors duration-300 hover:bg-white/[0.02] sm:px-7 md:px-8 lg:min-h-[250px] lg:px-8"
     >
-     <div className="flex items-baseline whitespace-nowrap">
-  <h3 className="bg-gradient-to-tr from-[#ff1a1a] via-[#e60000] to-[#7f0000] bg-clip-text font-mono text-[clamp(2.2rem,4vw,3.5rem)] font-medium tracking-[-0.03em] leading-[1.15] pr-[0.08em] text-transparent">
-    {count.toLocaleString("en-US")}
-  </h3>
+      <div className="mb-5 flex items-center justify-between">
+        <div
+          className={`flex h-11 w-11 items-center justify-center rounded-xl border ${borderColors[color]} ${iconColors[color]} transition-transform duration-300 group-hover:scale-110`}
+        >
+          <Icon className="h-5 w-5" strokeWidth={1.8} />
+        </div>
+      </div>
 
-  <span className="ml-1 shrink-0 font-mono text-[clamp(2.2rem,4vw,3.5rem)] font-medium leading-tight tracking-normal text-[#e60000]">
-    +
-  </span>
-</div>
+      <div className="flex items-baseline whitespace-nowrap">
+        <h3 className="bg-gradient-to-tr from-[#ff1a1a] via-[#e60000] to-[#7f0000] bg-clip-text font-mono text-[clamp(2.2rem,4vw,3.5rem)] font-medium tracking-[-0.03em] leading-[1.15] pr-[0.08em] text-transparent">
+          {count.toLocaleString("en-US")}
+        </h3>
+
+        <span className="ml-1 shrink-0 font-mono text-[clamp(2.2rem,4vw,3.5rem)] font-medium leading-tight tracking-normal text-[#e60000]">
+          +
+        </span>
+      </div>
 
       <p className="mt-8 font-mono text-xs font-medium uppercase leading-relaxed tracking-wide text-white/85">
         {title}
@@ -187,8 +209,8 @@ const StatsCard = React.memo(({
         {description}
       </p>
 
-     <div className="absolute bottom-0 left-0 h-px w-0 bg-[#ff1a1a] transition-all duration-500 group-hover:w-full" /> 
-      </motion.div>
+      <div className={`absolute bottom-0 left-0 h-px w-0 ${bgColors[color]} transition-all duration-500 group-hover:w-full`} /> 
+    </motion.div>
   );
 });
 

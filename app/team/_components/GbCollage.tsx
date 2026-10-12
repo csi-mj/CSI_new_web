@@ -118,7 +118,7 @@ const PrintCard: React.FC<{ member: GbMember; index: number; large: boolean; onO
             onOpen(e.currentTarget, true);
           }
         }}
-        className={`cursor-pointer bg-[#ecebe6] p-1.5 md:p-2 pb-0 md:pb-0 shadow-[0_18px_40px_-12px_rgba(0,0,0,0.85)] outline-none transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none group-hover:[transform:rotate(calc(var(--tilt)*-1deg))_translateY(-22px)_scale(1.12)] group-has-[:focus-visible]:[transform:rotate(calc(var(--tilt)*-1deg))_translateY(-22px)_scale(1.12)] group-hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.95)] focus-visible:ring-2 focus-visible:ring-white/70 ${
+        className={`cursor-target cursor-pointer bg-[#ecebe6] p-1.5 md:p-2 pb-0 md:pb-0 shadow-[0_18px_40px_-12px_rgba(0,0,0,0.85)] outline-none transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none group-hover:[transform:rotate(calc(var(--tilt)*-1deg))_translateY(-22px)_scale(1.12)] group-has-[:focus-visible]:[transform:rotate(calc(var(--tilt)*-1deg))_translateY(-22px)_scale(1.12)] group-hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.95)] focus-visible:ring-2 focus-visible:ring-white/70 ${
           large ? 'w-[42vw] max-w-[190px] md:w-[210px] md:max-w-none lg:w-[230px]' : 'w-[40vw] max-w-[170px] md:w-[150px] md:max-w-none lg:w-[172px] xl:w-[188px]'
         }`}
       >

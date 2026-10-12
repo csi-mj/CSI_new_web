@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import { Orbitron, Poppins } from 'next/font/google';
 import {
   Megaphone,
   PenTool,
@@ -18,25 +17,20 @@ import {
   ChevronRight,
   type LucideIcon
 } from 'lucide-react';
+import {
+  iconColors,
+  borderColors,
+  translucentBgColors,
+  bgColors,
+  type IconColor
+} from '@/config/colors';
 
 /* ------------------------------------------------------------------ */
 /* Fonts — delete this block if Orbitron/Poppins are already set up    */
 /* in your layout, and point the two class strings below at them.      */
 /* ------------------------------------------------------------------ */
-const orbitronFont = Orbitron({
-  subsets: ['latin'],
-  weight: ['500', '700', '800', '900'],
-  variable: '--font-orbitron'
-});
-const poppinsFont = Poppins({
-  subsets: ['latin'],
-  weight: ['300', '400', '500', '600'],
-  variable: '--font-poppins'
-});
-const ORBITRON = 'font-[family-name:var(--font-orbitron)]';
-const POPPINS = 'font-[family-name:var(--font-poppins)]';
-
-import { iconColors, borderColors, translucentBgColors, bgColors } from "@/config/colors";
+const ORBITRON = 'font-inter';
+const POPPINS = 'font-inter';
 
 const ACCENT = '#ff1e35';
 
@@ -46,7 +40,7 @@ export type Portfolio = {
   description: string;
   tags: string[];
   icon: LucideIcon;
-  color: keyof typeof iconColors;
+  color: IconColor;
 };
 
 export const DEFAULT_PORTFOLIOS: Portfolio[] = [
@@ -81,7 +75,7 @@ export const DEFAULT_PORTFOLIOS: Portfolio[] = [
     id: 'web',
     name: 'Web',
     icon: Code2,
-    color: 'blue',
+    color: 'cyan',
     description:
       'Build and maintain the digital face of CSI. This portfolio creates fast, accessible and engaging web experiences that bring the chapter’s ideas online.',
     tags: ['Development', 'UI/UX', 'Maintenance']
@@ -99,7 +93,7 @@ export const DEFAULT_PORTFOLIOS: Portfolio[] = [
     id: 'hr',
     name: 'Human Resources',
     icon: Users,
-    color: 'green',
+    color: 'blue',
     description:
       'Build a strong CSI community by managing recruitment, onboarding and member engagement while creating a culture where people can learn, collaborate and grow.',
     tags: ['Recruitment', 'People', 'Engagement']
@@ -108,7 +102,7 @@ export const DEFAULT_PORTFOLIOS: Portfolio[] = [
     id: 'media',
     name: 'Media & Press',
     icon: Camera,
-    color: 'cyan',
+    color: 'rose',
     description:
       'Capture CSI’s journey and bring its stories to life through photography, videography and press coverage. This portfolio makes every moment worth remembering.',
     tags: ['Photography', 'Videography', 'Press']
@@ -117,7 +111,7 @@ export const DEFAULT_PORTFOLIOS: Portfolio[] = [
     id: 'logistics',
     name: 'Logistics',
     icon: Box,
-    color: 'teal',
+    color: 'indigo',
     description:
       'Make every CSI event run smoothly behind the scenes by managing venues, resources, schedules and on-ground operations.',
     tags: ['Operations', 'Resources', 'Coordination']
@@ -126,7 +120,7 @@ export const DEFAULT_PORTFOLIOS: Portfolio[] = [
     id: 'editorial',
     name: 'Editorial',
     icon: FileText,
-    color: 'rose',
+    color: 'teal',
     description:
       'Craft content that reflects the voice of CSI through articles, newsletters, announcements and official communication that informs and connects the community.',
     tags: ['Writing', 'Editing', 'Content']
@@ -135,7 +129,7 @@ export const DEFAULT_PORTFOLIOS: Portfolio[] = [
     id: 'rnd',
     name: 'Research & Development',
     icon: FlaskConical,
-    color: 'indigo',
+    color: 'green',
     description:
       'Explore new ideas, conduct technical research and prototype solutions that push CSI forward. Contribute to research, experimentation and knowledge creation.',
     tags: ['Research', 'Prototyping', 'Innovation']
@@ -222,40 +216,41 @@ export default function PortfolioCarousel({
     });
   }, [active]);
 
-  const cardW = Math.min(320, Math.max(220, stageW * 0.58));
+  const isMobile = stageW < 640;
+  // Responsive card width: on mobile, fill a comfortable ~78% of stage (280-330px) instead of the previous narrow 220px
+  const cardW = Math.min(340, Math.max(280, isMobile ? stageW * 0.78 : 320));
   // One title size for every card, small enough that the longest single word (e.g. DEVELOPMENT)
   // fits on one line inside the card's padding; capped at the original 26px on wide cards.
   const longestWord = Math.max(
     ...portfolios.flatMap((p) => p.name.split(/\s+/)).map((w) => w.length),
     1
   );
-  const titleSize = Math.min(26, (cardW - 48) / (longestWord * 0.92));
+  const titleSize = Math.min(
+    26,
+    Math.max(19, (cardW - 48) / (longestWord * 0.92))
+  );
 
   return (
     <section
-      className={`${orbitronFont.variable} ${poppinsFont.variable} ${POPPINS} w-full overflow-x-clip bg-black px-4 py-12 text-white sm:px-6 ${className}`}
+      className={`${POPPINS} relative z-10 w-full overflow-x-clip px-4 py-12 text-white sm:px-6 ${className}`}
       onKeyDown={(e) => {
         if (e.key === 'ArrowRight') next();
         if (e.key === 'ArrowLeft') prev();
       }}
     >
       {/* Header */}
-      <header className="mx-auto max-w-2xl text-center">
-        <div className="flex items-center justify-center gap-4">
-          <span className="h-px w-10 sm:w-14" style={{ background: ACCENT }} />
-          <span
-            className={`${ORBITRON} text-[11px] tracking-[0.35em] text-white/90 sm:text-xs`}
-          >
-            EXPLORE OUR
-          </span>
-          <span className="h-px w-10 sm:w-14" style={{ background: ACCENT }} />
-        </div>
+      <header className="mx-auto max-w-4xl text-center">
+        {/* Team-page style: two caps words with a serif pill between them */}
         <h2
-          className={`${ORBITRON} mt-4 text-4xl font-black tracking-wide sm:text-6xl`}
+          className={`${ORBITRON} flex flex-wrap items-center justify-center gap-x-[0.3em] gap-y-2 text-[clamp(30px,6vw,64px)] leading-[0.95] font-normal tracking-[-0.03em] uppercase`}
         >
-          PORT<span style={{ color: ACCENT }}>FOLIOS</span>
+          <span>Explore</span>
+          <span className="serif-accent rounded-[50%] border border-white/70 px-[0.9em] py-[0.3em] text-[0.38em] leading-none whitespace-nowrap">
+            <span style={{ color: ACCENT }}>our</span> {n} portfolios
+          </span>
+          <span>Portfolios</span>
         </h2>
-        <p className="mt-5 text-sm leading-relaxed font-light text-white/70 sm:text-base">
+        <p className="mx-auto mt-5 max-w-2xl text-[15px] leading-7 text-white/70">
           Find a team that matches your interests and skills. Each portfolio
           offers unique opportunities to learn, contribute and make an impact.
         </p>
@@ -264,7 +259,7 @@ export default function PortfolioCarousel({
       {/* Carousel */}
       <div ref={stageRef} className="relative mx-auto mt-10 max-w-5xl">
         <motion.div
-          className="relative h-[428px] cursor-grab touch-pan-y select-none active:cursor-grabbing sm:h-100"
+          className="relative h-[448px] cursor-grab touch-pan-y select-none active:cursor-grabbing sm:h-[432px]"
           style={{ perspective: 1200 }}
           drag="x"
           dragSnapToOrigin
@@ -286,7 +281,8 @@ export default function PortfolioCarousel({
             const isActive = o === 0;
             const x = isActive
               ? 0
-              : sign * (cardW * 0.76 + (c - 1) * cardW * 0.28);
+              : sign *
+                (cardW * (isMobile ? 0.72 : 0.76) + (c - 1) * cardW * 0.28);
             const Icon = p.icon;
 
             return (
@@ -298,7 +294,7 @@ export default function PortfolioCarousel({
                 aria-current={isActive}
                 onClick={() => !dragging.current && !isActive && select(i)}
                 onKeyDown={(e) => e.key === 'Enter' && select(i)}
-                className={`absolute top-4 h-[400px] w-[calc(100vw-48px)] max-w-[350px] overflow-hidden rounded-2xl border-2 bg-[#0a0a0b]/95 p-5 backdrop-blur-sm will-change-transform outline-none sm:top-6 sm:h-[350px] sm:w-[340px] sm:p-6 cursor-target transition-colors duration-300 ${isActive ? borderColors[p.color] : 'border-white/10'}`}
+                className="cursor-target absolute top-4 h-[415px] w-[calc(100vw-48px)] max-w-[350px] overflow-hidden rounded-2xl border border-[#ff1e35]/70 bg-[#0a0a0b]/95 p-5 will-change-transform outline-none sm:top-6 sm:h-[360px] sm:w-[340px] sm:p-6"
                 style={{
                   width: cardW,
                   left: '50%',
@@ -314,6 +310,10 @@ export default function PortfolioCarousel({
                   scale: SCALE[c],
                   rotateY: -sign * ROTATE[c],
                   opacity: abs > 3 ? 0 : OPACITY[c],
+                  borderColor: isActive ? ACCENT : 'rgba(255,255,255,0.2)',
+                  boxShadow: isActive
+                    ? '0 0 36px rgba(255,30,53,0.12), inset 0 0 24px rgba(255,30,53,0.04)'
+                    : '0 0 0 rgba(255,30,53,0)',
                   filter: abs >= 2 ? 'blur(1.5px)' : 'blur(0px)'
                 }}
                 transition={SPRING}
@@ -321,9 +321,13 @@ export default function PortfolioCarousel({
                 {/* Icon + index */}
                 <div className="flex items-start justify-between">
                   <div
-                    className={`flex h-14 w-14 items-center justify-center rounded-xl border ${borderColors[p.color]} ${translucentBgColors[p.color]}`}
+                    className={`flex h-11 w-11 items-center justify-center rounded-xl border sm:h-14 sm:w-14 ${borderColors[p.color]}`}
                   >
-                    <Icon size={26} strokeWidth={1.6} className={iconColors[p.color]} />
+                    <Icon
+                      size={26}
+                      strokeWidth={1.6}
+                      className={iconColors[p.color]}
+                    />
                   </div>
                   <span className="text-sm text-white/50">
                     {String(i + 1).padStart(2, '0')}
@@ -336,21 +340,23 @@ export default function PortfolioCarousel({
                 >
                   {p.name}
                 </h3>
-                <p className="mt-3 line-clamp-4 text-[13px] leading-relaxed font-light text-white/85 sm:line-clamp-5">
+                <p className="mt-3 text-[13px] leading-relaxed font-light text-white/85">
                   {p.description}
                 </p>
 
-                {/* Divider + tags (active card only shows the divider) */}
+               
                 <motion.span
-                  className={`mt-4 block h-px w-10 ${bgColors[p.color]}`}
+                  className="mt-4 block h-px w-10"
+                  style={{ background: ACCENT }}
                   animate={{ opacity: isActive ? 1 : 0 }}
                   transition={SPRING}
                 />
-                <div className="my-4 flex flex-wrap gap-2">
+                <div className="mt-4 flex flex-wrap gap-2">
                   {p.tags.map((t) => (
                     <span
                       key={t}
-                      className={`rounded-full border ${borderColors[p.color]} px-3 py-1 text-[11px] text-white`}
+                      className="rounded-full border px-3 py-1 text-[11px]"
+                     
                     >
                       {t}
                     </span>
@@ -370,31 +376,33 @@ export default function PortfolioCarousel({
         </motion.div>
 
         {/* Arrows */}
-        {(['prev', 'next'] as const).map((dir) => {
-          const activeColorClass = iconColors[portfolios[active].color];
-          
-          return (
-            <button
-              key={dir}
-              type="button"
-              aria-label={
-                dir === 'prev' ? 'Previous portfolio' : 'Next portfolio'
-              }
-              onClick={dir === 'prev' ? prev : next}
-              className={`absolute top-[calc(100%+44px)] z-20 flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-black transition-colors hover:border-white/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white sm:top-1/2 sm:h-10 sm:w-10 sm:-translate-y-1/2 ${
-                dir === 'prev'
-                  ? 'left-[calc(50%-56px)] sm:left-0'
-                  : 'right-[calc(50%-56px)] sm:right-0'
-              }`}
-            >
-              {dir === 'prev' ? (
-                <ChevronLeft size={20} className={activeColorClass} />
-              ) : (
-                <ChevronRight size={20} className={activeColorClass} />
-              )}
-            </button>
-          );
-        })}
+        {(['prev', 'next'] as const).map((dir) => (
+          <button
+            key={dir}
+            type="button"
+            aria-label={
+              dir === 'prev' ? 'Previous portfolio' : 'Next portfolio'
+            }
+            onClick={dir === 'prev' ? prev : next}
+            className={`cursor-target absolute top-[calc(100%+44px)] z-20 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-white/80 bg-black text-white transition-colors hover:border-[#ff1e35] hover:text-[#ff1e35] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#ff1e35] sm:top-1/2 sm:h-10 sm:w-10 sm:-translate-y-1/2 ${
+              dir === 'prev'
+                ? 'left-[calc(50%-56px)] sm:left-0'
+                : 'right-[calc(50%-56px)] sm:right-0'
+            }`}
+          >
+            {dir === 'prev' ? (
+              <ChevronLeft
+                size={25}
+                className={`${iconColors[portfolios[active]?.color || 'blue']} transition-colors duration-300`}
+              />
+            ) : (
+              <ChevronRight
+                size={30}
+                className={`${iconColors[portfolios[active]?.color || 'blue']} transition-colors duration-300`}
+              />
+            )}
+          </button>
+        ))}
       </div>
 
       {/* Dots */}
@@ -405,10 +413,12 @@ export default function PortfolioCarousel({
             type="button"
             aria-label={`Go to ${p.name}`}
             onClick={() => select(i)}
-            className="p-1 cursor-pointer"
+            className="p-1"
           >
             <motion.span
-              className={`block h-2 w-2 rounded-full transition-colors ${i === active ? bgColors[p.color] : 'bg-white/20'}`}
+              className={`block h-2 w-2 rounded-full cursor-pointer ${
+                i === active ? bgColors[p.color] : 'bg-white/20'
+              }`}
               animate={{
                 scale: i === active ? 1.3 : 1
               }}
@@ -434,16 +444,23 @@ export default function PortfolioCarousel({
                 type="button"
                 onClick={() => select(i)}
                 aria-pressed={selected}
-                className="relative flex h-14 min-w-0 items-center gap-2 rounded-xl border border-white/20 bg-black px-3 text-left text-xs transition-colors duration-300 outline-none focus-visible:outline-2 focus-visible:outline-[#ff1e35] sm:h-16 sm:gap-3 sm:px-4 sm:text-sm cursor-target cursor-pointer"
+                className={`cursor-target relative flex h-14 min-w-0 cursor-pointer items-center gap-2 rounded-xl border px-3 text-left text-xs transition-all duration-300 outline-none focus-visible:outline-2 focus-visible:outline-[#ff1e35] sm:h-16 sm:gap-3 sm:px-4 sm:text-sm ${
+                  selected
+                    ? `${borderColors[p.color]} bg-black`
+                    : 'border-white/10 bg-black/60 hover:border-white/20 hover:bg-black'
+                }`}
               >
                 {selected && (
                   <motion.span
-                    className={`absolute inset-0 rounded-xl border-2 ${borderColors[p.color]}`}
+                    className={`absolute inset-0 rounded-xl border-3 ${borderColors[p.color]} ${translucentBgColors[p.color]}/40`}
                     initial={{ opacity: 0, scale: 0.96 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{
                       duration: 0.25,
                       ease: 'easeOut'
+                    }}
+                    style={{
+                      boxShadow: '0 0 10px rgba(0,0,0,0.35)'
                     }}
                   />
                 )}
@@ -451,10 +468,18 @@ export default function PortfolioCarousel({
                 <Icon
                   size={20}
                   strokeWidth={1.5}
-                  className={`relative shrink-0 ${selected ? iconColors[p.color] : 'text-white'}`}
+                  className={`relative shrink-0 transition-colors duration-200 ${
+                    selected ? iconColors[p.color] : 'text-white/60'
+                  }`}
                 />
 
-                <span className="relative min-w-0 leading-tight">{p.name}</span>
+                <span
+                  className={`relative min-w-0 leading-tight transition-colors duration-200 ${
+                    selected ? 'font-medium text-white' : 'text-white/70'
+                  }`}
+                >
+                  {p.name}
+                </span>
               </button>
             );
           })}

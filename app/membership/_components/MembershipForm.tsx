@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -157,9 +157,7 @@ export default function MembershipForm() {
         form.reset();
         setFileName('');
         toast.success('Registration completed successfully!');
-        document
-          .getElementById('membership-form-start')
-          ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       },
       onError: (err) => {
         setErrorMsg(err);
@@ -170,6 +168,15 @@ export default function MembershipForm() {
           ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     });
+
+  useEffect(() => {
+    if (success) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      document
+        .getElementById('membership-success-top')
+        ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [success]);
 
   const paymentMode = form.watch('payment_mode');
 
@@ -213,29 +220,36 @@ export default function MembershipForm() {
 
   if (success) {
     return (
-      <SuccessState
-        title="Registration Successful!"
-        description="Thank you for applying for CSI Membership! Your application has been submitted and is currently pending verification. We will reach out to you shortly."
-        action={
-          <Button
-            onClick={() => {
-              form.reset();
-              setSuccess(false);
-              setFileName('');
-            }}
-            className="flex items-center gap-2"
-            variant="outline"
-          >
-            <RotateCcw className="h-4 w-4" /> Fill Again
-          </Button>
-        }
-      />
+      <div
+        id="membership-success-top"
+        className="flex min-h-[60vh] items-center justify-center pt-8"
+      >
+        <SuccessState
+          title="Registration Successful!"
+          description="Thank you for applying for CSI Membership! Your application has been submitted and is currently pending verification. We will reach out to you shortly."
+          action={
+            <Button
+              onClick={() => {
+                form.reset();
+                setSuccess(false);
+                setFileName('');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              className="cursor-target cursor-pointer flex items-center gap-2"
+              variant="outline"
+            >
+              <RotateCcw className="h-4 w-4" /> Fill Again
+            </Button>
+          }
+        />
+      </div>
     );
   }
 
   return (
-    <div className="min-h-screen w-full overflow-hidden text-white ">
+    <div className="relative min-h-screen w-full overflow-hidden text-white">
       <MembershipHeader />
+      <div>Apply Now</div>
       <div
         id="membership-form-start"
         className="relative z-10 mx-auto flex w-full max-w-[1500px] flex-col gap-7 px-4 pt-8 pb-16 scroll-mt-28 sm:px-6 sm:scroll-mt-32 lg:px-10"
@@ -335,7 +349,7 @@ export default function MembershipForm() {
                         <PremiumInput
                           icon={Hash}
                           colorTheme="purple"
-                          placeholder="1604-XX-XXX-XXX"
+                          placeholder="1604-23-733-311"
                           {...field}
                         />
                       </FormControl>
@@ -422,7 +436,7 @@ export default function MembershipForm() {
                   name="about_yourself"
                   render={({ field }) => (
                     <FormItem>
-                      <FieldLabel required>
+                      <FieldLabel>
                         Why do you want to join CSI?
                       </FieldLabel>
                       <FormControl>
@@ -444,7 +458,7 @@ export default function MembershipForm() {
                   name="queries"
                   render={({ field }) => (
                     <FormItem>
-                      <FieldLabel required>Any Questions?</FieldLabel>
+                      <FieldLabel >Any Questions?</FieldLabel>
                       <FormControl>
                         <PremiumTextarea
                           icon={MessageSquare}
@@ -482,7 +496,7 @@ export default function MembershipForm() {
                         <button
                           type="button"
                           onClick={() => field.onChange('online')}
-                          className={`flex min-h-[76px] items-center gap-4 rounded-2xl border px-5 text-left transition-all ${
+                          className={`cursor-target cursor-pointer flex min-h-[76px] items-center gap-4 rounded-2xl border px-5 text-left transition-all ${
                             field.value === 'online'
                               ? 'border-border bg-card/60'
                               : 'border-border/50 bg-card/30 hover:bg-card/50'
@@ -511,7 +525,7 @@ export default function MembershipForm() {
                         <button
                           type="button"
                           onClick={() => field.onChange('cash')}
-                          className={`flex min-h-[76px] items-center gap-4 rounded-2xl border px-5 text-left transition-all ${
+                          className={`cursor-target cursor-pointer flex min-h-[76px] items-center gap-4 rounded-2xl border px-5 text-left transition-all ${
                             field.value === 'cash'
                               ? 'border-border bg-card/60'
                               : 'border-border/50 bg-card/30 hover:bg-card/50'
@@ -686,7 +700,7 @@ export default function MembershipForm() {
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="mt-1 h-14 gap-0 text-lg"
+              className="cursor-target cursor-pointer mt-1 h-14 gap-0 text-lg"
               size="lg"
             >
               {isSubmitting

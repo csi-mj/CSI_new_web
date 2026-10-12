@@ -39,7 +39,7 @@
   --color-overlay: var(--overlay);
   --color-overlay-foreground: var(--overlay-foreground);
 
-  --font-sans: var(--font-poppins);
+  --font-sans: var(--font-inter);
   --font-mono: var(--font-geist-mono);
   --font-silkscreen: var(--font-silkscreen);
   --font-orbitron: var(--font-orbitron);
@@ -145,6 +145,42 @@
   --tracking-normal: 0.01em;
   --spacing: 0.25rem;
 }
+/* Site typeface: Inter, with Instrument Serif (font-instrument-serif) for italic accents.
+   Components still written with the older font names (font-orbitron, font-poppins, ...)
+   resolve to Inter, so the whole site switches from this one place. */
+body {
+  --font-orbitron: var(--font-inter);
+  --font-poppins: var(--font-inter);
+  --font-silkscreen: var(--font-inter);
+  --font-space-grotesk: var(--font-inter);
+  --font-geist-sans: var(--font-inter);
+  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Redesign building blocks (membership + recruitment) */
+/* One frosted panel per section; never nest panels */
+@utility glass-panel {
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  background: rgba(16, 16, 20, 0.5);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  backdrop-filter: blur(14px) saturate(140%);
+  box-shadow: 0 30px 80px -40px rgba(0, 0, 0, 0.8);
+}
+
+/* Italic serif accent word inside a bold Inter heading */
+@utility serif-accent {
+  font-family: var(--font-instrument-serif), Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  text-transform: none;
+}
+
+@keyframes glow-drift {
+  to { transform: translate(6vw, -5vh) scale(1.08); }
+}
+
 @keyframes polaroid-roll {
   from {
     transform: translateX(0);
@@ -260,7 +296,7 @@
   list-style: none;
   padding: 0;
   margin-top: 1rem;
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   gap: 1rem;
 }
 

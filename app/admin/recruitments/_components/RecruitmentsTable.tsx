@@ -19,7 +19,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
-import { Clock, CheckCircle2, XCircle, Users, Briefcase, FileText, Calendar, Mail, GraduationCap, Building2, CalendarDays, ChevronDown, Trash2, Loader2 } from 'lucide-react';
+import { Clock, CheckCircle2, XCircle, Users, Briefcase, FileText, Calendar, Mail, GraduationCap, Building2, CalendarDays, ChevronDown, Trash2, Loader2, Check, RotateCcw } from 'lucide-react';
 import { iconColors, translucentBgColors, borderColors } from '@/config/colors';
 import { ScheduleModal } from './ScheduleModal';
 import { RecruitmentDetailsModal } from './RecruitmentDetailsModal';
@@ -27,7 +27,8 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -52,104 +53,325 @@ export const RECRUITMENT_STATUS_CONFIG = {
 
 interface RecruitmentsTableProps {
   recruitments: Recruitment[];
+  rawRecruitments?: Recruitment[];
   onUpdate: (updates: Partial<Recruitment> & { id: string }) => void;
   isUpdating: boolean;
   onSchedule: (id: string, time: string, venue: string) => Promise<any>;
   isScheduling: boolean;
   onDelete?: (id: string) => void;
   isDeletingId?: string | null;
+  // Interactive Filter Props
+  statFilter?: 'core' | 'execom' | 'shortlisted' | 'selected' | null;
+  branchFilter?: string | null;
+  yearFilter?: string | null;
+  domainFilter?: string | null;
+  onToggleStatFilter?: (key: 'core' | 'execom' | 'shortlisted' | 'selected') => void;
+  onToggleBranchFilter?: (branch: string) => void;
+  onToggleYearFilter?: (year: string) => void;
+  onToggleDomainFilter?: (domain: string) => void;
+  onResetFilters?: () => void;
+  hasActiveFilters?: boolean;
+  activeFilterCount?: number;
 }
 
-export function RecruitmentsTable({ recruitments, onUpdate, isUpdating, onSchedule, isScheduling, onDelete, isDeletingId }: RecruitmentsTableProps) {
+export function RecruitmentsTable({
+  recruitments,
+  rawRecruitments,
+  onUpdate,
+  isUpdating,
+  onSchedule,
+  isScheduling,
+  onDelete,
+  isDeletingId,
+  statFilter,
+  branchFilter,
+  yearFilter,
+  domainFilter,
+  onToggleStatFilter,
+  onToggleBranchFilter,
+  onToggleYearFilter,
+  onToggleDomainFilter,
+  onResetFilters,
+  hasActiveFilters,
+  activeFilterCount,
+}: RecruitmentsTableProps) {
   const [scheduleApplicant, setScheduleApplicant] = useState<Recruitment | null>(null);
 
-  const stats = useMemo(() => ({
-    total:       recruitments.length,
-    core:        recruitments.filter(r => r.team === 'Core').length,
-    execom:      recruitments.filter(r => r.team === 'Execom').length,
-    shortlisted: recruitments.filter(r => r.status === 'shortlisted').length,
-    selected:    recruitments.filter(r => r.status === 'selected').length,
-  }), [recruitments]);
+  // Use raw (total) recruitments to compute overall metrics
+  const totalBase = rawRecruitments || recruitments;
 
-  const statItems = [
-    { label: 'Total',       value: stats.total,       icon: Users,        color: iconColors.blue,   border: borderColors.blue   },
-    { label: 'Core',        value: stats.core,        icon: Briefcase,    color: iconColors.orange, border: borderColors.orange },
-    { label: 'Execom',      value: stats.execom,      icon: GraduationCap,color: iconColors.purple, border: borderColors.purple },
-    { label: 'Shortlisted', value: stats.shortlisted, icon: Calendar,     color: iconColors.green,  border: borderColors.green  },
-    { label: 'Selected',    value: stats.selected,    icon: CheckCircle2, color: iconColors.cyan,border: borderColors.cyan},
+  const stats = useMemo(() => ({
+    total:       totalBase.length,
+    core:        totalBase.filter(r => r.team?.toLowerCase() === 'core').length,
+    execom:      totalBase.filter(r => r.team?.toLowerCase() === 'execom').length,
+    shortlisted: totalBase.filter(r => r.status?.toLowerCase() === 'shortlisted').length,
+    selected:    totalBase.filter(r => r.status?.toLowerCase() === 'selected').length,
+  }), [totalBase]);
+
+  const statItems: Array<{
+    key: 'total' | 'core' | 'execom' | 'shortlisted' | 'selected';
+    label: string;
+    value: number;
+    icon: any;
+    color: string;
+    border: string;
+  }> = [
+    { key: 'total',       label: 'Total',       value: stats.total,       icon: Users,        color: iconColors.blue,   border: borderColors.blue   },
+    { key: 'core',        label: 'Core',        value: stats.core,        icon: Briefcase,    color: iconColors.orange, border: borderColors.orange },
+    { key: 'execom',      label: 'Execom',      value: stats.execom,      icon: GraduationCap,color: iconColors.purple, border: borderColors.purple },
+    { key: 'shortlisted', label: 'Shortlisted', value: stats.shortlisted, icon: Calendar,     color: iconColors.green,  border: borderColors.green  },
+    { key: 'selected',    label: 'Selected',    value: stats.selected,    icon: CheckCircle2, color: iconColors.cyan,   border: borderColors.cyan   },
   ];
 
   const branchStats = useMemo(() => {
     const counts: Record<string, number> = {};
-    recruitments.forEach(r => {
+    totalBase.forEach(r => {
       if (r.branch) counts[r.branch] = (counts[r.branch] || 0) + 1;
     });
     return Object.entries(counts).sort((a, b) => b[1] - a[1]);
-  }, [recruitments]);
+  }, [totalBase]);
 
   const yearStats = useMemo(() => {
     const counts: Record<string, number> = {};
-    recruitments.forEach(r => {
+    totalBase.forEach(r => {
       if (r.year) counts[r.year] = (counts[r.year] || 0) + 1;
     });
     return Object.entries(counts).sort((a, b) => b[1] - a[1]);
-  }, [recruitments]);
+  }, [totalBase]);
+
+  const domainStats = useMemo(() => {
+    const counts: Record<string, number> = {};
+    totalBase.forEach(r => {
+      if (r.portfolio_1) counts[r.portfolio_1] = (counts[r.portfolio_1] || 0) + 1;
+    });
+    return Object.entries(counts).sort((a, b) => b[1] - a[1]);
+  }, [totalBase]);
 
   return (
     <div className="space-y-4">
       {/* Analytics Strip */}
-      <div className="flex flex-wrap gap-2">
-        {statItems.map(({ label, value, icon: Icon, color, border }) => (
-          <div key={label} className={`flex items-center gap-2.5 rounded-lg border px-4 py-2.5 ${border}`}>
-            <Icon className={`h-4 w-4 shrink-0 ${color}`} />
-            <span className={`text-lg font-bold leading-none ${color}`}>{value}</span>
-            <span className="text-xs uppercase tracking-wider text-muted-foreground">{label}</span>
-          </div>
-        ))}
+      <div className="flex flex-wrap items-center gap-2">
+        {statItems.map(({ key, label, value, icon: Icon, color, border }) => {
+          const isClickable = key !== 'total';
+          const isActive = statFilter === key;
 
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <div className={`flex items-center gap-2.5 rounded-lg border px-4 py-2.5 cursor-pointer hover:bg-muted/50 transition-colors ${borderColors.indigo}`}>
-              <Building2 className={`h-4 w-4 shrink-0 ${iconColors.indigo}`} />
-              <span className={`text-lg font-bold leading-none ${iconColors.indigo}`}>{branchStats.length}</span>
-              <span className="text-xs uppercase tracking-wider text-muted-foreground flex items-center gap-1">Branches <ChevronDown className="h-3 w-3" /></span>
-            </div>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="min-w-[12rem] max-w-sm">
-            {branchStats.length === 0 ? (
-              <DropdownMenuItem disabled>No branches found</DropdownMenuItem>
-            ) : (
-              branchStats.map(([branch, count]) => (
-                <DropdownMenuItem key={branch} className="flex justify-between py-3 px-4 border-b border-border/50 last:border-0 rounded-none cursor-default gap-4">
-                  <span className="text-sm font-medium whitespace-normal break-words leading-tight">{branch}</span>
-                  <span className="font-bold text-muted-foreground">{count}</span>
-                </DropdownMenuItem>
-              ))
-            )}
-          </DropdownMenuContent>
-        </DropdownMenu>
+          return (
+            <button
+              key={label}
+              type="button"
+              disabled={!isClickable}
+              onClick={() => {
+                if (isClickable && onToggleStatFilter) {
+                  onToggleStatFilter(key as 'core' | 'execom' | 'shortlisted' | 'selected');
+                }
+              }}
+              className={`group flex items-center gap-2.5 rounded-lg border px-4 py-2.5 transition-all text-left ${
+                isClickable ? 'cursor-pointer hover:bg-muted/50 select-none' : 'cursor-default'
+              } ${
+                isActive
+                  ? `bg-muted/80 ring-2 ring-primary/60 shadow-md ${border}`
+                  : border
+              }`}
+            >
+              <Icon className={`h-4 w-4 shrink-0 ${color}`} />
+              <span className={`text-lg font-bold leading-none ${color}`}>{value}</span>
+              <span className="text-xs uppercase tracking-wider text-muted-foreground flex items-center gap-1">
+                {label}
+                {isActive && <Check className="h-3.5 w-3.5 text-primary animate-in fade-in zoom-in-75" />}
+              </span>
+            </button>
+          );
+        })}
 
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <div className={`flex items-center gap-2.5 rounded-lg border px-4 py-2.5 cursor-pointer hover:bg-muted/50 transition-colors ${borderColors.pink}`}>
-              <CalendarDays className={`h-4 w-4 shrink-0 ${iconColors.pink}`} />
-              <span className={`text-lg font-bold leading-none ${iconColors.pink}`}>{yearStats.length}</span>
-              <span className="text-xs uppercase tracking-wider text-muted-foreground flex items-center gap-1">Years <ChevronDown className="h-3 w-3" /></span>
-            </div>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="min-w-[10rem] max-w-sm">
-            {yearStats.length === 0 ? (
-              <DropdownMenuItem disabled>No years found</DropdownMenuItem>
-            ) : (
-              yearStats.map(([year, count]) => (
-                <DropdownMenuItem key={year} className="flex justify-between py-3 px-4 border-b border-border/50 last:border-0 rounded-none cursor-default gap-4">
-                  <span className="text-sm font-medium whitespace-normal break-words leading-tight">{year}</span>
-                  <span className="font-bold text-muted-foreground">{count}</span>
-                </DropdownMenuItem>
-              ))
-            )}
-          </DropdownMenuContent>
-        </DropdownMenu>
+        {/* Branches Dropdown Filter */}
+        {branchStats.length > 0 && (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button
+                type="button"
+                className={`flex items-center gap-2.5 rounded-lg border px-4 py-2.5 cursor-pointer hover:bg-muted/50 transition-all select-none ${
+                  branchFilter
+                    ? `bg-muted/80 ring-2 ring-primary/60 shadow-md ${borderColors.indigo}`
+                    : borderColors.indigo
+                }`}
+              >
+                <Building2 className={`h-4 w-4 shrink-0 ${iconColors.indigo}`} />
+                <span className={`text-lg font-bold leading-none ${iconColors.indigo}`}>
+                  {branchFilter ? 1 : branchStats.length}
+                </span>
+                <span className="text-xs uppercase tracking-wider text-muted-foreground flex items-center gap-1">
+                  {branchFilter ? `Branch: ${branchFilter}` : 'Branches'}
+                  <ChevronDown className="h-3 w-3" />
+                </span>
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="min-w-[14rem] max-w-xs max-h-72 overflow-y-auto">
+              <DropdownMenuLabel className="text-xs font-semibold text-muted-foreground">
+                Filter by Branch
+              </DropdownMenuLabel>
+              {branchFilter && (
+                <>
+                  <DropdownMenuItem
+                    onClick={() => onToggleBranchFilter?.(branchFilter)}
+                    className="text-xs font-medium text-destructive cursor-pointer"
+                  >
+                    Clear Branch Filter
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                </>
+              )}
+              {branchStats.map(([branch, count]) => {
+                const isSelected = branchFilter === branch;
+                return (
+                  <DropdownMenuItem
+                    key={branch}
+                    onClick={() => onToggleBranchFilter?.(branch)}
+                    className={`flex justify-between py-2.5 px-3 border-b border-border/40 last:border-0 cursor-pointer gap-4 transition-colors ${
+                      isSelected ? 'bg-primary/10 font-semibold' : ''
+                    }`}
+                  >
+                    <span className="text-sm flex items-center gap-2 whitespace-normal break-words leading-tight">
+                      {isSelected && <Check className="h-3.5 w-3.5 text-primary shrink-0" />}
+                      {branch}
+                    </span>
+                    <span className="font-bold text-muted-foreground text-xs shrink-0">{count}</span>
+                  </DropdownMenuItem>
+                );
+              })}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
+
+        {/* Years Dropdown Filter */}
+        {yearStats.length > 0 && (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button
+                type="button"
+                className={`flex items-center gap-2.5 rounded-lg border px-4 py-2.5 cursor-pointer hover:bg-muted/50 transition-all select-none ${
+                  yearFilter
+                    ? `bg-muted/80 ring-2 ring-primary/60 shadow-md ${borderColors.pink}`
+                    : borderColors.pink
+                }`}
+              >
+                <CalendarDays className={`h-4 w-4 shrink-0 ${iconColors.pink}`} />
+                <span className={`text-lg font-bold leading-none ${iconColors.pink}`}>
+                  {yearFilter ? 1 : yearStats.length}
+                </span>
+                <span className="text-xs uppercase tracking-wider text-muted-foreground flex items-center gap-1">
+                  {yearFilter ? `Year: ${yearFilter}` : 'Years'}
+                  <ChevronDown className="h-3 w-3" />
+                </span>
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="min-w-[12rem] max-w-xs max-h-72 overflow-y-auto">
+              <DropdownMenuLabel className="text-xs font-semibold text-muted-foreground">
+                Filter by Year
+              </DropdownMenuLabel>
+              {yearFilter && (
+                <>
+                  <DropdownMenuItem
+                    onClick={() => onToggleYearFilter?.(yearFilter)}
+                    className="text-xs font-medium text-destructive cursor-pointer"
+                  >
+                    Clear Year Filter
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                </>
+              )}
+              {yearStats.map(([year, count]) => {
+                const isSelected = yearFilter === year;
+                return (
+                  <DropdownMenuItem
+                    key={year}
+                    onClick={() => onToggleYearFilter?.(year)}
+                    className={`flex justify-between py-2.5 px-3 border-b border-border/40 last:border-0 cursor-pointer gap-4 transition-colors ${
+                      isSelected ? 'bg-primary/10 font-semibold' : ''
+                    }`}
+                  >
+                    <span className="text-sm flex items-center gap-2 whitespace-normal break-words leading-tight">
+                      {isSelected && <Check className="h-3.5 w-3.5 text-primary shrink-0" />}
+                      {year}
+                    </span>
+                    <span className="font-bold text-muted-foreground text-xs shrink-0">{count}</span>
+                  </DropdownMenuItem>
+                );
+              })}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
+
+        {/* Domains Dropdown Filter */}
+        {domainStats.length > 0 && (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button
+                type="button"
+                className={`flex items-center gap-2.5 rounded-lg border px-4 py-2.5 cursor-pointer hover:bg-muted/50 transition-all select-none ${
+                  domainFilter
+                    ? `bg-muted/80 ring-2 ring-primary/60 shadow-md ${borderColors.teal}`
+                    : borderColors.teal
+                }`}
+              >
+                <Briefcase className={`h-4 w-4 shrink-0 ${iconColors.teal}`} />
+                <span className={`text-lg font-bold leading-none ${iconColors.teal}`}>
+                  {domainFilter ? 1 : domainStats.length}
+                </span>
+                <span className="text-xs uppercase tracking-wider text-muted-foreground flex items-center gap-1">
+                  {domainFilter ? `Domain: ${domainFilter}` : 'Domains'}
+                  <ChevronDown className="h-3 w-3" />
+                </span>
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="min-w-[14rem] max-w-xs max-h-72 overflow-y-auto">
+              <DropdownMenuLabel className="text-xs font-semibold text-muted-foreground">
+                Filter by Domain
+              </DropdownMenuLabel>
+              {domainFilter && (
+                <>
+                  <DropdownMenuItem
+                    onClick={() => onToggleDomainFilter?.(domainFilter)}
+                    className="text-xs font-medium text-destructive cursor-pointer"
+                  >
+                    Clear Domain Filter
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                </>
+              )}
+              {domainStats.map(([domain, count]) => {
+                const isSelected = domainFilter === domain;
+                return (
+                  <DropdownMenuItem
+                    key={domain}
+                    onClick={() => onToggleDomainFilter?.(domain)}
+                    className={`flex justify-between py-2.5 px-3 border-b border-border/40 last:border-0 cursor-pointer gap-4 transition-colors ${
+                      isSelected ? 'bg-primary/10 font-semibold' : ''
+                    }`}
+                  >
+                    <span className="text-sm flex items-center gap-2 whitespace-normal break-words leading-tight">
+                      {isSelected && <Check className="h-3.5 w-3.5 text-primary shrink-0" />}
+                      {domain}
+                    </span>
+                    <span className="font-bold text-muted-foreground text-xs shrink-0">{count}</span>
+                  </DropdownMenuItem>
+                );
+              })}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        )}
+
+        {/* Reset All Filters Button */}
+        {hasActiveFilters && (
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={onResetFilters}
+            className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-destructive transition-colors ml-auto cursor-pointer"
+          >
+            <RotateCcw className="h-3.5 w-3.5" />
+            <span>Reset Filters ({activeFilterCount})</span>
+          </Button>
+        )}
       </div>
 
       <div className="rounded-md border bg-card/50 p-4">
@@ -165,7 +387,14 @@ export function RecruitmentsTable({ recruitments, onUpdate, isUpdating, onSchedu
             </TableRow>
           </TableHeader>
           <TableBody>
-            {recruitments.map((recruitment) => {
+            {recruitments.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={6} className="h-32 text-center text-muted-foreground">
+                  No applicants match the current filters.
+                </TableCell>
+              </TableRow>
+            ) : (
+              recruitments.map((recruitment) => {
               const CurrentIcon = RECRUITMENT_STATUS_CONFIG[recruitment.status].icon;
               
               return (
@@ -178,7 +407,7 @@ export function RecruitmentsTable({ recruitments, onUpdate, isUpdating, onSchedu
                   </TableCell>
                   
                   <TableCell>
-                    <Badge variant={recruitment.team === 'Core' ? 'default' : 'secondary'} className="text-xs">
+                    <Badge variant={recruitment.team?.toLowerCase() === 'core' ? 'default' : 'secondary'} className="text-xs uppercase">
                       {recruitment.team}
                     </Badge>
                   </TableCell>
@@ -276,7 +505,8 @@ export function RecruitmentsTable({ recruitments, onUpdate, isUpdating, onSchedu
                   </TableCell>
                 </TableRow>
               );
-            })}
+            })
+          )}
           </TableBody>
         </Table>
       </div>

@@ -17,8 +17,8 @@ const items = [
   { label: 'Events', href: '/events' },
   { label: 'Resources', href: '/resources' },
   { label: 'ADSOPHOS', href: '/adsophos' },
-  { label: 'Become a Member', href: '/membership' },
   { label: 'Recruitments', href: '/recruitments' },
+  { label: 'Membership', href: '/membership' },
 ];
 
 const Navbar = () => {
@@ -75,10 +75,10 @@ const Navbar = () => {
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-8 py-6 bg-black/60 max-lg:backdrop-blur-lg lg:bg-transparent transform transition-transform duration-500 ${showNav ? 'translate-y-0' : '-translate-y-full'}`}
+        className={`fixed top-0 right-0 left-0 z-50 flex transform items-center justify-between bg-black/60 px-6 py-6 transition-transform duration-500 max-xl:backdrop-blur-lg md:px-8 xl:bg-transparent ${showNav ? 'translate-y-0' : '-translate-y-full'}`}
       >
         {/* Left: Logo */}
-        <Link href="/" className="flex items-center lg:hidden">
+        <Link href="/" className="flex items-center xl:hidden">
           <Image
             src="/logos/csi_logo.png"
             alt="CSI"
@@ -88,31 +88,25 @@ const Navbar = () => {
           />
         </Link>
 
-
-       
-
-
-        <div className="hidden lg:flex justify-center flex-1">
-           <div>
-          <Link
-            href="/"
-            aria-label="CSI"
-            className="relative inline-flex items-center justify-center h-full mr-1 hover:rotate-[360deg] transition-all duration-500 cursor-target"
-            id='cursor-mid'
-          >
-            <span
-              className="inline-flex h-[62px] w-[62px] items-center justify-center rounded-full border border-white/15 bg-white/5 backdrop-blur-md overflow-hidden"
+        <div className="hidden flex-1 justify-center xl:flex">
+          <div>
+            <Link
+              href="/"
+              aria-label="CSI"
+              className="cursor-target relative mr-1 inline-flex h-full items-center justify-center transition-all duration-500 hover:rotate-[360deg]"
+              id="cursor-mid"
             >
-              <Image
-                src="/logos/csi_logo.png"
-                alt="CSI"
-                width={48}
-                height={48}
-                className="w-12 object-contain"
-              />
-            </span>
-          </Link>
-        </div>
+              <span className="inline-flex h-[62px] w-[62px] items-center justify-center overflow-hidden rounded-full border border-white/15 bg-white/5 backdrop-blur-md">
+                <Image
+                  src="/logos/csi_logo.png"
+                  alt="CSI"
+                  width={48}
+                  height={48}
+                  className="w-12 object-contain"
+                />
+              </span>
+            </Link>
+          </div>
           <div className="flex h-[62px] items-center rounded-full border border-white/12 bg-white/5 px-[3px] backdrop-blur-md">
             <PillNav
               logo="/logos/csi_logo.png"
@@ -130,10 +124,10 @@ const Navbar = () => {
         </div>
 
         {/* Right: Mobile Hamburger */}
-        <div className="flex lg:hidden items-center">
+        <div className="flex items-center xl:hidden">
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="p-2 text-white bg-white/10 hover:bg-white/20 rounded-lg transition relative z-[60]"
+            className="relative z-[60] rounded-lg bg-white/10 p-2 text-white transition hover:bg-white/20"
             aria-label="Toggle Menu"
           >
             {menuOpen ? <X size={22} /> : <Menu size={22} />}
@@ -150,7 +144,7 @@ const Navbar = () => {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
             onClick={() => setMenuOpen(false)}
-            className="fixed inset-0 bg-black/70 backdrop-blur-sm z-40 lg:hidden"
+            className="fixed inset-0 z-40 bg-black/70 backdrop-blur-sm xl:hidden"
           />
         )}
       </AnimatePresence>
@@ -168,13 +162,13 @@ const Navbar = () => {
               stiffness: 200,
               duration: 0.4
             }}
-            className="fixed top-0 right-0 bottom-0 w-[300px] bg-[#0B0B0D]/28 backdrop-blur-xl border-l border-white/10 z-50 lg:hidden flex flex-col"
+            className="fixed top-0 right-0 bottom-0 z-50 flex w-[300px] flex-col border-l border-white/10 bg-[#0B0B0D]/28 backdrop-blur-xl xl:hidden"
           >
             {/* Menu Header */}
-            <div className="px-6 py-2 border-b border-white/10 flex items-center justify-end shrink-0">
+            <div className="flex shrink-0 items-center justify-end border-b border-white/10 px-6 py-2">
               <button
                 onClick={() => setMenuOpen(false)}
-                className="p-2 text-white bg-white/10 hover:bg-white/20 rounded-lg transition"
+                className="rounded-lg bg-white/10 p-2 text-white transition hover:bg-white/20"
                 aria-label="Close Menu"
               >
                 <X size={14} />
@@ -182,7 +176,7 @@ const Navbar = () => {
             </div>
 
             {/* Menu Items */}
-            <ul className="flex flex-col gap-3 p-4 flex-1 overflow-y-auto">
+            <ul className="flex flex-1 flex-col gap-3 overflow-y-auto p-4">
               {items.map((item, index) => {
                 const active = isActive(item.href);
                 return (
@@ -198,10 +192,11 @@ const Navbar = () => {
                     <Link
                       href={item.href}
                       onClick={() => setMenuOpen(false)}
-                      className={`inline-flex items-center justify-between rounded-full border px-5 py-3 text-base font-semibold uppercase tracking-wide transition-all w-full ${active
-                          ? 'bg-primary text-white border-white/20'
-                          : 'bg-white/10 text-white/90 hover:bg-white/20 border-white/12'
-                        }`}
+                      className={`inline-flex w-full items-center justify-between rounded-full border px-5 py-3 text-base font-semibold tracking-wide uppercase transition-all ${
+                        active
+                          ? 'bg-primary border-white/20 text-white'
+                          : 'border-white/12 bg-white/10 text-white/90 hover:bg-white/20'
+                      }`}
                     >
                       <span>{item.label}</span>
                     </Link>
@@ -211,9 +206,10 @@ const Navbar = () => {
             </ul>
 
             {/* Menu Footer */}
-            <div className="p-3 border-t border-white/10 shrink-0">
-              <p className="text-white/50 text-xs text-center">
-                &copy; {new Date().getFullYear()} CSI MJCET. All rights reserved.
+            <div className="shrink-0 border-t border-white/10 p-3">
+              <p className="text-center text-xs text-white/50">
+                &copy; {new Date().getFullYear()} CSI MJCET. All rights
+                reserved.
               </p>
             </div>
           </motion.div>
