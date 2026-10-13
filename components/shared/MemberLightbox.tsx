@@ -61,6 +61,25 @@ const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: r
 /** Where the details card hides: tucked behind the polaroid (left on desktop, up on mobile) */
 const cardTuck = () => (window.matchMedia('(min-width: 768px)').matches ? { x: -180, y: 0 } : { x: 0, y: -140 });
 
+const PHOTO_SIZES = '340px';
+
+/** A fresh image per member (keyed by the caller) that fades in once loaded, so a slow
+ *  connection never shows the previous member's photo under the new name */
+const LightboxPhoto: React.FC<{ src: string; alt: string }> = ({ src, alt }) => {
+  const [loaded, setLoaded] = useState(false);
+  return (
+    <Image
+      src={src}
+      alt={alt}
+      fill
+      sizes={PHOTO_SIZES}
+      loading="eager"
+      onLoad={() => setLoaded(true)}
+      className={`object-cover transition-opacity duration-300 ${loaded ? 'opacity-100' : 'opacity-0'}`}
+    />
+  );
+};
+
 const initials = (name: string) =>
   name
     .split(/\s+/)
@@ -118,10 +137,30 @@ export default function MemberLightbox({
   const busy = useRef(true);
   const navDir = useRef(0);
 
+  // Every card the popup hides or fades is tracked, so all of them are guaranteed to come back
+  const touched = useRef(new Set<HTMLElement>());
+  const fades = useRef<Animation[]>([]);
+
+  const resetCard = (el: HTMLElement) => {
+    el.style.visibility = '';
+    el.style.opacity = '';
+  };
+
+  const restoreAll = () => {
+    fades.current.forEach((a) => a.cancel());
+    fades.current = [];
+    touched.current.forEach(resetCard);
+    touched.current.clear();
+    hiddenSource.current = null;
+  };
+
   const hideSource = (el: HTMLElement | null) => {
-    if (hiddenSource.current && hiddenSource.current !== el) hiddenSource.current.style.visibility = '';
+    if (hiddenSource.current && hiddenSource.current !== el) resetCard(hiddenSource.current);
     hiddenSource.current = el;
-    if (el) el.style.visibility = 'hidden';
+    if (el) {
+      touched.current.add(el);
+      el.style.visibility = 'hidden';
+    }
   };
 
   // Open: polaroid flies out of the clicked card, then the details card slides out from behind it
@@ -150,10 +189,19 @@ export default function MemberLightbox({
 
       // The popup polaroid and the card differ in shape, so blend between them rather than swapping
       animate(pol, { opacity: [0, 1] }, { duration: 0.18 });
-      animate(source, { opacity: [1, 0] }, { duration: 0.18 }).then(() => {
-        source.style.opacity = '';
-        hideSource(source);
+      touched.current.add(source);
+      const fadeOut = source.animate([{ opacity: 1 }, { opacity: 0 }], {
+        duration: 180,
+        easing: 'ease-out',
+        fill: 'forwards',
       });
+      fades.current.push(fadeOut);
+      fadeOut.finished
+        .then(() => {
+          hideSource(source);
+          fadeOut.cancel();
+        })
+        .catch(() => {});
 
       animate(
         pol,
@@ -192,10 +240,17 @@ export default function MemberLightbox({
 
     if (target && !reduced) {
       // Real card sits invisible in its spot and fades in as the copy lands on it
-      target.style.opacity = '0';
-      target.style.visibility = '';
-      if (hiddenSource.current && hiddenSource.current !== target) hiddenSource.current.style.visibility = '';
+      touched.current.add(target);
+      if (hiddenSource.current && hiddenSource.current !== target) resetCard(hiddenSource.current);
       hiddenSource.current = null;
+      target.style.visibility = '';
+      const fadeIn = target.animate([{ opacity: 0 }, { opacity: 1 }], {
+        duration: 260,
+        delay: 460,
+        easing: 'ease-out',
+        fill: 'backwards',
+      });
+      fades.current.push(fadeIn);
       const from = center(pol.getBoundingClientRect());
       const to = center(target.getBoundingClientRect());
       await Promise.all([
@@ -206,10 +261,9 @@ export default function MemberLightbox({
           { duration: 0.6, ease: EASE_LAND, delay: 0.1 }
         ),
         animate(pol, { opacity: 0 }, { duration: 0.22, delay: 0.5 }),
-        animate(target, { opacity: [0, 1] }, { duration: 0.26, delay: 0.46 }),
+        fadeIn.finished.catch(() => {}),
         animate(overlay, { opacity: 0 }, { duration: 0.5, delay: 0.1 }),
       ]);
-      target.style.opacity = '';
     } else {
       await Promise.all([
         tuckAway,
@@ -217,7 +271,7 @@ export default function MemberLightbox({
         animate(overlay, { opacity: 0 }, { duration: 0.25 }),
       ]);
     }
-    hideSource(null);
+    restoreAll();
     if (restoreFocus) returnFocus.current?.focus({ preventScroll: true });
     else (document.activeElement as HTMLElement | null)?.blur();
     onClose();
@@ -228,7 +282,8 @@ export default function MemberLightbox({
       if (busy.current || members.length < 2) return;
       busy.current = true;
       navDir.current = dir;
-      hideSource(null);
+      // Browsing away from the opened member: bring their card fully back right away
+      restoreAll();
       await Promise.all([
         animate(polaroidRef.current!, { x: -dir * 70, opacity: 0, rotate: POLAROID_TILT - dir * 6 }, { duration: 0.18, ease: 'easeIn' }),
         animate(contentRef.current!, { opacity: 0, y: 6 }, { duration: 0.15 }),
@@ -296,13 +351,16 @@ export default function MemberLightbox({
     return () => {
       body.style.overflow = prevOverflow;
       body.style.paddingRight = prevPadding;
-      if (hiddenSource.current) hiddenSource.current.style.visibility = '';
+      restoreAll();
     };
   }, []);
 
   if (!member) return null;
   const mailHref = member.email && member.email.includes('@') ? `mailto:${member.email}` : undefined;
   const multiple = members.length > 1;
+  const neighbours = multiple
+    ? [members[(index + 1) % members.length], members[(index - 1 + members.length) % members.length]]
+    : [];
 
   return createPortal(
     <div ref={dialogRef} role="dialog" aria-modal="true" aria-labelledby="member-lightbox-name" className="fixed inset-0 z-[200]">
@@ -321,7 +379,7 @@ export default function MemberLightbox({
           >
             <div className={`relative overflow-hidden bg-neutral-300 ${photoAspect === 'portrait' ? 'aspect-[4/5]' : 'aspect-square'}`}>
               {member.image ? (
-                <Image src={member.image} alt={member.name} fill sizes="340px" className="object-cover" />
+                <LightboxPhoto key={member.id} src={member.image} alt={member.name} />
               ) : (
                 <div className="flex h-full w-full items-center justify-center bg-[radial-gradient(circle_at_30%_25%,oklch(0.7_0.2_25),oklch(0.35_0.15_20)_55%,oklch(0.15_0.03_20))]">
                   <span className="font-instrument-serif text-7xl italic text-white/90 md:text-8xl">
@@ -365,6 +423,17 @@ export default function MemberLightbox({
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Warm the cache for next/previous so arrow browsing shows photos immediately */}
+      <div aria-hidden className="pointer-events-none fixed left-0 top-0 size-px overflow-hidden opacity-0">
+        {neighbours.map((m, i) =>
+          m?.image ? (
+            <div key={`${i}-${m.id}`} className="relative size-px">
+              <Image src={m.image} alt="" fill sizes={PHOTO_SIZES} loading="eager" />
+            </div>
+          ) : null
+        )}
       </div>
 
       <button

@@ -1,0 +1,490 @@
+'use client';
+
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { motion } from 'framer-motion';
+import {
+  Megaphone,
+  PenTool,
+  CalendarDays,
+  Code2,
+  Cpu,
+  Users,
+  Camera,
+  Box,
+  FileText,
+  FlaskConical,
+  ChevronLeft,
+  ChevronRight,
+  type LucideIcon
+} from 'lucide-react';
+import {
+  iconColors,
+  borderColors,
+  translucentBgColors,
+  bgColors,
+  type IconColor
+} from '@/config/colors';
+
+/* ------------------------------------------------------------------ */
+/* Fonts — delete this block if Orbitron/Poppins are already set up    */
+/* in your layout, and point the two class strings below at them.      */
+/* ------------------------------------------------------------------ */
+const ORBITRON = 'font-inter';
+const POPPINS = 'font-inter';
+
+const ACCENT = '#ff1e35';
+
+export type Portfolio = {
+  id: string;
+  name: string;
+  description: string;
+  tags: string[];
+  icon: LucideIcon;
+  color: IconColor;
+};
+
+export const DEFAULT_PORTFOLIOS: Portfolio[] = [
+  {
+    id: 'marketing',
+    name: 'Marketing',
+    icon: Megaphone,
+    color: 'orange',
+    description:
+      'Build the CSI brand through creative campaigns, strategic outreach and campus engagement. This portfolio makes sure CSI’s ideas, events and initiatives reach the right audience.',
+    tags: ['Brand Strategy', 'Outreach', 'PR']
+  },
+  {
+    id: 'design',
+    name: 'Design',
+    icon: PenTool,
+    color: 'pink',
+    description:
+      'Shape CSI’s identity through compelling visuals and creative storytelling. From event creatives to digital experiences, this portfolio turns ideas into designs that stand out.',
+    tags: ['Visual Design', 'UI/UX', 'Branding']
+  },
+  {
+    id: 'events',
+    name: 'Events',
+    icon: CalendarDays,
+    color: 'yellow',
+    description:
+      'Turn ideas into impactful experiences by planning and executing technical, non-technical and flagship events from concept to completion.',
+    tags: ['Planning', 'Execution', 'Coordination']
+  },
+  {
+    id: 'web',
+    name: 'Web',
+    icon: Code2,
+    color: 'cyan',
+    description:
+      'Build and maintain the digital face of CSI. This portfolio creates fast, accessible and engaging web experiences that bring the chapter’s ideas online.',
+    tags: ['Development', 'UI/UX', 'Maintenance']
+  },
+  {
+    id: 'tech',
+    name: 'Tech & Innovation',
+    icon: Cpu,
+    color: 'purple',
+    description:
+      'Build technical solutions and drive innovation across CSI through workshops, hands-on projects and experimentation with emerging technologies.',
+    tags: ['Workshops', 'Projects', 'Innovation']
+  },
+  {
+    id: 'hr',
+    name: 'Human Resources',
+    icon: Users,
+    color: 'blue',
+    description:
+      'Build a strong CSI community by managing recruitment, onboarding and member engagement while creating a culture where people can learn, collaborate and grow.',
+    tags: ['Recruitment', 'People', 'Engagement']
+  },
+  {
+    id: 'media',
+    name: 'Media & Press',
+    icon: Camera,
+    color: 'rose',
+    description:
+      'Capture CSI’s journey and bring its stories to life through photography, videography and press coverage. This portfolio makes every moment worth remembering.',
+    tags: ['Photography', 'Videography', 'Press']
+  },
+  {
+    id: 'logistics',
+    name: 'Logistics',
+    icon: Box,
+    color: 'indigo',
+    description:
+      'Make every CSI event run smoothly behind the scenes by managing venues, resources, schedules and on-ground operations.',
+    tags: ['Operations', 'Resources', 'Coordination']
+  },
+  {
+    id: 'editorial',
+    name: 'Editorial',
+    icon: FileText,
+    color: 'teal',
+    description:
+      'Craft content that reflects the voice of CSI through articles, newsletters, announcements and official communication that informs and connects the community.',
+    tags: ['Writing', 'Editing', 'Content']
+  },
+  {
+    id: 'rnd',
+    name: 'Research & Development',
+    icon: FlaskConical,
+    color: 'green',
+    description:
+      'Explore new ideas, conduct technical research and prototype solutions that push CSI forward. Contribute to research, experimentation and knowledge creation.',
+    tags: ['Research', 'Prototyping', 'Innovation']
+  }
+];
+
+/* ------------------------------------------------------------------ */
+/* Carousel geometry                                                   */
+/* ------------------------------------------------------------------ */
+const SPRING = {
+  type: 'spring',
+  stiffness: 240,
+  damping: 30,
+  mass: 0.9
+} as const;
+const SCALE = [1, 0.84, 0.72, 0.62];
+const OPACITY = [1, 0.9, 0.5, 0.2];
+const DIM = [0, 0.42, 0.65, 0.8];
+const ROTATE = [0, 26, 32, 36];
+
+/** Shortest signed circular distance from `active` to `i`. */
+function circularOffset(i: number, active: number, n: number) {
+  let d = (i - active + n) % n;
+  if (d > n / 2) d -= n;
+  return d;
+}
+
+type Props = {
+  portfolios?: Portfolio[];
+  initialIndex?: number;
+  onChange?: (portfolio: Portfolio, index: number) => void;
+  className?: string;
+};
+
+export default function PortfolioCarousel({
+  portfolios = DEFAULT_PORTFOLIOS,
+  initialIndex = 0,
+  onChange,
+  className = ''
+}: Props) {
+  const n = portfolios.length;
+  const [active, setActive] = useState(initialIndex);
+  const stageRef = useRef<HTMLDivElement>(null);
+  const [stageW, setStageW] = useState(900);
+  const dragging = useRef(false);
+  const buttonRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const mounted = useRef(false);
+
+  const select = useCallback(
+    (i: number) => {
+      const next = ((i % n) + n) % n;
+      setActive(next);
+      onChange?.(portfolios[next], next);
+    },
+    [n, onChange, portfolios]
+  );
+  const next = () => select(active + 1);
+  const prev = () => select(active - 1);
+
+  // Measure the stage so card size/spacing adapt (desktop / tablet / mobile).
+  useEffect(() => {
+    const el = stageRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver(([entry]) =>
+      setStageW(entry.contentRect.width)
+    );
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  // Keep the selected button visible if the selector strip scrolls sideways.
+  // Only that strip moves: scrollIntoView also scrolled the page, dragging it down on every card change.
+  useEffect(() => {
+    if (!mounted.current) {
+      mounted.current = true;
+      return;
+    }
+    const btn = buttonRefs.current[active];
+    const strip = btn?.parentElement;
+    if (!btn || !strip || strip.scrollWidth <= strip.clientWidth) return;
+    strip.scrollTo({
+      left: btn.offsetLeft - (strip.clientWidth - btn.offsetWidth) / 2,
+      behavior: 'smooth'
+    });
+  }, [active]);
+
+  const isMobile = stageW < 640;
+  // Responsive card width: on mobile, fill a comfortable ~78% of stage (280-330px) instead of the previous narrow 220px
+  const cardW = Math.min(340, Math.max(280, isMobile ? stageW * 0.78 : 320));
+  // One title size for every card, small enough that the longest single word (e.g. DEVELOPMENT)
+  // fits on one line inside the card's padding; capped at the original 26px on wide cards.
+  const longestWord = Math.max(
+    ...portfolios.flatMap((p) => p.name.split(/\s+/)).map((w) => w.length),
+    1
+  );
+  const titleSize = Math.min(
+    26,
+    Math.max(19, (cardW - 48) / (longestWord * 0.92))
+  );
+
+  return (
+    <section
+      className={`${POPPINS} relative z-10 w-full overflow-x-clip px-4 py-12 text-white sm:px-6 ${className}`}
+      onKeyDown={(e) => {
+        if (e.key === 'ArrowRight') next();
+        if (e.key === 'ArrowLeft') prev();
+      }}
+    >
+      {/* Header */}
+      <header className="mx-auto max-w-4xl text-center">
+        {/* Team-page style: two caps words with a serif pill between them */}
+        <h2
+          className={`${ORBITRON} flex flex-wrap items-center justify-center gap-x-[0.3em] gap-y-2 text-[clamp(30px,6vw,64px)] leading-[0.95] font-normal tracking-[-0.03em] uppercase`}
+        >
+          <span>Explore</span>
+          <span className="serif-accent rounded-[50%] border border-white/70 px-[0.9em] py-[0.3em] text-[0.38em] leading-none whitespace-nowrap">
+            <span style={{ color: ACCENT }}>our</span> {n} portfolios
+          </span>
+          <span>Portfolios</span>
+        </h2>
+        <p className="mx-auto mt-5 max-w-2xl text-[15px] leading-7 text-white/70">
+          Find a team that matches your interests and skills. Each portfolio
+          offers unique opportunities to learn, contribute and make an impact.
+        </p>
+      </header>
+
+      {/* Carousel */}
+      <div ref={stageRef} className="relative mx-auto mt-10 max-w-5xl">
+        <motion.div
+          className="relative h-[448px] cursor-grab touch-pan-y select-none active:cursor-grabbing sm:h-[432px]"
+          style={{ perspective: 1200 }}
+          drag="x"
+          dragSnapToOrigin
+          dragMomentum={false}
+          dragElastic={0.12}
+          onDragStart={() => (dragging.current = true)}
+          onDragEnd={(_, info) => {
+            const power = info.offset.x + info.velocity.x * 0.2;
+            if (power < -60) next();
+            else if (power > 60) prev();
+            setTimeout(() => (dragging.current = false), 60);
+          }}
+        >
+          {portfolios.map((p, i) => {
+            const o = circularOffset(i, active, n);
+            const abs = Math.abs(o);
+            const c = Math.min(abs, 3);
+            const sign = Math.sign(o);
+            const isActive = o === 0;
+            const x = isActive
+              ? 0
+              : sign *
+                (cardW * (isMobile ? 0.72 : 0.76) + (c - 1) * cardW * 0.28);
+            const Icon = p.icon;
+
+            return (
+              <motion.div
+                key={p.id}
+                role="button"
+                tabIndex={abs <= 1 ? 0 : -1}
+                aria-label={`Show ${p.name} portfolio`}
+                aria-current={isActive}
+                onClick={() => !dragging.current && !isActive && select(i)}
+                onKeyDown={(e) => e.key === 'Enter' && select(i)}
+                className="cursor-target absolute top-4 h-[415px] w-[calc(100vw-48px)] max-w-[350px] overflow-hidden rounded-2xl border border-[#ff1e35]/70 bg-[#0a0a0b]/95 p-5 will-change-transform outline-none sm:top-6 sm:h-[360px] sm:w-[340px] sm:p-6"
+                style={{
+                  width: cardW,
+                  left: '50%',
+                  marginLeft: -cardW / 2,
+                  zIndex: 10 - abs,
+                  pointerEvents: abs > 3 ? 'none' : 'auto',
+                  transformStyle: 'preserve-3d'
+                }}
+                initial={false}
+                animate={{
+                  x,
+                  y: isActive ? -10 : 0,
+                  scale: SCALE[c],
+                  rotateY: -sign * ROTATE[c],
+                  opacity: abs > 3 ? 0 : OPACITY[c],
+                  borderColor: isActive ? ACCENT : 'rgba(255,255,255,0.2)',
+                  boxShadow: isActive
+                    ? '0 0 36px rgba(255,30,53,0.12), inset 0 0 24px rgba(255,30,53,0.04)'
+                    : '0 0 0 rgba(255,30,53,0)',
+                  filter: abs >= 2 ? 'blur(1.5px)' : 'blur(0px)'
+                }}
+                transition={SPRING}
+              >
+                {/* Icon + index */}
+                <div className="flex items-start justify-between">
+                  <div
+                    className={`flex h-11 w-11 items-center justify-center rounded-xl border sm:h-14 sm:w-14 ${borderColors[p.color]}`}
+                  >
+                    <Icon
+                      size={26}
+                      strokeWidth={1.6}
+                      className={iconColors[p.color]}
+                    />
+                  </div>
+                  <span className="text-sm text-white/50">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                </div>
+
+                <h3
+                  className={`${ORBITRON} mt-5 leading-tight font-extrabold [overflow-wrap:anywhere] uppercase`}
+                  style={{ fontSize: titleSize }}
+                >
+                  {p.name}
+                </h3>
+                <p className="mt-3 text-[13px] leading-relaxed font-light text-white/85">
+                  {p.description}
+                </p>
+
+               
+                <motion.span
+                  className="mt-4 block h-px w-10"
+                  style={{ background: ACCENT }}
+                  animate={{ opacity: isActive ? 1 : 0 }}
+                  transition={SPRING}
+                />
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {p.tags.map((t) => (
+                    <span
+                      key={t}
+                      className="rounded-full border px-3 py-1 text-[11px]"
+                     
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Dim overlay for non-active cards */}
+                <motion.div
+                  className="pointer-events-none absolute inset-0 bg-black"
+                  initial={false}
+                  animate={{ opacity: DIM[c] }}
+                  transition={SPRING}
+                />
+              </motion.div>
+            );
+          })}
+        </motion.div>
+
+        {/* Arrows */}
+        {(['prev', 'next'] as const).map((dir) => (
+          <button
+            key={dir}
+            type="button"
+            aria-label={
+              dir === 'prev' ? 'Previous portfolio' : 'Next portfolio'
+            }
+            onClick={dir === 'prev' ? prev : next}
+            className={`cursor-target absolute top-[calc(100%+44px)] z-20 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-white/80 bg-black text-white transition-colors hover:border-[#ff1e35] hover:text-[#ff1e35] focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#ff1e35] sm:top-1/2 sm:h-10 sm:w-10 sm:-translate-y-1/2 ${
+              dir === 'prev'
+                ? 'left-[calc(50%-56px)] sm:left-0'
+                : 'right-[calc(50%-56px)] sm:right-0'
+            }`}
+          >
+            {dir === 'prev' ? (
+              <ChevronLeft
+                size={25}
+                className={`${iconColors[portfolios[active]?.color || 'blue']} transition-colors duration-300`}
+              />
+            ) : (
+              <ChevronRight
+                size={30}
+                className={`${iconColors[portfolios[active]?.color || 'blue']} transition-colors duration-300`}
+              />
+            )}
+          </button>
+        ))}
+      </div>
+
+      {/* Dots */}
+      <div className="mt-2 flex items-center justify-center gap-3">
+        {portfolios.map((p, i) => (
+          <button
+            key={p.id}
+            type="button"
+            aria-label={`Go to ${p.name}`}
+            onClick={() => select(i)}
+            className="p-1"
+          >
+            <motion.span
+              className={`block h-2 w-2 rounded-full cursor-pointer ${
+                i === active ? bgColors[p.color] : 'bg-white/20'
+              }`}
+              animate={{
+                scale: i === active ? 1.3 : 1
+              }}
+              transition={{ duration: 0.25 }}
+            />
+          </button>
+        ))}
+      </div>
+
+      {/* Bottom selector: 5-col grid on md+, horizontally scrollable 2-row strip on mobile */}
+      <div className="mx-auto mt-24 w-full max-w-5xl px-1 sm:mt-10">
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-5">
+          {portfolios.map((p, i) => {
+            const Icon = p.icon;
+            const selected = i === active;
+
+            return (
+              <button
+                key={p.id}
+                ref={(el) => {
+                  buttonRefs.current[i] = el;
+                }}
+                type="button"
+                onClick={() => select(i)}
+                aria-pressed={selected}
+                className={`cursor-target relative flex h-14 min-w-0 cursor-pointer items-center gap-2 rounded-xl border px-3 text-left text-xs transition-all duration-300 outline-none focus-visible:outline-2 focus-visible:outline-[#ff1e35] sm:h-16 sm:gap-3 sm:px-4 sm:text-sm ${
+                  selected
+                    ? `${borderColors[p.color]} bg-black`
+                    : 'border-white/10 bg-black/60 hover:border-white/20 hover:bg-black'
+                }`}
+              >
+                {selected && (
+                  <motion.span
+                    className={`absolute inset-0 rounded-xl border-3 ${borderColors[p.color]} ${translucentBgColors[p.color]}/40`}
+                    initial={{ opacity: 0, scale: 0.96 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{
+                      duration: 0.25,
+                      ease: 'easeOut'
+                    }}
+                    style={{
+                      boxShadow: '0 0 10px rgba(0,0,0,0.35)'
+                    }}
+                  />
+                )}
+
+                <Icon
+                  size={20}
+                  strokeWidth={1.5}
+                  className={`relative shrink-0 transition-colors duration-200 ${
+                    selected ? iconColors[p.color] : 'text-white/60'
+                  }`}
+                />
+
+                <span
+                  className={`relative min-w-0 leading-tight transition-colors duration-200 ${
+                    selected ? 'font-medium text-white' : 'text-white/70'
+                  }`}
+                >
+                  {p.name}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}

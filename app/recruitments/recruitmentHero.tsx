@@ -1,0 +1,189 @@
+'use client';
+
+import Link from 'next/link';
+import { motion } from 'framer-motion';
+import {
+  ArrowRight,
+  Users,
+  Lightbulb,
+  TrendingUp,
+  Target,
+  Sparkles
+} from 'lucide-react';
+import { iconColors, IconColor } from '@/config/colors';
+
+const features: Array<{
+  icon: any;
+  title: string;
+  color: IconColor;
+}> = [
+  {
+    icon: Users,
+    title: 'PEOPLE',
+    color: 'blue'
+  },
+  {
+    icon: Lightbulb,
+    title: 'IDEAS',
+    color: 'yellow'
+  },
+  {
+    icon: TrendingUp,
+    title: 'GROWTH',
+    color: 'green'
+  },
+  {
+    icon: Target,
+    title: 'IMPACT',
+    color: 'rose'
+  }
+];
+
+export default function RecruitmentHero() {
+  return (
+    <section className="relative mt-16 min-h-[calc(100vh-80px)] overflow-hidden px-6 py-20 text-white">
+      {/* Background red glow - static */}
+      <div className="pointer-events-none absolute -top-0 -right-40 h-[500px] w-[500px] rounded-full bg-[#ff1e35]/15 blur-[100px]" />
+
+      {/* Decorative curves */}
+      <div className="pointer-events-none absolute -top-48 -right-48 h-[600px] w-[600px] rounded-full border border-[#ff1e35]/50" />
+
+      <div className="pointer-events-none absolute -bottom-80 -left-80 h-[750px] w-[750px] rounded-full border border-[#ff1e35]/50" />
+
+      <div className="pointer-events-none absolute -bottom-72 -left-72 h-[680px] w-[680px] rounded-full border border-white/15" />
+
+      {/* Main Content */}
+      <div className="relative z-10 mx-auto flex max-w-6xl flex-col items-center text-center">
+        {/* CSI Label */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="mb-8 flex items-center gap-5"
+        >
+          <span className="h-px w-16 bg-[#ff1e35]" />
+
+          <span className="font-inter text-[11px] font-medium tracking-[0.45em] text-white/80 sm:text-sm">
+            COMPUTER SOCIETY OF INDIA
+          </span>
+
+          <span className="h-px w-16 bg-[#ff1e35]" />
+        </motion.div>
+
+        {/* Main Heading */}
+        <motion.h1
+          initial={{ opacity: 0, y: 25 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.15 }}
+          className="font-inter text-[clamp(44px,8vw,96px)] leading-[0.9] font-extrabold tracking-[-0.04em] uppercase"
+        >
+          <span className="block text-white">Be a Part of</span>
+
+          <span className="block text-white">
+            Our{' '}
+            <span className="serif-accent relative top-[0.05em] -ml-[0.04em] text-[1.3em] leading-[0.6] text-[#ff2a3d]">
+              team
+            </span>
+          </span>
+        </motion.h1>
+
+        {/* Description */}
+        <motion.p
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="--font-poppins mt-8 max-w-2xl text-sm leading-7 text-white/70 sm:text-base sm:leading-8"
+        >
+          Some students attend events. Others create them. Which one are you?
+          <br className="hidden sm:block" />
+          Want to be part of the team behind some of the most exciting,
+          impactful, and talked-about events on campus?
+        </motion.p>
+
+        {/* Buttons */}
+        <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row">
+          <Link
+            href="#recruitment-form-start"
+            className="font-inter flex min-w-[230px] items-center justify-center gap-4 border border-[#ff1e35] bg-[#ff1e35] px-8 py-4 text-sm font-bold tracking-wider text-white uppercase transition-colors duration-300 hover:bg-black cursor-target"
+          >
+            Apply Now
+            <ArrowRight size={19} strokeWidth={2} />
+          </Link>
+
+          <Link
+            href="#about-recruitment"
+            className="font-inter flex min-w-[230px] items-center justify-center gap-4 border border-white/80 bg-transparent px-8 py-4 text-sm font-bold tracking-wider text-white uppercase transition-colors duration-300 hover:border-[#ff1e35] hover:text-[#ff1e35] cursor-target"
+          >
+            Know More
+            <ArrowRight size={19} strokeWidth={2} />
+          </Link>
+        </div>
+
+        {/* Feature Row */}
+        <div className="mt-16 flex w-full max-w-3xl flex-row items-center justify-center sm:flex-row ">
+          {features.map((feature, index) => {
+            const Icon = feature.icon;
+
+            return (
+              <div
+                key={feature.title}
+                className="flex w-full items-center justify-center "
+              >
+                <motion.div
+                  className="flex flex-1 flex-col items-center justify-center py-5 sm:py-0"
+                  whileHover="hover"
+                  initial="initial"
+                >
+                  {/* Icon */}
+                  <motion.div
+                    variants={{
+                      initial: { scale: 1 },
+                      hover: { scale: 1.12 }
+                    }}
+                    transition={{
+                      duration: 0.25,
+                      ease: 'easeOut'
+                    }}
+                  >
+                    <Icon size={42} strokeWidth={1.5} className={iconColors[feature.color]} />
+                  </motion.div>
+
+                  {/* Text */}
+                  <motion.span
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                      duration: 0.5,
+                      delay: 0.45 + index * 0.1
+                    }}
+                    className="font-inter mt-4 text-xs font-medium tracking-[0.3em] text-white"
+                  >
+                    {feature.title}
+                  </motion.span>
+
+                  {/* Red line */}
+                  <motion.span
+                    variants={{
+                      initial: { width: 40 },
+                      hover: { width: 70 }
+                    }}
+                    transition={{
+                      duration: 0.3,
+                      ease: 'easeOut'
+                    }}
+                    className="mt-3 h-[3px] bg-[#ff1e35]"
+                  />
+                </motion.div>
+
+                {/* Divider */}
+                {index !== features.length - 1 && (
+                  <div className="hidden h-16 w-px bg-white/20 sm:block" />
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}

@@ -3,19 +3,7 @@ import React, { useMemo } from "react";
 import { motion } from "framer-motion";
 import { Marquee } from "@/components/ui/marquee"
 import CardsDemo from "@/components/cards-demo-1"
-import gbData from "@/app/team/_data/2026-2027/gb.json";
-
-type GbItem = {
-  id: number;
-  Name: string;
-  Position: string;
-  Portfolio: string;
-  "Linkedin Id"?: string;
-  "Email Id"?: string;
-  "Github Id"?: string;
-  "Formal Picture"?: string | null;
-  "Governing Body Position": string;
-};
+import { useTeam } from "@/app/team/_hooks/useTeam";
 
 type MappedMember = {
   name: string;
@@ -26,7 +14,9 @@ type MappedMember = {
 };
 
 function MarqueeScrollComponent() {
-  const members = gbData as GbItem[];
+  const { gb } = useTeam('2026-27');
+  const members = gb || [];
+  
   const toUrl = (val?: string) => {
     if (!val) return undefined;
     const v = val.trim();
@@ -41,65 +31,59 @@ function MarqueeScrollComponent() {
     if (v.startsWith('http://') || v.startsWith('https://')) return v;
     return `https://github.com/${v}`;
   };
-  const topRow: MappedMember[] = useMemo(() =>
-    members
-      .filter((m) => m.id >= 1 && m.id <= 9)
-      .map((m) => ({
-        name: m.Name,
-        profession: m["Governing Body Position"] || m.Position,
-        image: m["Formal Picture"] || undefined,
-        githubUrl: toGithubUrl(m["Github Id"] || undefined),
-        linkedinUrl: toUrl(m["Linkedin Id"] || undefined),
-      })),
+  
+  const mappedMembers: MappedMember[] = useMemo(() => 
+    members.map((m) => ({
+      name: m.name,
+      profession: m.gb_position || m.position || '',
+      image: m.image_url || undefined,
+      githubUrl: toGithubUrl(m.github || undefined),
+      linkedinUrl: toUrl(m.linkedin || undefined),
+    })),
     [members]
   );
 
-  const bottomRow: MappedMember[] = useMemo(() =>
-    members
-      .filter((m) => m.id > 9)
-      .map((m) => ({
-        name: m.Name,
-        profession: m["Governing Body Position"] || m.Position,
-        image: m["Formal Picture"] || undefined,
-        githubUrl: toGithubUrl(m["Github Id"] || undefined),
-        linkedinUrl: toUrl(m["Linkedin Id"] || undefined),
-      })),
-    [members]
-  );
+  const topRow = useMemo(() => mappedMembers.slice(0, Math.ceil(mappedMembers.length / 2)), [mappedMembers]);
+  const bottomRow = useMemo(() => mappedMembers.slice(Math.ceil(mappedMembers.length / 2)), [mappedMembers]);
 
   return (
     <div className="relative flex w-full flex-col items-center justify-center gap-20">
-      <div
-      >
-        <Marquee className="[--duration:40s]">
-          {topRow.map((member, i) => (
-            <CardsDemo
-              key={`row1-${member.name}-${i}`}
-              name={member.name}
-              profession={member.profession}
-              image={member.image}
-              githubUrl={member.githubUrl}
-              linkedinUrl={member.linkedinUrl}
-            />
-          ))}
-        </Marquee>
-      </div>
-      <div
-        
-      >
-        <Marquee reverse className="[--duration:40s]">
-          {bottomRow.map((member, i) => (
-            <CardsDemo
-              key={`row2-${member.name}-${i}`}
-              name={member.name}
-              profession={member.profession}
-              image={member.image}
-              githubUrl={member.githubUrl}
-              linkedinUrl={member.linkedinUrl}
-            />
-          ))}
-        </Marquee>
-      </div>
+      {topRow.length > 0 && (
+        <div
+        >
+          <Marquee className="[--duration:40s]">
+            {topRow.map((member, i) => (
+              <CardsDemo
+                key={`row1-${member.name}-${i}`}
+                name={member.name}
+                profession={member.profession}
+                image={member.image}
+                githubUrl={member.githubUrl}
+                linkedinUrl={member.linkedinUrl}
+              />
+            ))}
+          </Marquee>
+        </div>
+      )}
+      
+      {bottomRow.length > 0 && (
+        <div
+          
+        >
+          <Marquee reverse className="[--duration:40s]">
+            {bottomRow.map((member, i) => (
+              <CardsDemo
+                key={`row2-${member.name}-${i}`}
+                name={member.name}
+                profession={member.profession}
+                image={member.image}
+                githubUrl={member.githubUrl}
+                linkedinUrl={member.linkedinUrl}
+              />
+            ))}
+          </Marquee>
+        </div>
+      )}
     </div>
   );
 }

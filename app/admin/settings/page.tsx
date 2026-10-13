@@ -66,6 +66,7 @@ export default function SettingsPage() {
       isLoading={isLoading}
       isError={isError}
       error={error}
+      isEmpty={!settings}
     >
       <div className="mx-auto max-w-4xl p-6">
         <div className="mb-8 flex items-center gap-3">

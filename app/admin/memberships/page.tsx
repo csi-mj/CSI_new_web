@@ -17,7 +17,7 @@ import { iconColors } from '@/config/colors';
 import { cn } from '@/lib/utils';
 
 export default function MembershipsPage() {
-  const { memberships, isLoading, isError, error, refetch, updateStatus, isUpdatingStatus } = useMemberships();
+  const { memberships, isLoading, isError, error, refetch, updateStatus, isUpdatingStatus, deleteMembership, isDeletingId } = useMemberships();
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('all');
 
@@ -114,6 +114,8 @@ export default function MembershipsPage() {
             memberships={filteredMemberships} 
             onStatusChange={updateStatus}
             isUpdatingStatus={isUpdatingStatus}
+            onDelete={deleteMembership}
+            isDeletingId={isDeletingId}
           />
         </DataBoundary>
       </div>

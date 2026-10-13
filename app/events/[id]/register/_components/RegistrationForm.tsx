@@ -86,20 +86,12 @@ export default function RegistrationForm({
       baseSchema = z.object({
         ...shape,
         payment_mode: z.enum(['online', 'cash']).default('online'),
-        transaction_id: z.string().optional(),
         payment_screenshot: z.any().optional()
       }).superRefine((data: any, ctx) => {
         const isCsi = data.is_csi_member === true || data.is_csi_member === 'Yes' || data.is_csi_member === 'yes';
         const fee = (isCsi && event.csi_entry_fee != null) ? event.csi_entry_fee : (event.entry_fee || 0);
 
         if (fee > 0 && data.payment_mode === 'online') {
-          if (!data.transaction_id || data.transaction_id.trim() === '') {
-            ctx.addIssue({
-              code: z.ZodIssueCode.custom,
-              message: 'Transaction ID is required for online payments',
-              path: ['transaction_id']
-            });
-          }
           if (!data.payment_screenshot) {
             ctx.addIssue({
               code: z.ZodIssueCode.custom,
@@ -158,7 +150,7 @@ export default function RegistrationForm({
         toast.error(errorMsg);
         setIsSubmitting(false);
         // Scroll to the error alert slightly above the form
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        document.getElementById('registration-form-start')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
         return;
       }
 
@@ -169,7 +161,7 @@ export default function RegistrationForm({
       setServerError(errorMsg);
       toast.error(errorMsg);
       console.error('Submission error:', error);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      document.getElementById('registration-form-start')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     } finally {
       setIsSubmitting(false);
     }
@@ -193,7 +185,7 @@ export default function RegistrationForm({
   }
 
   return (
-    <div className="flex w-full flex-col items-center">
+    <div id="registration-form-start" className="flex w-full flex-col items-center scroll-mt-24">
       <div className="border-border/50 mb-10 w-full border-b pb-6 text-center">
         <h2 className="text-primary text-3xl font-black md:text-5xl">
           Complete Registration

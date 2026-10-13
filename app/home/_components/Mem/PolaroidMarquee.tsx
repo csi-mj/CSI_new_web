@@ -94,7 +94,7 @@ const Social: React.FC<{ href?: string; label: string; focusable: boolean; child
       aria-label={label}
       tabIndex={focusable ? undefined : -1}
       onClick={(e) => e.stopPropagation()}
-      className="relative grid size-7 place-items-center rounded-full bg-black/60 text-white/85 backdrop-blur-sm transition-colors before:absolute before:-inset-1.5 before:content-[''] hover:bg-black/80 hover:text-white focus-visible:outline-2 focus-visible:outline-white"
+      className="cursor-target cursor-pointer relative grid size-7 place-items-center rounded-full bg-black/60 text-white/85 backdrop-blur-sm transition-colors before:absolute before:-inset-1.5 before:content-[''] hover:bg-black/80 hover:text-white focus-visible:outline-2 focus-visible:outline-white "
     >
       {children}
     </a>
@@ -127,7 +127,7 @@ const Polaroid: React.FC<{
         }
       }}
       style={{ ['--tilt' as string]: `${tilt}deg` }}
-      className="group/frame relative w-[150px] cursor-pointer bg-[#ecebe6] p-1.5 pb-0 shadow-[0_18px_40px_-12px_rgba(0,0,0,0.85)] outline-none transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] [transform:rotate(var(--tilt))] hover:[transform:rotate(0deg)_translateY(-8px)_scale(1.06)] focus-visible:[transform:rotate(0deg)_translateY(-8px)_scale(1.06)] focus-visible:ring-2 focus-visible:ring-white/80 data-[active=true]:[transform:rotate(0deg)_translateY(-8px)_scale(1.06)] motion-reduce:transition-none sm:w-[190px] sm:p-2 sm:pb-0 md:w-[230px] md:p-2.5 md:pb-0"
+      className="cursor-target cursor-pointer group/frame relative w-[150px] bg-[#ecebe6] p-1.5 pb-0 shadow-[0_18px_40px_-12px_rgba(0,0,0,0.85)] outline-none transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] [transform:rotate(var(--tilt))] hover:[transform:rotate(0deg)_translateY(-8px)_scale(1.06)] focus-visible:[transform:rotate(0deg)_translateY(-8px)_scale(1.06)] focus-visible:ring-2 focus-visible:ring-white/80 data-[active=true]:[transform:rotate(0deg)_translateY(-8px)_scale(1.06)] motion-reduce:transition-none sm:w-[190px] sm:p-2 sm:pb-0 md:w-[230px] md:p-2.5 md:pb-0"
     >
       <div className="relative aspect-square overflow-hidden bg-neutral-300">
         <div className="absolute inset-0 grayscale transition-[filter] duration-500 group-hover/frame:grayscale-0 group-focus-visible/frame:grayscale-0 group-data-[active=true]/frame:grayscale-0">

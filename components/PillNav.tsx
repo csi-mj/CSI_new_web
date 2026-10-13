@@ -127,7 +127,7 @@ const PillNav: React.FC<PillNavProps> = ({
 
     layout();
     window.addEventListener('resize', layout);
-    if (document.fonts) document.fonts.ready.then(layout).catch(() => { });
+    if (document.fonts) document.fonts.ready.then(layout).catch(() => {});
 
     if (initialLoadAnimation) {
       const logoEl = logoRef.current;
@@ -222,111 +222,110 @@ const PillNav: React.FC<PillNavProps> = ({
   } as React.CSSProperties;
 
   return (
-
     <div className={`relative ${className}`} style={cssVars}>
-
       <div className="relative flex h-full items-center">
-
-        
         <div ref={navItemsRef} className="relative flex h-full items-center">
           <ul
             role="menubar"
             className="m-0 flex h-full list-none items-stretch gap-2 p-2"
           >
-          {items.map((item, i) => {
-            const isItemActive = isActive(item.href);
-            const isHovered = hoveredIndex === i;
-            const pillStyle: React.CSSProperties = {
-              background: isItemActive
-                ? 'var(--active-pill-bg)'
-                : isHovered
-                  ? 'var(--pill-bg-hover, var(--pill-bg))'
-                  : 'var(--pill-bg)',
-              color: isItemActive
-                ? 'var(--active-pill-text, white)'
-                : isHovered
-                  ? 'var(--hover-text, var(--pill-text))'
-                  : 'var(--pill-text)',
-              paddingLeft: '20px',
-              paddingRight: '20px',
-              transition: 'all 0.3s ease',
-              border: '1px solid rgba(148, 163, 184, 0.2)',
-              backdropFilter: 'blur(8px)',
-              position: 'relative',
-              overflow: 'hidden'
-            };
+            {items.map((item, i) => {
+              const isItemActive = isActive(item.href);
+              const isHovered = hoveredIndex === i;
+              const pillStyle: React.CSSProperties = {
+                background: isItemActive
+                  ? 'var(--active-pill-bg)'
+                  : isHovered
+                    ? 'var(--pill-bg-hover, var(--pill-bg))'
+                    : 'var(--pill-bg)',
+                color: isItemActive
+                  ? 'var(--active-pill-text, white)'
+                  : isHovered
+                    ? 'var(--hover-text, var(--pill-text))'
+                    : 'var(--pill-text)',
+                paddingLeft: '20px',
+                paddingRight: '20px',
+                transition: 'all 0.3s ease',
+                border: '1px solid rgba(148, 163, 184, 0.2)',
+                backdropFilter: 'blur(8px)',
+                position: 'relative',
+                overflow: 'hidden'
+              };
 
-            const PillContent = (
-              <>
-                <span
-                  className="hover-circle cursor-target pointer-events-none absolute bottom-0 left-1/2 z-[1] block rounded-full"
-                  style={{ background: 'var(--base)', willChange: 'transform' }}
-                  aria-hidden="true"
-                  ref={(el) => {
-                    circleRefs.current[i] = el;
-                  }}
-                />
-                <span className="label-stack relative z-[2] inline-block leading-none">
+              const PillContent = (
+                <>
                   <span
-                    className="pill-label relative z-[2] inline-block"
+                    className="hover-circle cursor-target pointer-events-none absolute bottom-0 left-1/2 z-[1] block rounded-full"
                     style={{
-                      willChange: 'transform',
-                      display: isItemActive ? 'block' : 'inline-block'
-                    }}
-                  >
-                    {item.label}
-                  </span>
-                  <span
-                    className="pill-label-hover absolute top-0 left-0 z-[3] inline-block"
-                    style={{
-                      color: 'var(--hover-text)',
-                      willChange: 'transform, opacity',
-                      display: isItemActive ? 'none' : 'inline-block'
+                      background: 'var(--base)',
+                      willChange: 'transform'
                     }}
                     aria-hidden="true"
-                  >
-                    {item.label}
+                    ref={(el) => {
+                      circleRefs.current[i] = el;
+                    }}
+                  />
+                  <span className="label-stack relative z-[2] inline-block leading-none">
+                    <span
+                      className="pill-label relative z-[2] inline-block"
+                      style={{
+                        willChange: 'transform',
+                        display: isItemActive ? 'block' : 'inline-block'
+                      }}
+                    >
+                      {item.label}
+                    </span>
+                    <span
+                      className="pill-label-hover absolute top-0 left-0 z-[3] inline-block"
+                      style={{
+                        color: 'var(--hover-text)',
+                        willChange: 'transform, opacity',
+                        display: isItemActive ? 'none' : 'inline-block'
+                      }}
+                      aria-hidden="true"
+                    >
+                      {item.label}
+                    </span>
                   </span>
-                </span>
-              </>
-            );
+                </>
+              );
 
-            const basePillClasses =
-              'relative overflow-hidden p-3 cursor-target inline-flex items-center justify-center h-full no-underline rounded-full box-border font-bold text-[14px] leading-none uppercase tracking-wider whitespace-nowrap cursor-pointer';
+              const basePillClasses =
+                'relative overflow-hidden p-3 cursor-target inline-flex items-center justify-center h-full no-underline rounded-full box-border font-bold text-[14px] leading-none uppercase tracking-wider whitespace-nowrap cursor-pointer';
 
-            return (
-              <li key={item.href} role="none" className="flex h-full">
-                {isRouterLink(item.href) ? (
-                  <Link
-                    role="menuitem"
-                    href={item.href}
-                    id='cursor-mid'
-                    className={`${basePillClasses} ${isItemActive ? 'active' : ''}`}
-                    style={pillStyle}
-                    aria-label={item.ariaLabel || item.label}
-                    aria-current={isItemActive ? 'page' : undefined}
-                    onMouseEnter={() => handleEnter(i)}
-                    onMouseLeave={() => handleLeave(i)}
-                  >
-                    {PillContent}
-                  </Link>
-                ) : (
-                  <a
-                    role="menuitem"
-                    href={item.href}
-                    id='cursor-mid'
-                    className={basePillClasses}
-                    style={pillStyle}
-                    aria-label={item.ariaLabel || item.label}
-                    onMouseEnter={() => handleEnter(i)}
-                    onMouseLeave={() => handleLeave(i)}
-                  >
-                    {PillContent}
-                  </a>
-                )}
-              </li>
-            );
-          })}
+              return (
+                <li key={item.href} role="none" className="flex h-full">
+                  {isRouterLink(item.href) ? (
+                    <Link
+                      role="menuitem"
+                      href={item.href}
+                      id="cursor-mid"
+                      className={`${basePillClasses} ${isItemActive ? 'active' : ''}`}
+                      style={pillStyle}
+                      aria-label={item.ariaLabel || item.label}
+                      aria-current={isItemActive ? 'page' : undefined}
+                      onMouseEnter={() => handleEnter(i)}
+                      onMouseLeave={() => handleLeave(i)}
+                    >
+                      {PillContent}
+                    </Link>
+                  ) : (
+                    <a
+                      role="menuitem"
+                      href={item.href}
+                      id="cursor-mid"
+                      className={basePillClasses}
+                      style={pillStyle}
+                      aria-label={item.ariaLabel || item.label}
+                      onMouseEnter={() => handleEnter(i)}
+                      onMouseLeave={() => handleLeave(i)}
+                    >
+                      {PillContent}
+                    </a>
+                  )}
+                </li>
+              );
+            })}
           </ul>
         </div>
       </div>

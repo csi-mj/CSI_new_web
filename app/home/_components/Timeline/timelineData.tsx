@@ -2,6 +2,7 @@ import React from 'react';
 import Image from 'next/image';
 import { TimelineEntry } from './timeline';
 import { Calendar, MapPin } from 'lucide-react';
+import { iconColors } from '@/config/colors';
 
 export const timelineData: TimelineEntry[] = [
   {
@@ -22,10 +23,10 @@ export const timelineData: TimelineEntry[] = [
           </p>
           <div className="flex flex-wrap items-center gap-3 text-xs text-neutral-400">
             <span className="flex items-center gap-1 font-mono text-neutral-300">
-              <Calendar className="text-primary h-3.5 w-3.5 -mt-0.5" /> Sep 19, 2025
+              <Calendar className={`${iconColors.blue} h-3.5 w-3.5 -mt-0.5`} /> Sep 19, 2025
             </span>
             <span className="flex items-center gap-1 text-neutral-400">
-              <MapPin className="text-primary h-3.5 w-3.5 -mt-0.5" /> CIC Lab, Block 2
+              <MapPin className={`${iconColors.rose} h-3.5 w-3.5 -mt-0.5`} /> CIC Lab, Block 2
             </span>
           </div>
         </div>
@@ -46,7 +47,7 @@ export const timelineData: TimelineEntry[] = [
         </div> */}
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-          <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
+          <div className="cursor-target cursor-pointer relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
             <Image
               src="/timeline images/SIH Decoded 25 (1).png"
               alt="SIH Decoded Guidance Seminar"
@@ -56,76 +57,10 @@ export const timelineData: TimelineEntry[] = [
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-80" />
           </div>
-          <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
+          <div className="cursor-target cursor-pointer relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
             <Image
               src="/timeline images/SIH Decoded 25 (2).png"
               alt="SIH Decoded Winners Sharing Experience"
-              fill
-              className="object-cover transition-transform duration-500 group-hover:scale-105"
-              sizes="(min-width: 768px) 380px, 100vw"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-80" />
-          </div>
-        </div>
-      </div>
-    ),
-  },
-  {
-    title: "Oct 18, 2025",
-    content: (
-      <div className="space-y-4">
-        <div>
-          <div className="flex flex-wrap items-center gap-2 mb-1.5">
-            <h4 className="text-xl sm:text-2xl md:text-3xl font-bold text-white font-orbitron tracking-tight">
-              WEBVERSE
-            </h4>
-            <span className="text-[11px] font-bold uppercase tracking-wider text-primary border border-primary/30 px-2.5 py-0.5 rounded-full bg-primary/10">
-              Workshop
-            </span>
-          </div>
-          <p className="text-xs sm:text-sm text-neutral-400 font-inter italic mb-2">
-            The Official Pre-Hackathon Workshop Series Of Hackrevolution
-          </p>
-          <div className="flex flex-wrap items-center gap-3 text-xs text-neutral-400">
-            <span className="flex items-center gap-1 font-mono text-neutral-300">
-              <Calendar className="text-primary h-3.5 w-3.5 -mt-0.5" /> Nov 16, 2024
-            </span>
-            <span className="flex items-center gap-1 text-neutral-400">
-              <MapPin className="text-primary h-3.5 w-3.5 -mt-0.5" /> Lab 301, MJCET
-            </span>
-          </div>
-        </div>
-
-        <p className="text-neutral-300 text-sm sm:text-base leading-relaxed font-normal">
-          CSI and E-Cell MJCET organized WEBVERSE – The Web Development Workshop, the first pre-hackathon session of Hack Revolution. Students explored modern web technologies and learned how to transform their concepts into dynamic, creative, and functional web applications.
-        </p>
-
-        {/* <div className="flex flex-wrap gap-1.5 pt-1">
-          {["Web Development", "React", "Workshop"].map((tag) => (
-            <span
-              key={tag}
-              className="text-[11px] px-2.5 py-0.5 rounded-md bg-white/5 border border-white/10 text-neutral-300 font-medium"
-            >
-              #{tag}
-            </span>
-          ))}
-        </div> */}
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-          <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
-            <Image
-              src="/timeline images/web verse 2.png"
-              alt="WEBVERSE Development Workshop"
-              fill
-              className="object-cover transition-transform duration-500 group-hover:scale-105"
-              sizes="(min-width: 768px) 380px, 100vw"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-80" />
-          </div>
-          <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
-            <Image
-              src="/timeline images/web verse 3.png"
-              alt="WEBVERSE Hands-on Session"
               fill
               className="object-cover transition-transform duration-500 group-hover:scale-105"
               sizes="(min-width: 768px) 380px, 100vw"
@@ -154,10 +89,10 @@ export const timelineData: TimelineEntry[] = [
           </p>
           <div className="flex flex-wrap items-center gap-3 text-xs text-neutral-400">
             <span className="flex items-center gap-1 font-mono text-neutral-300">
-              <Calendar className="text-primary h-3.5 w-3.5 -mt-0.5" /> Oct 25, 2025
+              <Calendar className={`${iconColors.blue} h-3.5 w-3.5 -mt-0.5`} /> Oct 25, 2025
             </span>
             <span className="flex items-center gap-1 text-neutral-400">
-              <MapPin className="text-primary h-3.5 w-3.5 -mt-0.5" /> CIC Lab, Block 2
+              <MapPin className={`${iconColors.rose} h-3.5 w-3.5 -mt-0.5`} /> CIC Lab, Block 2
             </span>
           </div>
         </div>
@@ -178,7 +113,7 @@ export const timelineData: TimelineEntry[] = [
         </div> */}
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-          <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
+          <div className="cursor-target cursor-pointer relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
             <Image
               src="/timeline images/vision verse 1.png"
               alt="VisionVerse Workshop Session"
@@ -188,7 +123,7 @@ export const timelineData: TimelineEntry[] = [
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-80" />
           </div>
-          <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
+          <div className="cursor-target cursor-pointer relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
             <Image
               src="/timeline images/vision verse 2.png"
               alt="VisionVerse Practical Demo"
@@ -220,10 +155,10 @@ export const timelineData: TimelineEntry[] = [
           </p>
           <div className="flex flex-wrap items-center gap-3 text-xs text-neutral-400">
             <span className="flex items-center gap-1 font-mono text-neutral-300">
-              <Calendar className="text-primary h-3.5 w-3.5 -mt-0.5" /> Oct 29, 2025
+              <Calendar className={`${iconColors.blue} h-3.5 w-3.5 -mt-0.5`} /> Oct 29, 2025
             </span>
             <span className="flex items-center gap-1 text-neutral-400">
-              <MapPin className="text-primary h-3.5 w-3.5 -mt-0.5" /> CIC Lab Block 2
+              <MapPin className={`${iconColors.rose} h-3.5 w-3.5 -mt-0.5`} /> CIC Lab Block 2
             </span>
           </div>
         </div>
@@ -244,7 +179,7 @@ export const timelineData: TimelineEntry[] = [
         </div> */}
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-          <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
+          <div className="cursor-target cursor-pointer relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
             <Image
               src="/timeline images/Data Analytics using Terraview 1.png"
               alt="Data Analytics using Terraview Workshop"
@@ -254,7 +189,7 @@ export const timelineData: TimelineEntry[] = [
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-80" />
           </div>
-          <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
+          <div className="cursor-target cursor-pointer relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
             <Image
               src="/timeline images/Data Analytics using Terraview 2.jpg"
               alt="Data Analytics using Terraview Hands-on"
@@ -286,10 +221,10 @@ export const timelineData: TimelineEntry[] = [
           </p>
           <div className="flex flex-wrap items-center gap-3 text-xs text-neutral-400">
             <span className="flex items-center gap-1 font-mono text-neutral-300">
-              <Calendar className="text-primary h-3.5 w-3.5 -mt-0.5" /> Nov 8, 2025
+              <Calendar className={`${iconColors.blue} h-3.5 w-3.5 -mt-0.5`} /> Nov 8, 2025
             </span>
             <span className="flex items-center gap-1 text-neutral-400">
-              <MapPin className="text-primary h-3.5 w-3.5 -mt-0.5" /> Seminar Hall, Block 4
+              <MapPin className={`${iconColors.rose} h-3.5 w-3.5 -mt-0.5`} /> Seminar Hall, Block 4
             </span>
           </div>
         </div>
@@ -310,7 +245,7 @@ export const timelineData: TimelineEntry[] = [
         </div> */}
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-          <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
+          <div className="cursor-target cursor-pointer relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
             <Image
               src="/timeline images/Terraview 2025.JPG"
               alt="Terraview 2025 Competition"
@@ -320,7 +255,7 @@ export const timelineData: TimelineEntry[] = [
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-80" />
           </div>
-          <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
+          <div className="cursor-target cursor-pointer relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
             <Image
               src="/timeline images/Terraview 2025.png"
               alt="Terraview 2025 Presentation"
@@ -352,10 +287,10 @@ export const timelineData: TimelineEntry[] = [
           </p>
           <div className="flex flex-wrap items-center gap-3 text-xs text-neutral-400">
             <span className="flex items-center gap-1 font-mono text-neutral-300">
-              <Calendar className="text-primary h-3.5 w-3.5 -mt-0.5" /> Nov 8, 2025
+              <Calendar className={`${iconColors.blue} h-3.5 w-3.5 -mt-0.5`} /> Nov 8, 2025
             </span>
             <span className="flex items-center gap-1 text-neutral-400">
-              <MapPin className="text-primary h-3.5 w-3.5 -mt-0.5" /> Ghulam Ahmed Hall MJCET
+              <MapPin className={`${iconColors.rose} h-3.5 w-3.5 -mt-0.5`} /> Ghulam Ahmed Hall MJCET
             </span>
           </div>
         </div>
@@ -376,7 +311,7 @@ export const timelineData: TimelineEntry[] = [
         </div> */}
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-          <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
+          <div className="cursor-target cursor-pointer relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
             <Image
               src="/timeline images/Hack Revolution 1.png"
               alt="Hack Revolution 2025 Flagship Hackathon"
@@ -386,7 +321,7 @@ export const timelineData: TimelineEntry[] = [
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-80" />
           </div>
-          <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
+          <div className="cursor-target cursor-pointer relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
             <Image
               src="/timeline images/Hack Revolution 2.jpg"
               alt="Hack Revolution 2025 Coding Marathon"
@@ -418,10 +353,10 @@ export const timelineData: TimelineEntry[] = [
           </p>
           <div className="flex flex-wrap items-center gap-3 text-xs text-neutral-400">
             <span className="flex items-center gap-1 font-mono text-neutral-300">
-              <Calendar className="text-primary h-3.5 w-3.5 -mt-0.5" /> Nov 21, 2025
+              <Calendar className={`${iconColors.blue} h-3.5 w-3.5 -mt-0.5`} /> Nov 21, 2025
             </span>
             <span className="flex items-center gap-1 text-neutral-400">
-              <MapPin className="text-primary h-3.5 w-3.5 -mt-0.5" /> Seminar Hall, Block 4
+              <MapPin className={`${iconColors.rose} h-3.5 w-3.5 -mt-0.5`} /> Seminar Hall, Block 4
             </span>
           </div>
         </div>
@@ -442,7 +377,7 @@ export const timelineData: TimelineEntry[] = [
         </div> */}
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-          <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
+          <div className="cursor-target cursor-pointer relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
             <Image
               src="/timeline images/prompt arena 1.jpg"
               alt="Prompt Arena Competition"
@@ -452,7 +387,7 @@ export const timelineData: TimelineEntry[] = [
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-80" />
           </div>
-          <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
+          <div className="cursor-target cursor-pointer relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
             <Image
               src="/timeline images/prompt arena 2.png"
               alt="Prompt Arena Challenge"
@@ -484,10 +419,10 @@ export const timelineData: TimelineEntry[] = [
           </p>
           <div className="flex flex-wrap items-center gap-3 text-xs text-neutral-400">
             <span className="flex items-center gap-1 font-mono text-neutral-300">
-              <Calendar className="text-primary h-3.5 w-3.5 -mt-0.5" /> Nov 28, 2025
+              <Calendar className={`${iconColors.blue} h-3.5 w-3.5 -mt-0.5`} /> Nov 28, 2025
             </span>
             <span className="flex items-center gap-1 text-neutral-400">
-              <MapPin className="text-primary h-3.5 w-3.5 -mt-0.5" /> Student Activity Center, Block 1
+              <MapPin className={`${iconColors.rose} h-3.5 w-3.5 -mt-0.5`} /> Student Activity Center, Block 1
             </span>
           </div>
         </div>
@@ -508,7 +443,7 @@ export const timelineData: TimelineEntry[] = [
         </div> */}
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-          <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
+          <div className="cursor-target cursor-pointer relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
             <Image
               src="/timeline images/Community Connect 1.jpg"
               alt="CSI Community Connect Meetup"
@@ -518,7 +453,7 @@ export const timelineData: TimelineEntry[] = [
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-80" />
           </div>
-          <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
+          <div className="cursor-target cursor-pointer relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
             <Image
               src="/timeline images/Community Connect 2.png"
               alt="CSI Community Connect Gathering"
@@ -550,10 +485,10 @@ export const timelineData: TimelineEntry[] = [
           </p>
           <div className="flex flex-wrap items-center gap-3 text-xs text-neutral-400">
             <span className="flex items-center gap-1 font-mono text-neutral-300">
-              <Calendar className="text-primary h-3.5 w-3.5 -mt-0.5" /> Dec 5, 2025
+              <Calendar className={`${iconColors.blue} h-3.5 w-3.5 -mt-0.5`} /> Dec 5, 2025
             </span>
             <span className="flex items-center gap-1 text-neutral-400">
-              <MapPin className="text-primary h-3.5 w-3.5 -mt-0.5" /> Student Activity Centre
+              <MapPin className={`${iconColors.rose} h-3.5 w-3.5 -mt-0.5`} /> Student Activity Centre
             </span>
           </div>
         </div>
@@ -574,7 +509,7 @@ export const timelineData: TimelineEntry[] = [
         </div> */}
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-          <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
+          <div className="cursor-target cursor-pointer relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
             <Image
               src="/timeline images/Antigravity 1.png"
               alt="Antigravity Unlocked Workshop"
@@ -584,7 +519,7 @@ export const timelineData: TimelineEntry[] = [
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-80" />
           </div>
-          <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
+          <div className="cursor-target cursor-pointer relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
             <Image
               src="/timeline images/Antigravity 2.png"
               alt="Antigravity Unlocked Session"
@@ -616,10 +551,10 @@ export const timelineData: TimelineEntry[] = [
           </p>
           <div className="flex flex-wrap items-center gap-3 text-xs text-neutral-400">
             <span className="flex items-center gap-1 font-mono text-neutral-300">
-              <Calendar className="text-primary h-3.5 w-3.5 -mt-0.5" /> Dec 6, 2025
+              <Calendar className={`${iconColors.blue} h-3.5 w-3.5 -mt-0.5`} /> Dec 6, 2025
             </span>
             <span className="flex items-center gap-1 text-neutral-400">
-              <MapPin className="text-primary h-3.5 w-3.5 -mt-0.5" /> Lab 4
+              <MapPin className={`${iconColors.rose} h-3.5 w-3.5 -mt-0.5`} /> Lab 4
             </span>
           </div>
         </div>
@@ -640,7 +575,7 @@ export const timelineData: TimelineEntry[] = [
         </div> */}
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-          <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
+          <div className="cursor-target cursor-pointer relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
             <Image
               src="/timeline images/Dev Showdown 1.png"
               alt="Dev Showdown Presentation"
@@ -650,7 +585,7 @@ export const timelineData: TimelineEntry[] = [
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-80" />
           </div>
-          <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
+          <div className="cursor-target cursor-pointer relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
             <Image
               src="/timeline images/Dev Showdown 2.png"
               alt="Dev Showdown Showcase"
@@ -682,10 +617,10 @@ export const timelineData: TimelineEntry[] = [
           </p>
           <div className="flex flex-wrap items-center gap-3 text-xs text-neutral-400">
             <span className="flex items-center gap-1 font-mono text-neutral-300">
-              <Calendar className="text-primary h-3.5 w-3.5 -mt-0.5" /> Dec 12, 2025
+              <Calendar className={`${iconColors.blue} h-3.5 w-3.5 -mt-0.5`} /> Dec 12, 2025
             </span>
             <span className="flex items-center gap-1 text-neutral-400">
-              <MapPin className="text-primary h-3.5 w-3.5 -mt-0.5" /> Seminar Hall
+              <MapPin className={`${iconColors.rose} h-3.5 w-3.5 -mt-0.5`} /> Seminar Hall
             </span>
           </div>
         </div>
@@ -706,7 +641,7 @@ export const timelineData: TimelineEntry[] = [
         </div> */}
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-          <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
+          <div className="cursor-target cursor-pointer relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
             <Image
               src="/timeline images/Volunteer 1.jpg"
               alt="Volunteer Appreciation Ceremony"
@@ -716,7 +651,7 @@ export const timelineData: TimelineEntry[] = [
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-80" />
           </div>
-          <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
+          <div className="cursor-target cursor-pointer relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
             <Image
               src="/timeline images/Volunteer 2.jpg"
               alt="Volunteer Appreciation Team"
@@ -752,10 +687,10 @@ export const timelineData: TimelineEntry[] = [
 
         <div className="flex flex-wrap items-center gap-3 text-xs text-neutral-400">
           <span className="flex items-center gap-1 font-mono text-neutral-300">
-            <Calendar className="text-primary h-3.5 w-3.5 -mt-0.5" /> Apr 9–10, 2026
+            <Calendar className={`${iconColors.blue} h-3.5 w-3.5 -mt-0.5`} /> Apr 9–10, 2026
           </span>
           <span className="flex items-center gap-1 text-neutral-400">
-            <MapPin className="text-primary h-3.5 w-3.5 -mt-0.5" /> MJCET Campus
+            <MapPin className={`${iconColors.rose} h-3.5 w-3.5 -mt-0.5`} /> MJCET Campus
           </span>
         </div>
       </div>
@@ -782,7 +717,7 @@ export const timelineData: TimelineEntry[] = [
       </div> */}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-        <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
+        <div className="cursor-target cursor-pointer relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
           <Image
             src="/timeline images/Adsophos 1.jpg"
             alt="ADSOPHOS 2026 Technical Fest"
@@ -793,7 +728,7 @@ export const timelineData: TimelineEntry[] = [
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-80" />
         </div>
 
-        <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
+        <div className="cursor-target cursor-pointer relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
           <Image
             src="/timeline images/Adsophos 4.jpg"
             alt="ADSOPHOS 2026 Technical Fest"
@@ -804,7 +739,7 @@ export const timelineData: TimelineEntry[] = [
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-80" />
         </div>
 
-        <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
+        <div className="cursor-target cursor-pointer relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
           <Image
             src="/timeline images/Adsophos 2.jpg"
             alt="ADSOPHOS 2026 Events and Activities"
@@ -814,7 +749,7 @@ export const timelineData: TimelineEntry[] = [
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-80" />
         </div>
-        <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
+        <div className="cursor-target cursor-pointer relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
           <Image
             src="/timeline images/Adsophos 3.jpg"
             alt="ADSOPHOS 2026 Technical Fest"
@@ -849,10 +784,10 @@ export const timelineData: TimelineEntry[] = [
 
         <div className="flex flex-wrap items-center gap-3 text-xs text-neutral-400">
           <span className="flex items-center gap-1 font-mono text-neutral-300">
-            <Calendar className="text-primary h-3.5 w-3.5 -mt-0.5" /> Jun 12, 2026
+            <Calendar className={`${iconColors.blue} h-3.5 w-3.5 -mt-0.5`} /> Jun 12, 2026
           </span>
           <span className="flex items-center gap-1 text-neutral-400">
-            <MapPin className="text-primary h-3.5 w-3.5 -mt-0.5" /> CSE Labs, MJCET
+            <MapPin className={`${iconColors.rose} h-3.5 w-3.5 -mt-0.5`} /> CSE Labs, MJCET
           </span>
         </div>
       </div>
@@ -879,7 +814,7 @@ export const timelineData: TimelineEntry[] = [
       </div> */}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-        <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
+        <div className="cursor-target cursor-pointer relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
           <Image
             src="/timeline images/tech nova (1).jpg"
             alt="Tech Nova 2026 Project Expo"
@@ -890,7 +825,7 @@ export const timelineData: TimelineEntry[] = [
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-80" />
         </div>
 
-        <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
+        <div className="cursor-target cursor-pointer relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
           <Image
             src="/timeline images/tech nova (2).png"
             alt="Students presenting projects at Tech Nova 2026"
@@ -925,10 +860,10 @@ export const timelineData: TimelineEntry[] = [
 
         <div className="flex flex-wrap items-center gap-3 text-xs text-neutral-400">
           <span className="flex items-center gap-1 font-mono text-neutral-300">
-            <Calendar className="text-primary h-3.5 w-3.5 -mt-0.5" /> Jun 27, 2026
+            <Calendar className={`${iconColors.blue} h-3.5 w-3.5 -mt-0.5`} /> Jun 27, 2026
           </span>
           <span className="flex items-center gap-1 text-neutral-400">
-            <MapPin className="text-primary h-3.5 w-3.5 -mt-0.5" /> Ghulam Ahmed Hall, MJCET
+            <MapPin className={`${iconColors.rose} h-3.5 w-3.5 -mt-0.5`} /> Ghulam Ahmed Hall, MJCET
           </span>
         </div>
       </div>
@@ -955,7 +890,7 @@ export const timelineData: TimelineEntry[] = [
       </div> */}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-        <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
+        <div className="cursor-target cursor-pointer relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
           <Image
             src="/timeline images/Innovatia Pannoply 1.jpg"
             alt="Innovatia Panoply 2026 Project Exhibition"
@@ -966,7 +901,7 @@ export const timelineData: TimelineEntry[] = [
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-80" />
         </div>
 
-        <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
+        <div className="cursor-target cursor-pointer relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
           <Image
             src="/timeline images/Innovatia Pannoply 2.jpg"
             alt="Students showcasing projects at Innovatia Panoply 2026"
@@ -1001,10 +936,10 @@ export const timelineData: TimelineEntry[] = [
 
         <div className="flex flex-wrap items-center gap-3 text-xs text-neutral-400">
           <span className="flex items-center gap-1 font-mono text-neutral-300">
-            <Calendar className="text-primary h-3.5 w-3.5 -mt-0.5" /> Jul 11, 2026
+            <Calendar className={`${iconColors.blue} h-3.5 w-3.5 -mt-0.5`} /> Jul 11, 2026
           </span>
           <span className="flex items-center gap-1 text-neutral-400">
-            <MapPin className="text-primary h-3.5 w-3.5 -mt-0.5" /> Narsimha Reddy Engineering College, Secunderabad
+            <MapPin className={`${iconColors.rose} h-3.5 w-3.5 -mt-0.5`} /> Narsimha Reddy Engineering College, Secunderabad
           </span>
         </div>
       </div>
@@ -1031,7 +966,7 @@ export const timelineData: TimelineEntry[] = [
       </div> */}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-        <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
+        <div className="cursor-target cursor-pointer relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
           <Image
             src="/timeline images/CSI Awards 1.jpg"
             alt="CSI Annual Excellence Awards 2025–26"
@@ -1042,7 +977,7 @@ export const timelineData: TimelineEntry[] = [
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-80" />
         </div>
 
-        <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
+        <div className="cursor-target cursor-pointer relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
           <Image
             src="/timeline images/CSI Awards 2.jpg"
             alt="CSI MJCET receiving awards at the annual excellence awards"
@@ -1077,10 +1012,10 @@ export const timelineData: TimelineEntry[] = [
 
         <div className="flex flex-wrap items-center gap-3 text-xs text-neutral-400">
           <span className="flex items-center gap-1 font-mono text-neutral-300">
-            <Calendar className="text-primary h-3.5 w-3.5 -mt-0.5" /> Aug 22, 2026
+            <Calendar className={`${iconColors.blue} h-3.5 w-3.5 -mt-0.5`} /> Aug 22, 2026
           </span>
           <span className="flex items-center gap-1 text-neutral-400">
-            <MapPin className="text-primary h-3.5 w-3.5 -mt-0.5" /> Safdariya School, Mehdipatnam
+            <MapPin className={`${iconColors.rose} h-3.5 w-3.5 -mt-0.5`} /> Safdariya School, Mehdipatnam
           </span>
         </div>
       </div>
@@ -1107,9 +1042,9 @@ export const timelineData: TimelineEntry[] = [
       </div> */}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-        <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
+        <div className="cursor-target cursor-pointer relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
           <Image
-            src="/timeline images/School Visit 1.jpg"
+            src="/timeline images/School Visit 1.JPG"
             alt="CSI MJCET School Visit at Safdariya School"
             fill
             className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -1118,7 +1053,7 @@ export const timelineData: TimelineEntry[] = [
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-80" />
         </div>
 
-        <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
+        <div className="cursor-target cursor-pointer relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
           <Image
             src="/timeline images/School Visit 2.jpg"
             alt="CSI MJCET student leaders interacting with school students"
@@ -1153,10 +1088,10 @@ export const timelineData: TimelineEntry[] = [
 
         <div className="flex flex-wrap items-center gap-3 text-xs text-neutral-400">
           <span className="flex items-center gap-1 font-mono text-neutral-300">
-            <Calendar className="text-primary h-3.5 w-3.5 -mt-0.5" /> Aug 23, 2026
+            <Calendar className={`${iconColors.blue} h-3.5 w-3.5 -mt-0.5`} /> Aug 23, 2026
           </span>
           <span className="flex items-center gap-1 text-neutral-400">
-            <MapPin className="text-primary h-3.5 w-3.5 -mt-0.5" /> T-Hub, Hyderabad
+            <MapPin className={`${iconColors.rose} h-3.5 w-3.5 -mt-0.5`} /> T-Hub, Hyderabad
           </span>
         </div>
       </div>
@@ -1183,9 +1118,9 @@ export const timelineData: TimelineEntry[] = [
       </div> */}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-        <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
+        <div className="cursor-target cursor-pointer relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
           <Image
-            src="/timeline images/THUB 1.JPg"
+            src="/timeline images/THUB 1.jpg"
             alt="CSI-MJCET Governing Body visit to T-Hub Hyderabad"
             fill
             className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -1194,9 +1129,9 @@ export const timelineData: TimelineEntry[] = [
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-80" />
         </div>
 
-        <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
+        <div className="cursor-target cursor-pointer relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
           <Image
-            src="/timeline images/THUB 2.JPg"
+            src="/timeline images/THUB 2.jpg"
             alt="Students interacting with startup professionals at T-Hub"
             fill
             className="object-cover transition-transform duration-500 group-hover:scale-105"
@@ -1229,10 +1164,10 @@ export const timelineData: TimelineEntry[] = [
 
         <div className="flex flex-wrap items-center gap-3 text-xs text-neutral-400">
           <span className="flex items-center gap-1 font-mono text-neutral-300">
-            <Calendar className="text-primary h-3.5 w-3.5 -mt-0.5" /> Sep 23, 2026
+            <Calendar className={`${iconColors.blue} h-3.5 w-3.5 -mt-0.5`} /> Sep 23, 2026
           </span>
           <span className="flex items-center gap-1 text-neutral-400">
-            <MapPin className="text-primary h-3.5 w-3.5 -mt-0.5" /> MJCET
+            <MapPin className={`${iconColors.rose} h-3.5 w-3.5 -mt-0.5`} /> MJCET
           </span>
         </div>
       </div>
@@ -1259,7 +1194,7 @@ export const timelineData: TimelineEntry[] = [
       </div> */}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-        <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
+        <div className="cursor-target cursor-pointer relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
           <Image
             src="/timeline images/Annual Day 1.jpg"
             alt="CSI-MJCET Annual Day 2025–26"
@@ -1270,7 +1205,7 @@ export const timelineData: TimelineEntry[] = [
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-80" />
         </div>
 
-        <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
+        <div className="cursor-target cursor-pointer relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10 bg-neutral-900 shadow-lg group hover:border-white/20 transition-all duration-300">
           <Image
             src="/timeline images/Annual Day 2.jpg"
             alt="CSI-MJCET outgoing and incoming Governing Body"

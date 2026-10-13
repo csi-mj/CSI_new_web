@@ -1,10 +1,10 @@
-import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import { supabaseAdmin } from '@/lib/supabaseAdmin';
 
 export async function GET() {
   const { data, error } = await supabaseAdmin
-    .from("csi_team")
-    .select("team_year")
-    .eq("is_active", true);
+    .from('csi_team')
+    .select('team_year')
+    .eq('is_active', true);
 
   if (error) return Response.json({ error: error.message }, { status: 500 });
 

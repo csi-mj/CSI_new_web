@@ -78,7 +78,7 @@ export const PremiumFileInput = React.forwardRef<HTMLInputElement, PremiumFileIn
               <button 
                 type="button" 
                 onClick={handleClear}
-                className="p-2 bg-destructive/10 text-destructive opacity-0 group-hover/file:opacity-100 rounded-md transition-all hover:bg-destructive hover:text-destructive-foreground"
+                className="p-2 bg-destructive/10 text-destructive  rounded-md transition-all hover:bg-destructive hover:text-destructive-foreground"
               >
                 <X className="w-4 h-4" />
               </button>

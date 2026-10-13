@@ -37,7 +37,7 @@ export function PaymentDetails({ event, form, activeFee }: PaymentDetailsProps) 
                   colorTheme="teal"
                   options={[
                     { label: 'Online (UPI / QR Code)', value: 'online' },
-                    { label: 'Cash (Pay at Desk)', value: 'cash' }
+                    { label: 'Cash (Hand over to coordinator)', value: 'cash' }
                   ]}
                 />
               </FormControl>
@@ -48,11 +48,20 @@ export function PaymentDetails({ event, form, activeFee }: PaymentDetailsProps) 
       </div>
 
       {paymentMode === 'cash' ? (
-        <div className={`${translucentBgColors.yellow} ${borderColors.yellow} p-6 rounded-xl ${iconColors.yellow}`}>
+        <div className="bg-muted/30 border border-border/50 p-6 rounded-xl">
           <h4 className="text-lg font-semibold mb-2 flex items-center gap-2">
-            <Banknote className="w-5 h-5" /> Cash Payment Selected
+            <Banknote className="w-5 h-5 text-primary" /> Cash Payment Selected
           </h4>
-          <p>Please pay ₹{activeFee} to the registration desk on the day of the event. Your ticket will remain pending until payment is verified by HR.</p>
+          <div className="space-y-3">
+            <p>To complete your registration, please hand over the registration fee of <strong>₹{activeFee}</strong> in cash to our coordinator.</p>
+            <div className="bg-muted/50 p-4 rounded-lg border border-border/50">
+              <p className="text-sm font-semibold mb-1">Contact for Cash Payment:</p>
+              <p className="text-base font-medium">
+                Danish: <a href="tel:+918106110632" className="text-primary hover:underline font-bold">+91 81061 10632</a>
+              </p>
+            </div>
+            <p className="text-sm opacity-80">Your ticket will remain pending until the cash payment is received and verified.</p>
+          </div>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
@@ -61,8 +70,12 @@ export function PaymentDetails({ event, form, activeFee }: PaymentDetailsProps) 
             <h4 className="text-lg font-semibold mb-2">Pay Entry Fee: ₹{activeFee}</h4>
             <p className="text-muted-foreground text-sm mb-4">Scan the QR code below to complete your payment.</p>
           {event.payment_qr_url ? (
-            <div className="bg-white p-4 rounded-xl shadow-sm mb-2">
-              <img src={event.payment_qr_url} alt="Payment QR Code" className="w-48 h-48 object-contain" />
+            <div className="relative w-full max-w-[280px] aspect-square mb-2 overflow-hidden rounded-xl border border-border/50 shadow-sm group">
+              <img 
+                src={event.payment_qr_url} 
+                alt="Payment QR Code" 
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+              />
             </div>
           ) : (
             <div className="w-48 h-48 bg-muted flex items-center justify-center rounded-xl mb-2 text-muted-foreground text-sm">
@@ -73,20 +86,6 @@ export function PaymentDetails({ event, form, activeFee }: PaymentDetailsProps) 
 
         {/* Payment Fields */}
         <div className="space-y-6">
-          <FormField
-            control={form.control}
-            name="transaction_id"
-            render={({ field: formField }) => (
-              <FormItem>
-                <PremiumLabel required>Transaction ID</PremiumLabel>
-                <FormControl>
-                  <PremiumInput icon={Banknote} colorTheme="green" placeholder="e.g. T23059203920" {...formField} value={String(formField.value || '')} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
           <FormField
             control={form.control}
             name="payment_screenshot"

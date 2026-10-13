@@ -43,7 +43,7 @@ export async function POST(
       participantName: participant.user_name,
       eventName: event.title,
       participantId: participant.id,
-      eventDate: event.event_date ? new Date(event.event_date).toLocaleDateString() : undefined,
+      eventDate: event.event_date ? new Date(event.event_date).toLocaleDateString('en-GB') : undefined,
       venue: event.venue || undefined,
       emailTemplate: event.email_template || undefined,
     });

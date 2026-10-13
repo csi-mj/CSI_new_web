@@ -21,7 +21,7 @@ export function Bento() {
             description={item.description}
             header={item.header}
             imageSrc={item.imageSrc}
-            className={` ${idx === 2 || idx === 5 || idx === 1 ? 'md:col-span-2' : ''}`}
+            className={`cursor-target cursor-pointer ${idx === 2 || idx === 5 || idx === 1 ? 'md:col-span-2' : ''}`}
           />
         ))}
       </BentoGrid>

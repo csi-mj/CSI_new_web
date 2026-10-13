@@ -51,6 +51,28 @@ export function useMemberships() {
     }
   });
 
+  const deleteMutation = useMutation({
+    mutationFn: async (membershipId: string) => {
+      const res = await fetch(`/api/admin/memberships/${membershipId}`, {
+        method: 'DELETE',
+      });
+      
+      const json = await res.json();
+      if (!res.ok || !json.success) {
+        throw new Error(json.error?.message || 'Failed to delete membership');
+      }
+      
+      return json.data;
+    },
+    onSuccess: () => {
+      toast.success('Membership deleted successfully');
+      queryClient.invalidateQueries({ queryKey: ['admin-memberships'] });
+    },
+    onError: (err: any) => {
+      toast.error(err.message || 'Failed to delete membership');
+    }
+  });
+
   return {
     memberships: data?.memberships || [],
     isLoading,
@@ -59,6 +81,8 @@ export function useMemberships() {
     refetch,
     updateStatus: (membershipId: string, status: CsiMembership['status']) => 
       updateStatusMutation.mutate({ membershipId, status }),
-    isUpdatingStatus: updateStatusMutation.isPending
+    isUpdatingStatus: updateStatusMutation.isPending,
+    deleteMembership: (membershipId: string) => deleteMutation.mutate(membershipId),
+    isDeletingId: deleteMutation.isPending ? deleteMutation.variables : null,
   };
 }

@@ -11,8 +11,14 @@ interface PremiumRadioGroupProps {
   colorTheme?: keyof typeof iconColors;
 }
 
-export const PremiumRadioGroup = React.forwardRef<React.ElementRef<typeof RadioGroup>, PremiumRadioGroupProps>(
-  ({ value, onValueChange, options = [], colorTheme = 'indigo', ...props }, ref) => {
+export const PremiumRadioGroup = React.forwardRef<
+  React.ElementRef<typeof RadioGroup>,
+  PremiumRadioGroupProps
+>(
+  (
+    { value, onValueChange, options = [], colorTheme = 'indigo', ...props },
+    ref
+  ) => {
     return (
       <RadioGroup
         ref={ref}
@@ -28,27 +34,31 @@ export const PremiumRadioGroup = React.forwardRef<React.ElementRef<typeof RadioG
           const isSelected = value === optValue;
           return (
             <FormItem key={optValue}>
-              <FormLabel 
+              <FormLabel
                 className={cn(
-                  "flex flex-row items-center space-x-3 py-2.5 px-4 rounded-xl border-2 cursor-pointer transition-all duration-300",
-                  isSelected 
+                  'flex cursor-pointer flex-row items-center space-x-3 rounded-xl border-2 px-4 py-2.5 transition-all duration-300',
+                  isSelected
                     ? borderColors[colorTheme]
-                    : "border-border/50 bg-card/20 hover:bg-card/40 hover:border-border"
+                    : 'border-border/50 bg-card/20 hover:bg-card/40 hover:border-border'
                 )}
               >
                 <FormControl>
-                  <RadioGroupItem 
-                    value={optValue} 
+                  <RadioGroupItem
+                    value={optValue}
                     className={cn(
-                      "w-4 h-4 border-2 transition-all",
-                      isSelected ? borderColors[colorTheme] : "border-muted-foreground/50"
-                    )} 
+                      'h-4 w-4 border-2 transition-all',
+                      isSelected
+                        ? borderColors[colorTheme]
+                        : 'border-muted-foreground/50'
+                    )}
                   />
                 </FormControl>
-                <span className={cn(
-                  "text-sm font-bold tracking-wide",
-                  isSelected ? "text-foreground" : "text-muted-foreground"
-                )}>
+                <span
+                  className={cn(
+                    'text-sm font-bold tracking-wide',
+                    isSelected ? 'text-foreground' : 'text-muted-foreground'
+                  )}
+                >
                   {optLabel}
                 </span>
               </FormLabel>
