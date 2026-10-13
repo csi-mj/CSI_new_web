@@ -75,10 +75,10 @@ const Navbar = () => {
   return (
     <>
       <nav
-        className={`fixed top-0 right-0 left-0 z-50 flex transform items-center justify-between bg-black/60 px-6 py-6 transition-transform duration-500 max-xl:backdrop-blur-lg md:px-8 xl:bg-transparent ${showNav ? 'translate-y-0' : '-translate-y-full'}`}
+        className={`fixed top-0 right-0 left-0 z-50 flex transform items-center justify-between bg-black/60 px-6 py-6 transition-transform duration-500 max-2xl:backdrop-blur-lg md:px-8 2xl:bg-transparent ${showNav ? 'translate-y-0' : '-translate-y-full'}`}
       >
         {/* Left: Logo */}
-        <Link href="/" className="flex items-center xl:hidden">
+        <Link href="/" className="flex items-center 2xl:hidden">
           <Image
             src="/logos/csi_logo.png"
             alt="CSI"
@@ -88,7 +88,7 @@ const Navbar = () => {
           />
         </Link>
 
-        <div className="hidden flex-1 justify-center xl:flex">
+        <div className="hidden flex-1 justify-center 2xl:flex">
           <div>
             <Link
               href="/"
@@ -124,7 +124,7 @@ const Navbar = () => {
         </div>
 
         {/* Right: Mobile Hamburger */}
-        <div className="flex items-center xl:hidden">
+        <div className="flex items-center 2xl:hidden">
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             className="relative z-[60] rounded-lg bg-white/10 p-2 text-white transition hover:bg-white/20"
@@ -144,7 +144,7 @@ const Navbar = () => {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
             onClick={() => setMenuOpen(false)}
-            className="fixed inset-0 z-40 bg-black/70 backdrop-blur-sm xl:hidden"
+            className="fixed inset-0 z-40 bg-black/70 backdrop-blur-sm 2xl:hidden"
           />
         )}
       </AnimatePresence>
@@ -162,7 +162,7 @@ const Navbar = () => {
               stiffness: 200,
               duration: 0.4
             }}
-            className="fixed top-0 right-0 bottom-0 z-50 flex w-[300px] flex-col border-l border-white/10 bg-[#0B0B0D]/28 backdrop-blur-xl xl:hidden"
+            className="fixed top-0 right-0 bottom-0 z-50 flex w-[300px] flex-col border-l border-white/10 bg-[#0B0B0D]/28 backdrop-blur-xl 2xl:hidden"
           >
             {/* Menu Header */}
             <div className="flex shrink-0 items-center justify-end border-b border-white/10 px-6 py-2">
