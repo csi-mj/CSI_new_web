@@ -12,13 +12,10 @@ import {
   Phone,
   Users,
   Grid2X2,
-  FileText,
-  UploadCloud,
   ChevronDown,
   ArrowRight,
   Check,
-  AlertCircle,
-  Download
+  AlertCircle
 } from 'lucide-react';
 import { SuccessState } from '@/components/ui/success-state';
 import { iconColors, translucentBgColors, bgColors } from '@/config/colors';
@@ -69,7 +66,6 @@ import { PremiumLabel } from '@/components/shared/fields/PremiumLabel';
 import { PremiumSelect } from '@/components/shared/fields/PremiumSelect';
 import { PremiumRadioGroup } from '@/components/shared/fields/PremiumRadioGroup';
 import { PremiumCheckbox } from '@/components/shared/fields/PremiumCheckbox';
-import { PremiumFileInput } from '@/components/shared/fields/PremiumFileInput';
 
 const formSchema = z.object({
   name: z.string().min(1, 'Full name is required'),
@@ -78,12 +74,10 @@ const formSchema = z.object({
   year: z.string().min(1, 'Year is required'),
   rollNumber: z.string().min(15, 'Roll number must be in correct format'),
   contact: z.string().min(10, 'Contact number must be at least 10 digits'),
-  csiMember: z.enum(['yes', 'no']),
   execomCore: z.enum(['execom', 'core']),
   portfolios: z
     .array(z.string())
     .length(2, 'Please select exactly 2 portfolios'),
-  resume: z.any().refine((file) => !!file, 'Resume is required')
 });
 
 export default function MembershipForm() {
@@ -96,10 +90,8 @@ export default function MembershipForm() {
       year: '',
       rollNumber: '',
       contact: '',
-      csiMember: 'yes',
       execomCore: 'execom',
       portfolios: [],
-      resume: null
     }
   });
 
@@ -131,23 +123,6 @@ export default function MembershipForm() {
     }
   };
 
-  const validateFile = (file: File) => {
-    const isPDF = file.type === 'application/pdf';
-    const isUnder5MB = file.size <= 5 * 1024 * 1024;
-
-    if (!isPDF) {
-      alert('Please upload a PDF file only.');
-      return false;
-    }
-
-    if (!isUnder5MB) {
-      alert('Resume must be smaller than 5MB.');
-      return false;
-    }
-
-    return true;
-  };
-
   const { mutate, isPending } = useSubmitRecruitment();
   const [success, setSuccess] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
@@ -161,21 +136,12 @@ export default function MembershipForm() {
     formData.append('roll_no', values.rollNumber);
     formData.append('contact', values.contact);
     formData.append('team', values.execomCore);
-    formData.append(
-      'is_csi_member',
-      values.csiMember === 'yes' ? 'true' : 'false'
-    );
 
     // Add portfolios
     if (values.portfolios[0])
       formData.append('portfolio_1', values.portfolios[0]);
     if (values.portfolios[1])
       formData.append('portfolio_2', values.portfolios[1]);
-
-    // Add file
-    if (values.resume) {
-      formData.append('resume', values.resume);
-    }
 
     mutate(formData, {
       onSuccess: () => {
@@ -449,30 +415,8 @@ export default function MembershipForm() {
               />
             </div>
 
-            {/* Radio groups */}
-            <div className="mt-7 grid grid-cols-1 gap-6 md:grid-cols-2">
-              <FormField
-                control={form.control}
-                name="csiMember"
-                render={({ field }) => (
-                  <FormItem className="space-y-2">
-                    <PremiumLabel required>Are you a CSI Member?</PremiumLabel>
-                    <FormControl>
-                      <PremiumRadioGroup
-                        value={field.value}
-                        onValueChange={field.onChange}
-                        options={[
-                          { value: 'yes', label: 'Yes' },
-                          { value: 'no', label: 'No' }
-                        ]}
-                        colorTheme="rose"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
+            {/* Execom or Core */}
+            <div className="mt-7">
               <FormField
                 control={form.control}
                 name="execomCore"
@@ -551,63 +495,6 @@ export default function MembershipForm() {
               )}
             />
 
-            {/* Resume template, for applicants who don't have a resume yet */}
-            <div className="mt-7 flex flex-col gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
-              <div className="flex min-w-0 items-start gap-3">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center">
-                  <FileText
-                    size={20}
-                    strokeWidth={1.6}
-                    className="text-white/60"
-                    aria-hidden
-                  />
-                </div>
-                <div className="min-w-0">
-                  <p className="text-[14px] font-semibold text-white">
-                    Don&apos;t have a resume yet?
-                  </p>
-                  <p className="mt-0.5 text-[13px] leading-snug text-[#8d8d95]">
-                    Download our template, fill in your details, and upload it
-                    below as a PDF.
-                  </p>
-                </div>
-              </div>
-              <a
-                href="/pdfs/resume-template.pdf"
-                download="CSI-Resume-Template.pdf"
-                className="cursor-target cursor-pointer inline-flex min-h-11 shrink-0 items-center justify-center gap-2 rounded-xl border border-[#ff1e35]/60 px-4 text-[14px] font-semibold text-white"
-              >
-                <Download size={17} strokeWidth={2} aria-hidden />
-                Download template
-              </a>
-            </div>
-
-            {/* Resume */}
-            <FormField
-              control={form.control}
-              name="resume"
-              render={({ field }) => (
-                <FormItem className="mt-5 space-y-3">
-                  <PremiumLabel required>Upload Your Resume</PremiumLabel>
-                  <FormControl>
-                    <PremiumFileInput
-                      value={field.value}
-                      onChange={(file) => {
-                        if (file && validateFile(file)) {
-                          field.onChange(file);
-                        } else if (!file) {
-                          field.onChange(null);
-                        }
-                      }}
-                      colorTheme="pink"
-                      icon={FileText}
-                      accept="application/pdf,.pdf"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
 
             {/* Submit */}
             <Button

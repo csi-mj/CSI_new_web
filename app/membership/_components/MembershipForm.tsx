@@ -249,7 +249,15 @@ export default function MembershipForm() {
   return (
     <div className="relative min-h-screen w-full overflow-hidden text-white">
       <MembershipHeader />
-      <div>Apply Now</div>
+      <div className="mb-2 mt-8 flex items-center justify-center gap-4">
+          <span className="h-px w-16 bg-[#ff1e35]" />
+
+          <span className="font-inter text-[11px] font-medium tracking-[0.45em] text-white/80 sm:text-sm">
+            APPLY NOW
+          </span>
+
+          <span className="h-px w-16 bg-[#ff1e35]" />
+        </div>
       <div
         id="membership-form-start"
         className="relative z-10 mx-auto flex w-full max-w-[1500px] flex-col gap-7 px-4 pt-8 pb-16 scroll-mt-28 sm:px-6 sm:scroll-mt-32 lg:px-10"
