@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
+import { motion } from 'framer-motion';
 import Link from 'next/link';
 import type { LucideIcon } from 'lucide-react';
 import {
@@ -98,6 +99,7 @@ const formatRollNumber = (value: string) => {
 };
 
 export default function MembershipForm() {
+  
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -171,6 +173,80 @@ export default function MembershipForm() {
         ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }, [success]);
+
+ const REGISTRATIONS_CLOSED = true;
+if (REGISTRATIONS_CLOSED) {
+    return (
+      <main className="relative flex min-h-screen items-center justify-center overflow-hidden px-5 py-24 text-white">
+        <motion.div
+          className="relative z-10 mx-auto w-full max-w-xl text-center"
+          initial="hidden"
+          animate="visible"
+          variants={{
+            hidden: { opacity: 0, y: 24 },
+            visible: {
+              opacity: 1,
+              y: 0,
+              transition: {
+                duration: 0.75,
+                ease: [0.22, 1, 0.36, 1],
+                staggerChildren: 0.14,
+              },
+            },
+          }}
+        >
+          <motion.p
+            className="mb-5 text-sm font-semibold uppercase tracking-[0.35em] text-[#ff1e35]"
+            variants={{ hidden: { opacity: 0, y: 12 }, visible: { opacity: 1, y: 0 } }}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
+          >
+            CSI MJCET · Recruitment
+          </motion.p>
+
+          <motion.h1
+            className="font-orbitron text-4xl font-bold uppercase tracking-wide sm:text-6xl"
+            variants={{ hidden: { opacity: 0, y: 18 }, visible: { opacity: 1, y: 0 } }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
+          >
+            Registrations
+            <motion.span
+              className="mt-2 block text-[#ff1e35]"
+              variants={{ hidden: { opacity: 0, scale: 0.96 }, visible: { opacity: 1, scale: 1 } }}
+              transition={{ duration: 0.55, ease: 'easeOut' }}
+            >
+              Closed.
+            </motion.span>
+          </motion.h1>
+
+          <motion.p
+            className="mx-auto mt-6 max-w-md text-base leading-7 text-white/60 sm:text-lg"
+            variants={{ hidden: { opacity: 0, y: 14 }, visible: { opacity: 1, y: 0 } }}
+            transition={{ duration: 0.55, ease: 'easeOut' }}
+          >
+            Thank you for the overwhelming response. Registrations for the CSI-MJCET recruitment drive are now closed. Stay connected for future opportunities.
+          </motion.p>
+
+          <motion.div
+            className="mx-auto mt-8 h-1 w-20 rounded-full bg-[#ff1e35]"
+            initial={{ opacity: 0, scaleX: 0 }}
+            animate={{ opacity: 1, scaleX: 1 }}
+            transition={{ delay: 0.65, duration: 0.55, ease: 'easeOut' }}
+          />
+
+          <motion.p
+            className="mt-6 text-xs uppercase tracking-[0.25em] text-white/40"
+            variants={{ hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0 } }}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
+          >
+            Learn. Build. Collaborate. Lead.
+          </motion.p>
+        </motion.div>
+      </main>
+    );
+  }
+  
+
+
 
   if (success) {
     return (
