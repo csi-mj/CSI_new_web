@@ -3,10 +3,12 @@ import { toast } from 'sonner';
 
 export function useSubmitRecruitment() {
   return useMutation({
-    mutationFn: async (formData: FormData) => {
+    mutationFn: async (payload: Record<string, unknown> | FormData) => {
+      const isFormData = typeof FormData !== 'undefined' && payload instanceof FormData;
       const response = await fetch('/api/recruitments', {
         method: 'POST',
-        body: formData,
+        headers: isFormData ? undefined : { 'Content-Type': 'application/json' },
+        body: isFormData ? payload : JSON.stringify(payload),
       });
 
       // The server can answer with an HTML error page (e.g. a crash), which isn't JSON
@@ -16,7 +18,7 @@ export function useSubmitRecruitment() {
       }
 
       if (!response.ok) {
-        throw new Error(result.error?.message || 'Failed to submit application');
+        throw new Error(result.error?.message || result.message || 'Failed to submit application');
       }
 
       return result;

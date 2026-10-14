@@ -68,17 +68,34 @@ import { PremiumRadioGroup } from '@/components/shared/fields/PremiumRadioGroup'
 import { PremiumCheckbox } from '@/components/shared/fields/PremiumCheckbox';
 
 const formSchema = z.object({
-  name: z.string().min(1, 'Full name is required'),
-  email: z.string().email('Invalid email address'),
-  branch: z.string().min(1, 'Branch is required'),
-  year: z.string().min(1, 'Year is required'),
-  rollNumber: z.string().min(15, 'Roll number must be in correct format'),
-  contact: z.string().min(10, 'Contact number must be at least 10 digits'),
+  name: z.string().trim().min(1, 'Full name is required'),
+  email: z
+    .string()
+    .trim()
+    .min(1, 'Email address is required')
+    .email('Invalid email address'),
+  branch: z.string().trim().min(1, 'Branch is required'),
+  year: z.string().trim().min(1, 'Year is required'),
+  rollNumber: z
+    .string()
+    .trim()
+    .min(10, 'Roll number must be at least 10 characters')
+    .max(20, 'Roll number cannot exceed 20 characters')
+    .regex(/^[A-Za-z0-9-]+$/, 'Roll number can only contain letters, numbers, and hyphens'),
+  contact: z.string().trim().min(10, 'Contact number must be at least 10 digits'),
   execomCore: z.enum(['execom', 'core']),
   portfolios: z
     .array(z.string())
     .length(2, 'Please select exactly 2 portfolios'),
 });
+
+const formatRollNumber = (value: string) => {
+  const raw = value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+  if (raw.startsWith('1604') && raw.length >= 10) {
+    return `${raw.slice(0, 4)}-${raw.slice(4, 6)}-${raw.slice(6, 9)}-${raw.slice(9)}`;
+  }
+  return value.trim().toUpperCase();
+};
 
 export default function MembershipForm() {
   const form = useForm<z.infer<typeof formSchema>>({
@@ -94,17 +111,6 @@ export default function MembershipForm() {
       portfolios: [],
     }
   });
-
-  const handleRollNumber = (value: string) => {
-    let cleaned = value.toUpperCase().replace(/[^A-Z0-9]/g, '');
-    if (cleaned.length > 4)
-      cleaned = cleaned.slice(0, 4) + '-' + cleaned.slice(4);
-    if (cleaned.length > 7)
-      cleaned = cleaned.slice(0, 7) + '-' + cleaned.slice(7);
-    if (cleaned.length > 11)
-      cleaned = cleaned.slice(0, 11) + '-' + cleaned.slice(11);
-    form.setValue('rollNumber', cleaned.slice(0, 16), { shouldValidate: true });
-  };
 
   const togglePortfolio = (portfolio: string) => {
     const current = form.getValues('portfolios');
@@ -128,22 +134,19 @@ export default function MembershipForm() {
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
-    const formData = new FormData();
-    formData.append('name', values.name);
-    formData.append('email', values.email);
-    formData.append('branch', values.branch);
-    formData.append('year', values.year);
-    formData.append('roll_no', values.rollNumber);
-    formData.append('contact', values.contact);
-    formData.append('team', values.execomCore);
+    const payload = {
+      name: values.name.trim(),
+      email: values.email.trim().toLowerCase(),
+      branch: values.branch.trim(),
+      year: values.year.trim(),
+      roll_no: formatRollNumber(values.rollNumber.trim()),
+      contact: values.contact.trim(),
+      team: values.execomCore,
+      portfolio_1: values.portfolios[0] || '',
+      portfolio_2: values.portfolios[1] || null,
+    };
 
-    // Add portfolios
-    if (values.portfolios[0])
-      formData.append('portfolio_1', values.portfolios[0]);
-    if (values.portfolios[1])
-      formData.append('portfolio_2', values.portfolios[1]);
-
-    mutate(formData, {
+    mutate(payload, {
       onSuccess: () => {
         setSuccess(true);
         setErrorMsg(null);
@@ -321,7 +324,11 @@ export default function MembershipForm() {
                         type="email"
                         placeholder="you@example.com"
                         colorTheme="yellow"
+                        autoCapitalize="none"
+                        autoCorrect="off"
+                        spellCheck={false}
                         {...field}
+                        onChange={(e) => field.onChange(e.target.value.trim().toLowerCase())}
                       />
                     </FormControl>
                     <FormMessage />
@@ -382,12 +389,28 @@ export default function MembershipForm() {
                         icon={Hash}
                         placeholder="1604-23-733-311"
                         colorTheme="cyan"
-                        {...field}
-                        onChange={(e) => handleRollNumber(e.target.value)}
+                        autoCapitalize="characters"
+                        autoCorrect="off"
+                        spellCheck={false}
+                        value={field.value}
+                        onChange={(e) => {
+                          const val = e.target.value
+                            .toUpperCase()
+                            .replace(/[^A-Z0-9-]/g, '')
+                            .slice(0, 18);
+                          field.onChange(val);
+                        }}
+                        onBlur={() => {
+                          field.onBlur();
+                          if (field.value && !field.value.includes('-')) {
+                            const formatted = formatRollNumber(field.value);
+                            field.onChange(formatted);
+                          }
+                        }}
                       />
                     </FormControl>
                     <p className="text-muted-foreground mt-1 px-2 text-[12px]">
-                      Format: 1604 - xx - xxx - zzzz
+                      Format: 1604-xx-xxx-xxx (or enter without hyphens)
                     </p>
                     <FormMessage />
                   </FormItem>
@@ -404,6 +427,7 @@ export default function MembershipForm() {
                       <PremiumInput
                         icon={Phone}
                         type="tel"
+                        inputMode="tel"
                         placeholder="+91 9876543210"
                         colorTheme="green"
                         {...field}

@@ -20,7 +20,7 @@ export function getInterviewTemplate({
     <html>
       <head>
         <meta charset="utf-8">
-        <title>Interview Shortlisted - CSI MJCET</title>
+        <title>CSI Interview Schedule - CSI MJCET</title>
       </head>
       <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f4f4f5; padding: 20px 10px; margin: 0;">
         <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
@@ -32,14 +32,14 @@ export function getInterviewTemplate({
 
           <!-- Header / Status -->
           <div style="background-color: #3b82f6; padding: 20px; text-align: center;">
-            <h1 style="color: #ffffff; margin: 0; font-size: 24px; letter-spacing: 1px;">SHORTLISTED</h1>
+            <h1 style="color: #ffffff; margin: 0; font-size: 24px; letter-spacing: 1px;">CSI INTERVIEW SCHEDULE</h1>
             <p style="color: #dbeafe; margin: 5px 0 0 0; font-size: 14px;">Your interview has been scheduled</p>
           </div>
 
           <!-- Body -->
           <div style="padding: 20px 15px;">
             <p style="font-size: 16px; color: #3f3f46; margin-top: 0;">Hi <strong>${name}</strong>,</p>
-            <p style="font-size: 16px; color: #3f3f46; line-height: 1.5;">Congratulations! Thank you for applying for the <strong>${team}</strong> team (Portfolio(s): <strong>${portfolio1}</strong>${portfolio2 ? ` & <strong>${portfolio2}</strong>` : ''}). We loved your application and are excited to inform you that you have been shortlisted for an interview.</p>
+            <p style="font-size: 16px; color: #3f3f46; line-height: 1.5;">Congratulations! Thank you for applying for the <strong>${team}</strong> team (Portfolio(s): <strong>${portfolio1}</strong>${portfolio2 ? ` & <strong>${portfolio2}</strong>` : ''}). We loved your application and are excited to inform you that your interview has been scheduled.</p>
             
             <p style="font-size: 15px; color: #3f3f46; font-weight: 500; margin-bottom: 5px;">Here are your interview details:</p>
             
