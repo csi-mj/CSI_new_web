@@ -44,14 +44,6 @@ export default function EventsHeader({ activeTab }: { activeTab: Tab }) {
           Past
         </TabsTrigger>
       </TabsList>
-       {/* Recruitments button — only visible on Upcoming */}
-      {activeTab === 'upcoming' && (
-        <Link
-          href="/recruitments"
-          className="mt-2 font-orbitron uppercase tracking-widest bg-black border border-[#ff1e35] px-6 py-2.5 font-semibold text-white transition-all duration-300 hover:scale-105 hover:bg-[#ff1e35] hover:border-black hover:text-black"
-        >
-          Recruitments Open
-        </Link>
-      )}</div>
+       </div>
   );
 }

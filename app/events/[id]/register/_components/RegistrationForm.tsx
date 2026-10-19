@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -30,7 +30,14 @@ export default function RegistrationForm({
 }: RegistrationFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [whatsappUrl, setWhatsappUrl] = useState<string | null>(event.whatsapp_group_url || null);
   const [serverError, setServerError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (isSuccess) {
+      document.getElementById('registration-success-view')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [isSuccess]);
 
   // Dynamically generate the Zod schema based on the fields
   const formSchema = React.useMemo(() => {
@@ -154,6 +161,10 @@ export default function RegistrationForm({
         return;
       }
 
+      if (result.data?.whatsapp_group_url) {
+        setWhatsappUrl(result.data.whatsapp_group_url);
+      }
+
       setIsSuccess(true);
       toast.success('Registration completed successfully!');
     } catch (error: any) {
@@ -168,19 +179,24 @@ export default function RegistrationForm({
   }
 
   if (isSuccess) {
+    const finalWhatsappUrl = whatsappUrl || event.whatsapp_group_url;
+
     return (
-      <SuccessState 
-        title="Registration Successful!" 
-        description="We have received your registration. We'll send you an email with more details shortly." 
-        action={
-          <Button variant="outline" asChild className="px-8 font-semibold">
-            <Link href="/events" className="flex items-center gap-2">
-              <ArrowLeft className={cn("size-4", iconColors.rose)} />
-              Back to Events
-            </Link>
-          </Button>
-        }
-      />
+      <div id="registration-success-view" className="flex w-full flex-col items-center scroll-mt-24">
+        <SuccessState 
+          title="Registration Successful!" 
+          description="We have received your registration. We'll send you an email with more details shortly." 
+          whatsappUrl={finalWhatsappUrl}
+          action={
+            <Button variant="outline" asChild className="px-8 font-semibold">
+              <Link href="/events" className="flex items-center gap-2">
+                <ArrowLeft className={cn("size-4", iconColors.rose)} />
+                Back to Events
+              </Link>
+            </Button>
+          }
+        />
+      </div>
     );
   }
 

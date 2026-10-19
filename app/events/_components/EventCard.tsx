@@ -6,37 +6,13 @@ import type {
   OngoingEvent,
   CompletedEvent
 } from '@/lib/types/events';
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { Calendar, MapPin, Clock, Sparkles, ArrowRight } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { iconColors } from '@/config/colors';
-
-function formatDate(iso?: string | null) {
-  if (!iso) return 'TBA';
-  try {
-    return new Date(iso).toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric'
-    });
-  } catch {
-    return iso;
-  }
-}
-
-function formatTime(iso?: string | null) {
-  if (!iso) return '';
-  try {
-    return new Date(iso).toLocaleTimeString('en-US', {
-      hour: '2-digit',
-      minute: '2-digit'
-    });
-  } catch {
-    return '';
-  }
-}
+import { formatEventDateRange, formatEventTimeRange } from '@/lib/utils/date';
 
 export default function EventCard({
   event,
@@ -45,7 +21,7 @@ export default function EventCard({
   event: Event;
   reverse?: boolean;
 }) {
-
+  const [isExpanded, setIsExpanded] = useState(false);
   const isUpcoming = event.status === 'upcoming';
   const isOngoing = event.status === 'ongoing';
   
@@ -55,6 +31,8 @@ export default function EventCard({
   const isRegistrationOpen = 
     (isUpcoming && upcoming.is_registration_open) || 
     (isOngoing && ongoing.registration_status === 'open');
+
+  const hasHighlights = Boolean(event.highlights && event.highlights.length > 0);
 
   return (
     <Card
@@ -77,7 +55,7 @@ export default function EventCard({
           <div className="text-muted-foreground mb-2 flex items-center gap-3 text-xs">
             <span className="flex items-center gap-1.5 font-mono">
               <Calendar className={`h-4 w-4 ${iconColors.blue}`} />
-              {formatDate(event.event_date)}
+              {formatEventDateRange(event.event_date, event.event_end_date)}
             </span>
             {event.category && (
               <span className="text-primary border-primary/20 rounded border px-1.5 py-px text-[10px] font-bold tracking-wider uppercase">
@@ -116,11 +94,7 @@ export default function EventCard({
                 Time
               </span>
               <span className="text-card-foreground truncate text-xs font-medium">
-                {event.time_range
-                  ? event.time_range
-                  : event.event_end_date
-                    ? `${formatTime(event.event_date)} - ${formatTime(event.event_end_date)}`
-                    : formatTime(event.event_date)}
+                {formatEventTimeRange(event.event_date, event.event_end_date, event.time_range)}
               </span>
             </div>
           </div>
@@ -128,8 +102,27 @@ export default function EventCard({
 
         {/* Full Description */}
         {event.description && (
-          <div className="text-muted-foreground line-clamp-6 text-sm">
-            <p>{event.description}</p>
+          <div className="flex flex-1 flex-col items-start gap-1">
+            <p
+              className={`text-muted-foreground text-sm leading-relaxed whitespace-pre-wrap ${
+                !isExpanded
+                  ? hasHighlights
+                    ? 'line-clamp-4'
+                    : 'line-clamp-none md:line-clamp-10'
+                  : ''
+              }`}
+            >
+              {event.description}
+            </p>
+            {event.description.length > (hasHighlights ? 200 : 400) && (
+              <button
+                type="button"
+                onClick={() => setIsExpanded(!isExpanded)}
+                className="text-xs underline font-bold text-primary hover:underline mt-0.5 cursor-pointer"
+              >
+                {isExpanded ? 'Read less' : 'Read more'}
+              </button>
+            )}
           </div>
         )}
 

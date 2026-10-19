@@ -33,7 +33,7 @@ export default function EventRegistrationPage() {
           {data && (
             <div className="relative w-full flex-1">
               {/* Back to Events Button */}
-              <div className="absolute top-0 left-4 md:left-14 z-[100]">
+              <div className="absolute top-1 left-4 md:left-14 z-[100]">
                 <Button 
                   variant="outline" 
                   asChild 

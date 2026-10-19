@@ -28,6 +28,7 @@ export interface RegistrationWebhookEventInfo {
   event_end_date: string | null;
   venue: string | null;
   category: string | null;
+  whatsapp_group_url?: string | null;
 }
 
 export interface RegistrationWebhookPayload {

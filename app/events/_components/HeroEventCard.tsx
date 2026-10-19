@@ -1,38 +1,16 @@
 'use client';
 
 import type { Event, UpcomingEvent } from '@/lib/types/events';
-import React from 'react';
+import React, { useState } from 'react';
 import { Calendar, MapPin, Clock, ArrowRight, Sparkles } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { iconColors } from '@/config/colors';
-
-function formatDate(iso?: string | null) {
-  if (!iso) return 'TBA';
-  try {
-    return new Date(iso).toLocaleDateString('en-US', {
-      month: 'long',
-      day: 'numeric',
-      year: 'numeric'
-    });
-  } catch {
-    return iso;
-  }
-}
-
-function formatTime(iso?: string | null) {
-  if (!iso) return '';
-  try {
-    return new Date(iso).toLocaleTimeString('en-US', {
-      hour: '2-digit',
-      minute: '2-digit'
-    });
-  } catch {
-    return '';
-  }
-}
+import { formatEventDateRange, formatEventTimeRange } from '@/lib/utils/date';
+import Link from 'next/link';
 
 export default function HeroEventCard({ event }: { event: Event }) {
+  const [isExpanded, setIsExpanded] = useState(false);
   const isUpcoming = event.status === 'upcoming';
   const upcoming = event as UpcomingEvent;
 
@@ -43,13 +21,15 @@ export default function HeroEventCard({ event }: { event: Event }) {
         <img
           src={event.poster_url ?? '/default-poster.png'}
           alt={event.title}
-          className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
         />
-        <div className="from-background via-background/20 lg:via-background/50 lg:to-background absolute inset-0 bg-gradient-to-t to-transparent lg:bg-gradient-to-r lg:from-transparent"></div>
+        <div className="from-card/80 via-transparent to-transparent absolute inset-0 bg-gradient-to-t lg:hidden" />
+        <div className="from-card/80 via-transparent to-transparent absolute inset-0 hidden bg-gradient-to-r lg:block" />
 
-        <div className="absolute top-4 left-4 flex gap-2">
+        {/* Featured Badge */}
+        <div className="absolute top-4 left-4 z-10 flex gap-2">
           <span className="bg-primary/90 text-primary-foreground animate-pulse rounded-full px-3 py-1 text-xs font-bold tracking-wider uppercase shadow-lg backdrop-blur-md">
-            Next Event
+            <Sparkles className="mr-1 inline-block h-3 w-3" /> Featured
           </span>
         </div>
       </div>
@@ -60,7 +40,7 @@ export default function HeroEventCard({ event }: { event: Event }) {
           <div className="text-muted-foreground mb-3 flex items-center gap-4 text-sm font-medium">
             <span className="flex items-center gap-2 font-mono">
               <Calendar className={`h-5 w-5 ${iconColors.blue}`} />
-              {formatDate(event.event_date)}
+              {formatEventDateRange(event.event_date, event.event_end_date)}
             </span>
             {event.category && (
               <span className="text-primary border-primary/20 bg-primary/5 rounded border px-2 py-0.5 text-xs font-bold tracking-widest uppercase">
@@ -74,9 +54,24 @@ export default function HeroEventCard({ event }: { event: Event }) {
           </h2>
 
           {event.description && (
-            <p className="text-muted-foreground line-clamp-3 text-base leading-relaxed md:text-lg">
-              {event.description}
-            </p>
+            <div className="flex flex-col items-start gap-1">
+              <p
+                className={`text-muted-foreground text-base leading-relaxed md:text-lg whitespace-pre-wrap ${
+                  !isExpanded ? 'line-clamp-4' : ''
+                }`}
+              >
+                {event.description}
+              </p>
+              {event.description.length > 220 && (
+                <button
+                  type="button"
+                  onClick={() => setIsExpanded(!isExpanded)}
+                  className="text-sm underline font-bold text-primary hover:underline mt-1 cursor-pointer"
+                >
+                  {isExpanded ? 'Read less' : 'Read more'}
+                </button>
+              )}
+            </div>
           )}
         </div>
 
@@ -108,11 +103,7 @@ export default function HeroEventCard({ event }: { event: Event }) {
                 Time
               </span>
               <span className="text-card-foreground truncate text-sm font-semibold">
-                {event.time_range
-                  ? event.time_range
-                  : event.event_end_date
-                    ? `${formatTime(event.event_date)} - ${formatTime(event.event_end_date)}`
-                    : formatTime(event.event_date)}
+                {formatEventTimeRange(event.event_date, event.event_end_date, event.time_range)}
               </span>
             </div>
           </div>
@@ -123,9 +114,12 @@ export default function HeroEventCard({ event }: { event: Event }) {
             <Button
               size="lg"
               className="group/btn h-12 w-full rounded-full px-8 text-base font-bold sm:w-auto"
+              asChild
             >
-              Register Now
-              <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover/btn:translate-x-1" />
+              <Link href={`/events/${event.id}/register`}>
+                Register Now
+                <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover/btn:translate-x-1" />
+              </Link>
             </Button>
           ) : isUpcoming ? (
             <Button
@@ -141,16 +135,12 @@ export default function HeroEventCard({ event }: { event: Event }) {
               size="lg"
               variant="outline"
               className="h-12 w-full rounded-full px-8 text-base font-bold sm:w-auto"
+              asChild
             >
-              View Details
+              <Link href={`/events/${event.id}/register`}>
+                View Details
+              </Link>
             </Button>
-          )}
-
-          {event.highlights && event.highlights.length > 0 && (
-            <div className="text-muted-foreground flex items-center gap-2 text-sm font-medium">
-              <Sparkles className={`h-4 w-4 ${iconColors.yellow}`} />
-              {event.highlights.length} Highlights
-            </div>
           )}
         </div>
       </CardContent>

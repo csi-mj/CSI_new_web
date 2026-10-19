@@ -30,7 +30,7 @@ function toDatetimeLocal(isoStr?: string | null) {
 const formSchema = z.object({
   title: z.string().min(1, 'Title is required'),
   description: z.string().optional(),
-  poster_url: z.string().optional().nullable(),
+  poster_url: z.string().min(1, 'Event poster is required. Please upload an image.'),
   category: z.string().optional(),
   event_date: z.string().min(1, 'Start date is required'),
   event_end_date: z.string().optional().nullable(),
@@ -45,19 +45,22 @@ const formSchema = z.object({
   max_participants: z.coerce.number().optional().nullable(),
   tags: z.string().optional(),
   email_template: z.string().optional().nullable(),
+  whatsapp_group_url: z.string().optional().nullable(),
 });
+
+type FormValues = z.infer<typeof formSchema>;
 
 export function EventForm({ initialData }: { initialData?: Partial<EventRow> }) {
   const router = useRouter();
   const { createEvent, updateEvent, isMutating } = useAdminEvents();
   const [submitError, setSubmitError] = useState('');
 
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<FormValues>({
     resolver: zodResolver(formSchema) as any,
     defaultValues: {
       title: initialData?.title || '',
       description: initialData?.description || '',
-      poster_url: initialData?.poster_url || null,
+      poster_url: initialData?.poster_url || '',
       category: initialData?.category || '',
       event_date: toDatetimeLocal(initialData?.event_date),
       event_end_date: toDatetimeLocal(initialData?.event_end_date),
@@ -72,12 +75,13 @@ export function EventForm({ initialData }: { initialData?: Partial<EventRow> }) 
       max_participants: initialData?.max_participants ?? null,
       tags: initialData?.tags?.join(', ') || '',
       email_template: initialData?.email_template || '',
+      whatsapp_group_url: initialData?.whatsapp_group_url || '',
     },
   });
 
   const isPaid = form.watch('is_paid');
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
+  const onSubmit = (values: FormValues) => {
     setSubmitError('');
     const payload: Partial<EventRow> = {
       ...values,
@@ -86,6 +90,7 @@ export function EventForm({ initialData }: { initialData?: Partial<EventRow> }) 
       event_end_date: values.event_end_date ? new Date(values.event_end_date).toISOString() : null,
       registration_start_date: values.registration_start_date ? new Date(values.registration_start_date).toISOString() : null,
       registration_end_date: values.registration_end_date ? new Date(values.registration_end_date).toISOString() : null,
+      whatsapp_group_url: values.whatsapp_group_url?.trim() || null,
     };
     
     if (initialData?.id) payload.id = initialData.id;
@@ -103,7 +108,7 @@ export function EventForm({ initialData }: { initialData?: Partial<EventRow> }) 
   return (
     <div className="w-full">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <form onSubmit={form.handleSubmit(onSubmit as any)} className="space-y-8">
           
           <Card>
             <CardHeader>
@@ -148,9 +153,9 @@ export function EventForm({ initialData }: { initialData?: Partial<EventRow> }) 
                       <FileUpload
                         folder="events"
                         accept="image/*"
-                        label="Poster"
+                        label="Event Poster *"
                         currentUrl={field.value || undefined}
-                        onUploaded={(url) => form.setValue('poster_url', url)}
+                        onUploaded={(url) => form.setValue('poster_url', url, { shouldValidate: true })}
                       />
                     </FormControl>
                     <FormMessage />
@@ -407,9 +412,32 @@ export function EventForm({ initialData }: { initialData?: Partial<EventRow> }) 
           <Card>
             <CardHeader>
               <CardTitle>Post-Registration Actions</CardTitle>
-              <CardDescription>Customize the confirmation email sent to participants when they register.</CardDescription>
+              <CardDescription>
+                Configure participant communication after registration (WhatsApp group invite and confirmation email).
+              </CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="space-y-6">
+              <FormField
+                control={form.control as any}
+                name="whatsapp_group_url"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>WhatsApp Group Link (Optional)</FormLabel>
+                    <FormControl>
+                      <Input 
+                        placeholder="https://chat.whatsapp.com/..." 
+                        {...field} 
+                        value={field.value || ''} 
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      Participants will see a prominent &quot;Join WhatsApp Group&quot; button immediately upon registering successfully.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
               <FormField
                 control={form.control as any}
                 name="email_template"

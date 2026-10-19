@@ -1,7 +1,6 @@
 'use client';
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
-
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
@@ -17,7 +16,7 @@ const items = [
   { label: 'Resources', href: '/resources' },
   { label: 'ADSOPHOS', href: '/adsophos' },
   { label: 'Become a Member', href: '/membership' },
-  { label: 'Recruitments', href: '/recruitments' },
+  // { label: 'Recruitments', href: '/recruitments' },
 ];
 
 // "Become a Member" is the bar's one highlighted action; every other item is a text link
@@ -37,7 +36,7 @@ const Navbar = () => {
       const currentScrollY = window.scrollY || window.pageYOffset;
       const lastScrollY = lastScrollYRef.current;
 
-      // Always frosted; slightly denser once the page moves
+      // Density threshold
       setScrolled(currentScrollY > 20);
 
       // Do not hide navbar when near top of page
@@ -84,87 +83,116 @@ const Navbar = () => {
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 transform transition-[transform,background-color,border-color] duration-500 ${
+        className={`fixed top-0 left-0 right-0 z-50 w-full transform transition-all duration-300 ${
           showNav ? 'translate-y-0' : '-translate-y-full'
         } ${
           scrolled
-            ? 'border-b border-white/[0.08] bg-black/60 backdrop-blur-xl'
-            : 'border-b border-white/[0.06] bg-black/35 backdrop-blur-xl'
+            ? 'border-b border-white/[0.08] bg-[#070709]/85 backdrop-blur-2xl shadow-[0_4px_25px_rgba(0,0,0,0.6)]'
+            : 'border-b border-white/[0.05] bg-black/45 backdrop-blur-xl'
         }`}
       >
-        <div className="mx-auto flex max-w-[1400px] items-center justify-between gap-6 px-6 py-4 md:px-8 lg:py-5">
-          {/* Logo */}
+        {/* Ambient bottom cyber-red accent line across full width */}
+        <div
+          className={`pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[#ff1e35]/35 to-transparent transition-opacity duration-300 ${
+            scrolled ? 'opacity-100' : 'opacity-60'
+          }`}
+          aria-hidden="true"
+        />
+
+        <div
+          className={`mx-auto flex max-w-[1400px] items-center justify-between gap-4 px-6 md:px-8 transition-all duration-300 ${
+           'py-3 lg:py-4'
+          }`}
+        >
+          {/* Logo & Chapter Brand */}
           <Link
             href="/"
             aria-label="CSI MJCET home"
-            className="relative inline-flex shrink-0 items-center justify-center transition-transform duration-500 cursor-target lg:hover:rotate-[360deg]"
-            id="cursor-mid"
+            className="group relative inline-flex shrink-0 items-center gap-3 transition-transform duration-300 cursor-target focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            id="navbar-logo"
           >
-            <Image
-              src="/logos/csi_logo.png"
-              alt="CSI"
-              width={70}
-              height={70}
-              className="w-14 object-contain lg:w-12"
-            />
+            <div className="relative flex items-center justify-center">
+              <div
+                className="absolute -inset-2 rounded-full bg-[#ff1e35]/25 blur-md opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                aria-hidden="true"
+              />
+              <Image
+                src="/logos/csi_logo.png"
+                alt="CSI MJCET Logo"
+                width={70}
+                height={70}
+                priority
+                className="relative w-11 object-contain transition-transform duration-300 group-hover:scale-105 lg:w-20"
+              />
+            </div>
           </Link>
 
-          {/* Desktop links: plain text, a red underline draws in on hover and stays on the current page */}
-          <ul className="hidden min-w-0 flex-1 items-center justify-center gap-0.5 lg:flex">
+          {/* Desktop links: clean frosted pills with active primary text */}
+          <ul className="hidden min-w-0 flex-1 items-center justify-center gap-1 lg:flex xl:gap-1.5">
             {linkItems.map((item) => {
               const active = isActive(item.href);
               return (
                 <li key={item.href}>
                   <Link
                     href={item.href}
+                    id={`nav-link-${item.label.toLowerCase().replace(/\s+/g, '-')}`}
                     aria-current={active ? 'page' : undefined}
-                    className={`relative block whitespace-nowrap px-2.5 py-2 text-[13px] font-medium transition-colors duration-200 cursor-target xl:px-3 xl:text-[14px] after:absolute after:inset-x-2.5 after:bottom-0.5 after:h-[1.5px] after:origin-left after:bg-[#ff2a3d] after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.22,1,0.36,1)] xl:after:inset-x-3 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white ${
+                    className={`relative inline-flex items-center justify-center whitespace-nowrap rounded-full px-3.5 py-1.5 text-[13px] font-medium transition-all duration-200 cursor-target xl:px-4 xl:text-[14px] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white ${
                       active
-                        ? 'text-white after:scale-x-100'
-                        : 'text-white/60 after:scale-x-0 hover:text-white hover:after:scale-x-100'
+                        ? 'text-primary bg-white/[0.1] border border-white/15 shadow-[inset_0_1px_0_rgba(255,255,255,0.15)] font-semibold'
+                        : 'text-white/60 hover:text-white hover:bg-white/[0.05]'
                     }`}
                   >
-                    {item.label}
+                    <span>{item.label}</span>
                   </Link>
                 </li>
               );
             })}
           </ul>
 
-          {/* Desktop: the one highlighted action */}
+          {/* Desktop: the one highlighted CTA action */}
           <Link
             href={cta.href}
+            id="nav-cta-btn"
             aria-current={isActive(cta.href) ? 'page' : undefined}
-            className="hidden min-h-10 shrink-0 items-center gap-2 rounded-full bg-[#ff2a3d] px-5 text-[13px] font-semibold text-white transition-colors hover:bg-[#ff4152] cursor-target focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white lg:inline-flex"
+            className="group relative hidden min-h-10 shrink-0 items-center gap-2 overflow-hidden rounded-full bg-primary px-5 text-[13px] font-semibold text-white  transition-all duration-300  hover:scale-[1.02] active:scale-[0.98] border border-white/20 cursor-target focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white lg:inline-flex"
           >
-            {cta.label}
-            <ArrowRight className="h-4 w-4" aria-hidden />
+            <span className="relative z-10 flex items-center gap-2">
+              {cta.label}
+              <ArrowRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-1" aria-hidden />
+            </span>
+            <div
+              className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-700 ease-out group-hover:translate-x-full"
+              aria-hidden="true"
+            />
           </Link>
 
           {/* Right: Mobile Hamburger */}
           <div className="flex items-center lg:hidden">
             <button
               onClick={() => setMenuOpen(!menuOpen)}
-              className="relative z-[60] grid h-11 w-11 place-items-center rounded-full border border-white/15 bg-white/[0.06] text-white transition hover:bg-white/15"
+              id="mobile-nav-toggle-btn"
+              className="relative z-[60] flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/[0.05] text-white transition-all hover:bg-white/10 hover:border-white/20 active:scale-95"
               aria-label="Toggle Menu"
               aria-expanded={menuOpen}
             >
-              {menuOpen ? <X size={20} /> : <Menu size={20} />}
+              {menuOpen ? <X size={19} /> : <Menu size={19} />}
             </button>
           </div>
         </div>
       </nav>
 
-      {/* Backdrop Overlay */}
+      {/* Mobile Drawer Backdrop Overlay */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 0.25 }}
             onClick={() => setMenuOpen(false)}
-            className="fixed inset-0 bg-black/70 backdrop-blur-sm z-40 lg:hidden"
+            className="fixed inset-0 bg-black/75 backdrop-blur-sm z-40 lg:hidden"
+            aria-hidden="true"
           />
         )}
       </AnimatePresence>
@@ -178,68 +206,81 @@ const Navbar = () => {
             exit={{ x: '100%' }}
             transition={{
               type: 'spring',
-              damping: 25,
-              stiffness: 200,
-              duration: 0.4
+              damping: 26,
+              stiffness: 220,
             }}
-            className="fixed top-0 right-0 bottom-0 w-[300px] bg-[#0B0B0D]/90 backdrop-blur-xl border-l border-white/10 z-50 lg:hidden flex flex-col"
+            className="fixed top-0 right-0 bottom-0 w-[310px] bg-[#09090b]/95 backdrop-blur-2xl border-l border-white/10 z-50 lg:hidden flex flex-col shadow-2xl"
           >
             {/* Menu Header */}
-            <div className="flex shrink-0 items-center justify-end border-b border-white/10 px-6 py-4">
+            <div className="flex shrink-0 items-center justify-between border-b border-white/[0.08] px-5 py-4">
+              <div className="flex items-center gap-2.5">
+                <Image
+                  src="/logos/csi_logo.png"
+                  alt="CSI MJCET"
+                  width={36}
+                  height={36}
+                  className="w-8 object-contain"
+                />
+              </div>
               <button
                 onClick={() => setMenuOpen(false)}
-                className="grid h-11 w-11 place-items-center rounded-full border border-white/15 bg-white/[0.06] text-white transition hover:bg-white/15"
+                id="mobile-nav-close-btn"
+                className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-white/[0.05] text-white transition hover:bg-white/10"
                 aria-label="Close Menu"
               >
                 <X size={18} />
               </button>
             </div>
 
-            {/* Menu Items: text links; the current page gets a short red line */}
-            <ul className="flex flex-1 flex-col overflow-y-auto px-6 py-4">
+            {/* Menu Items */}
+            <ul className="flex flex-1 flex-col gap-1 overflow-y-auto px-4 py-4">
               {linkItems.map((item, index) => {
                 const active = isActive(item.href);
                 return (
                   <motion.li
                     key={item.href}
-                    initial={{ opacity: 0, x: -20 }}
+                    initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{
-                      delay: index * 0.05,
-                      duration: 0.3
+                      delay: index * 0.03,
+                      duration: 0.2,
                     }}
-                    className="border-b border-white/[0.06]"
                   >
                     <Link
                       href={item.href}
                       onClick={() => setMenuOpen(false)}
+                      id={`mobile-link-${item.label.toLowerCase().replace(/\s+/g, '-')}`}
                       aria-current={active ? 'page' : undefined}
-                      className={`flex min-h-12 items-center gap-3 text-[17px] font-medium transition-colors ${
-                        active ? 'text-white' : 'text-white/65 hover:text-white'
+                      className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl text-[15px] font-medium transition-all ${
+                        active
+                          ? 'bg-white/[0.08] text-primary border border-primary/35 shadow-[0_0_12px_rgba(255,30,53,0.15)] font-semibold'
+                          : 'text-white/70 hover:text-white hover:bg-white/[0.04]'
                       }`}
                     >
-                      <span
-                        aria-hidden
-                        className={`h-[1.5px] bg-[#ff2a3d] transition-all duration-300 ${active ? 'w-4' : 'w-0'}`}
+                      <span className="text-[15px]">{item.label}</span>
+                      <ArrowRight
+                        className={`h-3.5 w-3.5 transition-transform ${
+                          active ? 'text-[#ff2a3d] translate-x-0.5' : 'text-white/20'
+                        }`}
                       />
-                      <span>{item.label}</span>
                     </Link>
                   </motion.li>
                 );
               })}
             </ul>
 
-            {/* Menu Footer: the one highlighted action */}
-            <div className="shrink-0 space-y-3 border-t border-white/10 p-5">
+            {/* Menu Footer */}
+            <div className="shrink-0 space-y-3 border-t border-white/[0.08] p-5">
               <Link
                 href={cta.href}
                 onClick={() => setMenuOpen(false)}
-                className="flex min-h-12 w-full items-center justify-center gap-2 rounded-full bg-[#ff2a3d] text-[15px] font-semibold text-white transition-colors hover:bg-[#ff4152]"
+                id="mobile-nav-cta-btn"
+                className="flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#ff1e35] via-[#ff2a3d] to-[#e6162d] text-[14px] font-semibold text-white shadow-[0_0_20px_-3px_rgba(255,30,53,0.45)] transition-all hover:scale-[1.01] active:scale-[0.98]"
               >
                 {cta.label}
                 <ArrowRight className="h-4 w-4" aria-hidden />
               </Link>
-              <p className="text-white/50 text-xs text-center">
+              <p className="text-white/40 text-[11px] text-center font-mono">
                 &copy; {new Date().getFullYear()} CSI MJCET. All rights reserved.
               </p>
             </div>

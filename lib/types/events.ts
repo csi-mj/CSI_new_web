@@ -168,6 +168,7 @@ export interface BaseEvent {
   entry_fee?: number | null;
   csi_entry_fee?: number | null;
   payment_qr_url?: string | null;
+  whatsapp_group_url?: string | null;
 }
 
 export interface UpcomingEvent extends BaseEvent {

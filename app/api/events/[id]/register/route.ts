@@ -18,7 +18,7 @@ export async function POST(
     const { data: event, error: eventError } = await supabase
       .from('events')
       .select(
-        'id, title, is_registration_open, registration_start_date, registration_end_date, max_participants, current_participants, status, event_date, event_end_date, venue, category, is_paid, entry_fee, csi_entry_fee'
+        'id, title, is_registration_open, registration_start_date, registration_end_date, max_participants, current_participants, status, event_date, event_end_date, venue, category, is_paid, entry_fee, csi_entry_fee, whatsapp_group_url'
       )
       .eq('id', eventId)
       .eq('is_active', true)
@@ -198,7 +198,8 @@ export async function POST(
       event_date: event.event_date ?? null,
       event_end_date: event.event_end_date ?? null,
       venue: event.venue ?? null,
-      category: event.category ?? null
+      category: event.category ?? null,
+      whatsapp_group_url: event.whatsapp_group_url ?? null
     };
 
     const webhookPayment = {
@@ -223,7 +224,8 @@ export async function POST(
     return successResponse({
       registration_id: registration.id,
       status: registration.registration_status,
-      message: 'Registration successful'
+      message: 'Registration successful',
+      whatsapp_group_url: event.whatsapp_group_url ?? null
     });
     
   } catch (error: any) {

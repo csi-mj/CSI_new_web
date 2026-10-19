@@ -5,12 +5,13 @@ import { Calendar, MapPin, Ticket, Clock } from 'lucide-react';
 import { iconColors } from '@/config/colors';
 import type { Event } from '@/lib/types/events';
 import { Badge } from '@/components/ui/badge';
+import { formatEventDateRange, formatEventTimeRange } from '@/lib/utils/date';
 
 export default function EventRegisterHero({ event }: { event: Event }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   return (
-    <div className="relative flex min-h-[40vh] w-full flex-col justify-end md:min-h-[50vh] -mt-24">
+    <div className="relative flex min-h-[40vh] w-full flex-col justify-end md:min-h-[50vh] -mt-3">
       {/* Background Poster */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -24,7 +25,7 @@ export default function EventRegisterHero({ event }: { event: Event }) {
       <div className="bg-background/80 absolute inset-0" />
 
       {/* Event Details Content */}
-      <div className="relative z-10 container mx-auto px-4 pt-32 pb-12 md:pb-24">
+      <div className="relative z-10 container mx-auto px-4 pt-14 pb-12 md:pb-24">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-end">
           
           {/* Left Side: Title & Description (8 columns) */}
@@ -57,11 +58,7 @@ export default function EventRegisterHero({ event }: { event: Event }) {
             <div className="text-base md:text-lg lg:text-xl py-3 flex items-center justify-start gap-3 w-full">
               <Calendar className={`h-5 w-5 shrink-0 ${iconColors.blue}`} />
               <span className="font-medium truncate">
-                {new Date(event.event_date).toLocaleDateString('en-US', {
-                  weekday: 'short',
-                  month: 'short',
-                  day: 'numeric'
-                })}
+                {formatEventDateRange(event.event_date, event.event_end_date)}
               </span>
             </div>
 
@@ -69,11 +66,7 @@ export default function EventRegisterHero({ event }: { event: Event }) {
             <div className="text-base md:text-lg lg:text-xl py-3 flex items-center justify-start gap-3 w-full">
               <Clock className={`h-5 w-5 shrink-0 ${iconColors.orange}`} />
               <span className="font-medium truncate">
-                {event.time_range ? event.time_range : (
-                  <>
-                    {new Date(event.event_date).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}
-                  </>
-                )}
+                {formatEventTimeRange(event.event_date, event.event_end_date, event.time_range)}
               </span>
             </div>
 
@@ -85,11 +78,16 @@ export default function EventRegisterHero({ event }: { event: Event }) {
               </div>
             )}
 
-            {/* Entry Fee */}
-            {event.is_paid && event.entry_fee && (
+            {/* Entry Fee / Free */}
+            {event.is_paid && event.entry_fee ? (
               <div className="text-base md:text-lg lg:text-xl py-3 flex items-center justify-start gap-3 w-full">
                 <Ticket className={`h-5 w-5 shrink-0 ${iconColors.yellow}`} />
                 <span className="font-bold truncate">₹{event.entry_fee} Entry</span>
+              </div>
+            ) : (
+              <div className="text-base md:text-lg lg:text-xl py-3 flex items-center justify-start gap-3 w-full">
+                <Ticket className={`h-5 w-5 shrink-0 ${iconColors.green}`} />
+                <span className="font-bold truncate text-green-500">Free Entry</span>
               </div>
             )}
 

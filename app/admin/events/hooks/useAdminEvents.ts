@@ -24,6 +24,7 @@ export interface EventRow {
   tags: string[];
   is_active: boolean;
   email_template: string | null;
+  whatsapp_group_url?: string | null;
 }
 
 export function useAdminEvents() {

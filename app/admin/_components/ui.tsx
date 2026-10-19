@@ -94,19 +94,45 @@ export function FileUpload({
   const [error, setError] = useState('');
 
   const handleFile = async (file: File) => {
-    setBusy(true);
-    setError('');
-    const fd = new FormData();
-    fd.append('file', file);
-    fd.append('folder', folder);
-    const res = await fetch('/api/admin/upload', { method: 'POST', body: fd });
-    const json = await res.json();
-    setBusy(false);
-    if (!res.ok) {
-      setError(json.error || 'Upload failed');
+    // Client-side file size check for serverless upload safety (4.5MB)
+    const MAX_CLIENT_SIZE = 4.5 * 1024 * 1024;
+    if (file.size > MAX_CLIENT_SIZE) {
+      setError(`File is too large (${(file.size / (1024 * 1024)).toFixed(1)}MB). Maximum allowed is 4.5MB. Please compress the image.`);
       return;
     }
-    onUploaded(json.url);
+
+    setBusy(true);
+    setError('');
+
+    try {
+      const fd = new FormData();
+      fd.append('file', file);
+      fd.append('folder', folder);
+
+      const res = await fetch('/api/admin/upload', { method: 'POST', body: fd });
+      
+      let json: any = null;
+      try {
+        json = await res.json();
+      } catch {
+        json = null;
+      }
+
+      if (!res.ok || !json?.url) {
+        const errorMsg =
+          json?.error?.message ||
+          json?.error ||
+          (res.status === 413 ? 'File too large for server.' : `Upload failed (Status ${res.status})`);
+        setError(errorMsg);
+        return;
+      }
+
+      onUploaded(json.url);
+    } catch (err: any) {
+      setError(err?.message || 'Network error during upload. Please try again.');
+    } finally {
+      setBusy(false);
+    }
   };
 
   const isImage = accept.includes('image');
