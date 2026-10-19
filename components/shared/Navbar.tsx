@@ -112,17 +112,13 @@ const Navbar = () => {
             id="navbar-logo"
           >
             <div className="relative flex items-center justify-center">
-              <div
-                className="absolute -inset-2 rounded-full bg-[#ff1e35]/25 blur-md opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                aria-hidden="true"
-              />
               <Image
                 src="/logos/csi_logo.png"
                 alt="CSI MJCET Logo"
                 width={70}
                 height={70}
                 priority
-                className="relative w-11 object-contain transition-transform duration-300 group-hover:scale-105 lg:w-20"
+                className="relative w-11 object-contain transition-transform duration-500 ease-in-out group-hover:scale-105 group-hover:rotate-720 lg:w-20"
               />
             </div>
           </Link>

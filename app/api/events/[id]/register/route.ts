@@ -17,9 +17,7 @@ export async function POST(
     // 1. Verify Event exists and is active
     const { data: event, error: eventError } = await supabase
       .from('events')
-      .select(
-        'id, title, is_registration_open, registration_start_date, registration_end_date, max_participants, current_participants, status, event_date, event_end_date, venue, category, is_paid, entry_fee, csi_entry_fee, whatsapp_group_url'
-      )
+      .select('*')
       .eq('id', eventId)
       .eq('is_active', true)
       .single();
