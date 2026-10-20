@@ -1,8 +1,7 @@
-import { NextRequest, after } from 'next/server';
+import { NextRequest } from 'next/server';
 import { supabase } from '@/lib/supabase/server';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { successResponse, errorResponse } from '@/lib/utils/response';
-import { sendRegistrationWebhook } from '@/lib/webhook/registrationWebhook';
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 
@@ -178,46 +177,6 @@ export async function POST(
         .update({ current_participants: (currentEvent.current_participants || 0) + 1 })
         .eq('id', eventId);
     }
-
-    // 6. Fire the n8n WhatsApp webhook with the submitted details + ticket QR.
-    // Runs AFTER the response is sent; any failure is logged, never surfaced.
-    const webhookFormData: Record<string, string | boolean> = {};
-    for (const [key, value] of Object.entries(dbPayload)) {
-      if (['event_id', 'payment_screenshot_url', 'additional_info'].includes(key)) continue;
-      webhookFormData[key] = value as string | boolean;
-    }
-    for (const [key, value] of Object.entries(additional_info)) {
-      webhookFormData[key] = value;
-    }
-
-    const webhookEvent = {
-      id: event.id,
-      title: event.title,
-      event_date: event.event_date ?? null,
-      event_end_date: event.event_end_date ?? null,
-      venue: event.venue ?? null,
-      category: event.category ?? null,
-      whatsapp_group_url: event.whatsapp_group_url ?? null
-    };
-
-    const webhookPayment = {
-      is_paid: !!event.is_paid,
-      entry_fee: event.entry_fee ?? null,
-      csi_entry_fee: event.csi_entry_fee ?? null,
-      mode: dbPayload.payment_mode ?? null,
-      transaction_id: dbPayload.transaction_id ?? null,
-      screenshot_url: payment_screenshot_url
-    };
-
-    after(() =>
-      sendRegistrationWebhook(
-        webhookEvent,
-        registration.id,
-        registration.registration_status,
-        webhookFormData,
-        webhookPayment
-      )
-    );
 
     return successResponse({
       registration_id: registration.id,

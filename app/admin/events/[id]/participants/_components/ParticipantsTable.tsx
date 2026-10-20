@@ -22,6 +22,7 @@ import {
 import { Switch } from '@/components/ui/switch';
 import { Button } from '@/components/ui/button';
 import { CheckCircle2, Clock, Hourglass, XCircle, Mail, Loader2, Banknote, Users, ScanLine, Award, Building2, CalendarDays, ChevronDown, Trash2, Check, RotateCcw } from 'lucide-react';
+import { FaWhatsapp } from 'react-icons/fa';
 import { iconColors, translucentBgColors, borderColors } from '@/config/colors';
 import {
   DropdownMenu,
@@ -57,6 +58,8 @@ interface ParticipantsTableProps {
   onAttendanceChange: (registrationId: string, isAttended: boolean) => void;
   onSendTicket: (participantId: string) => void;
   sendingTicketId: string | null;
+  onSendWhatsApp: (participantId: string) => void;
+  sendingWhatsAppId: string | null;
   onDelete?: (registrationId: string) => void;
   isDeletingId?: string | null;
   // Interactive Filter Props
@@ -80,6 +83,8 @@ export function ParticipantsTable({
   onAttendanceChange,
   onSendTicket,
   sendingTicketId,
+  onSendWhatsApp,
+  sendingWhatsAppId,
   onDelete,
   isDeletingId,
   statFilter,
@@ -388,6 +393,7 @@ export function ParticipantsTable({
             <TableHead>Phone</TableHead>
             <TableHead className="text-center">Attended</TableHead>
             <TableHead className="text-center">Email</TableHead>
+            <TableHead className="text-center">WhatsApp</TableHead>
             <TableHead className="text-center">Details</TableHead>
             <TableHead className="text-right">Action</TableHead>
           </TableRow>
@@ -447,6 +453,36 @@ export function ParticipantsTable({
                           <CheckCircle2 className={`h-4 w-4 ${iconColors.green}`} />
                         ) : (
                           <Mail className={`h-4 w-4 ${participant.registration_status === 'confirmed' ? iconColors.blue : 'text-muted-foreground'}`} />
+                        )}
+                        <span className={isSent ? iconColors.green : ''}>{isSent ? 'Send Again' : 'Send'}</span>
+                      </Button>
+                    );
+                  })()}
+                </TableCell>
+                <TableCell className="text-center">
+                  {(() => {
+                    const isSending = sendingWhatsAppId === participant.id;
+                    const isSent = participant.whatsapp_sent;
+                    
+                    return (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className={`flex items-center gap-2 w-full justify-center ${isSent ? `${translucentBgColors.green} ${iconColors.green}` : ''}`}
+                        title={
+                          participant.registration_status !== 'confirmed'
+                            ? 'Cannot send WhatsApp ticket to unconfirmed participant'
+                            : isSent ? 'WhatsApp ticket already sent! Click to resend.' : 'Send WhatsApp Ticket via n8n'
+                        }
+                        disabled={participant.registration_status !== 'confirmed' || isSending}
+                        onClick={() => onSendWhatsApp(participant.id)}
+                      >
+                        {isSending ? (
+                          <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+                        ) : isSent ? (
+                          <CheckCircle2 className={`h-4 w-4 ${iconColors.green}`} />
+                        ) : (
+                          <FaWhatsapp className={`h-4 w-4 ${participant.registration_status === 'confirmed' ? iconColors.green : 'text-muted-foreground'}`} />
                         )}
                         <span className={isSent ? iconColors.green : ''}>{isSent ? 'Send Again' : 'Send'}</span>
                       </Button>

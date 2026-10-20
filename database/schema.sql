@@ -46,6 +46,7 @@ CREATE TABLE IF NOT EXISTS event_registrations (
   registration_status TEXT DEFAULT 'pending' CHECK (registration_status IN ('pending', 'confirmed', 'rejected', 'waitlisted')),
   is_attended BOOLEAN DEFAULT FALSE,
   ticket_sent BOOLEAN DEFAULT FALSE,
+  whatsapp_sent BOOLEAN DEFAULT FALSE,
   payment_mode TEXT DEFAULT 'online' CHECK (payment_mode IN ('online', 'cash')),
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW(),

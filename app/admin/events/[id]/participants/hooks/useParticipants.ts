@@ -17,6 +17,7 @@ export interface Participant {
   registration_status: 'pending' | 'confirmed' | 'rejected' | 'waitlisted';
   is_attended?: boolean;
   ticket_sent?: boolean;
+  whatsapp_sent?: boolean;
   payment_mode?: 'online' | 'cash';
   created_at: string;
   updated_at: string;
@@ -60,6 +61,18 @@ export function useParticipants(eventId: string) {
     },
   });
 
+  const sendWhatsAppMutation = useMutation({
+    mutationFn: (participantId: string) =>
+      api(`/api/admin/events/${eventId}/participants/${participantId}/send-whatsapp`, 'POST'),
+    onSuccess: () => {
+      toast.success('WhatsApp message sent successfully!');
+      queryClient.invalidateQueries({ queryKey: ['admin-participants', eventId] });
+    },
+    onError: (error: any) => {
+      toast.error(error.message || 'Failed to send WhatsApp message');
+    },
+  });
+
   const deleteMutation = useMutation({
     mutationFn: (participantId: string) =>
       api(`/api/admin/events/${eventId}/participants/${participantId}`, 'DELETE'),
@@ -84,6 +97,9 @@ export function useParticipants(eventId: string) {
     sendTicket: (participantId: string) =>
       sendTicketMutation.mutate(participantId),
     sendingTicketId: sendTicketMutation.isPending ? sendTicketMutation.variables : null,
+    sendWhatsApp: (participantId: string) =>
+      sendWhatsAppMutation.mutate(participantId),
+    sendingWhatsAppId: sendWhatsAppMutation.isPending ? sendWhatsAppMutation.variables : null,
     deleteParticipant: (participantId: string) => deleteMutation.mutate(participantId),
     isDeletingId: deleteMutation.isPending ? deleteMutation.variables : null,
   };

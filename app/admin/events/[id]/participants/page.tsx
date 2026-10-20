@@ -35,8 +35,19 @@ export default function ParticipantsPage() {
     enabled: !!eventId
   });
 
-  const { participants, isLoading, error, updateStatus, updateAttendance, sendTicket, sendingTicketId, deleteParticipant, isDeletingId } =
-    useParticipants(eventId);
+  const {
+    participants,
+    isLoading,
+    error,
+    updateStatus,
+    updateAttendance,
+    sendTicket,
+    sendingTicketId,
+    sendWhatsApp,
+    sendingWhatsAppId,
+    deleteParticipant,
+    isDeletingId,
+  } = useParticipants(eventId);
 
   const filterControls = useParticipantFilters(participants);
 
@@ -134,6 +145,8 @@ export default function ParticipantsPage() {
             onAttendanceChange={updateAttendance}
             onSendTicket={sendTicket}
             sendingTicketId={sendingTicketId}
+            onSendWhatsApp={sendWhatsApp}
+            sendingWhatsAppId={sendingWhatsAppId}
             onDelete={deleteParticipant}
             isDeletingId={isDeletingId}
             statFilter={filterControls.statFilter}
