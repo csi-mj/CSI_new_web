@@ -10,6 +10,7 @@ const links = [
   { href: '/admin', label: 'Dashboard' },
   { href: '/admin/team', label: 'Team' },
   { href: '/admin/events', label: 'Events' },
+  { href: '/admin/ecert', label: 'E-Certificate' },
   { href: '/admin/magazines', label: 'Magazines' },
   { href: '/admin/resources', label: 'Resources' },
   { href: '/admin/sih', label: 'SIH' },
