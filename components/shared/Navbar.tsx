@@ -12,6 +12,7 @@ const items = [
   { label: 'Connect', href: '/#connect' },
   { label: 'Team', href: '/team' },
   { label: 'Magazine', href: '/magazine' },
+  { label: 'Reveal', href: '/reveal' }, // NEW
   { label: 'Events', href: '/events' },
   { label: 'Resources', href: '/resources' },
   { label: 'ADSOPHOS', href: '/adsophos' },

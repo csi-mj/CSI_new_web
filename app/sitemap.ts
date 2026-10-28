@@ -2,7 +2,7 @@ import type { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = 'https://csi-mjcet.in';
-  const routes = ['', '/team', '/events', '/magazine', '/resources', '/membership', '/adsophos'];
+  const routes = ['', '/team', '/events','/reveal', '/magazine', '/resources', '/membership', '/adsophos'];
 
   return routes.map((path) => ({
     url: `${base}${path}`,

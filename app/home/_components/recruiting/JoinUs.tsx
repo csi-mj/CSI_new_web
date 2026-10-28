@@ -90,56 +90,7 @@ export default function JoinUs() {
   </Link>
 </motion.div>
 
-{/* Get Recruited */}
-<motion.div
-  initial="rest"
-  animate="rest"
-  whileHover="hover"
-  whileTap={{ y: 0 }}
-  variants={{
-    rest: { y: 0 },
-    hover: { y: -4 },
-  }}
-  transition={{ duration: 0.2 }}
->
-  <Link
-    href="/recruitments"
-    className="
-      cursor-target cursor-pointer
-      group relative flex min-w-[260px] items-center justify-center gap-4
-      overflow-hidden
-      border border-[#ff1e35]
-      bg-transparent
-      px-8 py-4
-      font-inter text-sm font-bold uppercase tracking-wider
-      text-white
-      clip-cta
-      transition-shadow duration-300
-      hover:shadow-[0_0_30px_rgba(255,30,53,0.3)]
-    "
-  >
-    {/* Red fill: bottom → top */}
-    <motion.span
-      aria-hidden="true"
-      className="pointer-events-none absolute inset-0 z-0 origin-bottom bg-[#ff1e35]"
-      variants={{
-        rest: { scaleY: 0 },
-        hover: { scaleY: 1 },
-      }}
-      transition={{ duration: 0.35, ease: "easeInOut" }}
-    />
 
-    <span className="relative z-10">
-      Get Recruited
-    </span>
-
-    <ArrowRight
-      size={19}
-      strokeWidth={2}
-      className="relative z-10 transition-transform duration-300 group-hover:translate-x-1.5"
-    />
-  </Link>
-</motion.div>
     
 </div>
 
