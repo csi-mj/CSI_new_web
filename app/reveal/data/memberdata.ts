@@ -57,6 +57,8 @@ export const members: Member[] = [
   { name: 'SOBIA MAHROSH', role: 'ASC Head', portfolio: 'Web', team: 'Execom' },
 
   // HR
+  { name: 'FAIZA MAHVEEN', role: 'Head', portfolio: 'HR', team: 'Execom' },
+  { name: 'HASIFA AMMARA', role: 'Head', portfolio: 'HR', team: 'Execom' },
   { name: 'MOHAMMED ABDUL SABOOR', role: 'Head', portfolio: 'HR', team: 'Execom' },
   { name: 'MOHAMMED AKIF', role: 'Head', portfolio: 'HR', team: 'Execom' },
   { name: 'SYED RUBEIN', role: 'ASC Head', portfolio: 'HR', team: 'Execom' },
