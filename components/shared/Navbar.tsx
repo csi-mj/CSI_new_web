@@ -15,6 +15,7 @@ const items = [
   // { label: 'Reveal', href: '/reveal' }, 
   { label: 'Events', href: '/events' },
   { label: 'Resources', href: '/resources' },
+  { label: 'Blogs', href: '/blogs' },
   { label: 'ADSOPHOS', href: '/adsophos' },
   { label: 'Become a Member', href: '/membership' },
   // { label: 'Recruitments', href: '/recruitments' },
